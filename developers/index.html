@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>只因科技开发者选项</title>
+    <link rel="icon" href="ziyit.png" type="image/x-icon">
+    <style>
+        body {
+            background-color: skyblue;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .brg {
+            text-align: left;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        * {
+            margin: 0px;
+            padding: 0;
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #868382;
+        }
+
+        .pod {
+            width: 100%;
+            height: 100%;
+        }
+
+        p {
+            color: white;
+        }
+
+        ul li {
+            display: inline-block;
+            line-height: 35px;
+        }
+
+        li a {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        li p {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .bid {
+            color: #f25767;
+        }
+
+        .tit {
+            color: black;
+        }
+
+        .line {
+            width: 1px;
+            height: 12px;
+            background-color: #f3a707;
+        }
+
+        a:hover {
+            color: #c42b1c;
+        }
+
+        #logs {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="..\download\index.html" class="brg">
+            <img src="download.png" alt="下载">
+        </a>
+        <a href="..\index.html" class="brg">
+            <img src="index.png" alt="主页">
+        </a>
+        <a href="..\move\index.html" class="brg">
+            <img src="help.png" alt="帮助">
+        </a>
+    </nav>
+    <hr>
+    <h1 id="top">&nbsp;开发者具体浏览日志文件</h1>
+    <h4>&nbsp;&nbsp;ZIYIT Developers</h4>
+    <hr>
+    <a href="javascript:location.reload()">
+        <img src="dowm.png" width="27" height="28" alt="重试">
+    </a>
+    <a href="logs.log">浏览具体文件</a>
+    <hr>
+    <div>
+        <p id="logs"></p>
+    </div>
+    <script>
+        const logsElement = document.getElementById('logs');
+        fetch('logs.log')
+            .then(response => {
+                return response.text();
+            })
+            .then(data => {
+                // 将换行符 \n 替换为 HTML 换行符 <br>
+                let formattedData = data.replace(/\n/g, '<br>');
+                // 将所有空格 " " 替换成 HTML 空格 "&nbsp;"
+                formattedData = formattedData.replace(/ /g, '&nbsp;');
+                // 使用 innerHTML 来渲染包含 HTML 标签的内容
+                logsElement.innerHTML = formattedData;
+            })
+            .catch(error => {
+                console.error('Error fetching logs:', error);
+                logsElement.textContent = '无法加载日志文件。';
+            });
+    </script>
+    <hr>
+    <a href="#top">
+        <img src="up.png" alt="上滑">
+    </a>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <p>&copy;2025&nbsp;&nbsp;ZIYIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>版权所有，侵权必究</strong></p>
+</body>
+
+</html>
