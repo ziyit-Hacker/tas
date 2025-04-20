@@ -198,8 +198,8 @@
         // 1. 初始数据
         const data = [
             { url: './images/slider09.jpg', title: '只因科技添加学习界面。', color: 'rgb(135, 206, 235)' },
-            { url: './images/slider06.jpg', title: '我的世界_寒坤已经注册哔哩哔哩', color: 'rgb(63, 44, 46)' },
-            { url: './images/slider06.jpg', title: '我的世界_寒坤的哔哩哔哩是“ziyit_hacker”', color: 'rgb(63, 44, 46)' },
+            { url: './images/slider07.jpg', title: '我的世界_寒坤已经注册哔哩哔哩', color: 'rgb(63, 44, 46)' },
+            { url: './images/slider07.jpg', title: '我的世界_寒坤的哔哩哔哩是“我的世界寒坤”', color: 'rgb(63, 44, 46)' },
         ];
         // 获取元素
         const img = document.querySelector('.slider-wrapper img');
@@ -283,17 +283,35 @@
     <audio src="bm.mp3" style="display: none;"></audio>
     <script>
         // 第二事件：循环播放背景音乐
-        // 1. 定义一个变量 控制音乐的播放
-        // 2. 获取元素
         // 控制音乐播放状态的变量
         let isPlay = false; 
         // 获取音频元素
         const audio = document.querySelector('audio'); 
+        // 修改背景音乐列表，添加新的音乐文件
+        const bgmList = ['bm.mp3', 'bm2.mp3', 'bm3.mp3', 'bm4.mp3'];
+        
+        // 随机选择一首背景音乐
+        function selectRandomBgm() {
+            const randomIndex = Math.floor(Math.random() * bgmList.length);
+            return bgmList[randomIndex];
+        }
+
         // 设置音频循环播放
-        audio.loop = true; 
+        audio.loop = false; // 关闭原生循环，使用自定义循环
+
+        // 音频播放结束事件监听器
+        audio.addEventListener('ended', () => {
+            audio.src = selectRandomBgm();
+            if (isPlay) {
+                audio.play().catch((error) => {
+                    console.error('切换播放音频失败:', error);
+                });
+            }
+        });
         
         // 定义处理首次交互播放音频的函数
         const startAudioOnFirstInteraction = () => {
+            audio.src = selectRandomBgm(); // 首次播放随机选择一首
             audio.play()
               .then(() => {
                     isPlay = true;
