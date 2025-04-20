@@ -14880,3 +14880,6 @@ CSIPERF:TXCOMMIT;21061
 2025-04-19 20:39:56, Info                  CBS    Lock: Lock removed: WinlogonNotifyLock, level: 8, total lock:6
 2025-04-19 20:39:56, Info                  CBS    Ending TrustedInstaller finalization.
 2025-04-19 21:27:59, Info                  DLL    UnifiedWriteFilter into /tas/developers FileServices 11, 0x00000020, 0x00000001
+2025-04-20 15:37:27, Info                  DLL    UnifiedWriteFilter into /tas FileServices 5, 0x00000020, 0x00000001
+2025-04-20 15:37:56, error                 CBS    Failed to process single phase commit, error = 0x80070057
+2025-04-20 15:37:56, Info                  DLL    Deleting the file: /tas FileServices 1, 0x00000025, 0x00000026
