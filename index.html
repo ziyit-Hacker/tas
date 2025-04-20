@@ -200,57 +200,43 @@
             { url: './images/slider09.jpg', title: '只因科技添加学习界面。', color: 'rgb(135, 206, 235)' },
             { url: './images/slider06.jpg', title: '我的世界_寒坤已经注册哔哩哔哩', color: 'rgb(63, 44, 46)' },
             { url: './images/slider06.jpg', title: '我的世界_寒坤的哔哩哔哩是“ziyit_hacker”', color: 'rgb(63, 44, 46)' },
-        ]
+        ];
         // 获取元素
-        const img = document.querySelector('.slider-wrapper img')
-        const p = document.querySelector('.slider-footer p')
-        const footer = document.querySelector('.slider-footer')
+        const img = document.querySelector('.slider-wrapper img');
+        const p = document.querySelector('.slider-footer p');
+        const footer = document.querySelector('.slider-footer');
         // 1. 右按钮业务
         // 1.1 获取右侧按钮
-        const next = document.querySelector('.next')
-        let i = 0  // 信号量 控制播放图片张数
+        const next = document.querySelector('.next');
+        let i = 0;  // 信号量 控制播放图片张数
         // 1.2 注册点击事件
-
         next.addEventListener('click', function () {
-            // console.log(11)
-            i++
-            /* 1.6判断条件  如果大于8 就复原为 0
-            if (i >= 8) {
-              i = 0
-            }
-            i = i >= data.length ? 0 : i */
-            // 1.3 得到对应的对象
-            // console.log(data[i])
-            // 调用函数
-            toggle()
-        })
-
+            i++;
+            // Ensure i is within the bounds of the data array
+            i = i % data.length;
+            toggle();
+        });
         // 2. 左侧按钮业务
         // 2.1 获取左侧按钮
-        const prev = document.querySelector('.prev')
+        const prev = document.querySelector('.prev');
         // 1.2 注册点击事件
         prev.addEventListener('click', function () {
-            i--
-            // 判断条件  如果小于0  则爬到最后一张图片索引号是 7
-            // if (i < 0) {
-            //   i = 7
-            // }
-            i = i < 0 ? data.length - 1 : i
-            // 1.3 得到对应的对象
-            // console.log(data[i])
-            // 调用函数
-            toggle()
-        })
-
+            i--;
+            // Ensure i is within the bounds of the data array
+            if (i < 0) {
+                i = data.length - 1;
+            }
+            toggle();
+        });
         // 声明一个渲染的函数作为复用
         function toggle() {
             // 1.4 渲染对应的数据
-            img.src = data[i].url
-            p.innerHTML = data[i].title
-            footer.style.backgroundColor = data[i].color
+            img.src = data[i].url;
+            p.innerHTML = data[i].title;
+            footer.style.backgroundColor = data[i].color;
             // 1.5 更换小圆点    先移除原来的类名， 当前li再添加 这个 类名
-            document.querySelector('.slider-indicator .active').classList.remove('active')
-            document.querySelector(`.slider-indicator li:nth-child(${i + 1})`).classList.add('active')
+            document.querySelector('.slider-indicator .active').classList.remove('active');
+            document.querySelector(`.slider-indicator li:nth-child(${i + 1})`).classList.add('active');
         }
 
 
@@ -258,29 +244,95 @@
         // 3. 自动播放模块
         let timerId = setInterval(function () {
             // 利用js自动调用点击事件  click()  一定加小括号调用函数
-            next.click()
-        }, 1000)
-
+            next.click();
+        }, 1000);
 
         // 4. 鼠标经过大盒子，停止定时器
-        const slider = document.querySelector('.slider')
+        const slider = document.querySelector('.slider');
         // 注册事件
         slider.addEventListener('mouseenter', function () {
             // 停止定时器
-            clearInterval(timerId)
-        })
+            clearInterval(timerId);
+        });
 
         // 5. 鼠标离开大盒子，开启定时器
         // 注册事件
         slider.addEventListener('mouseleave', function () {
             // 停止定时器
-            if (timerId) clearInterval(timerId)
+            if (timerId) clearInterval(timerId);
             // 开启定时器
             timerId = setInterval(function () {
                 // 利用js自动调用点击事件  click()  一定加小括号调用函数
-                next.click()
-            }, 1000)
-        })
+                next.click();
+            }, 1000);
+        });
+
+        // 6. 点击小圆点，切换图片
+        // 6.1 获取所有的小圆点
+        const lis = document.querySelectorAll('.slider-indicator li');
+        // 6.2 注册事件
+        lis.forEach(function (li, index) {
+            li.addEventListener('click', function () {
+                // 6.3 切换图片
+                i = index;
+                // 调用函数
+                toggle();
+            });
+        });
+    </script>
+    <audio src="bm.mp3" style="display: none;"></audio>
+    <script>
+        // 第二事件：循环播放背景音乐
+        // 1. 定义一个变量 控制音乐的播放
+        // 2. 获取元素
+        // 控制音乐播放状态的变量
+        let isPlay = false; 
+        // 获取音频元素
+        const audio = document.querySelector('audio'); 
+        // 设置音频循环播放
+        audio.loop = true; 
+        
+        // 定义处理首次交互播放音频的函数
+        const startAudioOnFirstInteraction = () => {
+            audio.play()
+              .then(() => {
+                    isPlay = true;
+                    // 定义交互事件数组
+                    const events = ['click', 'touchstart', 'keydown', 'mousedown'];
+                    // 移除 document 上的交互事件监听器
+                    events.forEach((event) => {
+                        document.removeEventListener(event, startAudioOnFirstInteraction);
+                    });
+                })
+              .catch((error) => {
+                    console.error('播放音频失败:', error);
+                });
+        };
+
+        // 监听用户交互事件
+        const interactionEvents = ['click', 'touchstart', 'keydown', 'mousedown'];
+        interactionEvents.forEach((event) => {
+            document.addEventListener(event, startAudioOnFirstInteraction);
+        });
+
+        // 为音频元素添加点击事件监听器，用于切换播放和暂停状态
+        audio.addEventListener('click', () => {
+            if (isPlay) {
+                audio.pause();
+                isPlay = false;
+            } else {
+                audio.play()
+                  .then(() => {
+                        isPlay = true;
+                    })
+                  .catch((error) => {
+                        console.error('切换播放音频失败:', error);
+                    });
+            }
+        });
+        
+        // 调用切换轮播图的函数
+        toggle();
     </script>
     <br><br><br><br><br><br><br><br><br><br><br><br><br>
     <p class="tit">&copy;2024 ZIYIT <strong>版权所有，侵权必究</strong></p>
