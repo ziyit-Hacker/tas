@@ -84,5 +84,62 @@
     <br>
     <br>
     <p>&copy;2024&nbsp;&nbsp;ZIYIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>版权所有，侵权必究</strong></p>
+    <script>
+        let isPlay = false; 
+        const audio = document.querySelector('audio'); 
+        const bgmList = ['bm.mp3', 'bm2.mp3', 'bm3.mp3', 'bm4.mp3'];
+        
+        function selectRandomBgm() {
+            const randomIndex = Math.floor(Math.random() * bgmList.length);
+            return bgmList[randomIndex];
+        }
+        
+        audio.loop = false;
+    
+        audio.addEventListener('ended', () => {
+            audio.src = selectRandomBgm();
+            if (isPlay) {
+                audio.play().catch((error) => {
+                    console.error('切换播放音频失败:', error);
+                });
+            }
+        });
+        const playAudioOnInteraction = () => {
+            if (!isPlay) {
+                audio.src = selectRandomBgm();
+                audio.play()
+                  .then(() => {
+                        isPlay = true;
+                        const events = ['mousemove', 'click', 'touchstart', 'keydown', 'mousedown'];
+                        events.forEach((event) => {
+                            document.removeEventListener(event, playAudioOnInteraction);
+                        });
+                    })
+                  .catch((error) => {
+                        console.error('播放音频失败:', error);
+                    });
+            }
+        };
+        const interactionEvents = ['mousemove', 'click', 'touchstart', 'keydown', 'mousedown'];
+        interactionEvents.forEach((event) => {
+            document.addEventListener(event, playAudioOnInteraction);
+        });
+    
+        audio.addEventListener('click', () => {
+            if (isPlay) {
+                audio.pause();
+                isPlay = false;
+            } else {
+                audio.play()
+                  .then(() => {
+                        isPlay = true;
+                    })
+                  .catch((error) => {
+                        console.error('切换播放音频失败:', error);
+                    });
+            }
+        });
+        toggle();
+    </script>
 </body>
 </html>
