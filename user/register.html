@@ -45,10 +45,6 @@
             color: chartreuse;
         }
 
-        #help {
-            cursor: help;
-        }
-
         a {
             text-decoration: none;
             color: #000000;
@@ -67,58 +63,110 @@
         }
 
         #Navigation {
-            width: 1282px;
+            width: 650px;
             height: 134px;
             background: url(ziyit_miv.png);
             margin: 10px auto;
+        }
+
+        /* Windows 11风格表单容器 */
+        .form-container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Windows 11风格输入框 */
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 75%;  /* 从100%改为固定宽度 */
+            padding: 12px 15px;
+            border: 1px solid #d3d3d3;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            margin-bottom: 16px;
+        }
+
+        /* Windows 11风格标签 */
+        .bt {
+            font-weight: 600;
+            color: #323130;
+            font-size: 14px;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+
+        /* Windows 11风格按钮 */
+        button {
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #106ebe;
+        }
+
+        button:active {
+            background-color: #005a9e;
         }
     </style>
 </head>
 
 <body>
     <div id="Navigation">
-        <a href="..\download\index.html" class="brg">
-            <img src="download.png" alt="下载" class="brg">
-        </a>
         <a href="..\index.html" class="brg">
             <img src="index.png" alt="主页" class="brg">
-        </a>
-        <a href="..\move\index.html" id="help">
-            <img src="help.png" alt="帮助">
         </a>
         <a href="index.html" id="previous" class="brg">
             <img src="previous.png" width="332" height="134" alt="上一步">
         </a>
     </div>
     <hr class="brg">
-    <h1 id="up" class="bt">注册只因科技</h1>
-    <form id="registerForm" method="post" action="register.php">
-        请选择账号类型:
-        <select id="accountType" name="accountType" onchange="toggleLicense()">
-            <option value="用户">用户</option>
-            <option value="ziyit工作人员">ziyit工作人员</option>
-        </select>
-        <br>
-        <label for="username" class="bt">请输入11位手机号: </label>
-        <input type="text" id="username" name="username" maxlength="11" required>
-        <br>
-        <label for="password" class="bt">密码: </label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <div id="licenseDiv" style="display:none;">
-            <label for="license" class="bt">操作许可码: </label>
-            <input type="text" id="license" name="license" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
-        </div>
-        <br>
-        <button type="submit">注册</button>
-    </form>
+    <div class="form-container">
+        <h1 id="up" class="bt" style="font-size: 24px; margin-bottom: 20px;">注册只因科技</h1>
+
+        <form id="registerForm" method="post" action="register.php">
+            <div style="margin-bottom: 16px;">
+                <label for="accountType" class="bt">账号类型</label>
+                <select id="accountType" name="accountType" onchange="toggleLicense()">
+                    <option value="用户">用户</option>
+                    <option value="ziyit工作人员">ziyit工作人员</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <label for="username" class="bt">手机号</label>
+                <input type="text" id="username" name="username" maxlength="11" required>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <label for="password" class="bt">密 码</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div id="licenseDiv" style="margin-bottom: 20px; display:none;">
+                <label for="license" class="bt">操作许可码</label>
+                <input type="text" id="license" name="license" maxlength="29" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
+            </div>
+
+            <button type="submit">注册</button>
+        </form>
+    </div>
 
     <!-- 替换原来的script标签为外部引用 -->
     <script src="register.js"></script>
-    
-    <a href="#up" class="brg">
-        <img src="up.png" alt="到顶部">
-    </a>
 </body>
 
 </html>
