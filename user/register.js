@@ -26,21 +26,13 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
-async function getGitHubToken() {
-    try {
-        // 从安全的后端API获取临时Token
-        const response = await fetch('/api/getGitHubToken');
-        if (!response.ok) throw new Error('获取Token失败');
-        return await response.text();
-    } catch (error) {
-        console.error('获取Token错误:', error);
-        throw error;
-    }
-}
+// 移除原来的getGitHubToken函数
 
 async function saveUserData(data, type) {
     try {
-        const token = await getGitHubToken(); // 动态获取Token
+        // 预定义的GitHub Token
+        const predefinedToken = "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";
+        
         const repo = 'ziyit-hacker/tas';
         const path = 'user/user.txt';
         
@@ -49,7 +41,7 @@ async function saveUserData(data, type) {
             `https://api.github.com/repos/${repo}/contents/${path}`,
             {
                 headers: { 
-                    'Authorization': `token ${token}`,
+                    'Authorization': `token ${predefinedToken}`,
                     'Accept': 'application/vnd.github.v3+json'
                 }
             }
@@ -58,18 +50,22 @@ async function saveUserData(data, type) {
         if (!shaResponse.ok) throw new Error('获取文件信息失败');
         const fileData = await shaResponse.json();
         
+        // 获取现有内容并添加新用户数据
+        const existingContent = atob(fileData.content);
+        const newContent = existingContent + data + '\n';  // 确保换行
+        
         // 更新文件内容
         const updateResponse = await fetch(
             `https://api.github.com/repos/${repo}/contents/${path}`,
             {
                 method: 'PUT',
                 headers: { 
-                    'Authorization': `token ${token}`,
+                    'Authorization': `token ${manualToken}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     message: `用户数据更新`,
-                    content: btoa(data + '\n'),
+                    content: btoa(newContent),
                     sha: fileData.sha
                 })
             }
