@@ -151,13 +151,21 @@
                 const repo = 'ziyit-hacker/tas';
                 const path = 'user/user.txt';
                 
-                // 1. 获取文件当前内容
+                // 1. 获取文件当前SHA和内容
                 const getResponse = await fetch(
                     `https://api.github.com/repos/${repo}/contents/${path}`,
                     {
-                        headers: { 'Authorization': `token ${token}` }
+                        headers: { 
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
                     }
                 );
+                
+                if (!getResponse.ok) {
+                    const errorData = await getResponse.json();
+                    throw new Error(errorData.message || '获取文件失败');
+                }
                 
                 const fileData = await getResponse.json();
                 const currentContent = atob(fileData.content.replace(/\n/g, ''));
@@ -169,17 +177,21 @@
                         method: 'PUT',
                         headers: { 
                             'Authorization': `token ${token}`,
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/vnd.github.v3+json'
                         },
                         body: JSON.stringify({
-                            message: '更新用户数据',
+                            message: `[自动] 更新用户数据 - ${new Date().toLocaleString()}`,
                             content: btoa(currentContent + data + '\n'),
                             sha: fileData.sha
                         })
                     }
                 );
         
-                if (!updateResponse.ok) throw new Error('更新失败');
+                if (!updateResponse.ok) {
+                    const errorData = await updateResponse.json();
+                    throw new Error(errorData.message || '更新文件失败');
+                }
                 
                 alert('注册成功！');
                 window.location.href = './index.html';
