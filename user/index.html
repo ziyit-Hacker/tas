@@ -26,7 +26,7 @@
         }
 
         .brg {
-            text-align: left;
+            text-align: center;
         }
 
 
@@ -42,10 +42,6 @@
         a:hover {
             text-decoration: underline overline;
             color: chartreuse;
-        }
-
-        #help {
-            cursor: help;
         }
 
         a {
@@ -66,56 +62,153 @@
         }
 
         #Navigation {
-            width: 1282px;
+            width: 650px;
             height: 134px;
             background: url(ziyit_miv.png);
             margin: 10px auto;
+        }
+
+        input[type="password"] {
+            padding: 12px 15px;
+            border: 1px solid #d3d3d3;
+            border-radius: 4px;
+            background-color: #fff;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            width: 280px;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+            color: #323130;
+        }
+
+        input[type="password"]:hover {
+            border-color: #8a8886;
+        }
+
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #0078d4;
+            box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.3);
+        }
+
+        /* Windows 11风格标签 */
+        .bt {
+            font-weight: 600;
+            color: #323130;
+            font-size: 14px;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+
+        /* Windows 11风格按钮 */
+        button {
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #106ebe;
+        }
+
+        button:active {
+            background-color: #005a9e;
         }
     </style>
 </head>
 
 <body>
     <div id="Navigation">
-        <a href="..\download\index.html" class="brg">
-            <img src="download.png" alt="下载" class="brg">
-        </a>
         <a href="..\index.html" class="brg">
             <img src="index.png" alt="主页" class="brg">
         </a>
-        <a href="..\move\index.html" id="help">
-            <img src="help.png" alt="帮助">
-        </a>
-        <a href="index.html" id="previous" class="brg">
+        <a href="..\index.html" id="previous" class="brg">
             <img src="previous.png" width="332" height="134" alt="上一步">
         </a>
     </div>
     <hr class="brg">
-    <h1 id="up" class="bt">登录</h1>
-    请选择账号类型:
-    <select>
-        <option class="user" id="box1">用户</option>
-        <option class="user" id="box2">商务人员</option>
-        <option class="user" id="box3">ziyit工作人员</option>
-    </select>
-    <br>
-    <label for="username" class="bt">账号ID: </label>
-    <input type="password" id="username" name="username" maxlength="11">
-    <br>
-    <label for="password" class="bt">密码: </label>
-    <input type="password" id="password" name="password">
-    <br />
-    <a href="register.html" class="brg">没有账号？点这里注册！</a>
+    <div
+        style="max-width: 400px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <h1 id="up" class="bt" style="font-size: 24px; margin-bottom: 20px;">登录</h1>
+
+        <div style="margin-bottom: 16px;">
+            <label for="accountType" class="bt">账号类型</label>
+            <select id="accountType" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #d3d3d3;">
+                <option value="用户">用户</option>
+                <option value="ziyit工作人员">ziyit工作人员</option>
+            </select>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+            <label for="username" class="bt">账号ID</label>
+            <input type="text" id="username" name="username" maxlength="11" placeholder="输入账号ID">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label for="password" class="bt">密码</label>
+            <input type="password" id="password" name="password" placeholder="输入密码">
+        </div>
+
+        <div id="errorMsg" style="color: #a4262c; margin-bottom: 16px; display: none;"></div>
+
+        <button onclick="checkLogin()" style="width: 100%;">登录</button>
+
+        <div style="text-align: center; margin-top: 16px;">
+            <a href="register.html" style="color: #0078d4; text-decoration: none;">没有账号？点这里注册！</a>
+        </div>
+    </div>
     <!--在这继续添加-->
-    <p class="bt">是否允许我们对你使用的程序的监控</p>
+    <!-- <p class="bt">是否允许我们对你使用的程序的监控</p>
     <label for="pik1" class="bt">是</label>
     <input type="radio" name="pik" id="pik1">
     <label for="pik2" class="bt">否</label>
-    <input type="radio" name="pik" id="pik2" checked>
+    <input type="radio" name="pik" id="pik2" checked> -->
     <br>
-    <button onclick="checkLogin()">登录</button>
-    <a href="#up" class="brg">
-        <img src="up.png" alt="到顶部">
-    </a>
+    <!-- 在登录按钮上方添加 -->
+    <div id="errorMsg" style="color: red; display: none;"></div>
+    <br>
+    <!-- <button onclick="checkLogin()">登录</button> -->
+
+    <script>
+        function checkLogin() {
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.style.display = 'none';
+
+            // 获取用户输入
+            const accountType = document.querySelector('select').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // 构建验证字符串
+            let prefix = accountType === '用户' ? 'UR' : 'ZC';
+            const authString = `${prefix}-${username}-${password}`;
+
+            // 发送请求验证用户
+            fetch('user.txt')
+                .then(response => response.text())
+                .then(data => {
+                    if (data.includes(authString)) {
+                        // 验证成功，保存到本地存储
+                        localStorage.setItem('authToken', authString);
+                        // 跳转到首页
+                        window.location.href = '../index.html';
+                    } else {
+                        errorMsg.textContent = '账号或密码错误，请重试！';
+                        errorMsg.style.display = 'block';
+                        document.getElementById('password').value = '';
+                        document.getElementById('password').focus();
+                    }
+                })
+                .catch(error => {
+                    errorMsg.textContent = '验证服务不可用，请稍后再试！';
+                    errorMsg.style.display = 'block';
+                });
+        }
+    </script>
 </body>
 
 </html>

@@ -22,13 +22,13 @@
         }
 
         .box {
-            width: 100%;
+            width: 150%;
             height: 35px;
             background-color: #44316d;
         }
 
         .pod {
-            width: 934.928px;
+            width: 1000px;
             height: 100%;
         }
 
@@ -70,9 +70,10 @@
         }
 
         h1 {
+            width: 150%;
             background-color: #0041c5;
         }
-        
+
         * {
             box-sizing: border-box;
         }
@@ -158,22 +159,34 @@
 </head>
 
 <body>
+    <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
+        <img id="userAvatar" src="" alt="" style="width: 50px; height: 50px; display: none;">
+        <div id="userInfo" style="color: white;">
+            <span id="usernameDisplay">未登录</span>
+            <br>
+            <span id="userTypeDisplay"></span>
+        </div>
+    </div>
     <h1>只因科技主页</h1>
     <hr>
-    <!-- 实现导航栏的效果，以及轮播图的效果。 -->
     <div class="box">
-        <ul class="pod">
-            <li><a href='.\download\index.html'>下载</a></li>
-            <li><a href='.\move\index.html'>更多</a></li>
-            <li><a href=".\move\mod.html">病毒库</a></li>
-            <li><a href=".\school\index.html">学习</a></li>
-            <li class="line"></li>
-            <li><p>只因科技<span class="bid">开发者选项</span></p></li>
-            <li><a href=".\developers\index.html">日志</a></li>
-            <li class="line"></li>
-            <li><p><span class="bid">未开发</span>，敬请期待</p></li>
-            <li class="line"></li>
-            <li><a href=".\user\index.html">登录<span class="bid">暂时无法使用</span></a></li>
+        <ul class="pod" id="navMenu">
+            <li class="nav-item" data-role="all"><a href='.\download\index.html'>下载</a></li>
+            <li class="nav-item" data-role="admin"><a href='.\move\index.html'>更多</a></li>
+            <li class="nav-item" data-role="all"><a href=".\move\mod.html">病毒库</a></li>
+            <li class="nav-item" data-role="user"><a href=".\school\index.html">学习</a></li>
+            <li class="line nav-item" data-role="all" style="display:none;"></li>
+            <li class="nav-item" data-role="admin">
+                <p>只因科技<span class="bid">开发者选项</span></p>
+            </li>
+            <li class="nav-item" data-role="admin"><a href=".\developers\index.html">日志</a></li>
+            <li class="line nav-item" data-role="admin" style="display:none;"></li>
+            <li class="nav-item" data-role="admin">
+                <p><span class="bid">未开发</span>，敬请期待</p>
+            </li>
+            <li class="line nav-item" data-role="admin" style="display:none;"></li>
+            <li><a href=".\user\index.html" id="loginLink">登录</a></li>
+            <li><a class="nav-item" href="#" id="logoutLink" style="display:none;" data-role="all">退出登录</a></li>
         </ul>
     </div>
     <br><br><br><br><br><br><br><br><br><br><br><br><br>
@@ -198,116 +211,161 @@
             { url: './images/slider09.jpg', title: '只因科技添加学习界面。', color: 'rgb(135, 206, 235)' },
             { url: './images/slider07.jpg', title: '我的世界_寒坤已经注册哔哩哔哩', color: 'rgb(63, 44, 46)' },
             { url: './images/slider07.jpg', title: '我的世界_寒坤的哔哩哔哩是“我的世界寒坤”', color: 'rgb(63, 44, 46)' },
-        ];
-        const img = document.querySelector('.slider-wrapper img');
-        const p = document.querySelector('.slider-footer p');
-        const footer = document.querySelector('.slider-footer');
-        const next = document.querySelector('.next');
-        let i = 0;
+        ]
+        const img = document.querySelector('.slider-wrapper img')
+        const p = document.querySelector('.slider-footer p')
+        const footer = document.querySelector('.slider-footer')
+        const next = document.querySelector('.next')
+        let i = 0
         next.addEventListener('click', function () {
-            i++;
-            i = i % data.length;
-            toggle();
-        });
-        const prev = document.querySelector('.prev');
+            i++
+            i = i % data.length
+            toggle()
+        })
+        const prev = document.querySelector('.prev')
         prev.addEventListener('click', function () {
-            i--;
+            i--
             if (i < 0) {
-                i = data.length - 1;
+                i = data.length - 1
             }
-            toggle();
-        });
+            toggle()
+        })
         function toggle() {
-            img.src = data[i].url;
-            p.innerHTML = data[i].title;
-            footer.style.backgroundColor = data[i].color;
-            document.querySelector('.slider-indicator .active').classList.remove('active');
-            document.querySelector(`.slider-indicator li:nth-child(${i + 1})`).classList.add('active');
+            img.src = data[i].url
+            p.innerHTML = data[i].title
+            footer.style.backgroundColor = data[i].colo
+            document.querySelector('.slider-indicator .active').classList.remove('active')
+            document.querySelector(`.slider-indicator li:nth-child(${i + 1})`).classList.add('active')
         }
 
         let timerId = setInterval(function () {
-            next.click();
-        }, 1000);
-        const slider = document.querySelector('.slider');
+            next.click()
+        }, 1000)
+        const slider = document.querySelector('.slider')
         slider.addEventListener('mouseenter', function () {
-            clearInterval(timerId);
-        });
+            clearInterval(timerId)
+        })
         slider.addEventListener('mouseleave', function () {
-            if (timerId) clearInterval(timerId);
+            if (timerId) clearInterval(timerId)
             timerId = setInterval(function () {
-                next.click();
-            }, 1000);
-        });
-        const lis = document.querySelectorAll('.slider-indicator li');
+                next.click()
+            }, 1000)
+        })
+        const lis = document.querySelectorAll('.slider-indicator li')
         lis.forEach(function (li, index) {
             li.addEventListener('click', function () {
-                i = index;
-                toggle();
-            });
-        });
+                i = index
+                toggle()
+            })
+        })
     </script>
     <audio src="bm.mp3" style="display: none;"></audio>
     <script>
-        let isPlay = false; 
-        const audio = document.querySelector('audio'); 
-        const bgmList = ['bm.mp3', 'bm2.mp3', 'bm3.mp3', 'bm4.mp3'];
-        
+        let isPlay = false
+        const audio = document.querySelector('audio')
+        const bgmList = ['bm.mp3', 'bm2.mp3', 'bm3.mp3', 'bm4.mp3']
+
         function selectRandomBgm() {
-            const randomIndex = Math.floor(Math.random() * bgmList.length);
-            return bgmList[randomIndex];
+            const randomIndex = Math.floor(Math.random() * bgmList.length)
+            return bgmList[randomIndex]
         }
-        
-        audio.loop = false;
-    
+
+        audio.loop = false
+
         audio.addEventListener('ended', () => {
-            audio.src = selectRandomBgm();
-            if (isPlay) {
-                audio.play().catch((error) => {
-                    console.error('切换播放音频失败:', error);
-                });
-            }
-        });
+            audio.src = selectRandomBgm()
+            audio.play().catch((error) => {
+                console.error('fuck microsoft edge and google chrome: ', error)
+            })
+        })
+
         const playAudioOnInteraction = () => {
             if (!isPlay) {
-                audio.src = selectRandomBgm();
+                audio.src = selectRandomBgm()
                 audio.play()
-                  .then(() => {
-                        isPlay = true;
-                        const events = ['mousemove', 'click', 'touchstart', 'keydown', 'mousedown'];
-                        events.forEach((event) => {
-                            document.removeEventListener(event, playAudioOnInteraction);
-                        });
+                    .then(() => {
+                        isPlay = true
+                        document.removeEventListener('mousemove', playAudioOnInteraction)
                     })
-                  .catch((error) => {
-                        console.error('播放音频失败:', error);
-                    });
+                    .catch((error) => {
+                        console.error('fuck user:', error)
+                    })
             }
-        };
-        const interactionEvents = ['mousemove', 'click', 'touchstart', 'keydown', 'mousedown'];
-        interactionEvents.forEach((event) => {
-            document.addEventListener(event, playAudioOnInteraction);
-        });
-    
-        audio.addEventListener('mousemove', () => {
+        }
+
+        document.addEventListener('mousemove', playAudioOnInteraction)
+
+        audio.addEventListener('click', () => {
             if (isPlay) {
-                audio.pause();
-                isPlay = false;
+                audio.pause()
+                isPlay = false
             } else {
                 audio.play()
-                  .then(() => {
-                        isPlay = true;
+                    .then(() => {
+                        isPlay = true
                     })
-                  .catch((error) => {
-                        console.error('切换播放音频失败:', error);
-                    });
+                    .catch((error) => {
+                        console.error('fuck 360 browser:', error)
+                    })
             }
-        });
-        toggle();
+        })
+        toggle()
     </script>
     <br><br><br><br><br><br><br><br><br><br><br><br><br>
     <p class="tit">&copy;2024 ZIYIT <strong>版权所有，侵权必究</strong></p>
     <script>
-        console.log('The html is reding')
+        // 检查登录状态并更新UI
+        // 修改后的checkLoginStatus函数
+        function checkLoginStatus() {
+            const authToken = localStorage.getItem('authToken');
+            const userAvatar = document.getElementById('userAvatar');
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            const userTypeDisplay = document.getElementById('userTypeDisplay');
+            const navItems = document.querySelectorAll('.nav-item');
+            const loginLink = document.getElementById('loginLink');
+            const logoutLink = document.getElementById('logoutLink');
+        
+            if (!authToken) {
+                // 未登录状态 - 隐藏所有导航项和分隔线
+                document.querySelectorAll('.nav-item, .line').forEach(item => {
+                    item.style.display = 'none';
+                });
+                loginLink.style.display = 'inline-block';
+                return;
+            }
+        
+            // 已登录状态 - 根据权限显示
+            const [type, username] = authToken.split('-');
+            userAvatar.src = 'ziyit.png';
+            userAvatar.style.display = 'block';
+            usernameDisplay.textContent = username;
+            userTypeDisplay.textContent = type === 'ZC' ? '工作人员' : '普通用户';
+            loginLink.style.display = 'none';
+            logoutLink.style.display = 'inline-block';
+        
+            // 根据用户类型显示导航项
+            navItems.forEach(item => {
+                const role = item.getAttribute('data-role');
+                if (role === 'all' || 
+                    (type === 'ZC' && role === 'admin') || 
+                    (type === 'UR' && role === 'user')) {
+                    item.style.display = 'inline-block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    
+        // 退出登录功能:
+        document.getElementById('logoutLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('authToken');
+            checkLoginStatus();
+            window.location.href = './index.html';  // 修改这里，从../改为./
+        });
+        
+        // 页面加载时检查登录状态
+        window.addEventListener('DOMContentLoaded', checkLoginStatus);
     </script>
 </body>
 

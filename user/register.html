@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>注册只因科技账号(中国)</title>
+    <!-- 已移除敏感信息 -->
     <link rel="icon" href="ziyit.png" type="image/x-icon">
     <style>
         body {
@@ -112,141 +113,9 @@
         <button type="submit">注册</button>
     </form>
 
-    <script>
-        function toggleLicense() {
-            const accountType = document.getElementById('accountType').value;
-            const licenseDiv = document.getElementById('licenseDiv');
-            licenseDiv.style.display = accountType === 'ziyit工作人员' ? 'block' : 'none';
-            if (accountType !== 'ziyit工作人员') {
-                document.getElementById('license').value = '';
-            }
-        }
-
-        // 阻止表单默认提交行为
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            checkLogin();
-        });
-
-        // 添加全局变量存储许可码
-        let validLicense = "";
-
-        // 修改读取key.txt的方式
-        window.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const response = await fetch('https://ziyit-hacker.github.io/tas/user/key.txt');
-                if (!response.ok) throw new Error('读取许可码失败');
-                const keyContent = await response.text();
-                validLicense = keyContent.split('\n')[0].trim();
-            } catch (e) {
-                console.error('初始化错误:', e);
-                alert('系统初始化错误: ' + e.message);
-            }
-        });
-
-        async function saveUserData(data, type) {
-            try {
-                // 替换为你的GitHub Token（注意：前端暴露Token不安全，仅演示用）
-                const token = '你的GitHub_Token';
-                const repo = 'ziyit-hacker/tas';
-                const path = 'user/user.txt';
-                
-                // 1. 获取文件当前SHA和内容
-                const getResponse = await fetch(
-                    `https://api.github.com/repos/${repo}/contents/${path}`,
-                    {
-                        headers: { 
-                            'Authorization': `token ${token}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    }
-                );
-                
-                if (!getResponse.ok) {
-                    const errorData = await getResponse.json();
-                    throw new Error(errorData.message || '获取文件失败');
-                }
-                
-                const fileData = await getResponse.json();
-                const currentContent = atob(fileData.content.replace(/\n/g, ''));
-                
-                // 2. 更新文件内容
-                const updateResponse = await fetch(
-                    `https://api.github.com/repos/${repo}/contents/${path}`,
-                    {
-                        method: 'PUT',
-                        headers: { 
-                            'Authorization': `token ${token}`,
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/vnd.github.v3+json'
-                        },
-                        body: JSON.stringify({
-                            message: `[自动] 更新用户数据 - ${new Date().toLocaleString()}`,
-                            content: btoa(currentContent + data + '\n'),
-                            sha: fileData.sha
-                        })
-                    }
-                );
-        
-                if (!updateResponse.ok) {
-                    const errorData = await updateResponse.json();
-                    throw new Error(errorData.message || '更新文件失败');
-                }
-                
-                alert('注册成功！');
-                window.location.href = './index.html';
-                return true;
-            } catch (error) {
-                console.error('保存失败:', error);
-                alert('保存失败: ' + error.message);
-                return false;
-            }
-        }
-
-        function checkLogin() {
-            const accountType = document.getElementById('accountType').value;
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (accountType === 'ziyit工作人员') {
-                const license = document.getElementById('license').value;
-                const licensePattern = /^[0-9A-Fa-f]{5}(?:-[0-9A-Fa-f]{5}){4}$/;
-
-                if (!licensePattern.test(license)) {
-                    alert('许可码格式不正确！');
-                    return;
-                }
-
-                // 验证许可码（从key.txt读取）
-                if (!validLicense || license !== validLicense) {
-                    alert('许可码不正确或系统未加载许可码！');
-                    window.location.href = '../index.html';
-                    return;
-                }
-
-                // 修改保存方式，添加类型前缀
-                if(!saveUserData(`ZC-${username}-${password}`, 'staff')) {
-                    return;
-                }
-                // 移除重复的alert
-                // alert('注册成功！');  // 这行可以删除
-            } else {
-                // 修改检查逻辑，只检查普通用户
-                const users = JSON.parse(localStorage.getItem('normalUsers') || '[]');
-                if (users.some(user => user.includes(`-${username}-`))) {
-                    alert('用户已存在！');
-                    window.location.href = '../index.html';
-                    return;
-                }
-
-                if(!saveUserData(`UR-${username}-${password}`, 'normal')) {
-                    return;
-                }
-                // 移除重复的alert
-                // alert('注册成功！');  // 这行可以删除
-            }
-        }
-    </script>
+    <!-- 替换原来的script标签为外部引用 -->
+    <script src="register.js"></script>
+    
     <a href="#up" class="brg">
         <img src="up.png" alt="到顶部">
     </a>
