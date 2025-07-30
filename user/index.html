@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>登录只因科技(中国)</title>
     <link rel="icon" href="ziyit.png" type="image/x-icon">
+    <script src="f12check.js"></script>
     <style>
         body {
             background-color: skyblue;
@@ -68,7 +69,7 @@
             margin: 10px auto;
         }
 
-        input[type="password"] {
+        input{
             padding: 12px 15px;
             border: 1px solid #d3d3d3;
             border-radius: 4px;
@@ -80,11 +81,11 @@
             color: #323130;
         }
 
-        input[type="password"]:hover {
+        input:hover {
             border-color: #8a8886;
         }
 
-        input[type="password"]:focus {
+        input:focus {
             outline: none;
             border-color: #0078d4;
             box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.3);
@@ -122,6 +123,14 @@
 </head>
 
 <body>
+    <!-- 添加错误处理 -->
+    <script>
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.log('JavaScript错误:', {message, source, lineno, colno, error});
+            return true; // 阻止默认错误处理
+        };
+    </script>
+    
     <div id="Navigation">
         <a href="..\index.html" class="brg">
             <img src="index.png" alt="主页" class="brg">
