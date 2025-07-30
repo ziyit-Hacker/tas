@@ -96,43 +96,17 @@ async function saveUserData(data, type) {
 }
 
 async function getGitHubToken() {
-    try {
-        // 尝试从多个可能的API端点获取token
-        const apiEndpoints = [
-            '/api/getGitHubToken',
-            '/api/github/token',
-            '/token',
-            'https://your-backend-server.com/api/token' // 添加远程API端点
-        ];
-        
-        for (const endpoint of apiEndpoints) {
-            try {
-                const response = await fetch(endpoint);
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data?.token) {
-                        return data.token;
-                    }
-                }
-            } catch (error) {
-                console.warn(`尝试从${endpoint}获取token失败:`, error);
-            }
-        }
-        
-        // 所有API端点都失败时，使用开发token
-        console.warn('所有API端点都不可用，使用开发token');
-        return "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"; // 替换为有效token
-        
-    } catch (error) {
-        console.error('获取GitHub Token最终错误:', error);
-        throw error;
-    }
+    const response = await fetch('/api/githubToken');
+    if (!response.ok) throw new Error('无法获取GitHub Token');
+    const data = await response.json();
+    return data.token;
 }
 
+// 在saveUserData函数中修改错误处理
 async function saveUserData(data) {
     try {
         const tempToken = await getGitHubToken();
-        const repoPath = 'ziyit-hacker/tas/contents/user/user.txt'; // 注意添加了contents路径
+        const repoPath = 'ziyit-hacker/tas/contents/user/user.txt';
         
         // 1. 获取文件当前SHA值
         const getResponse = await fetch(`https://api.github.com/repos/${repoPath}`, {
@@ -174,12 +148,21 @@ async function saveUserData(data) {
         
         return true;
     } catch (error) {
-        console.error('保存错误详情:', {
-            error: error.message,
-            timestamp: new Date().toISOString(),
-            data: data
-        });
-        alert('保存失败，请检查网络或联系管理员');
+        console.error('保存错误:', error);
+        alert('注册失败: 系统认证错误，请联系管理员获取帮助');
         return false;
     }
 }
+
+// 后端API接口示例（Node.js）
+const express = require('express');
+const app = express();
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // 从环境变量获取
+
+app.get('/api/githubToken', (req, res) => {
+  // 添加身份验证逻辑
+  if(!isValidRequest(req)) {
+    return res.status(403).json({error: '无权访问'});
+  }
+  res.json({token: GITHUB_TOKEN});
+});
