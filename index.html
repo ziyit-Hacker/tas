@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>ZIYIT</title>
     <link rel="icon" href="ziyit.png" type="image/x-icon">
+    <script src="f12check.js"></script>
     <style>
         body {
             background-color: #1b1e36;
@@ -324,7 +325,7 @@
             const navItems = document.querySelectorAll('.nav-item');
             const loginLink = document.getElementById('loginLink');
             const logoutLink = document.getElementById('logoutLink');
-        
+
             if (!authToken) {
                 // 未登录状态 - 隐藏所有导航项和分隔线
                 document.querySelectorAll('.nav-item, .line').forEach(item => {
@@ -333,7 +334,7 @@
                 loginLink.style.display = 'inline-block';
                 return;
             }
-        
+
             // 已登录状态 - 根据权限显示
             const [type, username] = authToken.split('-');
             userAvatar.src = 'ziyit.png';
@@ -342,12 +343,12 @@
             userTypeDisplay.textContent = type === 'ZC' ? '工作人员' : '普通用户';
             loginLink.style.display = 'none';
             logoutLink.style.display = 'inline-block';
-        
+
             // 根据用户类型显示导航项
             navItems.forEach(item => {
                 const role = item.getAttribute('data-role');
-                if (role === 'all' || 
-                    (type === 'ZC' && role === 'admin') || 
+                if (role === 'all' ||
+                    (type === 'ZC' && role === 'admin') ||
                     (type === 'UR' && role === 'user')) {
                     item.style.display = 'inline-block';
                 } else {
@@ -355,15 +356,15 @@
                 }
             });
         }
-    
+
         // 退出登录功能:
-        document.getElementById('logoutLink').addEventListener('click', function(e) {
+        document.getElementById('logoutLink').addEventListener('click', function (e) {
             e.preventDefault();
             localStorage.removeItem('authToken');
             checkLoginStatus();
             window.location.href = './index.html';  // 修改这里，从../改为./
         });
-        
+
         // 页面加载时检查登录状态
         window.addEventListener('DOMContentLoaded', checkLoginStatus);
     </script>
