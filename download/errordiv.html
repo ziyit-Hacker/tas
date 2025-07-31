@@ -50,10 +50,14 @@
     <h2>在只因科技的下载主页你可以下载付费程序和免费程序。</h2>
     <h4>我们会提供对你们有帮助的工具，使用商业版需要产品密钥或额外付费，部分为商业VIP使用！</h4>
     <h3>以下是只因科技提供的产品，请自行下载</h3>
+    <h5>下载密码：ztpc</h5>
     <hr>
     <ul>
-        <li>我的世界PCL启动器 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="https://www.123912.com/s/C4A7Td-56fg3提取码:ztpc">href</a><br /></li>
-        <li>我的世界PCL启动器(备用链接) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="https://www.123912.com/s/C4A7Td-56fg3提取码:ztpc">href</a><br /></li>
+        <li>我的世界PCL启动器 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="https://www.123912.com/s/C4A7Td-56fg3?pwd=ztpc# 提取码:ztpc">href</a><br /></li>
+        <li>我的世界PCL启动器(备用链接) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="https://www.123912.com/s/C4A7Td-56fg3?pwd=ztpc# 提取码:ztpc">href</a><br /></li>
+        <li>即刻聊天(服务器端) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="https://www.123912.com/s/C4A7Td-HbBg3?pwd=ztpc# 提取码:ztpc">href</a><br /></li>
+        <li>创新密钥 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="https://www.123912.com/s/C4A7Td-AbBg3?pwd=ztpc# 提取码:ztpc">href</a><br /></li>
+        <li>绝密加密 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="https://www.123912.com/s/C4A7Td-9bBg3?pwd=ztpc# 提取码:ztpc">href</a><br /></li>
     </ul>
     <a href="#up">
         <img src="up.png" alt="到顶部"><!--锚链接-->
@@ -122,6 +126,24 @@
             }
         });
         toggle();
+    </script>
+    <script>
+        // 检查用户权限
+        function checkUserPermission() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                window.location.href = './index.html';
+                return;
+            }
+
+            const [typeCode] = authToken.split('-');
+            if (typeCode === 'UR') {
+                window.location.href = './index.html';
+            }
+        }
+
+        // 页面加载时检查权限
+        document.addEventListener('DOMContentLoaded', checkUserPermission);
     </script>
     <br><br><br><br><br><br><br><br><br><br><br><br><br>
     <p class="tit">&copy;2024 ZIYIT <strong>版权所有，侵权必究</strong></p>

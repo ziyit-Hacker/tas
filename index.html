@@ -214,6 +214,45 @@
                 </div>
         </div>
     </div>
+    
+    <div style="margin: 30px auto; max-width: 1000px;">
+        <h2 style="text-align: center; color: white; margin-bottom: 20px;">我们的产品与服务</h2>
+        <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+            <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
+                <h3 style="color: #0078d4;">安全防护</h3>
+                <p style="color: white;">专业级病毒防护解决方案，保障您的数字安全</p>
+            </div>
+            <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
+                <h3 style="color: #0078d4;">学习资源</h3>
+                <p style="color: white;">丰富的技术学习资料，助力个人成长</p>
+            </div>
+            <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
+                <h3 style="color: #0078d4;">开发者工具</h3>
+                <p style="color: white;">高效开发工具套件，提升工作效率</p>
+            </div>
+        </div>
+    </div>
+
+    <footer style="background: rgba(0,0,0,0.5); padding: 20px; margin-top: 50px;">
+        <div style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap;">
+            <div style="width: 300px; margin-bottom: 20px;">
+                <h3 style="color: white;">关于我们</h3>
+                <p style="color: #aaa;">只因科技致力于提供优质的技术服务和解决方案</p>
+            </div>
+            <div style="width: 300px; margin-bottom: 20px;">
+                <h3 style="color: white;">联系方式</h3>
+                <p style="color: #aaa;">邮箱: 3950140506@qq.com</p>
+                <p style="color: #aaa;">手机号: 19866824404</p>
+            </div>
+            <div style="width: 300px; margin-bottom: 20px;">
+                <h3 style="color: white;">关注我们</h3>
+                <a href="https://space.bilibili.com/3546762260253100?spm_id_from=333.1007.0.0" style="color: #0078d4; margin-right: 10px;">哔哩哔哩</a>
+                <p style="color: #0078d4;">QQ: 3950140506</p>
+            </div>
+        </div>
+        <p class="tit">&copy;2024 ZIYIT <strong>版权所有，侵权必究</strong></p>
+    </footer>
+
     <script>
         const data = [
             { url: './images/slider09.jpg', title: '只因科技添加学习界面。', color: 'rgb(135, 206, 235)' },
@@ -349,7 +388,11 @@
             notice.style.textAlign = 'center';
             notice.style.padding = '10px';
             notice.style.zIndex = '1000';
-            notice.textContent = '你无法正常使用';
+            
+            const noticeContent = document.createElement('div');
+            noticeContent.innerHTML = '你无法正常使用<br><span style="font-size: 20px;">申诉账号问题请联系邮箱3950140506@qq.com</span>';
+            notice.appendChild(noticeContent);
+            
             document.body.appendChild(notice);
         }
 
