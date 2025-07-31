@@ -23,13 +23,13 @@
         }
 
         .box {
-            width: 150%;
+            width: 100%;
             height: 35px;
             background-color: #44316d;
         }
 
         .pod {
-            width: 1000px;
+            width: 100%;
             height: 100%;
         }
 
@@ -58,6 +58,13 @@
 
         .tit {
             color: black;
+            position: fixed;  /* 添加固定定位 */
+            bottom: 0;       /* 固定在底部 */
+            left: 0;         /* 左对齐 */
+            width: 100%;     /* 宽度100% */
+            text-align: center;  /* 文字居中 */
+            background-color: rgba(255, 255, 255, 0.5);  /* 添加半透明背景 */
+            padding: 5px 0;  /* 添加内边距 */
         }
 
         .line {
@@ -71,7 +78,7 @@
         }
 
         h1 {
-            width: 150%;
+            width: 100%;
             background-color: #0041c5;
         }
 
@@ -188,6 +195,7 @@
             <li class="line nav-item" data-role="admin" style="display:none;"></li>
             <li><a href=".\user\index.html" id="loginLink">登录</a></li>
             <li><a class="nav-item" href="#" id="logoutLink" style="display:none;" data-role="all">退出登录</a></li>
+            <li><a class="nav-item" href=".\user\password.html" id="changePasswordLink" style="display:none;" data-role="all">修改密码</a></li>
         </ul>
     </div>
     <div class="slider">
@@ -311,7 +319,6 @@
         })
         toggle()
     </script>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br>
     <p class="tit">&copy;2024 ZIYIT <strong>版权所有，侵权必究</strong></p>
     <script>
         // 检查登录状态并更新UI
@@ -355,12 +362,14 @@
             const navItems = document.querySelectorAll('.nav-item');
             const loginLink = document.getElementById('loginLink');
             const logoutLink = document.getElementById('logoutLink');
+            const changePasswordLink = document.getElementById('changePasswordLink');
             const slider = document.querySelector('.slider');
             const lines = document.querySelectorAll('.line');
 
             // 重置所有显示状态
-            loginLink.style.display = 'none';
+            loginLink.style.display = 'inline-block';
             logoutLink.style.display = 'none';
+            changePasswordLink.style.display = 'none';
             userAvatar.style.display = 'none';
             usernameDisplay.textContent = '未登录';
             userTypeDisplay.textContent = '';
@@ -376,6 +385,7 @@
             // 检查是否在黑名单中
             const isBlacklisted = await checkBlacklist(authToken);
             
+            // 修改checkLoginStatus函数中的黑名单处理部分
             if (isBlacklisted) {
                 // 黑名单状态
                 userAvatar.src = 'ziyit.png';
@@ -384,42 +394,47 @@
                 userTypeDisplay.textContent = '黑名单人员';
                 
                 // 隐藏所有导航项，只显示病毒库
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    const role = item.getAttribute('data-role');
-                    item.style.display = role === 'all' && item.querySelector('a[href=".\\move\\mod.html"]') ? 'inline-block' : 'none';
+                document.querySelectorAll('#navMenu li').forEach(item => {
+                const isVirusDb = item.querySelector('a[href=".\\move\\mod.html"]');
+                item.style.display = isVirusDb ? 'inline-block' : 'none';
                 });
                 
-                // 隐藏退出登录和轮播图
+                // 隐藏登录和退出登录按钮
+                loginLink.style.display = 'none';
                 logoutLink.style.display = 'none';
+                changePasswordLink.style.display = 'none';
+                
+                // 隐藏轮播图
                 if(slider) slider.style.display = 'none';
                 
                 // 添加底部提示
                 addBlacklistNotice();
                 return;
-            }
-
-            // 正常登录状态处理...
-            // 已登录状态 - 根据权限显示
-            const [type, username] = authToken.split('-');
-            userAvatar.src = 'ziyit.png';
-            userAvatar.style.display = 'block';
-            usernameDisplay.textContent = username;
-            userTypeDisplay.textContent = type === 'ZC' ? '工作人员' : '普通用户';
-            loginLink.style.display = 'none';
-            logoutLink.style.display = 'inline-block';
-
-            // 根据用户类型显示导航项
-            navItems.forEach(item => {
-                const role = item.getAttribute('data-role');
-                if (role === 'all' ||
-                    (type === 'ZC' && role === 'admin') ||
-                    (type === 'UR' && role === 'user')) {
-                    item.style.display = 'inline-block';
-                } else {
-                    item.style.display = 'none';
                 }
-            });
-        }
+
+                // 正常登录状态处理...
+                // 已登录状态 - 根据权限显示
+                const [type, username] = authToken.split('-');
+                userAvatar.src = 'ziyit.png';
+                userAvatar.style.display = 'block';
+                usernameDisplay.textContent = username;
+                userTypeDisplay.textContent = type === 'ZC' ? '工作人员' : '普通用户';
+                loginLink.style.display = 'none';
+                logoutLink.style.display = 'inline-block';
+                changePasswordLink.style.display = 'inline-block';
+
+                // 根据用户类型显示导航项
+                navItems.forEach(item => {
+                    const role = item.getAttribute('data-role');
+                    if (role === 'all' ||
+                        (type === 'ZC' && role === 'admin') ||
+                        (type === 'UR' && role === 'user')) {
+                        item.style.display = 'inline-block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
 
         // 退出登录功能:
         document.getElementById('logoutLink').addEventListener('click', function (e) {
