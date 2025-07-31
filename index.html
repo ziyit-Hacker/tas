@@ -58,6 +58,13 @@
 
         .tit {
             color: black;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 5px 0;
         }
 
         .line {
@@ -311,7 +318,6 @@
         })
         toggle()
     </script>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br>
     <p class="tit">&copy;2024 ZIYIT <strong>版权所有，侵权必究</strong></p>
     <script>
         // 检查登录状态并更新UI
@@ -428,9 +434,6 @@
             checkLoginStatus();
             window.location.href = './index.html';  // 修改这里，从../改为./
         });
-
-        // 页面加载时检查登录状态
-        window.addEventListener('DOMContentLoaded', checkLoginStatus);
     </script>
 </body>
 
