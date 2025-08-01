@@ -244,7 +244,7 @@
         </div>
     </div>
     
-    <div style="margin: 30px auto; max-width: 1000px;">
+    <div style="margin: 30px auto; max-width: 1000px;" id="product">
         <h2 style="text-align: center; color: white; margin-bottom: 20px;">我们的产品与服务</h2>
         <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
             <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
@@ -463,44 +463,42 @@
                 
                 // 隐藏所有导航项，只显示病毒库
                 document.querySelectorAll('#navMenu li').forEach(item => {
-                const isVirusDb = item.querySelector('a[href=".\\move\\mod.html"]');
-                item.style.display = isVirusDb ? 'inline-block' : 'none';
+                    const isVirusDb = item.querySelector('a[href=".\\move\\mod.html"]');
+                    item.style.display = isVirusDb ? 'inline-block' : 'none';
                 });
                 
-                // 隐藏登录和退出登录按钮
+                // 隐藏特殊项目
                 loginLink.style.display = 'none';
-                logoutLink.style.display = 'none';
-                changePasswordLink.style.display = 'none';
-                
-                // 隐藏轮播图
                 if(slider) slider.style.display = 'none';
+                document.querySelectorAll('footer').forEach(footer => footer.style.display = 'none');
+                document.getElementById('product').style.display = 'none';
                 
                 // 添加底部提示
                 addBlacklistNotice();
                 return;
-                }
-
-                // 正常登录状态处理...
-                // 已登录状态 - 根据权限显示
-                const [type, username] = authToken.split('-');
-                userAvatar.src = 'ziyit.png';
-                userAvatar.style.display = 'block';
-                usernameDisplay.textContent = username;
-                userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
-                loginLink.style.display = 'none';
-
-                // 根据用户类型显示导航项
-                navItems.forEach(item => {
-                    const role = item.getAttribute('data-role');
-                    if (role === 'all' ||
-                        (type === 'ZC' && role === 'admin') ||
-                        (type === 'UR' && role === 'user')) {
-                        item.style.display = 'inline-block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
             }
+
+            // 正常登录状态处理...
+            // 已登录状态 - 根据权限显示
+            const [type, username] = authToken.split('-');
+            userAvatar.src = 'ziyit.png';
+            userAvatar.style.display = 'block';
+            usernameDisplay.textContent = username;
+            userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+            loginLink.style.display = 'none';
+
+            // 根据用户类型显示导航项
+            navItems.forEach(item => {
+                const role = item.getAttribute('data-role');
+                if (role === 'all' ||
+                    (type === 'ZC' && role === 'admin') ||
+                    (type === 'UR' && role === 'user')) {
+                    item.style.display = 'inline-block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
 
         // 页面加载时检查登录状态
         window.addEventListener('DOMContentLoaded', checkLoginStatus);
