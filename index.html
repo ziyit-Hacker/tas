@@ -168,7 +168,7 @@
 
 <body>
     <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
-        <img id="userAvatar" src="" alt="" style="width: 50px; height: 50px; display: none;">
+        <img id="userAvatar" src="" alt="" style="width: 65px; height: 50px; display: none;">
         <div id="userInfo" style="color: white;">
             <span id="usernameDisplay">未登录</span>
             <br>
@@ -183,21 +183,21 @@
             <li class="nav-item" data-role="admin"><a href='.\move\index.html'>更多</a></li>
             <li class="nav-item" data-role="all"><a href=".\move\mod.html">病毒库</a></li>
             <li class="nav-item" data-role="user"><a href=".\school\index.html">学习</a></li>
-            <li class="line nav-item" data-role="all" style="display:none;"></li>
+            <li class="line nav-item" data-role="all"></li>
             <li class="nav-item" data-role="admin">
                 <p>只因科技<span class="bid">开发者选项</span></p>
             </li>
             <li class="nav-item" data-role="admin"><a href=".\developers\index.html">日志</a></li>
-            <li class="line nav-item" data-role="admin" style="display:none;"></li>
+            <li class="line nav-item" data-role="admin"></li>
             <li class="nav-item" data-role="admin">
                 <p><span class="bid">未开发</span>，敬请期待</p>
             </li>
-            <li class="line nav-item" data-role="admin" style="display:none;"></li>
+            <li class="line nav-item" data-role="admin"></li>
+            <li class="nav-item" data-role="user"><a href="./user.html" id="userActionLink">用户操作</a></li>
             <li><a href=".\user\index.html" id="loginLink">登录</a></li>
-            <li><a class="nav-item" href="#" id="logoutLink" style="display:none;" data-role="all">退出登录</a></li>
-            <li><a class="nav-item" href=".\user\password.html" id="changePasswordLink" style="display:none;" data-role="all">修改密码</a></li>
         </ul>
     </div>
+
     <div class="slider">
         <div class="slider-wrapper">
             <img src="./images/slider09.jpg" alt="" />
@@ -404,15 +404,11 @@
             const userTypeDisplay = document.getElementById('userTypeDisplay');
             const navItems = document.querySelectorAll('.nav-item');
             const loginLink = document.getElementById('loginLink');
-            const logoutLink = document.getElementById('logoutLink');
-            const changePasswordLink = document.getElementById('changePasswordLink');
             const slider = document.querySelector('.slider');
             const lines = document.querySelectorAll('.line');
 
             // 重置所有显示状态
             loginLink.style.display = 'inline-block';
-            logoutLink.style.display = 'none';
-            changePasswordLink.style.display = 'none';
             userAvatar.style.display = 'none';
             usernameDisplay.textContent = '未登录';
             userTypeDisplay.textContent = '';
@@ -479,16 +475,14 @@
                 });
             }
 
-        // 退出登录功能:
-        document.getElementById('logoutLink').addEventListener('click', function (e) {
-            e.preventDefault();
-            localStorage.removeItem('authToken');
-            checkLoginStatus();
-            window.location.href = './index.html';  // 修改这里，从../改为./
-        });
-
         // 页面加载时检查登录状态
         window.addEventListener('DOMContentLoaded', checkLoginStatus);
+        
+        if (isLoggedIn && !isBlacklisted) {
+            document.getElementById('userActionLink').style.display = 'block';
+        } else {
+            document.getElementById('userActionLink').style.display = 'none';
+        }
     </script>
 </body>
 
