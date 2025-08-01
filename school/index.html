@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>ZIYIT Educate</title>
+    <link rel="icon" href="ziyit.png" type="image/x-icon">
+    <script src="f12check.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @media (max-width: 768px) {
+            /* 手机端样式 */
+            body {
+                font-size: 16px;
+            }
+            div[style*="max-width: 400px"] {
+                width: 90%;
+                margin: 10px auto;
+                padding: 15px;
+            }
+            input, select {
+                width: 100%;
+            }
+            button {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+    </style>
+    <style>
+        body {
+            background-color: skyblue;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .brg {
+            text-align: left;
+        }
+
+        a {
+            text-decoration: none;
+        }
+        * {
+            margin: 0px;
+            padding: 0;
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #868382;
+        }
+
+        .box {
+            width: 100%;
+            height: 35px;
+            background-color: #44316d;
+        }
+
+        .pod {
+            width: 100%;
+            height: 100%;
+        }
+
+        p {
+            color: white;
+        }
+
+        ul li {
+            display: inline-block;
+            line-height: 35px;
+        }
+
+        li a {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        li p {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .bid {
+            color: #f25767;
+        }
+
+        .tit {
+            color: black;
+        }
+
+        .line {
+            width: 1px;
+            height: 12px;
+            background-color: #f3a707;
+        }
+
+        a:hover {
+            color: #c42b1c;
+        }
+    </style>
+</head>
+<body>
+    <h1>&nbsp;只因教育</h1>
+    <h4>&nbsp;&nbsp;ZIYIT Educate</h4>
+    <hr>
+    <div class="box">
+        <ul class="pod">
+            <li><a href='https://study.dgjy.net/#/kTwelve/index' id="class">中小学课堂</a></li>
+            <li class="line"></li>
+            <li><a href="https://www.bilibili.com/video/BV1Y84y1L7Nn/">JavaScript</a></li>
+            <li><a href="https://www.bilibili.com/list/ml3314852400?spm_id_from=333.999.0.0&oid=546388542&bvid=BV1vq4y1s7UW">html</a></li>
+            <li class="line"></li>
+            <li><p><span class="bid">未开发</span>，敬请期待</p></li>
+        </ul>
+    </div>
+    <br>
+    <a href="javascript:location.reload()">
+        <img src="dowm.png" width="27" height="28" alt="重试">
+    </a>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <p>&copy;2025&nbsp;&nbsp;ZIYIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>版权所有，侵权必究</strong></p>
+    <script>
+        let isPlay = false; 
+        const audio = document.querySelector('audio'); 
+        const bgmList = ['bm.mp3', 'bm2.mp3', 'bm3.mp3', 'bm4.mp3'];
+        
+        function selectRandomBgm() {
+            const randomIndex = Math.floor(Math.random() * bgmList.length);
+            return bgmList[randomIndex];
+        }
+        
+        audio.loop = false;
+    
+        audio.addEventListener('ended', () => {
+            audio.src = selectRandomBgm();
+            if (isPlay) {
+                audio.play().catch((error) => {
+                    console.error('切换播放音频失败:', error);
+                });
+            }
+        });
+        const playAudioOnInteraction = () => {
+            if (!isPlay) {
+                audio.src = selectRandomBgm();
+                audio.play()
+                  .then(() => {
+                        isPlay = true;
+                        const events = ['mousemove', 'click', 'touchstart', 'keydown', 'mousedown'];
+                        events.forEach((event) => {
+                            document.removeEventListener(event, playAudioOnInteraction);
+                        });
+                    })
+                  .catch((error) => {
+                        console.error('播放音频失败:', error);
+                    });
+            }
+        };
+        const interactionEvents = ['mousemove', 'click', 'touchstart', 'keydown', 'mousedown'];
+        interactionEvents.forEach((event) => {
+            document.addEventListener(event, playAudioOnInteraction);
+        });
+    
+        audio.addEventListener('click', () => {
+            if (isPlay) {
+                audio.pause();
+                isPlay = false;
+            } else {
+                audio.play()
+                  .then(() => {
+                        isPlay = true;
+                    })
+                  .catch((error) => {
+                        console.error('切换播放音频失败:', error);
+                    });
+            }
+        });
+        toggle();
+    </script>
+</body>
+</html>
