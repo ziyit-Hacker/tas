@@ -1,8 +1,8 @@
 function toggleLicense() {
     const accountType = document.getElementById('accountType').value;
     const licenseDiv = document.getElementById('licenseDiv');
-    licenseDiv.style.display = accountType === 'ziyit工作人员' ? 'block' : 'none';
-    if (accountType !== 'ziyit工作人员') {
+    licenseDiv.style.display = accountType === 'vip用户' ? 'block' : 'none';
+    if (accountType !== 'vip用户') {
         document.getElementById('license').value = '';
     }
 }
@@ -47,7 +47,7 @@ async function checkLogin() {
             return;
         }
 
-        if (accountType === 'ziyit工作人员') {
+        if (accountType === 'vip用户') {
             const license = document.getElementById('license').value;
             const licensePattern = /^[0-9A-Fa-f]{5}(?:-[0-9A-Fa-f]{5}){4}$/;
 
