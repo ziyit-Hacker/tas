@@ -20,13 +20,13 @@
 
         a {
             text-decoration: none;
-            color: #868382;
+            color: #66e656;
         }
 
         .box {
             width: 100%;
             height: 35px;
-            background-color: #44316d;
+            background-color: #0b99fa;
         }
 
         .pod {
@@ -35,7 +35,7 @@
         }
 
         p {
-            color: white;
+            color: black;
         }
 
         ul li {
@@ -75,12 +75,14 @@
         }
 
         a:hover {
-            color: #c42b1c;
+            color: #ff8000;
         }
 
         h1 {
             width: 100%;
-            background-color: #0041c5;
+            background-color: #81dfff;
+            text-align: center;
+            font-size: 50px;
         }
 
         * {
@@ -164,6 +166,10 @@
             height: 12px;
             opacity: 1;
         }
+
+        footer {
+            transition: background-color 0.5s ease;
+        }
     </style>
     <style>
         @media (max-width: 768px) {
@@ -191,19 +197,14 @@
                 width: 100%;
                 margin-bottom: 20px;
             }
+            h1{
+                text-align: center;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
-        <img id="userAvatar" src="" alt="" style="width: 65px; height: 50px; display: none;">
-        <div id="userInfo" style="color: white;">
-            <span id="usernameDisplay">未登录</span>
-            <br>
-            <span id="userTypeDisplay"></span>
-        </div>
-    </div>
     <h1>只因科技主页</h1>
     <hr>
     <div class="box">
@@ -309,7 +310,7 @@
         function toggle() {
             img.src = data[i].url
             p.innerHTML = data[i].title
-            footer.style.backgroundColor = data[i].colo
+            footer.style.backgroundColor = data[i].color
             document.querySelector('.slider-indicator .active').classList.remove('active')
             document.querySelector(`.slider-indicator li:nth-child(${i + 1})`).classList.add('active')
         }
@@ -419,7 +420,7 @@
             notice.style.zIndex = '1000';
             
             const noticeContent = document.createElement('div');
-            noticeContent.innerHTML = '你无法正常使用<br><span style="font-size: 20px;">申诉账号问题请联系邮箱3950140506@qq.com</span>';
+            noticeContent.innerHTML = '你无法正常使用<span style="font-size: 15px;">您的帐号因种种原因被封禁</span><br><span style="font-size: 17px;">申诉账号问题请联系邮箱3950140506@qq.com</span>';
             notice.appendChild(noticeContent);
             
             document.body.appendChild(notice);
@@ -428,9 +429,6 @@
         // 修改后的checkLoginStatus函数
         async function checkLoginStatus() {
             const authToken = localStorage.getItem('authToken');
-            const userAvatar = document.getElementById('userAvatar');
-            const usernameDisplay = document.getElementById('usernameDisplay');
-            const userTypeDisplay = document.getElementById('userTypeDisplay');
             const navItems = document.querySelectorAll('.nav-item');
             const loginLink = document.getElementById('loginLink');
             const slider = document.querySelector('.slider');
@@ -438,9 +436,6 @@
 
             // 重置所有显示状态
             loginLink.style.display = 'inline-block';
-            userAvatar.style.display = 'none';
-            usernameDisplay.textContent = '未登录';
-            userTypeDisplay.textContent = '';
 
             if (!authToken) {
                 // 未登录状态
@@ -455,12 +450,6 @@
             
             // 修改checkLoginStatus函数中的黑名单处理部分
             if (isBlacklisted) {
-                // 黑名单状态
-                userAvatar.src = 'ziyit.png';
-                userAvatar.style.display = 'block';
-                usernameDisplay.textContent = '黑名单用户';
-                userTypeDisplay.textContent = '黑名单人员';
-                
                 // 隐藏所有导航项，只显示病毒库
                 document.querySelectorAll('#navMenu li').forEach(item => {
                     const isVirusDb = item.querySelector('a[href=".\\move\\mod.html"]');
@@ -481,10 +470,6 @@
             // 正常登录状态处理...
             // 已登录状态 - 根据权限显示
             const [type, username] = authToken.split('-');
-            userAvatar.src = 'ziyit.png';
-            userAvatar.style.display = 'block';
-            usernameDisplay.textContent = username;
-            userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
             loginLink.style.display = 'none';
 
             // 根据用户类型显示导航项
