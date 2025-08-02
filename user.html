@@ -316,7 +316,6 @@
                     })
             }
         })
-        toggle()
     </script>
     <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
     <script>
@@ -339,6 +338,32 @@
         logoutLink.addEventListener('click', function() {
             localStorage.removeItem('authToken');
             window.location.href = './index.html';
+        });
+    </script>
+    <script>
+        async function checkBlacklist(authToken) {
+            try {
+                const response = await fetch('./hmd.txt');
+                const text = await response.text();
+                const lines = text.split('\n');
+                return lines.some(line => line.trim() === authToken);
+            } catch (error) {
+                console.error('检查黑名单出错:', error);
+                return false;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', async function() {
+            const authToken = localStorage.getItem('authToken');
+            if (authToken) {
+                const isBlacklisted = await checkBlacklist(authToken);
+                if (isBlacklisted) {
+                    document.getElementById('userTypeDisplay').textContent = '黑名单用户';
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.style.display = 'none';
+                    });
+                }
+            }
         });
     </script>
 </body>
