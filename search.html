@@ -203,141 +203,101 @@
         }
     </style>
 </head>
-
-<body>
-    <h1>只因科技主页</h1>
+    <h1>搜索</h1>
+    <hr>
+    <marquee style="background-color: yellow;">
+        <strong>
+            <span style="color: red;">本页面现处于测试阶段!!!如发现bug请将bug描述邮件发送到3950140506@qq.com。如果像投稿推荐网站请将网站的url和好处用途一起发送到邮箱3779502017@qq.com。</span>
+        </strong>
+    </marquee>
     <hr>
     <div class="box">
         <ul class="pod" id="navMenu">
-            <li class="nav-item" data-role="all"><a href='.\download\index.html'>下载</a></li>
-            <li class="nav-item" data-role="all"><a href='.\move\index.html'>更多</a></li>
-            <li class="nav-item" data-role="all"><a href=".\move\mod.html">病毒库</a></li>
-            <li class="nav-item" data-role="admin"><a href=".\school\index.html">学习</a></li>
-            <li class="nav-item" data-role="all"><a href=".\search.html">搜索</a></li>
-            <li class="line nav-item" data-role="all"></li>
-            <li class="nav-item" data-role="admin">
-                <p>只因科技<span class="bid">开发者选项</span></p>
-            </li>
-            <li class="nav-item" data-role="admin"><a href=".\developers\index.html">日志</a></li>
-            <li class="line nav-item" data-role="admin"></li>
-            <li class="nav-item" data-role="admin">
-                <p><span class="bid">未开发</span>，敬请期待</p>
-            </li>
-            <li class="line nav-item" data-role="admin"></li>
-            <li class="nav-item" data-role="all"><a href="./user.html" id="userActionLink">用户操作</a></li>
-            <li><a href=".\user\index.html" id="loginLink">登录</a></li>
+            <li class="nav-item" data-role="all"><a href='https://cn.bing.com/'>必应搜索</a></li>
+            <li class="nav-item" data-role="admin"><a href='https://cn.bing.com/translator'>微软机翻</a></li>
+            <li class="nav-item" data-role="all"><a href="https://www.microsoft.com/zh-cn/">微软官网</a></li>
+            <li class="nav-item" data-role="admin"><a href=".\index.html">首页</a></li>
         </ul>
     </div>
 
-    <div class="slider">
-        <div class="slider-wrapper">
-            <img src="./images/slider09.jpg" alt="" />
-        </div>
-        <div class="slider-footer">
-            <p>只因科技添加学习界面。</p>
-            <ul class="slider-indicator">
-                <li class="active"></li>
-                <li></li>
-                <li></li>
-                <div class="toggle">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-        </div>
-    </div>
-    
-    <div style="margin: 30px auto; max-width: 1000px;" id="product">
-        <h2 style="text-align: center; color: white; margin-bottom: 20px;">我们的产品与服务</h2>
-        <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
-            <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
-                <h3 style="color: #0078d4;">安全防护</h3>
-                <p style="color: white;">专业级病毒防护解决方案，保障您的数字安全</p>
-            </div>
-            <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
-                <h3 style="color: #0078d4;">学习资源</h3>
-                <p style="color: white;">丰富的技术学习资料，助力个人成长</p>
-            </div>
-            <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
-                <h3 style="color: #0078d4;">开发者工具</h3>
-                <p style="color: white;">高效开发工具套件，提升工作效率</p>
-            </div>
-        </div>
+    <div style="text-align: center; margin: 20px auto; max-width: 600px;">
+        <form action="https://cn.bing.com/search" method="get" style="display: flex;" autocomplete="off">
+            <label for="search-input" style="font-size: 24px; color: #0078d4"><strong>快速搜索: </strong></label>
+            <input type="text" id="search-input" name="q" placeholder="搜索..." style="flex: 1; padding: 10px; font-size: 16px; border: 1px solid #0078d4; border-radius: 100px 0 0 100px; outline: none;">
+            <button type="submit" id="search-button" style="padding: 10px 15px; background-color: #0078d4; color: white; border: none; border-radius: 0 100px 100px 0; cursor: pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle;">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+            </button>
+            <input type="hidden" name="form" value="ANNTH1">
+            <input type="hidden" name="refig" value="6890ac27dc5a4a31b41d8cc9a3987691">
+            <input type="hidden" name="pc" value="CNNDDB">
+            <!-- 这里添加更多内容 -->
+        </form>
     </div>
 
-    <footer style="background: rgba(0,0,0,0.5); padding: 20px; margin-top: 50px;">
-        <div style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap;">
-            <div style="width: 300px; margin-bottom: 20px;">
-                <h3 style="color: white;">关于我们</h3>
-                <p style="color: #aaa;">只因科技致力于提供优质的技术服务和解决方案</p>
+    <div style="text-align: center; margin: 20px auto; max-width: 800px;">
+        <h3 style="color: white;font-size: 20px; margin-bottom: 20px; text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;">推荐网站</h3>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+            <!-- 哔哩哔哩 -->
+            <div style="background: white; border-radius: 8px; padding: 15px; width: 300px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <a href="https://www.bilibili.com" style="color: #0078d4; text-decoration: none; font-weight: bold;">哔哩哔哩</a>
+                <p style="margin-top: 5px; font-size: 14px; color: #555;">
+                    用途：视频分享平台<br>
+                    优点：内容丰富，社区活跃<br>
+                    缺点：部分内容需要大会员<br>
+                    版权：© 2009-2023 bilibili Inc.
+                </p>
             </div>
-            <div style="width: 300px; margin-bottom: 20px;">
-                <h3 style="color: white;">联系方式</h3>
-                <p style="color: #aaa;">邮箱: 3950140506@qq.com</p>
-                <p style="color: #aaa;">手机号: 19866824404</p>
+            
+            <!-- 莞易学 -->
+            <div style="background: white; border-radius: 8px; padding: 15px; width: 300px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <a href="https://study.dgjy.net" style="color: #0078d4; text-decoration: none; font-weight: bold;">莞易学</a>
+                <p style="margin-top: 5px; font-size: 14px; color: #555;">
+                    用途：东莞教育资源平台<br>
+                    优点：本地化教育资源丰富<br>
+                    缺点：没有完善<br>
+                    版权：© 东莞市教育信息中心 © 佰科科技
+                </p>
             </div>
-            <div style="width: 300px; margin-bottom: 20px;">
-                <h3 style="color: white;">关注我们</h3>
-                <a href="https://space.bilibili.com/3546762260253100?spm_id_from=333.1007.0.0" style="color: #0078d4; margin-right: 10px;">哔哩哔哩</a>
-                <p style="color: #0078d4;">QQ: 3950140506</p>
+            
+            <!-- VMware -->
+            <div style="background: white; border-radius: 8px; padding: 15px; width: 300px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <a href="https://www.vmware.com" style="color: #0078d4; text-decoration: none; font-weight: bold;">VMware</a>
+                <p style="margin-top: 5px; font-size: 14px; color: #555;">
+                    用途：虚拟化软件提供商<br>
+                    优点：企业级虚拟化解决方案<br>
+                    缺点：商业软件需要付费<br>
+                    版权：© 2023 VMware, Inc.
+                </p>
+            </div>
+            
+            <!-- 在线生成透明icon -->
+            <div style="background: white; border-radius: 8px; padding: 15px; width: 300px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <a href="https://www.ico51.cn" style="color: #0078d4; text-decoration: none; font-weight: bold;">在线生成透明icon</a>
+                <p style="margin-top: 5px; font-size: 14px; color: #555;">
+                    用途：在线图标生成工具<br>
+                    优点：简单易用，无需安装<br>
+                    缺点：功能相对基础<br>
+                    版权：© 2015-2023 ico51.cn
+                </p>
+            </div>
+            
+            <!-- 在线反编译 -->
+            <div style="background: white; border-radius: 8px; padding: 15px; width: 300px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <a href="https://www.decompiler.com" style="color: #0078d4; text-decoration: none; font-weight: bold;">在线反编译</a>
+                <p style="margin-top: 5px; font-size: 14px; color: #555;">
+                    用途：在线反编译工具<br>
+                    优点：支持多种格式<br>
+                    缺点：可能存在安全风险<br>
+                    版权：© decompiler.com
+                </p>
             </div>
         </div>
-        <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
-    </footer>
+    </div>
 
-    <script>
-        const data = [
-            { url: './images/slider09.jpg', title: '只因科技添加学习界面。', color: 'rgb(135, 206, 235)' },
-            { url: './images/slider07.jpg', title: '我的世界_寒坤的哔哩哔哩是“我的世界寒坤”', color: 'rgb(63, 44, 46)' },
-            { url: './images/slider01.jpg', title: '登录界面大改，使用前必须登录', color: 'rgb(0, 120, 212)' },
-        ]
-        const img = document.querySelector('.slider-wrapper img')
-        const p = document.querySelector('.slider-footer p')
-        const footer = document.querySelector('.slider-footer')
-        const next = document.querySelector('.next')
-        let i = 0
-        next.addEventListener('click', function () {
-            i++
-            i = i % data.length
-            toggle()
-        })
-        const prev = document.querySelector('.prev')
-        prev.addEventListener('click', function () {
-            i--
-            if (i < 0) {
-                i = data.length - 1
-            }
-            toggle()
-        })
-        function toggle() {
-            img.src = data[i].url
-            p.innerHTML = data[i].title
-            footer.style.backgroundColor = data[i].color
-            document.querySelector('.slider-indicator .active').classList.remove('active')
-            document.querySelector(`.slider-indicator li:nth-child(${i + 1})`).classList.add('active')
-        }
-
-        let timerId = setInterval(function () {
-            next.click()
-        }, 1000)
-        const slider = document.querySelector('.slider')
-        slider.addEventListener('mouseenter', function () {
-            clearInterval(timerId)
-        })
-        slider.addEventListener('mouseleave', function () {
-            if (timerId) clearInterval(timerId)
-            timerId = setInterval(function () {
-                next.click()
-            }, 1000)
-        })
-        const lis = document.querySelectorAll('.slider-indicator li')
-        lis.forEach(function (li, index) {
-            li.addEventListener('click', function () {
-                i = index
-                toggle()
-            })
-        })
-    </script>
     <audio src="bm.mp3" style="display: none;"></audio>
+
     <script>
         let isPlay = false
         const audio = document.querySelector('audio')
@@ -389,7 +349,9 @@
         })
         toggle()
     </script>
+
     <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
+
     <script>
         // 检查登录状态并更新UI
         // 将这两个函数移到script标签内
@@ -431,18 +393,13 @@
         async function checkLoginStatus() {
             const authToken = localStorage.getItem('authToken');
             const navItems = document.querySelectorAll('.nav-item');
-            const loginLink = document.getElementById('loginLink');
             const slider = document.querySelector('.slider');
             const lines = document.querySelectorAll('.line');
-
-            // 重置所有显示状态
-            loginLink.style.display = 'inline-block';
 
             if (!authToken) {
                 // 未登录状态
                 navItems.forEach(item => item.style.display = 'none');
                 lines.forEach(line => line.style.display = 'none');
-                loginLink.style.display = 'inline-block';
                 return;
             }
 
@@ -456,9 +413,6 @@
                     const isVirusDb = item.querySelector('a[href=".\\move\\mod.html"]');
                     item.style.display = isVirusDb ? 'inline-block' : 'none';
                 });
-                
-                // 隐藏特殊项目
-                loginLink.style.display = 'none';
                 if(slider) slider.style.display = 'none';
                 document.querySelectorAll('footer').forEach(footer => footer.style.display = 'none');
                 document.getElementById('product').style.display = 'none';
@@ -471,7 +425,6 @@
             // 正常登录状态处理...
             // 已登录状态 - 根据权限显示
             const [type, username] = authToken.split('-');
-            loginLink.style.display = 'none';
 
             // 根据用户类型显示导航项
             navItems.forEach(item => {
@@ -490,18 +443,18 @@
         window.addEventListener('DOMContentLoaded', checkLoginStatus);
 
         const isLoggedIn = !!localStorage.getItem('authToken');
-        if (isLoggedIn) {
-            const authToken = localStorage.getItem('authToken');
-            checkBlacklist(authToken).then(isBlacklisted => {
-                if (!isBlacklisted) {
-                    document.getElementById('userActionLink').style.display = 'block';
-                } else {
-                    document.getElementById('userActionLink').style.display = 'none';
-                }
-            });
-        } else {
-            document.getElementById('userActionLink').style.display = 'none';
+    </script>
+
+    <script>
+        document.getElementById('search-button').addEventListener('click', function(e) {
+        const searchInput = document.getElementById('search-input');
+        if (searchInput.value.trim() === '') {
+            alert('搜索的消息为空。');
+            window.location.href = './index.html';
+            e.preventDefault();
+            return false;
         }
+        });
     </script>
 </body>
 </html>
