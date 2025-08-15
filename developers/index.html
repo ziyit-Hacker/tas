@@ -9,18 +9,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @media (max-width: 768px) {
-            /* 手机端样式 */
             body {
                 font-size: 16px;
             }
+
             div[style*="max-width: 400px"] {
                 width: 90%;
                 margin: 10px auto;
                 padding: 15px;
             }
-            input, select {
+
+            input,
+            select {
                 width: 100%;
             }
+
             button {
                 width: 100%;
                 padding: 12px;
@@ -28,10 +31,6 @@
         }
     </style>
     <style>
-        body {
-            background-color: rgb(195, 234, 249);
-        }
-
         nav {
             display: flex;
             justify-content: space-between;
@@ -44,6 +43,10 @@
 
         a {
             text-decoration: none;
+        }
+
+        h1,h4{
+            color: white;
         }
 
         * {
@@ -86,7 +89,7 @@
         }
 
         .tit {
-            color: black;
+            color: white;
         }
 
         .line {
@@ -100,20 +103,19 @@
         }
 
         #logs {
-            color: black;
+            color: white;
         }
     </style>
 </head>
 
-<body>
-    <a href="../index.html">返回主页</a>
+<body background="./bg.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
+    <a href="../">返回主页</a>
     <hr>
     <h1 id="top">&nbsp;开发者具体浏览日志文件</h1>
     <h4>&nbsp;&nbsp;ZIYIT Developers</h4>
     <hr>
-    <a href="javascript:location.reload()">
-        <img src="dowm.png" width="27" height="28" alt="重试">
-    </a>
     <a href="logs.log">浏览具体文件</a>
     <hr>
     <div>
@@ -126,11 +128,8 @@
                 return response.text();
             })
             .then(data => {
-                // 将换行符 \n 替换为 HTML 换行符 <br>
                 let formattedData = data.replace(/\n/g, '<br>');
-                // 将所有空格 " " 替换成 HTML 空格 "&nbsp;"
                 formattedData = formattedData.replace(/ /g, '&nbsp;');
-                // 使用 innerHTML 来渲染包含 HTML 标签的内容
                 logsElement.innerHTML = formattedData;
             })
             .catch(error => {
@@ -144,17 +143,17 @@
     </a>
     <audio src="bm.mp3" style="display: none;"></audio>
     <script>
-        let isPlay = false; 
-        const audio = document.querySelector('audio'); 
+        let isPlay = false;
+        const audio = document.querySelector('audio');
         const bgmList = ['bm.mp3', 'bm2.mp3', 'bm3.mp3', 'bm4.mp3'];
-        
+
         function selectRandomBgm() {
             const randomIndex = Math.floor(Math.random() * bgmList.length);
             return bgmList[randomIndex];
         }
-        
+
         audio.loop = false;
-    
+
         audio.addEventListener('ended', () => {
             audio.src = selectRandomBgm();
             if (isPlay) {
@@ -167,14 +166,14 @@
             if (!isPlay) {
                 audio.src = selectRandomBgm();
                 audio.play()
-                  .then(() => {
+                    .then(() => {
                         isPlay = true;
                         const events = ['mousemove', 'click', 'touchstart', 'keydown', 'mousedown'];
                         events.forEach((event) => {
                             document.removeEventListener(event, playAudioOnInteraction);
                         });
                     })
-                  .catch((error) => {
+                    .catch((error) => {
                         console.error('播放音频失败:', error);
                     });
             }
@@ -183,17 +182,17 @@
         interactionEvents.forEach((event) => {
             document.addEventListener(event, playAudioOnInteraction);
         });
-    
+
         audio.addEventListener('click', () => {
             if (isPlay) {
                 audio.pause();
                 isPlay = false;
             } else {
                 audio.play()
-                  .then(() => {
+                    .then(() => {
                         isPlay = true;
                     })
-                  .catch((error) => {
+                    .catch((error) => {
                         console.error('切换播放音频失败:', error);
                     });
             }

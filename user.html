@@ -7,11 +7,6 @@
     <link rel="icon" href="ziyit.png" type="image/x-icon">
     <script src="f12check.js"></script>
     <style>
-        body {
-            background-color: #1b1e36;
-            background: url(doxfig.jpg)
-        }
-
         * {
             margin: 0px;
             padding: 0;
@@ -59,13 +54,13 @@
 
         .tit {
             color: black;
-            position: fixed;  /* 添加固定定位 */
-            bottom: 0;       /* 固定在底部 */
-            left: 0;         /* 左对齐 */
-            width: 100%;     /* 宽度100% */
-            text-align: center;  /* 文字居中 */
-            background-color: rgba(255, 255, 255, 0.5);  /* 添加半透明背景 */
-            padding: 5px 0;  /* 添加内边距 */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 5px 0;
         }
 
         .line {
@@ -175,7 +170,6 @@
     </style>
     <style>
         @media (max-width: 768px) {
-            /* 手机端样式 */
             .box {
                 height: auto;
             }
@@ -191,7 +185,6 @@
             .line {
                 display: none;
             }
-            /* 服务区块竖向显示 */
             .service-grid {
                 flex-direction: column;
             }
@@ -206,7 +199,9 @@
     </style>
 </head>
 
-<body>
+<body background="./bg.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
     <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
         <img id="userAvatar" src="" alt="" style="width: 65px; height: 50px; display: none;">
         <div id="userInfo" style="color: black; font-size: 18px;">
@@ -222,7 +217,7 @@
             <li class="nav-item" data-role="all"><a href='#' id="logoutLink">退出登录</a></li>
             <li class="nav-item" data-role="all"><a href='.\user\password.html'>更改密码</a></li>
             <li class="line nav-item" data-role="all"></li>
-            <li><a href=".\index.html" id="loginLink" data-role="all">返回首页</a></li>
+            <li><a href=".\" id="loginLink" data-role="all">返回首页</a></li>
         </ul>
     </div>
 
@@ -230,15 +225,15 @@
         <h2 style="text-align: center; color: white; margin-bottom: 20px;">我们的服务</h2>
         <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
             <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
-                <h3 style="color: #0078d4;">安全防护</h3>
+                <h3 style="color: #c3eaf9">安全防护</h3>
                 <p style="color: white;">新型机密科技，保障您数字安全</p>
             </div>
             <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
-                <h3 style="color: #0078d4;">操作简单</h3>
+                <h3 style="color: #c3eaf9">操作简单</h3>
                 <p style="color: white;">操作简单，无需复杂配置，即可开始使用</p>
             </div>
             <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
-                <h3 style="color: #0078d4;">高效办公</h3>
+                <h3 style="color: #c3eaf9">高效办公</h3>
                 <p style="color: white;">高效办公工具，提升工作效率</p>
             </div>
         </div>
@@ -319,7 +314,6 @@
     </script>
     <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
     <script>
-        // 展示用户属性
         const authToken = localStorage.getItem('authToken');
         const [type, username] = authToken.split('-');
 
@@ -333,11 +327,10 @@
         userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
     </script>
     <script>
-        // 退出登录
         const logoutLink = document.getElementById('logoutLink');
         logoutLink.addEventListener('click', function() {
             localStorage.removeItem('authToken');
-            window.location.href = './index.html';
+            window.location.href = './';
         });
     </script>
     <script>
@@ -348,7 +341,7 @@
                 const lines = text.split('\n');
                 return lines.some(line => line.trim() === authToken);
             } catch (error) {
-                console.error('检查黑名单出错:', error);
+                console.error('fuck github, error is ', error);
                 return false;
             }
         }

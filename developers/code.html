@@ -1,16 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh">
 
 <head>
     <meta charset="UTF-8">
-    <title>ZIYIT more</title>
+    <title>只因科技开发者选项</title>
     <link rel="icon" href="ziyit.png" type="image/x-icon">
     <script src="f12check.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @media (max-width: 768px) {
-
-            /* 手机端样式 */
             body {
                 font-size: 16px;
             }
@@ -33,54 +31,77 @@
         }
     </style>
     <style>
-        body {
-            background-color: #0b99fa;
-        }
-
         nav {
             display: flex;
             justify-content: space-between;
             padding: 10px;
         }
 
-        .product-grid {
-            display: flex;
-            flex-wrap: wrap;
+        h1,h4{
+            color: white;
         }
 
         .brg {
             text-align: left;
         }
 
-        .brg:hover {
-            cursor: crosshair;
-        }
-
-        .cpg:hover {
-            cursor: help;
-        }
-
-        .cpg:active {
-            cursor: wait;
-        }
-
         a {
             text-decoration: none;
         }
 
-        .ceors {
-            background: url(.\ziyit_miv.png);
-            width: 970px;
-            height: 142px;
+        * {
+            margin: 0px;
+            padding: 0;
+            list-style: none;
         }
 
-        h1:hover,
-        h4:hover,
-        h3:hover,
-        p:hover,
-        br:hover {
-            cursor: default;
+        a {
+            text-decoration: none;
+            color: #fca284;
         }
+
+        .pod {
+            width: 100%;
+            height: 100%;
+        }
+
+        p {
+            color: white;
+        }
+
+        ul li {
+            display: inline-block;
+            line-height: 35px;
+        }
+
+        li a {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        li p {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .bid {
+            color: #f25767;
+        }
+
+        .tit {
+            color: white;
+        }
+
+        .line {
+            width: 1px;
+            height: 12px;
+            background-color: #f3a707;
+        }
+
+        a:hover {
+            color: #c42b1c;
+        }
+
     </style>
 </head>
 
@@ -88,28 +109,14 @@
         background-size:100% 100%;
         background-attachment: fixed;">
     <a href="../">返回主页</a>
-    <hr class="brg">
-    <h1 id="up">欢迎来到只因更多主页</h1>
-    <h4>我们会提供对你们有帮助的工具，使用商业版需要产品密钥或额外付费，部分为商业VIP使用！</h4>
-    <h3>以下是只因科技提供的产品，请自行查看</h3>
-    <hr class="brg" />
-    <video crossorigin="anonymous" preload="auto"
-        src="blob:https://www.bilibili.com/e5e94ab6-b01f-446b-b3ba-d9dd38366f4a"></video>
-    <hr class="brg">
-    <a href="key.html">点我获取ziyit的产品密钥</a>
-    <br>
-    <a href="mod.html">点我去“Minecraft_寒坤”的病毒库</a>
-    <br>
-    <a href="#up">
-        <img src="up.png" alt="到顶部">
-    </a>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <p>&copy;2025&nbsp;&nbsp;ZIYIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>版权所有，侵权必究</strong></p>
+    <hr>
+    <h1 id="top"> 网页代码评判</h1>
+    <h4>ZIYIT Developers</h4>
+
+    <hr>
+
+    <audio src="bm.mp3" style="display: none;"></audio>
+
     <script>
         let isPlay = false;
         const audio = document.querySelector('audio');
@@ -167,6 +174,16 @@
         });
         toggle();
     </script>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <p>&copy;2025&nbsp;&nbsp;ZIYIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>版权所有，侵权必究</strong></p>
+
 </body>
 
 </html>

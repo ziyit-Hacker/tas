@@ -7,11 +7,6 @@
     <link rel="icon" href="ziyit.png" type="image/x-icon">
     <script src="f12check.js"></script>
     <style>
-        body {
-            background-color: #1b1e36;
-            background: url(doxfig.jpg)
-        }
-
         * {
             margin: 0px;
             padding: 0;
@@ -59,13 +54,13 @@
 
         .tit {
             color: black;
-            position: fixed;  /* 添加固定定位 */
-            bottom: 0;       /* 固定在底部 */
-            left: 0;         /* 左对齐 */
-            width: 100%;     /* 宽度100% */
-            text-align: center;  /* 文字居中 */
-            background-color: rgba(255, 255, 255, 0.5);  /* 添加半透明背景 */
-            padding: 5px 0;  /* 添加内边距 */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 5px 0;
         }
 
         .line {
@@ -173,7 +168,6 @@
     </style>
     <style>
         @media (max-width: 768px) {
-            /* 手机端样式 */
             .box {
                 height: auto;
             }
@@ -189,7 +183,6 @@
             .line {
                 display: none;
             }
-            /* 服务区块竖向显示 */
             .service-grid {
                 flex-direction: column;
             }
@@ -204,28 +197,30 @@
     </style>
 </head>
 
-<body>
+<body background="./bg.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
     <h1>只因科技主页</h1>
     <hr>
     <div class="box">
         <ul class="pod" id="navMenu">
-            <li class="nav-item" data-role="all"><a href='.\download\index.html'>下载</a></li>
-            <li class="nav-item" data-role="all"><a href='.\move\index.html'>更多</a></li>
+            <li class="nav-item" data-role="all"><a href='.\download\'>下载</a></li>
+            <li class="nav-item" data-role="all"><a href='.\move\'>更多</a></li>
             <li class="nav-item" data-role="all"><a href=".\move\mod.html">病毒库</a></li>
-            <li class="nav-item" data-role="admin"><a href=".\school\index.html">学习</a></li>
+            <li class="nav-item" data-role="admin"><a href=".\school\">学习</a></li>
             <li class="nav-item" data-role="all"><a href=".\search.html">搜索</a></li>
             <li class="line nav-item" data-role="all"></li>
             <li class="nav-item" data-role="admin">
                 <p>只因科技<span class="bid">开发者选项</span></p>
             </li>
-            <li class="nav-item" data-role="admin"><a href=".\developers\index.html">日志</a></li>
+            <li class="nav-item" data-role="admin"><a href=".\developers\">日志</a></li>
             <li class="line nav-item" data-role="admin"></li>
             <li class="nav-item" data-role="admin">
                 <p><span class="bid">未开发</span>，敬请期待</p>
             </li>
             <li class="line nav-item" data-role="admin"></li>
             <li class="nav-item" data-role="all"><a href="./user.html" id="userActionLink">用户操作</a></li>
-            <li><a href=".\user\index.html" id="loginLink">登录</a></li>
+            <li><a href=".\user\" id="loginLink">登录</a></li>
         </ul>
     </div>
 
@@ -250,15 +245,15 @@
         <h2 style="text-align: center; color: white; margin-bottom: 20px;">我们的产品与服务</h2>
         <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
             <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
-                <h3 style="color: #0078d4;">安全防护</h3>
+                <h3 style="color: #c3eaf9">安全防护</h3>
                 <p style="color: white;">专业级病毒防护解决方案，保障您的数字安全</p>
             </div>
             <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
-                <h3 style="color: #0078d4;">学习资源</h3>
+                <h3 style="color: #c3eaf9;">学习资源</h3>
                 <p style="color: white;">丰富的技术学习资料，助力个人成长</p>
             </div>
             <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
-                <h3 style="color: #0078d4;">开发者工具</h3>
+                <h3 style="color: #c3eaf9;">开发者工具</h3>
                 <p style="color: white;">高效开发工具套件，提升工作效率</p>
             </div>
         </div>
@@ -391,8 +386,6 @@
     </script>
     <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
     <script>
-        // 检查登录状态并更新UI
-        // 将这两个函数移到script标签内
         async function checkBlacklist(authToken) {
             try {
                 const response = await fetch('./hmd.txt');
@@ -400,7 +393,7 @@
                 const lines = text.split('\n');
                 return lines.some(line => line.trim() === authToken);
             } catch (error) {
-                console.error('检查黑名单出错:', error);
+                console.error('fuck github, error is ', error);
                 return false;
             }
         }
@@ -427,7 +420,6 @@
             document.body.appendChild(notice);
         }
 
-        // 修改后的checkLoginStatus函数
         async function checkLoginStatus() {
             const authToken = localStorage.getItem('authToken');
             const navItems = document.querySelectorAll('.nav-item');
@@ -435,45 +427,35 @@
             const slider = document.querySelector('.slider');
             const lines = document.querySelectorAll('.line');
 
-            // 重置所有显示状态
             loginLink.style.display = 'inline-block';
 
             if (!authToken) {
-                // 未登录状态
                 navItems.forEach(item => item.style.display = 'none');
                 lines.forEach(line => line.style.display = 'none');
                 loginLink.style.display = 'inline-block';
                 return;
             }
 
-            // 检查是否在黑名单中
             const isBlacklisted = await checkBlacklist(authToken);
             
-            // 修改checkLoginStatus函数中的黑名单处理部分
             if (isBlacklisted) {
-                // 隐藏所有导航项，只显示病毒库
                 document.querySelectorAll('#navMenu li').forEach(item => {
                     const isVirusDb = item.querySelector('a[href=".\\move\\mod.html"]');
                     item.style.display = isVirusDb ? 'inline-block' : 'none';
                 });
                 
-                // 隐藏特殊项目
                 loginLink.style.display = 'none';
                 if(slider) slider.style.display = 'none';
                 document.querySelectorAll('footer').forEach(footer => footer.style.display = 'none');
                 document.getElementById('product').style.display = 'none';
                 
-                // 添加底部提示
                 addBlacklistNotice();
                 return;
             }
 
-            // 正常登录状态处理...
-            // 已登录状态 - 根据权限显示
             const [type, username] = authToken.split('-');
             loginLink.style.display = 'none';
 
-            // 根据用户类型显示导航项
             navItems.forEach(item => {
                 const role = item.getAttribute('data-role');
                 if (role === 'all' ||
@@ -486,7 +468,6 @@
             });
         }
 
-        // 页面加载时检查登录状态
         window.addEventListener('DOMContentLoaded', checkLoginStatus);
 
         const isLoggedIn = !!localStorage.getItem('authToken');

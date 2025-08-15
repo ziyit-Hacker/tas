@@ -4,13 +4,11 @@
 <head>
     <meta charset="utf-8">
     <title>注册只因科技账号(中国)</title>
-    <!-- 已移除敏感信息 -->
     <link rel="icon" href="ziyit.png" type="image/x-icon">
     <script src="f12check.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @media (max-width: 768px) {
-            /* 手机端样式优化 */
             .form-container {
                 width: 90%;
                 padding: 15px;
@@ -28,10 +26,6 @@
         }
     </style>
     <style>
-        body {
-            background-color: rgb(195, 234, 249);
-        }
-
         nav {
             display: flex;
             justify-content: space-between;
@@ -57,10 +51,6 @@
             color: forestgreen;
         }
 
-        /*  文本装饰         下划线    上划线   中划线       取消文本装饰的线
-        text-decoration: underline,overline,line-througt,none;*/
-
-        /*伪类语法：🖱放上发生颜色改变*/
         a:hover {
             text-decoration: underline overline;
             color: chartreuse;
@@ -90,7 +80,6 @@
             margin: 10px auto;
         }
 
-        /* Windows 11风格表单容器 */
         .form-container {
             max-width: 400px;
             margin: 20px auto;
@@ -100,11 +89,10 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Windows 11风格输入框 */
         input[type="text"],
         input[type="password"],
         select {
-            width: 75%;  /* 从100%改为固定宽度 */
+            width: 75%;
             padding: 12px 15px;
             border: 1px solid #d3d3d3;
             border-radius: 4px;
@@ -113,7 +101,6 @@
             margin-bottom: 16px;
         }
 
-        /* Windows 11风格标签 */
         .bt {
             font-weight: 600;
             color: #323130;
@@ -122,7 +109,6 @@
             display: inline-block;
         }
 
-        /* Windows 11风格按钮 */
         button {
             background-color: #0078d4;
             color: white;
@@ -150,11 +136,13 @@
     </style>
 </head>
 
-<body>
+<body background="./bg.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
     <div class="form-container">
         <h1 id="up" class="bt" style="font-size: 24px; margin-bottom: 20px;">注册只因科技</h1>
 
-        <a href="../index.html" style="color: #0078d4; text-decoration: none;">返回首页</a>
+        <a href="../" style="color: #0078d4; text-decoration: none;">返回首页</a>
         
         <form id="registerForm">
             <div style="margin-bottom: 16px;">
@@ -186,7 +174,6 @@
         </form>
     </div>
 
-    <!-- 替换原来的script标签为外部引用 -->
     <script src="register.js"></script>
 </body>
 
