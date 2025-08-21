@@ -171,26 +171,32 @@
             .box {
                 height: auto;
             }
+
             ul.pod {
                 display: flex;
                 flex-direction: column;
             }
+
             ul.pod li {
                 display: block;
                 width: 100%;
                 text-align: center;
             }
+
             .line {
                 display: none;
             }
+
             .service-grid {
                 flex-direction: column;
             }
-            .service-grid > div {
+
+            .service-grid>div {
                 width: 100%;
                 margin-bottom: 20px;
             }
-            h1{
+
+            h1 {
                 text-align: center;
             }
         }
@@ -234,25 +240,29 @@
                 <li class="active"></li>
                 <li></li>
                 <li></li>
+                <li></li>
                 <div class="toggle">
                     <button class="prev">&lt;</button>
                     <button class="next">&gt;</button>
                 </div>
         </div>
     </div>
-    
+
     <div style="margin: 30px auto; max-width: 1000px;" id="product">
         <h2 style="text-align: center; color: white; margin-bottom: 20px;">我们的产品与服务</h2>
         <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
-            <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
+            <div
+                style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
                 <h3 style="color: #c3eaf9">安全防护</h3>
                 <p style="color: white;">专业级病毒防护解决方案，保障您的数字安全</p>
             </div>
-            <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
+            <div
+                style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
                 <h3 style="color: #c3eaf9;">学习资源</h3>
                 <p style="color: white;">丰富的技术学习资料，助力个人成长</p>
             </div>
-            <div style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
+            <div
+                style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
                 <h3 style="color: #c3eaf9;">开发者工具</h3>
                 <p style="color: white;">高效开发工具套件，提升工作效率</p>
             </div>
@@ -272,7 +282,8 @@
             </div>
             <div style="width: 300px; margin-bottom: 20px;">
                 <h3 style="color: white;">关注我们</h3>
-                <a href="https://space.bilibili.com/3546762260253100?spm_id_from=333.1007.0.0" style="color: #0078d4; margin-right: 10px;">哔哩哔哩</a>
+                <a href="https://space.bilibili.com/3546762260253100?spm_id_from=333.1007.0.0"
+                    style="color: #0078d4; margin-right: 10px;">哔哩哔哩</a>
                 <p style="color: #0078d4;">QQ: 3950140506</p>
             </div>
         </div>
@@ -281,9 +292,10 @@
 
     <script>
         const data = [
-            { url: './images/slider09.jpg', title: '只因科技添加学习界面。', color: 'rgb(135, 206, 235)' },
-            { url: './images/slider07.jpg', title: '我的世界_寒坤的哔哩哔哩是“我的世界寒坤”', color: 'rgb(63, 44, 46)' },
-            { url: './images/slider01.jpg', title: '登录界面大改，使用前必须登录', color: 'rgb(0, 120, 212)' },
+            { url: './images/slider09.jpg', title: '只因科技添加学习界面。', color: 'rgb(135, 206, 235)', link: '' },
+            { url: './images/slider07.jpg', title: '我的世界_寒坤的哔哩哔哩是"我的世界寒坤"', color: 'rgb(63, 44, 46)', link: 'https://space.bilibili.com/3546762260253100?spm_id_from=333.1007.0.0' },
+            { url: './images/slider01.jpg', title: '登录界面大改，使用前必须登录', color: 'rgb(0, 120, 212)', link: '' },
+            { url: './images/asfl.png', title: '广告位招租', color: 'rgb(0, 0, 0)', link: 'mailto:3950140506@qq.com' },
         ]
         const img = document.querySelector('.slider-wrapper img')
         const p = document.querySelector('.slider-footer p')
@@ -303,12 +315,20 @@
             }
             toggle()
         })
+        // 在toggle函数中添加点击事件
         function toggle() {
             img.src = data[i].url
             p.innerHTML = data[i].title
             footer.style.backgroundColor = data[i].color
             document.querySelector('.slider-indicator .active').classList.remove('active')
             document.querySelector(`.slider-indicator li:nth-child(${i + 1})`).classList.add('active')
+
+            // 添加点击跳转功能
+            img.onclick = function () {
+                if (data[i].link) {
+                    window.open(data[i].link, '_blank')
+                }
+            }
         }
 
         let timerId = setInterval(function () {
@@ -412,11 +432,11 @@
             notice.style.textAlign = 'center';
             notice.style.padding = '10px';
             notice.style.zIndex = '1000';
-            
+
             const noticeContent = document.createElement('div');
             noticeContent.innerHTML = '你无法正常使用<span style="font-size: 15px;">您的帐号因种种原因被封禁</span><br><span style="font-size: 17px;">申诉账号问题请联系邮箱3950140506@qq.com</span>';
             notice.appendChild(noticeContent);
-            
+
             document.body.appendChild(notice);
         }
 
@@ -437,18 +457,18 @@
             }
 
             const isBlacklisted = await checkBlacklist(authToken);
-            
+
             if (isBlacklisted) {
                 document.querySelectorAll('#navMenu li').forEach(item => {
                     const isVirusDb = item.querySelector('a[href=".\\move\\mod.html"]');
                     item.style.display = isVirusDb ? 'inline-block' : 'none';
                 });
-                
+
                 loginLink.style.display = 'none';
-                if(slider) slider.style.display = 'none';
+                if (slider) slider.style.display = 'none';
                 document.querySelectorAll('footer').forEach(footer => footer.style.display = 'none');
                 document.getElementById('product').style.display = 'none';
-                
+
                 addBlacklistNotice();
                 return;
             }
@@ -484,5 +504,120 @@
             document.getElementById('userActionLink').style.display = 'none';
         }
     </script>
+
+    <script>
+        // 广告数据列表 正常广告ad开头，广告位招租asfl
+        const adsData = [
+            { img: 'images/asfl.png', title: '广告位招租', link: 'mailto:3950140506@qq.com' },
+            { img: 'videos/ad1.mp4', title: '视频广告', link: 'https://example.com' },
+            // 可以添加更多广告数据
+        ];
+
+        // 显示广告
+        function showAd() {
+            if (adDisplayCount >= MAX_AD_DISPLAY) return;
+            
+            currentAd = getRandomAd();
+            adDisplayCount++;
+            
+            // 创建广告层
+            const adLayer = document.createElement('div');
+            adLayer.id = 'ad-layer';
+            adLayer.style.position = 'fixed';
+            adLayer.style.top = '0';
+            adLayer.style.left = '0';
+            adLayer.style.width = '100%';
+            adLayer.style.height = '100%';
+            adLayer.style.zIndex = '9999';
+            adLayer.style.backgroundColor = '#000';
+            adLayer.style.display = 'flex';
+            adLayer.style.justifyContent = 'center';
+            adLayer.style.alignItems = 'center';
+            
+            // 检查是否是视频广告
+            const isVideo = currentAd.img.endsWith('.mp4');
+            
+            if (isVideo) {
+                // 创建视频元素
+                const video = document.createElement('video');
+                video.src = currentAd.img;
+                video.style.maxWidth = '100%';
+                video.style.maxHeight = '100%';
+                video.controls = false;
+                video.autoplay = true;
+                video.loop = false;
+                video.muted = true; // 默认静音
+                
+                // 点击视频跳转
+                video.addEventListener('click', function() {
+                    window.location.href = currentAd.link;
+                    document.body.removeChild(adLayer);
+                    window.removeEventListener('devicemotion', handleShake);
+                    clearTimeout(adTimer);
+                });
+                
+                // 视频结束处理
+                video.addEventListener('ended', function() {
+                    window.location.href = currentAd.link;
+                    document.body.removeChild(adLayer);
+                    window.removeEventListener('devicemotion', handleShake);
+                    clearTimeout(adTimer);
+                });
+                
+                adLayer.appendChild(video);
+            } else {
+                // 创建图片广告
+                const adImgContainer = document.createElement('div');
+                adImgContainer.style.maxWidth = '100%';
+                adImgContainer.style.maxHeight = '100%';
+                
+                const adImg = document.createElement('img');
+                adImg.src = currentAd.img;
+                adImg.style.maxWidth = '100%';
+                adImg.style.maxHeight = '100%';
+                adImg.style.objectFit = 'contain';
+                
+                adImg.addEventListener('click', function() {
+                    window.location.href = currentAd.link;
+                    document.body.removeChild(adLayer);
+                    window.removeEventListener('devicemotion', handleShake);
+                    clearTimeout(adTimer);
+                });
+                
+                adImgContainer.appendChild(adImg);
+                adLayer.appendChild(adImgContainer);
+            }
+            
+            // 创建跳过按钮
+            const skipBtn = document.createElement('button');
+            skipBtn.id = 'skip-ad-btn';
+            skipBtn.textContent = '跳过广告';
+            skipBtn.style.position = 'absolute';
+            skipBtn.style.top = '20px';
+            skipBtn.style.right = '20px';
+            skipBtn.style.padding = '10px 20px';
+            skipBtn.style.backgroundColor = '#ff0000';
+            skipBtn.style.color = '#fff';
+            skipBtn.style.border = 'none';
+            skipBtn.style.borderRadius = '5px';
+            skipBtn.style.cursor = 'not-allowed';
+            skipBtn.disabled = true;
+            
+            skipBtn.addEventListener('click', handleSkipAd);
+            
+            adLayer.appendChild(skipBtn);
+            document.body.appendChild(adLayer);
+            
+            // 15秒后自动跳转
+            adTimer = setTimeout(() => {
+                if (shakeCount < 10) {
+                    window.location.href = currentAd.link;
+                }
+            }, 15000);
+            
+            window.addEventListener('devicemotion', handleShake);
+        }
+    </script>
 </body>
+
 </html>
