@@ -156,7 +156,7 @@
 
         <div style="margin-bottom: 20px;">
             <label for="password" class="bt">密码</label>
-            <input type="password" id="password" name="password" placeholder="输入密码">
+            <input type="password" id="password" name="password" placeholder="输入密码" required>
         </div>
 
         <div id="errorMsg" style="color: #a4262c; margin-bottom: 16px; display: none;"></div>
@@ -187,6 +187,13 @@
             const accountType = document.querySelector('select').value;
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+
+            // 添加密码为空检查
+            if (!password) {
+                errorMsg.textContent = '请输入密码！';
+                errorMsg.style.display = 'block';
+                return;
+            }
 
             let prefix = accountType === '普通用户' ? 'UR' : 'ZC';
             const authString = `${prefix}-${username}-${password}`;

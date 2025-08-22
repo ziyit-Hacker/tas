@@ -505,16 +505,24 @@
         }
     </script>
 
-    <script>
+    <!-- <script>
         // 广告数据列表 正常广告ad开头，广告位招租asfl
         const adsData = [
             { img: 'images/asfl.png', title: '广告位招租', link: 'mailto:3950140506@qq.com' },
             // 可以添加更多广告数据
         ];
 
+        const MAX_AD_DISPLAY = 5; // 每日最大广告显示次数
+        let adDisplayCount = 0; // 当前广告显示计数
+        let currentAd = null; // 当前显示的广告
+        let shakeCount = 0; // 摇动计数
+        let adTimer = null; // 广告计时器
+
         // 显示广告
         function showAd() {
-            if (adDisplayCount >= MAX_AD_DISPLAY) return;
+            const isMobile = window.innerWidth <= 768; // 使用屏幕宽度判断
+            
+            if (!isMobile || adDisplayCount >= MAX_AD_DISPLAY) return;
             
             currentAd = getRandomAd();
             adDisplayCount++;
@@ -616,7 +624,7 @@
             
             window.addEventListener('devicemotion', handleShake);
         }
-    </script>
+    </script> -->
 </body>
 
 </html>
