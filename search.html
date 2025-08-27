@@ -418,7 +418,7 @@
 
             if (isBlacklisted) {
                 document.querySelectorAll('#navMenu li').forEach(item => {
-                    const isVirusDb = item.querySelector('a[href=".\\move\\mod.html"]');
+                    const isVirusDb = item.querySelector('a[href=".\\move\\mod"]');
                     item.style.display = isVirusDb ? 'inline-block' : 'none';
                 });
                 if (slider) slider.style.display = 'none';

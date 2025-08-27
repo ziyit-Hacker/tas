@@ -163,7 +163,7 @@
         <input type="submit" id="login" value="登录">
 
         <div style="text-align: center; margin-top: 16px;">
-            <a href="register.html" style="color: #0078d4; text-decoration: none;">没有账号？点这里注册！</a>
+            <a href="register" style="color: #0078d4; text-decoration: none;">没有账号？点这里注册！</a>
         </div>
     </div>
     <!--在这继续添加-->
@@ -202,7 +202,7 @@
                         errorDiv.style.color = 'red';
                         errorDiv.style.marginTop = '10px';
                         errorDiv.textContent = '账户或密码错误';
-                        document.querySelector('a[href="register.html"]').parentNode.appendChild(errorDiv);
+                        document.querySelector('a[href="register"]').parentNode.appendChild(errorDiv);
                     }
                 })
                 .catch(error => {

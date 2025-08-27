@@ -212,9 +212,9 @@
         <ul class="pod" id="navMenu">
             <li class="nav-item" data-role="all"><a href='.\download\'>下载</a></li>
             <li class="nav-item" data-role="all"><a href='.\move\'>更多</a></li>
-            <li class="nav-item" data-role="all"><a href=".\move\mod.html">病毒库</a></li>
+            <li class="nav-item" data-role="all"><a href=".\move\mod">病毒库</a></li>
             <li class="nav-item" data-role="admin"><a href=".\school\">学习</a></li>
-            <li class="nav-item" data-role="all"><a href=".\search.html">搜索</a></li>
+            <li class="nav-item" data-role="all"><a href=".\search">搜索</a></li>
             <li class="line nav-item" data-role="all"></li>
             <li class="nav-item" data-role="admin">
                 <p>只因科技<span class="bid">开发者选项</span></p>
@@ -225,7 +225,7 @@
                 <p><span class="bid">未开发</span>，敬请期待</p>
             </li>
             <li class="line nav-item" data-role="admin"></li>
-            <li class="nav-item" data-role="all"><a href="./user.html" id="userActionLink">用户操作</a></li>
+            <li class="nav-item" data-role="all"><a href="./user" id="userActionLink">用户操作</a></li>
             <li><a href=".\user\" id="loginLink">登录</a></li>
         </ul>
     </div>
@@ -460,7 +460,7 @@
 
             if (isBlacklisted) {
                 document.querySelectorAll('#navMenu li').forEach(item => {
-                    const isVirusDb = item.querySelector('a[href=".\\move\\mod.html"]');
+                    const isVirusDb = item.querySelector('a[href=".\\move\\mod"]');
                     item.style.display = isVirusDb ? 'inline-block' : 'none';
                 });
 
