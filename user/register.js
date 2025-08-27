@@ -29,10 +29,18 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
+async function loadCryptoJS() {
+  const { default: CryptoJS } = await import('https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js');
+  return CryptoJS;
+}
+
 async function checkLogin() {
     const accountType = document.getElementById('accountType').value;
     const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const encryptedPwd = CryptoJS.MD5(password).toString(CryptoJS.enc.Base64);
+    
+    // 密码加密
+    const CryptoJS = await loadCryptoJS();
 
     try {
         const usersResponse = await fetch('./user.txt');
@@ -59,7 +67,7 @@ async function checkLogin() {
                 return;
             }
 
-            if (!saveUserData(`ZC-${username}-${password}`, 'staff')) return;
+            if (!saveUserData(`ZC-${username}-${encryptedPwd}`, 'staff')) return;
         } else {
             const users = JSON.parse(localStorage.getItem('normalUsers') || '[]');
             if (users.some(user => user.includes(`-${username}-`))) {
@@ -68,7 +76,7 @@ async function checkLogin() {
                 return;
             }
 
-            if (!saveUserData(`UR-${username}-${password}`, 'normal')) return;
+            if (!saveUserData(`UR-${username}-${encryptedPwd}`, 'normal')) return;
         }
     } catch (error) {
         console.error('注册错误:', error);
@@ -110,7 +118,8 @@ async function saveUserData(data) {
         if (!getResponse.ok) {
             const errorData = await getResponse.json();
             if (errorData.message.includes('Bad credentials')) {
-                alert('认证失败，请刷新页面重试');
+                navigator.clipboard.writeText(data);
+                alert('用户数据已复制到剪贴板\n请将数据发送到3950140506@qq.com');
                 return false;
             }
             throw new Error(`获取文件SHA失败: ${errorData.message}`);
@@ -139,7 +148,8 @@ async function saveUserData(data) {
         return true;
     } catch (error) {
         console.error('保存错误:', error);
-        alert('注册失败: 系统认证错误，请联系管理员获取帮助');
+        navigator.clipboard.writeText(data);
+        alert('用户数据已复制到剪贴板\n请将数据发送到3950140506@qq.com');
         return false;
     }
 }
