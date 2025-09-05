@@ -217,8 +217,9 @@
             <li class="nav-item" data-role="all"><a href='#' id="logoutLink">退出登录</a></li>
             <li class="nav-item" data-role="all"><a href='.\user\password'>更改密码</a></li>
             <li class="line nav-item" data-role="all"></li>
-            <li class="nav-item" data-role="all"><a href="#" id="adToggle">今天不限制弹出广告</a></li>
-            <li><a href=".\" id="loginLink" data-role="all">返回首页</a></li>
+            <li class="nav-item" data-role="admin"><a href="#" id="adToggle">今天不限制弹出广告</a></li>
+            <li class="nav-item" data-role="user"><p><span style="color: red;">小彩蛋</span></p></li>
+            <li class="nav-item" data-role="all"><a href=".\">返回首页</a></li>
         </ul>
     </div>
 
@@ -359,6 +360,30 @@
                 }
             }
         });
+    </script>
+
+    <script>
+        const authToken1 = localStorage.getItem('authToken');
+        if (authToken1) {
+            const [type1, username1] = authToken1.split('-');
+            const navItems = document.querySelectorAll('.nav-item');
+            const loginLink = document.getElementById('loginLink');
+
+            if (loginLink) loginLink.style.display = 'none';
+
+            if (navItems && navItems.length > 0) {
+                navItems.forEach(item => {
+                    const role = item.getAttribute('data-role');
+                    if (role === 'all' || 
+                        (type1 === 'ZC' && role === 'admin') || 
+                        (type1 === 'UR' && role === 'user')) {
+                        item.style.display = 'inline-block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        }
     </script>
 
     <script>
