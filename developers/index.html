@@ -199,6 +199,26 @@
         });
         toggle();
     </script>
+
+    <script>
+        // 检查用户权限
+        function checkUserPermission() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                window.location.href = '../';
+                return;
+            }
+
+            const [typeCode] = authToken.split('-');
+            if (typeCode === 'UR') {
+                window.location.href = '../';
+            }
+        }
+
+        // 页面加载时检查权限
+        document.addEventListener('DOMContentLoaded', checkUserPermission);
+    </script>
+
     <br>
     <br>
     <br>
