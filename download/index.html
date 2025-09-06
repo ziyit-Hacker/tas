@@ -61,6 +61,13 @@
         background-attachment: fixed;">
     <a href="../">返回主页</a>
     <hr>
+    <marquee style="background-color: yellow;">
+        <strong>
+            <span
+                style="color: red;">搜索功能现处于测试阶段!!!如发现bug请将bug描述邮件发送到3950140506@qq.com。如果想要提交改进，请联系邮箱3950140506@qq.com。有任何想法都可以发送短信到13112345678。</span>
+        </strong>
+    </marquee>
+    <hr>
     <h1 id="up">欢迎来到只因下载主页</h1>
     <h2>在只因科技的下载主页你可以下载付费程序和免费程序。</h2>
     <h4>我们会提供对你们有帮助的工具！</h4>
@@ -77,6 +84,21 @@
             list-style-image: url(lbc.png)
         }
     </style>
+    <div id="search" style="text-align: center; margin: 20px auto; max-width: 600px;">
+        <form method="get" style="display: flex;" autocomplete="off">
+            <label for="search-input" style="font-size: 24px; color: #1b222e"><strong>搜索文件: </strong></label>
+            <input type="text" id="search-input" name="q" placeholder="搜索..."
+                style="flex: 1; padding: 10px; font-size: 16px; border: 1px solid #0078d4; border-radius: 100px 0 0 100px; outline: none;">
+            <button type="submit" id="search-button"
+                style="padding: 10px 15px; background-color: #0078d4; color: white; border: none; border-radius: 0 100px 100px 0; cursor: pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                    style="vertical-align: middle;">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+            </button>
+        </form>
+    </div>
     <ul class="product-grid">
     </ul>
     <a href="#up">
@@ -105,7 +127,24 @@
                 })
             })
     </script>
+
+    <script>
+        document.getElementById('search-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const products = document.querySelectorAll('.product-grid .product');
+            
+            products.forEach(product => {
+                product.style.display = 'none';
+                if (product.textContent.toLowerCase().includes(searchInput)) {
+                    product.style.display = 'block';
+                }
+            });
+        });
+    </script>
+
     <audio src="bm.mp3" style="display: none;"></audio>
+
     <script>
         // 第二事件：循环播放背景音乐
         // 控制音乐播放状态的变量

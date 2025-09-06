@@ -249,8 +249,9 @@
             </div>
             <div style="width: 300px; margin-bottom: 20px;">
                 <h3 style="color: white;">联系方式</h3>
-                <p style="color: #aaa;">邮箱: 3950140506@qq.com</p>
-                <p style="color: #aaa;">手机号: 19866824404</p>
+                <a href="mailto:3950140506@qq.com" style="color: #aaa;">邮箱: 3950140506@qq.com</a>
+                <br>
+                <a href="tel:13258227085" style="color: #aaa;">手机号: 13258227085</a>
             </div>
             <div style="width: 300px; margin-bottom: 20px;">
                 <h3 style="color: white;">关注我们</h3>
@@ -363,27 +364,29 @@
     </script>
 
     <script>
-        const authToken1 = localStorage.getItem('authToken');
-        if (authToken1) {
-            const [type1, username1] = authToken1.split('-');
-            const navItems = document.querySelectorAll('.nav-item');
-            const loginLink = document.getElementById('loginLink');
+        const intervalId = setInterval(() => {
+            const authToken1 = localStorage.getItem('authToken');
+            if (authToken1) {
+                const [type1, username1] = authToken1.split('-');
+                const navItems = document.querySelectorAll('.nav-item');
+                const loginLink = document.getElementById('loginLink');
 
-            if (loginLink) loginLink.style.display = 'none';
+                if (loginLink) loginLink.style.display = 'none';
 
-            if (navItems && navItems.length > 0) {
-                navItems.forEach(item => {
-                    const role = item.getAttribute('data-role');
-                    if (role === 'all' || 
-                        (type1 === 'ZC' && role === 'admin') || 
-                        (type1 === 'UR' && role === 'user')) {
-                        item.style.display = 'inline-block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
+                if (navItems && navItems.length > 0) {
+                    navItems.forEach(item => {
+                        const role = item.getAttribute('data-role');
+                        if (role === 'all' || 
+                            (type1 === 'ZC' && role === 'admin') || 
+                            (type1 === 'UR' && role === 'user')) {
+                            item.style.display = 'inline-block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                }
             }
-        }
+        }, 500);
     </script>
 
     <script>

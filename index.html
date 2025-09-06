@@ -277,8 +277,9 @@
             </div>
             <div style="width: 300px; margin-bottom: 20px;">
                 <h3 style="color: white;">联系方式</h3>
-                <p style="color: #aaa;">邮箱: 3950140506@qq.com</p>
-                <p style="color: #aaa;">手机号: 19866824404</p>
+                <a href="mailto:3950140506@qq.com" style="color: #aaa;">邮箱: 3950140506@qq.com</a>
+                <br>
+                <a href="tel:13258227085" style="color: #aaa;">手机号: 13258227085</a>
             </div>
             <div style="width: 300px; margin-bottom: 20px;">
                 <h3 style="color: white;">关注我们</h3>
@@ -472,20 +473,21 @@
                 addBlacklistNotice();
                 return;
             }
+            const intervalId = setInterval(() => {
+                const [type, username] = authToken.split('-');
+                loginLink.style.display = 'none';
 
-            const [type, username] = authToken.split('-');
-            loginLink.style.display = 'none';
-
-            navItems.forEach(item => {
-                const role = item.getAttribute('data-role');
-                if (role === 'all' ||
-                    (type === 'ZC' && role === 'admin') ||
-                    (type === 'UR' && role === 'user')) {
-                    item.style.display = 'inline-block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+                navItems.forEach(item => {
+                    const role = item.getAttribute('data-role');
+                    if (role === 'all' ||
+                        (type === 'ZC' && role === 'admin') ||
+                        (type === 'UR' && role === 'user')) {
+                        item.style.display = 'inline-block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }, 500);
         }
 
         window.addEventListener('DOMContentLoaded', checkLoginStatus);
