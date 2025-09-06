@@ -165,6 +165,14 @@
         footer {
             transition: background-color 0.5s ease;
         }
+
+        .hidden {
+            display: none !important;
+        }
+        
+        .visible {
+            display: inline-block !important;
+        }
     </style>
     <style>
         @media (max-width: 768px) {
@@ -473,21 +481,25 @@
                 addBlacklistNotice();
                 return;
             }
+
             const intervalId = setInterval(() => {
                 const [type, username] = authToken.split('-');
                 loginLink.style.display = 'none';
 
                 navItems.forEach(item => {
                     const role = item.getAttribute('data-role');
+                    // 添加class而不是直接修改style
                     if (role === 'all' ||
                         (type === 'ZC' && role === 'admin') ||
                         (type === 'UR' && role === 'user')) {
-                        item.style.display = 'inline-block';
+                        item.classList.add('visible');
+                        item.classList.remove('hidden');
                     } else {
-                        item.style.display = 'none';
+                        item.classList.add('hidden');
+                        item.classList.remove('visible');
                     }
                 });
-            }, 500);
+            }, 250);
         }
 
         window.addEventListener('DOMContentLoaded', checkLoginStatus);

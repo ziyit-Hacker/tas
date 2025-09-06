@@ -167,6 +167,14 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        .hidden {
+            display: none !important;
+        }
+        
+        .visible {
+            display: inline-block !important;
+        }
     </style>
     <style>
         @media (max-width: 768px) {
@@ -318,6 +326,11 @@
     <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
     <script>
         const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+            // 如果authToken不存在，显示未登录状态
+            usernameDisplay.textContent = '未登录';
+            userTypeDisplay.textContent = '';
+        }else{
         const [type, username] = authToken.split('-');
 
         const userAvatar = document.getElementById('userAvatar');
@@ -328,6 +341,7 @@
         userAvatar.style.display = 'block';
         usernameDisplay.textContent = username;
         userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+        }
     </script>
     <script>
         const logoutLink = document.getElementById('logoutLink');
@@ -365,28 +379,40 @@
 
     <script>
         const intervalId = setInterval(() => {
-            const authToken1 = localStorage.getItem('authToken');
-            if (authToken1) {
-                const [type1, username1] = authToken1.split('-');
-                const navItems = document.querySelectorAll('.nav-item');
-                const loginLink = document.getElementById('loginLink');
-
-                if (loginLink) loginLink.style.display = 'none';
-
-                if (navItems && navItems.length > 0) {
-                    navItems.forEach(item => {
-                        const role = item.getAttribute('data-role');
-                        if (role === 'all' || 
-                            (type1 === 'ZC' && role === 'admin') || 
-                            (type1 === 'UR' && role === 'user')) {
-                            item.style.display = 'inline-block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                }
+            const authToken = localStorage.getItem('authToken');
+            const loginLink = document.getElementById('loginLink');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            if (!authToken) {
+                // 如果authToken不存在，只显示data-role为'all'的菜单项
+                navItems.forEach(item => {
+                    if (item.textContent.includes('返回首页')) {
+                        item.classList.add('visible');
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                        item.classList.remove('visible');
+                    }
+                });
+                return;
             }
-        }, 500);
+            
+            const [type, username] = authToken.split('-');
+            if (loginLink) loginLink.style.display = 'none';
+
+            navItems.forEach(item => {
+                const role = item.getAttribute('data-role');
+                if (role === 'all' ||
+                    (type === 'ZC' && role === 'admin') ||
+                    (type === 'UR' && role === 'user')) {
+                    item.classList.add('visible');
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                    item.classList.remove('visible');
+                }
+            });
+        }, 250);
     </script>
 
     <script>
