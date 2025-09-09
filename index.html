@@ -413,7 +413,7 @@
         })
         toggle()
     </script>
-    <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
+    
     <script>
         async function checkBlacklist(authToken) {
             try {
@@ -456,6 +456,43 @@
             const slider = document.querySelector('.slider');
             const lines = document.querySelectorAll('.line');
 
+            const ut = parseInt(localStorage.getItem('ut')) || 0;
+            const username = authToken ? authToken.split('-')[1] : '';
+            
+            if (ut > 240 && (username === 'cache' || username === 'temp')) {
+                localStorage.setItem('ut', 1024);
+                localStorage.removeItem('authToken');
+                location.reload();
+                return;
+            }
+
+            // 处理ut计时
+            if (username === 'cache' || username === 'temp') {
+                const timer = setInterval(() => {
+                    let currentUt = parseInt(localStorage.getItem('ut')) || 0;
+                    
+                    if (ut > 240) {
+                        if (currentUt > 240) {
+                            localStorage.setItem('ut', currentUt - 1);
+                            if (currentUt === 240) {
+                                localStorage.removeItem('ut');
+                                clearInterval(timer);
+                            }
+                        }
+                    } else {
+                        localStorage.setItem('ut', currentUt + 1);
+                        if (currentUt + 1 > 240) {
+                            alert('体验时间已结束');
+                            localStorage.removeItem('authToken');
+                            location.reload();
+                            clearInterval(timer);
+                        }
+                    }
+                }, 1000);
+            } else {
+                localStorage.removeItem('ut');
+            }
+
             loginLink.style.display = 'inline-block';
 
             if (!authToken) {
@@ -485,7 +522,7 @@
             const intervalId = setInterval(() => {
                 const authToken = localStorage.getItem('authToken');
                 if (!authToken) {
-                    // 如果authToken不存在，只显示"返回首页"菜单项
+                    // 如果authToken不存在，只显示"登录"菜单项
                     navItems.forEach(item => {
                         if (item.textContent.includes('登录')) {
                             item.classList.add('visible');

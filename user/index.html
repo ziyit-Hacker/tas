@@ -197,6 +197,13 @@
                     if (text.includes(authToken)) {
                         // 登录成功
                         localStorage.setItem('authToken', authToken);
+                        // 检查用户名是否为临时用户
+                        const username = document.getElementById('username').value;
+                        const ut = localStorage.getItem('ut');
+                        if (username === 'cache' || username === 'temp' || !ut) {
+                            // 将ut变量设置为0并存储在localStorage中
+                            localStorage.setItem('ut', 0);
+                        }
                         window.location.href = '../';
                     } else {
                         // 登录失败
