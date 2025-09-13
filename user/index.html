@@ -5,18 +5,24 @@
     <meta charset="utf-8">
     <title>登录只因科技(中国)</title>
     <link rel="icon" href="ziyit.png" type="image/x-icon">
-    <script src="f12check.js"></script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="f12check.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @media (max-width: 768px) {
+
             /* 手机端样式优化 */
             .form-container {
                 width: 90%;
                 padding: 15px;
             }
-            input, select, button {
+
+            input,
+            select,
+            button {
                 width: 90% !important;
                 font-size: 16px;
             }
+
             h1 {
                 font-size: 20px !important;
             }
@@ -77,7 +83,7 @@
             margin: 10px auto;
         }
 
-        input{
+        input {
             padding: 12px 15px;
             border: 1px solid #d3d3d3;
             border-radius: 4px;
@@ -133,19 +139,21 @@
         background-size:100% 100%;
         background-attachment: fixed;">
     <script>
-        window.onerror = function(message, source, lineno, colno, error) {
-            console.log('fuck JavaScript ', {message, source, lineno, colno, error});
+        window.onerror = function (message, source, lineno, colno, error) {
+            console.log('fuck JavaScript ', { message, source, lineno, colno, error });
             return true;
         };
     </script>
-    <div style="max-width: 400px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <div id="form-container"
+        style="max-width: 400px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
         <h1 id="up" class="bt" style="font-size: 24px; margin-bottom: 20px;">登录</h1>
 
         <form method="get" autocomplete="off">
             <a href="../" style="color: #0078d4; text-decoration: none;">返回首页</a>
             <div style="margin-bottom: 16px;">
                 <label for="accountType" class="bt">账号类型</label>
-                <select id="accountType" style="width: 80%; padding: 10px; border-radius: 4px; border: 1px solid #d3d3d3;">
+                <select id="accountType"
+                    style="width: 80%; padding: 10px; border-radius: 4px; border: 1px solid #d3d3d3;">
                     <option value="普通用户">普通用户</option>
                     <option value="vip用户">vip用户</option>
                 </select>
@@ -174,22 +182,62 @@
     <input type="radio" name="pik" id="pik1">
     <label for="pik2" class="bt">否</label>
     <input type="radio" name="pik" id="pik2" checked> -->
-    <br>
-    <!-- 在登录按钮上方添加 -->
-    <br>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    
+
     <script>
-        document.getElementById('login').addEventListener('click', function() {
+        let errorDiv = null;
+        let loginFailed = false;
+
+        // 检查输入框焦点状态
+        function checkFocus() {
+            const activeElement = document.activeElement;
+            const isInputFocused = activeElement === document.getElementById('username') ||
+                activeElement === document.getElementById('password') ||
+                activeElement === document.getElementById('accountType');
+
+            if (errorDiv) {
+                if (loginFailed && !isInputFocused) {
+                    // 显示动画
+                    errorDiv.style.opacity = '0';
+                    errorDiv.style.display = 'block';
+                    errorDiv.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => {
+                        errorDiv.style.opacity = '1';
+                    }, 10);
+                } else {
+                    // 隐藏动画
+                    errorDiv.style.opacity = '1';
+                    errorDiv.style.transition = 'opacity 0.3s ease';
+                    errorDiv.style.opacity = '0';
+                    setTimeout(() => {
+                        errorDiv.style.display = 'none';
+                    }, 300);
+                }
+            }
+        }
+
+        // 添加焦点事件监听
+        const inputs = [document.getElementById('username'),
+        document.getElementById('password'),
+        document.getElementById('accountType')];
+
+        inputs.forEach(input => {
+            input.addEventListener('focus', checkFocus);
+            input.addEventListener('blur', checkFocus);
+        });
+
+        document.getElementById('login').addEventListener('click', function (e) {
+            e.preventDefault(); // 阻止表单默认提交行为
+
             const accountType = document.getElementById('accountType').value === 'vip用户' ? 'ZC' : 'UR';
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            
+
             // 使用CryptoJS进行MD5加密
             const md5Hash = CryptoJS.MD5(password).toString(CryptoJS.enc.Base64);
             const authToken = `${accountType}-${username}-${md5Hash}`;
-            
+
             // 检查user.txt中是否存在该token
             fetch('user.txt')
                 .then(response => response.text())
@@ -200,22 +248,32 @@
                         // 检查用户名是否为临时用户
                         const username = document.getElementById('username').value;
                         const ut = localStorage.getItem('ut');
-                        if (username === 'cache' || username === 'temp' || !ut) {
+                        if (username === 'cache' || username === 'temp' || ut == 0) {
                             // 将ut变量设置为0并存储在localStorage中
                             localStorage.setItem('ut', 0);
                         }
                         window.location.href = '../';
                     } else {
-                        // 登录失败
-                        const errorDiv = document.createElement('div');
-                        errorDiv.style.color = 'red';
-                        errorDiv.style.marginTop = '10px';
-                        errorDiv.textContent = '账户或密码错误';
-                        document.querySelector('a[href="register"]').parentNode.appendChild(errorDiv);
+                        loginFailed = true;
+                        if (!errorDiv) {
+                            errorDiv = document.createElement('div');
+                            errorDiv.style.color = 'red';
+                            errorDiv.style.marginTop = '10px';
+                            errorDiv.style.opacity = '0';
+                            errorDiv.style.transition = 'opacity 0.3s ease';
+                            errorDiv.textContent = '账户或密码错误';
+                            document.querySelector('a[href="register"]').parentNode.appendChild(errorDiv);
+
+                            // 初始显示动画
+                            setTimeout(() => {
+                                errorDiv.style.opacity = '1';
+                            }, 10);
+                        }
+                        checkFocus();
                     }
                 })
                 .catch(error => {
-                    console.error('读取user.txt失败:', error);
+                    console.error(error);
                 });
         });
     </script>
