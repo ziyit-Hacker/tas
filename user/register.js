@@ -153,14 +153,3 @@ async function saveUserData(data) {
         return false;
     }
 }
-
-const express = require('express');
-const app = express();
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-
-app.get('/api/githubToken', (req, res) => {
-    if (!isValidRequest(req)) {
-        return res.status(403).json({ error: '无权访问' });
-    }
-    res.json({ token: GITHUB_TOKEN });
-});
