@@ -90,16 +90,26 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        input[type="text"],
-        input[type="password"],
-        select {
-            width: 75%;
+        input {
             padding: 12px 15px;
             border: 1px solid #d3d3d3;
             border-radius: 4px;
+            background-color: #fff;
             font-size: 14px;
             transition: all 0.2s ease;
-            margin-bottom: 16px;
+            width: 75%;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+            color: #323130;
+        }
+
+        input:hover {
+            border-color: #8a8886;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0078d4;
+            box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.3);
         }
 
         .bt {
@@ -108,6 +118,26 @@
             font-size: 14px;
             margin-bottom: 4px;
             display: inline-block;
+        }
+
+        input[type="submit"] {
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            width: 100%;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #106ebe;
+        }
+
+        input[type="submit"]:active {
+            background-color: #005a9e;
         }
 
         button {
@@ -148,14 +178,14 @@
         <form method="get" autocomplete="off">
             <div style="margin-bottom: 16px;">
                 <label for="accountType" class="bt">账号类型</label>
-                <select id="accountType" name="accountType" onchange="toggleLicense()">
+                <select id="accountType" style="width: 80%; padding: 10px; border-radius: 4px; border: 1px solid #d3d3d3;" name="accountType" onchange="toggleLicense()">
                     <option value="普通用户">普通用户</option>
                     <option value="vip用户">vip用户</option>
                 </select>
             </div>
 
             <div style="margin-bottom: 16px;">
-                <label for="username" class="bt">手机号</label>
+                <label for="username" class="bt">昵 称</label>
                 <input type="text" id="username" name="username" maxlength="11" required>
                 <div id="usernameError" style="color: red; font-size: 12px; display: none;">该用户名已被注册</div>
             </div>
@@ -167,13 +197,13 @@
 
             <div id="licenseDiv" style="margin-bottom: 20px; display:none;">
                 <label for="license" class="bt">操作许可码</label>
-                <input type="text" id="license" name="license" maxlength="29" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
+                <input type="text" style="width: 68%;" id="license" name="license" maxlength="29" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
             </div>
 
             <button type="submit">注册</button>
             </form>
 
-            <p id="tips">如果提示失败可以加管理员QQ<strong>3950140506</strong>，说明:<br>账号类型<br>手机号<br>密码</p>
+            <p id="tips">如果登录失败可以加管理员QQ<strong>3950140506</strong>，说明:<br>账号类型<br>手机号<br>密码</p>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="register.js"></script>
