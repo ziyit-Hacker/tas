@@ -18,15 +18,18 @@ window.addEventListener('DOMContentLoaded', async () => {
 
         const usersResponse = await fetch('./user.txt');
         if (!usersResponse.ok) throw new Error('读取用户数据失败');
+
+        const registerForm = document.getElementById('registerForm');
+        if (registerForm) {
+            registerForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                await checkLogin();
+            });
+        }
     } catch (e) {
         console.error('初始化错误:', e);
         alert('系统初始化错误: ' + e.message);
     }
-
-    document.getElementById('registerForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        await checkLogin();
-    });
 });
 
 async function loadCryptoJS() {
