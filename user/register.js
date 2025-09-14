@@ -16,14 +16,29 @@ window.addEventListener('DOMContentLoaded', async () => {
         const keyContent = await response.text();
         validLicense = keyContent.split('\n')[0].trim();
 
-        const usersResponse = await fetch('./user.txt');
-        if (!usersResponse.ok) throw new Error('读取用户数据失败');
-
-        const registerForm = document.getElementById('registerForm');
-        if (registerForm) {
-            registerForm.addEventListener('submit', async function (e) {
+        // 直接获取表单元素而不是通过ID
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                await checkLogin();
+                e.stopPropagation();
+                
+                // 清除URL中的查询参数
+                if (window.location.search) {
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+                
+                try {
+                    const success = await checkLogin();
+                    if (success) {
+                        window.location.replace('../');
+                    }
+                } catch (error) {
+                    console.error('注册错误:', error);
+                    alert('注册失败: ' + error.message);
+                }
+                
+                return false;
             });
         }
     } catch (e) {
@@ -32,18 +47,17 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-async function loadCryptoJS() {
-  const { default: CryptoJS } = await import('https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js');
-  return CryptoJS;
+// 修改后的简化版本
+function loadCryptoJS() {
+    return Promise.resolve(window.CryptoJS);
 }
 
 async function checkLogin() {
     const accountType = document.getElementById('accountType').value;
     const username = document.getElementById('username').value;
-    const encryptedPwd = CryptoJS.MD5(password).toString(CryptoJS.enc.Base64);
-    
-    // 密码加密
+    const password = document.getElementById('password').value;
     const CryptoJS = await loadCryptoJS();
+    const encryptedPwd = CryptoJS.MD5(password).toString(CryptoJS.enc.Base64);
 
     try {
         const usersResponse = await fetch('./user.txt');
@@ -51,8 +65,8 @@ async function checkLogin() {
         const users = usersText.trim().split('\n').filter(Boolean);
 
         if (users.some(user => user.includes(`-${username}-`))) {
-            alert('该用户名已被注册！');
-            return;
+            document.getElementById('usernameError').style.display = 'block';
+            return false;
         }
 
         if (accountType === 'vip用户') {
@@ -61,29 +75,59 @@ async function checkLogin() {
 
             if (!licensePattern.test(license)) {
                 alert('许可码格式不正确！');
-                return;
+                return false;
             }
 
             if (!validLicense || license !== validLicense) {
                 alert('许可码不正确或系统未加载许可码！');
-                window.location.href = '../';
-                return;
+                return false;
             }
-
-            if (!saveUserData(`ZC-${username}-${encryptedPwd}`, 'staff')) return;
-        } else {
-            const users = JSON.parse(localStorage.getItem('normalUsers') || '[]');
-            if (users.some(user => user.includes(`-${username}-`))) {
-                alert('用户已存在！');
-                window.location.href = '../';
-                return;
-            }
-
-            if (!saveUserData(`UR-${username}-${encryptedPwd}`, 'normal')) return;
         }
+
+        // 保存用户数据
+        const userData = accountType === 'vip用户' 
+            ? `ZC-${username}-${encryptedPwd}` 
+            : `UR-${username}-${encryptedPwd}`;
+            
+        const saved = await saveUserData(userData);
+        if (saved) {
+            return true;
+        }
+        return false;
     } catch (error) {
         console.error('注册错误:', error);
         alert('注册失败: ' + error.message);
+        navigator.clipboard.writeText(data);
+        console.error('注册错误:', error);
+        alert('注册失败: ' + error.message);
+        navigator.clipboard.writeText(data);
+        const msgDiv = document.createElement('div');
+        msgDiv.style.position = 'fixed';
+        msgDiv.style.top = '50%';
+        msgDiv.style.left = '50%';
+        msgDiv.style.transform = 'translate(-50%, -50%)';
+        msgDiv.style.backgroundColor = 'white';
+        msgDiv.style.padding = '20px';
+        msgDiv.style.borderRadius = '8px';
+        msgDiv.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+        msgDiv.style.zIndex = '1000';
+        msgDiv.style.textAlign = 'center';
+
+        const msgText = document.createElement('p');
+        msgText.textContent = '用户数据已复制到剪贴板\n请将数据发送到3950140506@qq.com';
+        msgDiv.appendChild(msgText);
+
+        const confirmBtn = document.createElement('button');
+        confirmBtn.textContent = '确定';
+        confirmBtn.style.marginTop = '15px';
+        confirmBtn.onclick = function() {
+            document.body.removeChild(msgDiv);
+            window.location.href = './';
+        };
+        msgDiv.appendChild(confirmBtn);
+
+        document.body.appendChild(msgDiv);
+        return false;
     }
 }
 
@@ -95,6 +139,36 @@ async function saveUserData(data, type) {
         });
     } catch (error) {
         console.error('保存用户数据错误:', error);
+        navigator.clipboard.writeText(data);
+        console.error('注册错误:', error);
+        alert('注册失败: ' + error.message);
+        navigator.clipboard.writeText(data);
+        const msgDiv = document.createElement('div');
+        msgDiv.style.position = 'fixed';
+        msgDiv.style.top = '50%';
+        msgDiv.style.left = '50%';
+        msgDiv.style.transform = 'translate(-50%, -50%)';
+        msgDiv.style.backgroundColor = 'white';
+        msgDiv.style.padding = '20px';
+        msgDiv.style.borderRadius = '8px';
+        msgDiv.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+        msgDiv.style.zIndex = '1000';
+        msgDiv.style.textAlign = 'center';
+
+        const msgText = document.createElement('p');
+        msgText.textContent = '用户数据已复制到剪贴板\n请将数据发送到3950140506@qq.com';
+        msgDiv.appendChild(msgText);
+
+        const confirmBtn = document.createElement('button');
+        confirmBtn.textContent = '确定';
+        confirmBtn.style.marginTop = '15px';
+        confirmBtn.onclick = function() {
+            document.body.removeChild(msgDiv);
+            window.location.href = './';
+        };
+        msgDiv.appendChild(confirmBtn);
+
+        document.body.appendChild(msgDiv);
         return false;
     }
 }
@@ -152,7 +226,35 @@ async function saveUserData(data) {
     } catch (error) {
         console.error('保存错误:', error);
         navigator.clipboard.writeText(data);
-        alert('用户数据已复制到剪贴板\n请将数据发送到3950140506@qq.com');
+        console.error('注册错误:', error);
+        alert('注册失败: ' + error.message);
+        navigator.clipboard.writeText(data);
+        const msgDiv = document.createElement('div');
+        msgDiv.style.position = 'fixed';
+        msgDiv.style.top = '50%';
+        msgDiv.style.left = '50%';
+        msgDiv.style.transform = 'translate(-50%, -50%)';
+        msgDiv.style.backgroundColor = 'white';
+        msgDiv.style.padding = '20px';
+        msgDiv.style.borderRadius = '8px';
+        msgDiv.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+        msgDiv.style.zIndex = '1000';
+        msgDiv.style.textAlign = 'center';
+
+        const msgText = document.createElement('p');
+        msgText.textContent = '用户数据已复制到剪贴板\n请将数据发送到3950140506@qq.com';
+        msgDiv.appendChild(msgText);
+
+        const confirmBtn = document.createElement('button');
+        confirmBtn.textContent = '确定';
+        confirmBtn.style.marginTop = '15px';
+        confirmBtn.onclick = function() {
+            document.body.removeChild(msgDiv);
+            window.location.href = './';
+        };
+        msgDiv.appendChild(confirmBtn);
+
+        document.body.appendChild(msgDiv);
         return false;
     }
 }
