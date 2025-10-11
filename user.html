@@ -228,6 +228,7 @@
             <li class="nav-item" data-role="admin"><a href="#" id="adToggle">今天不限制弹出广告</a></li>
             <li class="nav-item" data-role="user"><p><span style="color: red;">小彩蛋</span></p></li>
             <li class="nav-item" data-role="all"><a href=".\">返回首页</a></li>
+            <li class="nav-item" data-role="ztg"><a href=".\ztg">查看游戏用户信息</a></li>
         </ul>
     </div>
 
@@ -397,14 +398,15 @@
                 return;
             }
             
-            const [type, username] = authToken.split('-');
+            const [type, username, hash, ifZTG] = authToken.split('-');
             if (loginLink) loginLink.style.display = 'none';
-
+        
             navItems.forEach(item => {
                 const role = item.getAttribute('data-role');
                 if (role === 'all' ||
                     (type === 'ZC' && role === 'admin') ||
-                    (type === 'UR' && role === 'user')) {
+                    (type === 'UR' && role === 'user') ||
+                    (ifZTG === 'True' && role === 'ztg')) {
                     item.classList.add('visible');
                     item.classList.remove('hidden');
                 } else {
