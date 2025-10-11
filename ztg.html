@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏用户信息 - 只因科技</title>
+    <link rel="icon" href="ziyit.png" type="image/x-icon">
+    <script src="f12check.js"></script>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0;
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #66e656;
+        }
+
+        .box {
+            width: 100%;
+            height: 35px;
+            background-color: #0b99fa;
+        }
+
+        .pod {
+            width: 100%;
+            height: 100%;
+        }
+
+        p {
+            color: black;
+        }
+
+        ul li {
+            display: inline-block;
+            line-height: 35px;
+        }
+
+        li a {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        li p {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .bid {
+            color: #f25767;
+        }
+
+        .tit {
+            color: black;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 5px 0;
+        }
+
+        .line {
+            width: 1px;
+            height: 12px;
+            background-color: #f3a707;
+        }
+
+        a:hover {
+            color: #ff8000;
+        }
+
+        h1 {
+            width: 100%;
+            background-color: rgb(195, 234, 249);
+            text-align: center;
+            font-size: 50px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .visible {
+            display: inline-block !important;
+        }
+    </style>
+    <style>
+        @media (max-width: 768px) {
+            .box {
+                height: auto;
+            }
+
+            ul.pod {
+                display: flex;
+                flex-direction: column;
+            }
+
+            ul.pod li {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+
+            .line {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body background="./bg.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
+    <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
+        <img id="userAvatar" src="ziyit.png" alt="" style="width: 65px; height: 50px;">
+        <div id="userInfo" style="color: black; font-size: 18px;">
+            <strong><span id="usernameDisplay">游戏用户</span></strong>
+            <br>
+            <strong><span id="userTypeDisplay">游戏特权用户</span></strong>
+        </div>
+    </div>
+    <h1>游戏用户信息</h1>
+    <hr>
+    <div class="box">
+        <ul class="pod">
+            <li><a href="../user">返回用户中心</a></li>
+            <li class="line"></li>
+            <li><a href="../">返回首页</a></li>
+        </ul>
+    </div>
+
+    <div id="userinfo">
+        <strong><span style="color: white;">经验(经验/等级): <span id="expDisplay">0/0</span></span></strong>
+        <span> </span>
+        <strong><span style="color: white;">SAM: <span id="samDisplay">0</span></span></strong>
+        <span> </span>
+        <strong><span style="color: white;">生命值(当前生命值/最大生命值): <span id="hpDisplay">0/0</span></span></strong>
+        <span> </span>
+        <strong><span style="color: white;">饱食度(饱和度/饱食度): <span id="satietyDisplay">0/0</span></span></strong>
+        <span> </span>
+        <strong><span style="color: white;">所在层级: <span id="Levels">Lobby</span></span></strong>
+        <span> </span>
+        <strong><span style="color: white;">代理AI: <span id="DefaultAI">/</span></span></strong>
+        <span> </span>
+        <strong><span style="color: white;">背包物品: <span id="Backpack">/</span></span></strong>
+    </div>
+
+    <div style="margin: 30px auto; max-width: 1000px;">
+        <h2 style="text-align: center; color: white; margin-bottom: 20px;">游戏特权</h2>
+        <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+            <div
+                style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
+                <h3 style="color: #c3eaf9">快速查看</h3>
+                <p style="color: white;">您的所有信息您都可以第一时间查看</p>
+            </div>
+            <div
+                style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
+                <h3 style="color: #c3eaf9">快速游玩</h3>
+                <p style="color: white;">想什么时候玩就什么时候玩</p>
+            </div>
+            <div
+                style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
+                <h3 style="color: #c3eaf9">AI托管</h3>
+                <p style="color: white;">交给AI托管，自动挂机刷怪</p>
+            </div>
+        </div>
+    </div>
+
+    <footer style="background: rgba(0,0,0,0.5); padding: 20px; margin-top: 50px;">
+        <div style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap;">
+            <div style="width: 300px; margin-bottom: 20px;">
+                <h3 style="color: white;">关于我们</h3>
+                <p style="color: #aaa;">只因科技致力于提供优质的游戏服务和体验</p>
+            </div>
+            <div style="width: 300px; margin-bottom: 20px;">
+                <h3 style="color: white;">联系方式</h3>
+                <a href="mailto:3950140506@qq.com" style="color: #aaa;">邮箱: 3950140506@qq.com</a>
+                <br>
+                <a href="tel:13258227085" style="color: #aaa;">手机号: 13258227085</a>
+            </div>
+            <div style="width: 300px; margin-bottom: 20px;">
+                <h3 style="color: white;">关注我们</h3>
+                <a href="https://space.bilibili.com/3546981356013833"
+                    style="color: #0078d4; margin-right: 10px;">哔哩哔哩</a>
+                <p style="color: #0078d4;">QQ: 3950140506</p>
+            </div>
+        </div>
+        <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
+    </footer>
+
+    <audio src="bm.mp3" style="display: none;"></audio>
+
+    <script>
+        // 播放音乐代码
+        let isPlay = false
+        const audio = document.querySelector('audio')
+        const bgmList = ['bm.mp3', 'bm2.mp3', 'bm3.mp3', 'bm4.mp3']
+
+        function selectRandomBgm() {
+            const randomIndex = Math.floor(Math.random() * bgmList.length)
+            return bgmList[randomIndex]
+        }
+
+        audio.loop = false
+
+        audio.addEventListener('ended', () => {
+            audio.src = selectRandomBgm()
+            audio.play().catch((error) => {
+                console.error('fuck microsoft edge and google chrome: ', error)
+            })
+        })
+
+        const playAudioOnInteraction = () => {
+            if (!isPlay) {
+                audio.src = selectRandomBgm()
+                audio.play()
+                    .then(() => {
+                        isPlay = true
+                        document.removeEventListener('mousemove', playAudioOnInteraction)
+                    })
+                    .catch((error) => {
+                        console.error('fuck user:', error)
+                    })
+            }
+        }
+
+        document.addEventListener('mousemove', playAudioOnInteraction)
+
+        audio.addEventListener('click', () => {
+            if (isPlay) {
+                audio.pause()
+                isPlay = false
+            } else {
+                audio.play()
+                    .then(() => {
+                        isPlay = true
+                    })
+                    .catch((error) => {
+                        console.error('fuck 360 browser:', error)
+                    })
+            }
+        })
+        // 从ztg.txt读取数据并匹配当前用户
+        fetch('ztg.txt')
+            .then(response => {
+                if (!response.ok) {
+                    console.error('无法读取ztg.txt文件，状态码:', response.status);
+                    return response.text();
+                }
+                return response.text();
+            })
+            .then(text => {
+                console.log('ztg.txt内容:', text);
+                const authToken = localStorage.getItem('authToken');
+                if (!authToken) {
+                    console.error('未找到authToken');
+                    return;
+                }
+
+                const parts = authToken.split('-');
+                if (parts.length < 2) {
+                    console.error('authToken格式不正确:', authToken);
+                    return;
+                }
+
+                const username = parts[1].trim();
+                console.log('当前用户名:', username);
+
+                const lines = text.split('\n');
+                let found = false;
+
+                for (const line of lines) {
+                    const lineParts = line.split(' - ');
+                    if (lineParts.length >= 1 && lineParts[0].trim() === username) {
+                        console.log('找到匹配行:', line);
+                        const [lineUsername, exp, sam, hp, satiety, level, ai, backpack] = line.split(' - ');
+                        if (lineUsername.trim() === username.trim()) {
+                            document.getElementById('expDisplay').textContent = exp;
+                            document.getElementById('samDisplay').textContent = sam;
+                            document.getElementById('hpDisplay').textContent = hp;
+                            document.getElementById('satietyDisplay').textContent = satiety;
+                            document.getElementById('Levels').textContent = level;
+                            document.getElementById('DefaultAI').textContent = ai;
+                            document.getElementById('Backpack').textContent = backpack;
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!found) {
+                    console.error('未找到匹配的用户数据');
+                }
+            })
+            .catch(error => {
+                console.error('读取ztg.txt出错:', error);
+            });
+    </script>
+    <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
+</body>
+
+</html>
