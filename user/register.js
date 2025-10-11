@@ -56,6 +56,7 @@ async function checkLogin() {
     const accountType = document.getElementById('accountType').value;
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    const isZTG = document.getElementById('isZTG').value;
     const CryptoJS = await loadCryptoJS();
     const encryptedPwd = CryptoJS.MD5(password).toString(CryptoJS.enc.Base64);
 
@@ -85,10 +86,8 @@ async function checkLogin() {
         }
 
         // 保存用户数据
-        const userData = accountType === 'vip用户' 
-            ? `ZC-${username}-${encryptedPwd}` 
-            : `UR-${username}-${encryptedPwd}`;
-            
+        const userData = `${accountType === 'vip用户' ? 'ZC' : 'UR'}-${username}-${encryptedPwd}-${isZTG}`;
+        
         const saved = await saveUserData(userData);
         if (saved) {
             return true;

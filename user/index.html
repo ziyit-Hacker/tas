@@ -228,7 +228,7 @@
         });
 
         document.getElementById('login').addEventListener('click', function (e) {
-            e.preventDefault(); // 阻止表单默认提交行为
+            e.preventDefault();
 
             const accountType = document.getElementById('accountType').value === 'vip用户' ? 'ZC' : 'UR';
             const username = document.getElementById('username').value;
@@ -242,9 +242,16 @@
             fetch('user.txt')
                 .then(response => response.text())
                 .then(text => {
-                    if (text.includes(authToken)) {
+                    const lines = text.split('\n');
+                    const matchedLine = lines.find(line => line.includes(authToken));
+                    
+                    if (matchedLine) {
+                        // 提取ifZTG状态
+                        const ifZTG = matchedLine.includes('-True') ? '-True' : '-False';
+                        const fullAuthToken = `${authToken}${ifZTG}`;
+                        
                         // 登录成功
-                        localStorage.setItem('authToken', authToken);
+                        localStorage.setItem('authToken', fullAuthToken);
                         // 检查用户名是否为临时用户
                         const username = document.getElementById('username').value;
                         const ut = localStorage.getItem('ut');
