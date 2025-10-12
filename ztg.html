@@ -88,6 +88,64 @@
         .visible {
             display: inline-block !important;
         }
+
+        /* 用户信息区域样式 */
+        #userinfo strong {
+            display: inline-block;
+            margin: 0 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* 经验值样式 */
+        #userinfo strong:nth-child(1) {
+            background-color: rgba(75, 192, 192, 0.7);
+            color: #2d3748;
+            border-left: 3px solid #2b6cb0;
+        }
+
+        /* SAM值样式 */
+        #userinfo strong:nth-child(3) {
+            background-color: rgba(245, 158, 11, 0.7);
+            color: #2d3748;
+            border-left: 3px solid #c05621;
+        }
+
+        /* 生命值样式 */
+        #userinfo strong:nth-child(5) {
+            background-color: rgba(239, 68, 68, 0.7);
+            color: #2d3748;
+            border-left: 3px solid #9b2c2c;
+        }
+
+        /* 饱食度样式 */
+        #userinfo strong:nth-child(7) {
+            background-color: rgba(16, 185, 129, 0.7);
+            color: #2d3748;
+            border-left: 3px solid #065f46;
+        }
+
+        /* 所在层级样式 */
+        #userinfo strong:nth-child(9) {
+            background-color: rgba(139, 92, 246, 0.7);
+            color: #2d3748;
+            border-left: 3px solid #5b21b6;
+        }
+
+        /* 代理AI样式 */
+        #userinfo strong:nth-child(11) {
+            background-color: rgba(59, 130, 246, 0.7);
+            color: #2d3748;
+            border-left: 3px solid #1e40af;
+        }
+
+        /* 背包物品样式 */
+        #userinfo strong:nth-child(13) {
+            background-color: rgba(156, 163, 175, 0.7);
+            color: #2d3748;
+            border-left: 3px solid #4b5563;
+        }
     </style>
     <style>
         @media (max-width: 768px) {
@@ -113,60 +171,67 @@
     </style>
 </head>
 
-<body background="./bg.jpg" style=" background-repeat:no-repeat ;
-        background-size:100% 100%;
-        background-attachment: fixed;">
-    <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
-        <img id="userAvatar" src="ziyit.png" alt="" style="width: 65px; height: 50px;">
-        <div id="userInfo" style="color: black; font-size: 18px;">
-            <strong><span id="usernameDisplay">游戏用户</span></strong>
-            <br>
-            <strong><span id="userTypeDisplay">游戏特权用户</span></strong>
-        </div>
-    </div>
-    <h1>游戏用户信息</h1>
+<body style="background: url(./backrooms.jpg) no-repeat center center fixed; background-size: cover;">
+    <h1 style="background-color: rgba(195, 234, 249, 0.29);">游戏用户信息</h1>
     <hr>
     <div class="box">
         <ul class="pod">
             <li><a href="./user">返回用户中心</a></li>
-            <li class="line"></li>
             <li><a href="./">返回首页</a></li>
+            <li class="line"></li>
+            <li><a href="https://backrooms-wiki-cn.wikidot.com/normal-levels-i#t">查看层级列表</a></li>
         </ul>
     </div>
 
     <div id="userinfo">
-        <strong><span style="color: white;">经验(经验/等级): <span id="expDisplay">0/0</span></span></strong>
+        <strong><span style="color: black;">经验(经验/等级): <span id="expDisplay">0/0</span></span></strong>
         <span> </span>
-        <strong><span style="color: white;">SAM: <span id="samDisplay">0</span></span></strong>
+        <strong><span style="color: black;">SAM: <span id="samDisplay">0</span></span></strong>
         <span> </span>
-        <strong><span style="color: white;">生命值(当前生命值/最大生命值): <span id="hpDisplay">0/0</span></span></strong>
+        <strong><span style="color: black;">生命值(当前生命值/最大生命值): <span id="hpDisplay">0/0</span></span></strong>
         <span> </span>
-        <strong><span style="color: white;">饱食度(饱和度/饱食度): <span id="satietyDisplay">0/0</span></span></strong>
+        <strong><span style="color: black;">饱食度(饱和度/饱食度): <span id="satietyDisplay">0/0</span></span></strong>
         <span> </span>
-        <strong><span style="color: white;">所在层级: <span id="Levels">Lobby</span></span></strong>
+        <strong><span style="color: black;">所在层级: <span id="Levels">Lobby</span></span></strong>
         <span> </span>
-        <strong><span style="color: white;">代理AI: <span id="DefaultAI">/</span></span></strong>
+        <strong><span style="color: black;">代理AI: <span id="DefaultAI">/</span></span></strong>
         <span> </span>
-        <strong><span style="color: white;">背包物品: <span id="Backpack">/</span></span></strong>
+        <strong><span style="color: black;">背包物品: <span id="Backpack">/</span></span></strong>
     </div>
+    
+    <style>
+        #userinfo strong {
+            display: inline-block;
+            margin: 0 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        #userinfo strong:nth-child(1) {
+            background-color: rgba(75, 192, 192, 0.7);
+            color: #2d3748;
+            border-left: 3px solid #2b6cb0;
+        }
+    </style>
 
-    <div style="margin: 30px auto; max-width: 1000px;">
-        <h2 style="text-align: center; color: white; margin-bottom: 20px;">游戏特权</h2>
+    <div style="margin: 30px auto; max-width: 1120px;" id="privilege">
+        <h2 style="text-align: center; color: black; margin-bottom: 20px;">游戏特权</h2>
         <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
             <div
                 style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
-                <h3 style="color: #c3eaf9">快速查看</h3>
-                <p style="color: white;">您的所有信息您都可以第一时间查看</p>
+                <h3 style="color: #132251;">快速查看</h3>
+                <p style="color: black;">您的所有信息您都可以第一时间查看</p>
             </div>
             <div
                 style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
-                <h3 style="color: #c3eaf9">快速游玩</h3>
-                <p style="color: white;">想什么时候玩就什么时候玩</p>
+                <h3 style="color: #132251;">快速游玩</h3>
+                <p style="color: black;">想什么时候玩就什么时候玩</p>
             </div>
             <div
                 style="width: 300px; background: rgba(255,255,255,0.1); padding: 20px; margin: 10px; border-radius: 8px;">
-                <h3 style="color: #c3eaf9">AI托管</h3>
-                <p style="color: white;">交给AI托管，自动挂机刷怪</p>
+                <h3 style="color: #132251;">AI托管</h3>
+                <p style="color: black;">交给AI托管，自动挂机操作</p>
             </div>
         </div>
     </div>
@@ -174,23 +239,22 @@
     <footer style="background: rgba(0,0,0,0.5); padding: 20px; margin-top: 50px;">
         <div style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap;">
             <div style="width: 300px; margin-bottom: 20px;">
-                <h3 style="color: white;">关于我们</h3>
+                <h3 style="color: black;">关于我们</h3>
                 <p style="color: #aaa;">只因科技致力于提供优质的游戏服务和体验</p>
             </div>
             <div style="width: 300px; margin-bottom: 20px;">
-                <h3 style="color: white;">联系方式</h3>
+                <h3 style="color: black;">联系方式</h3>
                 <a href="mailto:3950140506@qq.com" style="color: #aaa;">邮箱: 3950140506@qq.com</a>
                 <br>
                 <a href="tel:13258227085" style="color: #aaa;">手机号: 13258227085</a>
             </div>
             <div style="width: 300px; margin-bottom: 20px;">
-                <h3 style="color: white;">关注我们</h3>
+                <h3 style="color: black;">关注我们</h3>
                 <a href="https://space.bilibili.com/3546981356013833"
-                    style="color: #0078d4; margin-right: 10px;">哔哩哔哩</a>
-                <p style="color: #0078d4;">QQ: 3950140506</p>
+                    style="color: #132251; margin-right: 10px;">哔哩哔哩</a>
+                <p style="color: #132251;">QQ: 3950140506</p>
             </div>
         </div>
-        <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
     </footer>
 
     <audio src="br.mp3" style="display: none;"></audio>
@@ -251,10 +315,10 @@
             .then(text => {
                 const authToken = localStorage.getItem('authToken');
                 if (!authToken) return;
-                
+
                 const [_, username] = authToken.split('-');
                 const lines = text.split('\n');
-                
+
                 for (const line of lines) {
                     const [lineUsername, exp, sam, hp, satiety, level, ai, backpack] = line.split(' - ');
                     if (lineUsername.trim() === username.trim()) {
@@ -264,13 +328,13 @@
                             alert('数据在数据转移或服务器更新时被破坏');
                             return;
                         }
-                        
+
                         // 检查SAM值
                         const samValue = parseInt(sam);
                         if (samValue < 50) {
                             alert('SAM值过低请立即饮用杏仁水');
                         }
-                        
+
                         // 填充数据
                         document.getElementById('expDisplay').textContent = exp;
                         document.getElementById('samDisplay').textContent = sam;
@@ -289,5 +353,125 @@
     </script>
     <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
 </body>
+
+<style>
+    /* 导航栏 */
+    .box {
+        background-color: rgba(245, 230, 66, 0.8);
+        border: 1px solid #d4c93d;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* 链接 */
+    a {
+        color: #8b4513;
+        transition: all 0.3s ease;
+        padding: 5px 10px;
+        border-radius: 3px;
+    }
+
+    a:hover {
+        color: #a0522d;
+        background-color: rgba(139, 69, 19, 0.1);
+        text-shadow: 0 0 2px rgba(139, 69, 19, 0.3);
+    }
+
+    /* 标题 */
+    h1,
+    h2,
+    h3 {
+        color: #111;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        margin: 15px 0;
+    }
+
+    /* 用户信息区域 */
+    #userinfo {
+        background-color: rgba(245, 230, 66, 0.7);
+        padding: 15px;
+        border-radius: 5px;
+        border-left: 3px solid #8b4513;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+    }
+
+    /* 游戏特权卡片 */
+    div[style*="background: rgba(255,255,255,0.1)"] {
+        background: rgba(245, 230, 66, 0.5) !important;
+        border: 1px solid #d4c93d;
+        transition: all 0.3s ease;
+    }
+
+    div[style*="background: rgba(255,255,255,0.1)"]:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* 页脚 */
+    footer {
+        background: rgba(245, 230, 66, 0.7) !important;
+        border-top: 1px solid #d4c93d;
+        color: #222;
+    }
+
+    footer a,
+    footer p {
+        color: #222 !important;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .box {
+            height: auto;
+            padding: 10px 0;
+        }
+
+        ul.pod li {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        #userinfo strong {
+            display: block;
+            margin: 5px 0;
+        }
+    }
+
+    * {
+        cursor: default !important;
+    }
+
+    a, [onclick], [href], button, input, textarea, select {
+        cursor: pointer !important;
+    }
+
+    #userinfo strong{
+        transition: all 0.3s ease;
+    }
+
+    #userinfo strong:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    footer {
+        transition: all 0.3s ease;
+    }
+
+    footer:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #userinfo {
+        transition: all 0.3s ease;
+    }
+
+    #userinfo:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+</style>
 
 </html>
