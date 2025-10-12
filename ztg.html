@@ -128,9 +128,9 @@
     <hr>
     <div class="box">
         <ul class="pod">
-            <li><a href="../user">返回用户中心</a></li>
+            <li><a href="./user">返回用户中心</a></li>
             <li class="line"></li>
-            <li><a href="../">返回首页</a></li>
+            <li><a href="./">返回首页</a></li>
         </ul>
     </div>
 
@@ -193,13 +193,13 @@
         <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
     </footer>
 
-    <audio src="bm.mp3" style="display: none;"></audio>
+    <audio src="br.mp3" style="display: none;"></audio>
 
     <script>
         // 播放音乐代码
         let isPlay = false
         const audio = document.querySelector('audio')
-        const bgmList = ['bm.mp3', 'bm2.mp3', 'bm3.mp3', 'bm4.mp3']
+        const bgmList = ['br.mp3', 'br2.mp3', 'br3.mp3', 'br4.mp3']
 
         function selectRandomBgm() {
             const randomIndex = Math.floor(Math.random() * bgmList.length)
@@ -247,54 +247,40 @@
         })
         // 从ztg.txt读取数据并匹配当前用户
         fetch('ztg.txt')
-            .then(response => {
-                if (!response.ok) {
-                    console.error('无法读取ztg.txt文件，状态码:', response.status);
-                    return response.text();
-                }
-                return response.text();
-            })
+            .then(response => response.text())
             .then(text => {
-                console.log('ztg.txt内容:', text);
                 const authToken = localStorage.getItem('authToken');
-                if (!authToken) {
-                    console.error('未找到authToken');
-                    return;
-                }
-
-                const parts = authToken.split('-');
-                if (parts.length < 2) {
-                    console.error('authToken格式不正确:', authToken);
-                    return;
-                }
-
-                const username = parts[1].trim();
-                console.log('当前用户名:', username);
-
+                if (!authToken) return;
+                
+                const [_, username] = authToken.split('-');
                 const lines = text.split('\n');
-                let found = false;
-
+                
                 for (const line of lines) {
-                    const lineParts = line.split(' - ');
-                    if (lineParts.length >= 1 && lineParts[0].trim() === username) {
-                        console.log('找到匹配行:', line);
-                        const [lineUsername, exp, sam, hp, satiety, level, ai, backpack] = line.split(' - ');
-                        if (lineUsername.trim() === username.trim()) {
-                            document.getElementById('expDisplay').textContent = exp;
-                            document.getElementById('samDisplay').textContent = sam;
-                            document.getElementById('hpDisplay').textContent = hp;
-                            document.getElementById('satietyDisplay').textContent = satiety;
-                            document.getElementById('Levels').textContent = level;
-                            document.getElementById('DefaultAI').textContent = ai;
-                            document.getElementById('Backpack').textContent = backpack;
-                            found = true;
-                            break;
-                        }
-                    }
-                }
+                    const [lineUsername, exp, sam, hp, satiety, level, ai, backpack] = line.split(' - ');
+                    if (lineUsername.trim() === username.trim()) {
 
-                if (!found) {
-                    console.error('未找到匹配的用户数据');
+                        // 检查NO DATA情况
+                        if (exp === 'NO DATA' || sam === 'NO DATA' || hp === 'NO DATA' || satiety === 'NO DATA') {
+                            alert('数据在数据转移或服务器更新时被破坏');
+                            return;
+                        }
+                        
+                        // 检查SAM值
+                        const samValue = parseInt(sam);
+                        if (samValue < 50) {
+                            alert('SAM值过低请立即饮用杏仁水');
+                        }
+                        
+                        // 填充数据
+                        document.getElementById('expDisplay').textContent = exp;
+                        document.getElementById('samDisplay').textContent = sam;
+                        document.getElementById('hpDisplay').textContent = hp;
+                        document.getElementById('satietyDisplay').textContent = satiety;
+                        document.getElementById('Levels').textContent = level;
+                        document.getElementById('DefaultAI').textContent = ai;
+                        document.getElementById('Backpack').textContent = backpack;
+                        break;
+                    }
                 }
             })
             .catch(error => {
