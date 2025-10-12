@@ -334,6 +334,9 @@
         fetch('ztg.txt')
             .then(response => response.text())
             .then(text => {
+                const lines = text.split('\n');
+                const [_, username] = authToken.split('-');
+                
                 for (const line of lines) {
                     const [lineUsername, exp, sam, hp, satiety, level, ai, backpack] = line.split(' - ');
                     if (lineUsername.trim() === username.trim()) {
@@ -342,7 +345,6 @@
                         if (exp === 'NO DATA' || sam === 'NO DATA' || hp === 'NO DATA' || satiety === 'NO DATA') {
                             alert('数据在数据转移或服务器更新时被破坏');
                             console.error('数据在数据转移或服务器更新时被破坏，用户数据为:', line);
-                            return;
                         }
 
                         // 检查SAM值
@@ -352,6 +354,28 @@
                             console.log('SAM值过低', line);
                             return;
                         }
+
+                        // 创建美观的提示框
+                        const alertDiv = document.createElement('div');
+                        alertDiv.style.position = 'fixed';
+                        alertDiv.style.top = '20px';
+                        alertDiv.style.left = '50%';
+                        alertDiv.style.transform = 'translateX(-50%)';
+                        alertDiv.style.padding = '15px 25px';
+                        alertDiv.style.backgroundColor = '#ffeb3b';
+                        alertDiv.style.color = '#000';
+                        alertDiv.style.borderRadius = '5px';
+                        alertDiv.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                        alertDiv.style.zIndex = '1000';
+                        alertDiv.style.animation = 'fadeIn 0.5s';
+                        alertDiv.innerHTML = '数据已从ZTG服务器迁移至ZIYIT根服务器，如出现数据错误或数据为NO DATA和其他问题请联系管理员';
+                        document.body.appendChild(alertDiv);
+                        
+                        // 5秒后自动消失
+                        setTimeout(() => {
+                            alertDiv.style.animation = 'fadeOut 0.5s';
+                            setTimeout(() => alertDiv.remove(), 500);
+                        }, 5000);
 
                         // 填充数据
                         document.getElementById('expDisplay').textContent = exp;
@@ -495,6 +519,16 @@
     #userinfo:hover {
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
     }
 </style>
 
