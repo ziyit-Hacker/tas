@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>游戏用户信息 - 只因科技</title>
+    <title>游戏用户信息 - 只因游戏</title>
     <link rel="icon" href="ziyit.png" type="image/x-icon">
     <script src="f12check.js"></script>
     <style>
@@ -183,6 +183,27 @@
         </ul>
     </div>
 
+    <script>
+        const authToken = localStorage.getItem('authToken');
+        console.log('User authToken:', authToken);
+
+        if (!authToken) {
+            console.log('未找到authToken');
+            alert('请先登录');
+            window.location.href = '/';
+        }
+
+        const tokenParts = authToken.split('-');
+        if (tokenParts[tokenParts.length - 1] !== 'True') {
+            console.log('authToken验证失败:', tokenParts);
+            alert('您不是ZTG用户，无法访问此页面');
+            window.location.href = '/';
+        }
+        console.log('验证通过，开始匹配用户数据');
+        const [_, username] = authToken.split('-');
+        const lines = text.split('\n');
+    </script>
+
     <div id="userinfo">
         <strong><span style="color: black;">经验(经验/等级): <span id="expDisplay">0/0</span></span></strong>
         <span> </span>
@@ -198,7 +219,7 @@
         <span> </span>
         <strong><span style="color: black;">背包物品: <span id="Backpack">/</span></span></strong>
     </div>
-    
+
     <style>
         #userinfo strong {
             display: inline-block;
@@ -207,7 +228,7 @@
             border-radius: 5px;
             font-weight: bold;
         }
-        
+
         #userinfo strong:nth-child(1) {
             background-color: rgba(75, 192, 192, 0.7);
             color: #2d3748;
@@ -313,12 +334,6 @@
         fetch('ztg.txt')
             .then(response => response.text())
             .then(text => {
-                const authToken = localStorage.getItem('authToken');
-                if (!authToken) return;
-
-                const [_, username] = authToken.split('-');
-                const lines = text.split('\n');
-
                 for (const line of lines) {
                     const [lineUsername, exp, sam, hp, satiety, level, ai, backpack] = line.split(' - ');
                     if (lineUsername.trim() === username.trim()) {
@@ -326,6 +341,7 @@
                         // 检查NO DATA情况
                         if (exp === 'NO DATA' || sam === 'NO DATA' || hp === 'NO DATA' || satiety === 'NO DATA') {
                             alert('数据在数据转移或服务器更新时被破坏');
+                            console.error('数据在数据转移或服务器更新时被破坏，用户数据为:', line);
                             return;
                         }
 
@@ -333,6 +349,8 @@
                         const samValue = parseInt(sam);
                         if (samValue < 50) {
                             alert('SAM值过低请立即饮用杏仁水');
+                            console.log('SAM值过低', line);
+                            return;
                         }
 
                         // 填充数据
@@ -442,11 +460,17 @@
         cursor: default !important;
     }
 
-    a, [onclick], [href], button, input, textarea, select {
+    a,
+    [onclick],
+    [href],
+    button,
+    input,
+    textarea,
+    select {
         cursor: pointer !important;
     }
 
-    #userinfo strong{
+    #userinfo strong {
         transition: all 0.3s ease;
     }
 
