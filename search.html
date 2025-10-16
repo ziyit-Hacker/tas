@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZIYIT</title>
-    <link rel="icon" href="ziyit.png" type="image/x-icon">
-    <script src="f12check.js"></script>
+    <link rel="icon" href="./assets/ziyit.png" type="image/x-icon">
+    <script src="./assets/f12check.js"></script>
     <style>
         * {
             margin: 0px;
@@ -215,7 +215,7 @@
     </style>
 </head>
 
-<body background="./bg.jpg" style=" background-repeat:no-repeat ;
+<body background="./assets/bg.jpg" style=" background-repeat:no-repeat ;
         background-size:100% 100%;
         background-attachment: fixed;">
     <h1>搜索</h1>
@@ -323,12 +323,12 @@
         </div>
     </div>
 
-    <audio src="bm.mp3" style="display: none;"></audio>
+    <audio src="./assets/bm.mp3" style="display: none;"></audio>
 
     <script>
         let isPlay = false
         const audio = document.querySelector('audio')
-        const bgmList = ['bm.mp3', 'bm2.mp3', 'bm3.mp3', 'bm4.mp3']
+        const bgmList = ['./assets/bm.mp3', './assets/bm2.mp3', './assets/bm3.mp3', './assets/bm4.mp3']
 
         function selectRandomBgm() {
             const randomIndex = Math.floor(Math.random() * bgmList.length)
