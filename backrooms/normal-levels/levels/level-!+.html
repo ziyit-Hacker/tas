@@ -213,30 +213,6 @@
 
                     <div id="content-wrap">
 
-                        <div id="side-bar">
-                            <div style="clear:both; height: 0px; font-size: 1px"></div>
-                            <div class="scpnet-interwiki-wrapper interwiki-stylable">
-                                <div class="list-pages-box">
-                                    <div class="list-pages-item">
-                                        <p><iframe
-                                                src="//interwiki.backroomswiki.cn/interwikiFrame.html?lang=cn&community=br&type=sidebar&pagename=level-165"
-                                                allowtransparency="true"
-                                                class="html-block-iframe scpnet-interwiki-frame"></iframe></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <p><iframe
-                                    src="//interwiki.backroomswiki.cn/styleFrame.html?priority=0&type=sidebar&override=0&theme=https://github.backroomswiki.cn/interwiki/style-bhl.css&css=%40import%20url(%22https%3A%2F%2Fgithub.backroomswiki.cn%2Finterwiki%2Fstyle-br.css%22)%3B"
-                                    style="display: none"></iframe></p>
-                            <div style="height: 150px;">
-                                <p>　</p>
-                            </div>
-                            <div style="clear:both; height: 0px; font-size: 1px"></div>
-                            <a class="close-menu" href="###"><br />
-                                <img src="https://scp-wiki.wdfiles.com/local--files/nav%3Aside/black.png"
-                                    style="z-index:-1; opacity: 0.3;" alt="black.png" class="image" /><br /></a>
-                        </div>
-
                         <!-- google_ad_section_end -->
 
                         <div id="main-content">
@@ -505,54 +481,12 @@
                                     <span style="white-space: pre-wrap;">&#32;</span><br />
                                 </p>
                                 <hr />
-                                <div class="licensebox">
-                                    <div class="collapsible-block">
-                                        <div class="collapsible-block-folded"><a class="collapsible-block-link"
-                                                href="javascript:;">‡&nbsp;授权&nbsp;/&nbsp;引用</a></div>
-                                        <div class="collapsible-block-unfolded" style="display:none">
-                                            <div class="collapsible-block-content">
-                                                <div class="list-pages-box">
-                                                </div>
-                                                <hr />
-                                                <div class="content-separator" style="display: none;"></div>
-                                                <blockquote>
-                                                    <p><strong>名称：</strong> Pastoral scene<br />
-                                                        <strong>作者：</strong> Johan Neven<br />
-                                                        <strong>协议：</strong> <a
-                                                            href="http://creativecommons.org/licenses/by-sa/2.0/">CC BY
-                                                            2.0</a><br />
-                                                        <strong>来源链接：</strong> <a
-                                                            href="https://www.flickr.com/photos/enneafive/54156673526/">https://www.flickr.com/photos/enneafive/54156673526/</a>
-                                                    </p>
-                                                </blockquote>
-                                                <blockquote>
-                                                    <p><strong>名称：</strong> Lanzarote desolation<br />
-                                                        <strong>作者：</strong> Jo Beverley<br />
-                                                        <strong>协议：</strong> <a
-                                                            href="http://creativecommons.org/licenses/by-sa/2.0/">CC BY
-                                                            2.0</a><br />
-                                                        <strong>来源链接：</strong> <a
-                                                            href="https://www.flickr.com/photos/62996905@N07/6796917485/">https://www.flickr.com/photos/62996905@N07/6796917485/</a>
-                                                    </p>
-                                                </blockquote>
-                                                <div class="content-separator" style="display: none;"></div>
-                                                <div class="content-separator" style="display: none;"></div>
-                                                <p>更多授权相关信息，请查阅<a
-                                                        href="http://backrooms-wiki-cn.wikidot.com/licensing-guide">授权指导</a>。
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
 
                             <div id="page-info-break"></div>
 
                             <div id="page-options-container">
-                                <div id="page-info">页面版本: 8, 最后编辑于: <span
-                                        class="odate time_1759512669 format_%25e%20%25b%20%25Y%2C%20%25H%3A%25M%20%28%25O%20%E5%89%8D%29">03
-                                        Oct 2025 17:31</span></div>
                                 <div id="page-options-bottom" class="page-options-bottom">
                                     <a href="javascript:;" class="btn btn-default" id="edit-button">编辑</a>
                                     <a href="javascript:;" class="btn btn-default" id="pagerate-button">评分 (<span
@@ -599,10 +533,6 @@
             <div id="extra-div-5"><span></span></div>
             <div id="extra-div-6"><span></span></div>
         </div>
-
-
-
-
     </div>
     <div id="dummy-ondomready-block" style="display: none;"></div>
     <!-- Google Analytics load -->
@@ -613,25 +543,20 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
     </script>
-    <style>
-        /* 最强大的覆盖方法 */
-        .sd-container .bottom-text p span[class*="lang-"]::after {
-            content: "天堂" !important;
-            display: inline !important;
-            font-size: inherit !important;
-            color: inherit !important;
-        }
-        
-        .sd-container .bottom-text p span[class*="lang-"] {
-            display: none !important;
-        }
-        
-        /* 或者直接修改伪元素内容 */
-        .sd-container.class-deadzone .bottom-text .lang-cn::after,
-        .sd-container.class-deadzone .bottom-text .lang-tr::after {
-            content: "天堂" !important;
-        }
-    </style>
+
+<style>
+    /* 生存难度容器居中 */
+    .sd-container {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* 调整内容包装器 */
+    #content-wrap {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+</style>
 </body>
 
 </html>
