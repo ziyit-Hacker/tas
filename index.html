@@ -359,7 +359,7 @@
 
         let timerId = setInterval(function () {
             next.click()
-        }, 1000)
+        }, 2500)
         const slider = document.querySelector('.slider')
         slider.addEventListener('mouseenter', function () {
             clearInterval(timerId)
@@ -368,7 +368,7 @@
             if (timerId) clearInterval(timerId)
             timerId = setInterval(function () {
                 next.click()
-            }, 1000)
+            }, 2500)
         })
         const lis = document.querySelectorAll('.slider-indicator li')
         lis.forEach(function (li, index) {
