@@ -7,14 +7,15 @@ function toggleLicense() {
     }
 }
 
-let validLicense = "";
+let validLicenses = [];
 
 window.addEventListener('DOMContentLoaded', async () => {
     try {
         const response = await fetch('./key.txt');
         if (!response.ok) throw new Error('读取许可码失败');
         const keyContent = await response.text();
-        validLicense = keyContent.split('\n')[0].trim();
+        // 读取所有许可码到数组中
+        validLicenses = keyContent.trim().split('\n').filter(Boolean);
 
         // 直接获取表单元素而不是通过ID
         const form = document.querySelector('form');
@@ -74,13 +75,15 @@ async function checkLogin() {
             const license = document.getElementById('license').value;
             const licensePattern = /^[0-9A-Fa-f]{5}(?:-[0-9A-Fa-f]{5}){4}$/;
 
+            // 第一步：验证许可码格式
             if (!licensePattern.test(license)) {
                 alert('许可码格式不正确！');
                 return false;
             }
 
-            if (!validLicense || license !== validLicense) {
-                alert('许可码不正确或系统未加载许可码！');
+            // 第二步：验证许可码是否存在于key.txt中
+            if (!validLicenses.includes(license)) {
+                alert('许可码不存在或已失效！');
                 return false;
             }
         }
