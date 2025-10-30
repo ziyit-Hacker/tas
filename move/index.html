@@ -102,6 +102,20 @@
 <body background="../assets/bgl.jpg" style=" background-repeat:no-repeat ;
         background-size:100% 100%;
         background-attachment: fixed;">
+    <script>
+        // 检查用户权限
+        function checkUserPermission() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                alert('请先登录以访问该页面');
+                window.location.href = './';
+                return;
+            }
+        }
+
+        // 页面加载时检查权限
+        document.addEventListener('DOMContentLoaded', checkUserPermission);
+    </script>
     <a href="../">返回主页</a>
     <hr class="brg">
     <h1 id="up">欢迎来到只因更多主页</h1>

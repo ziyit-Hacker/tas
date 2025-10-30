@@ -63,6 +63,20 @@
 <body background="../assets/bgl.jpg" style=" background-repeat:no-repeat ;
         background-size:100% 100%;
         background-attachment: fixed;">
+    <script>
+        // 检查用户权限
+        function checkUserPermission() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                alert('请先登录以访问该页面');
+                window.location.href = './';
+                return;
+            }
+        }
+
+        // 页面加载时检查权限
+        document.addEventListener('DOMContentLoaded', checkUserPermission);
+    </script>
     <a href="../">返回主页</a>
     <hr>
     <!-- <marquee style="background-color: yellow;">
@@ -77,7 +91,7 @@
     <h4>我们会提供对你们有帮助的工具！</h4>
     <h3>以下是只因科技提供的产品，请自行下载</h3>
     <hr>
-    <a href="errordiv.html">高级权限下载区域</a>
+    <a href=".\errordiv">高级权限下载区域</a>
     <hr>
     <style>
         ul {

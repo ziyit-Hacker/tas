@@ -216,18 +216,11 @@
             <button type="submit">注册</button>
             </form>
 
-            <p id="tips">如果登录失败可以加管理员QQ<strong>3950140506</strong>，说明:<br>账号类型<br>手机号<br>密码</p>
+            <p id="tips">如果注册失败可以加管理员QQ<strong>3950140506</strong>，说明:<br>账号类型<br>手机号<br>密码</p>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="register.js"></script>
-    <script>
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            window.history.replaceState({}, document.title, window.location.pathname);
-            return false;
-        });
-    </script>
+    <!-- 移除重复的事件绑定 -->
 </body>
 
 </html>

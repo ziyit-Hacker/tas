@@ -48,7 +48,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// 修改后的简化版本
 function loadCryptoJS() {
     return Promise.resolve(window.CryptoJS);
 }
@@ -62,17 +61,41 @@ async function checkLogin() {
     const encryptedPwd = CryptoJS.MD5(password).toString(CryptoJS.enc.Base64);
 
     try {
+        // 输入验证：检查所有必填字段是否为空
+        if (!username.trim()) {
+            alert('用户名不能为空！');
+            return false;
+        }
+        
+        if (!password.trim()) {
+            alert('密码不能为空！');
+            return false;
+        }
+        
+        if (!isZTG.trim()) {
+            alert('请选择是否为ZTG用户！');
+            return false;
+        }
+
         const usersResponse = await fetch('./user.txt');
         const usersText = await usersResponse.text();
         const users = usersText.trim().split('\n').filter(Boolean);
 
-        if (users.some(user => user.includes(`-${username}-`))) {
+        // 修复用户名重复检查逻辑
+        // 正确检查用户名是否已存在（精确匹配用户名部分）
+        const usernameExists = users.some(user => {
+            const parts = user.split('-');
+            // 用户数据格式：ZC/UR-用户名-密码-isZTG
+            return parts.length >= 2 && parts[1] === username;
+        });
+
+        if (usernameExists) {
             document.getElementById('usernameError').style.display = 'block';
             return false;
         }
 
         if (accountType === 'vip用户') {
-            const license = document.getElementById('license').value;
+            const license = document.getElementById('license').value.trim();
             const licensePattern = /^[0-9A-Fa-f]{5}(?:-[0-9A-Fa-f]{5}){4}$/;
 
             // 第一步：验证许可码格式
@@ -80,9 +103,18 @@ async function checkLogin() {
                 alert('许可码格式不正确！');
                 return false;
             }
+            
+            const licenseExists = validLicenses.some(validLicense => {
+                const trimmedValidLicense = validLicense.trim();
+                const trimmedLicense = license.trim();
+                const isMatch = trimmedValidLicense.toLowerCase() === trimmedLicense.toLowerCase();
+                console.log(`对比: "${trimmedValidLicense}" vs "${trimmedLicense}" -> ${isMatch}`);
+                return isMatch;
+            });
 
-            // 第二步：验证许可码是否存在于key.txt中
-            if (!validLicenses.includes(license)) {
+            console.log('许可码存在性检查结果:', licenseExists);
+
+            if (!licenseExists) {
                 alert('许可码不存在或已失效！');
                 return false;
             }
@@ -182,6 +214,7 @@ async function getGitHubToken() {
     return data.token;
 }
 
+// 删除重复的saveUserData函数定义，只保留一个正确的版本
 async function saveUserData(data) {
     try {
         const tempToken = await getGitHubToken();

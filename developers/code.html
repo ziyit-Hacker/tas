@@ -109,6 +109,26 @@
         background-size:100% 100%;
         background-attachment: fixed;">
     <a href="../">返回主页</a>
+    <script>
+        // 检查用户权限
+        function checkUserPermission() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                alert('请先登录以访问该页面');
+                window.location.href = './';
+                return;
+            }
+
+            const [typeCode] = authToken.split('-');
+            if (typeCode === 'UR') {
+                alert('您没有权限访问该页面');
+                window.location.href = './';
+            }
+        }
+
+        // 页面加载时检查权限
+        document.addEventListener('DOMContentLoaded', checkUserPermission);
+    </script>
     <hr>
     <h1 id="top"> 网页代码评判</h1>
     <h4>ZIYIT Developers</h4>

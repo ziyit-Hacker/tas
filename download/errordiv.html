@@ -57,6 +57,26 @@
         background-size:100% 100%;
         background-attachment: fixed;">
     <a href="../">返回主页</a>
+    <script>
+        // 检查用户权限
+        function checkUserPermission() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                alert('请先登录以访问该页面');
+                window.location.href = './';
+                return;
+            }
+
+            const [typeCode] = authToken.split('-');
+            if (typeCode === 'UR') {
+                alert('您没有权限访问该页面');
+                window.location.href = './';
+            }
+        }
+
+        // 页面加载时检查权限
+        document.addEventListener('DOMContentLoaded', checkUserPermission);
+    </script>
     <hr>
     <!-- <marquee style="background-color: yellow;">
         <strong>
@@ -181,24 +201,6 @@
             }
         });
         toggle();
-    </script>
-    <script>
-        // 检查用户权限
-        function checkUserPermission() {
-            const authToken = localStorage.getItem('authToken');
-            if (!authToken) {
-                window.location.href = './';
-                return;
-            }
-
-            const [typeCode] = authToken.split('-');
-            if (typeCode === 'UR') {
-                window.location.href = './';
-            }
-        }
-
-        // 页面加载时检查权限
-        document.addEventListener('DOMContentLoaded', checkUserPermission);
     </script>
     <br><br><br><br><br><br><br><br><br><br><br><br><br>
     <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
