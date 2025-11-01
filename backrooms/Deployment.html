@@ -384,32 +384,62 @@
             });
 
         // 随机数字动画函数
+        // 随机数字动画函数
         function startRandomNumberAnimation() {
             const randomCells = document.querySelectorAll('.random-number');
-
+        
             randomCells.forEach(cell => {
                 const originalText = cell.getAttribute('data-original');
                 let animationInterval;
-
+        
                 // 开始动画
                 function startAnimation() {
                     animationInterval = setInterval(() => {
-                        // 生成随机数字替换~符号
-                        let newText = originalText;
-                        let hasChanged = false;
-
-                        // 替换所有~符号为随机数字
-                        newText = newText.replace(/~/g, () => {
-                            hasChanged = true;
-                            return Math.floor(Math.random() * 10); // 0-9的随机数字
-                        });
-
-                        if (hasChanged) {
+                        // 检查是否是时间格式（包含冒号）
+                        if (originalText.includes(':')) {
+                            // 处理时间格式
+                            const timeParts = originalText.split(':');
+                            let newText = '';
+                            
+                            // 处理小时部分（第一个~序列）
+                            if (timeParts[0].includes('~')) {
+                                // 生成00-23的小时
+                                const hour = Math.floor(Math.random() * 24);
+                                newText += hour.toString().padStart(2, '0');
+                            } else {
+                                newText += timeParts[0];
+                            }
+                            
+                            newText += ':';
+                            
+                            // 处理分钟部分（第二个~序列）
+                            if (timeParts[1].includes('~')) {
+                                // 生成00-59的分钟
+                                const minute = Math.floor(Math.random() * 60);
+                                newText += minute.toString().padStart(2, '0');
+                            } else {
+                                newText += timeParts[1];
+                            }
+                            
                             cell.textContent = newText;
+                        } else {
+                            // 处理非时间格式（保持原有逻辑，但限制为合理范围）
+                            let newText = originalText;
+                            let hasChanged = false;
+        
+                            // 替换所有~符号为随机数字，但限制为0-9
+                            newText = newText.replace(/~/g, () => {
+                                hasChanged = true;
+                                return Math.floor(Math.random() * 10); // 0-9的随机数字
+                            });
+        
+                            if (hasChanged) {
+                                cell.textContent = newText;
+                            }
                         }
                     }, 50); // 每0.05秒更新一次
                 }
-
+        
                 // 鼠标悬停时停止动画，显示原始文本
                 cell.addEventListener('mouseenter', () => {
                     if (animationInterval) {
@@ -419,7 +449,7 @@
                     cell.textContent = '完成后立即部署';
                     cell.style.color = '#ff6b6b'; // 悬停时改变颜色
                 });
-
+        
                 // 鼠标离开时恢复动画
                 cell.addEventListener('mouseleave', () => {
                     cell.style.color = ''; // 恢复原色
@@ -427,10 +457,10 @@
                         startAnimation();
                     }
                 });
-
+        
                 // 开始动画
                 startAnimation();
-
+        
                 // 添加特殊样式
                 cell.style.fontFamily = 'monospace';
                 cell.style.fontWeight = 'bold';
