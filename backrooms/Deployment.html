@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>只因科技开发者选项</title>
+    <link rel="icon" href="ziyit.png" type="image/x-icon">
+    <script src="../assets/f12check.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+
+            div[style*="max-width: 400px"] {
+                width: 90%;
+                margin: 10px auto;
+                padding: 15px;
+            }
+
+            input,
+            select {
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+    </style>
+    <style>
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .brg {
+            text-align: left;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(243, 167, 7, 0.8), 0 0 20px rgba(243, 167, 7, 0.6);
+            font-weight: 700;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            margin: 20px 0;
+            text-align: center;
+            background: linear-gradient(45deg, #f3a707, #ffd700, #f3a707);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        h4 {
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(243, 167, 7, 0.8), 0 0 20px rgba(243, 167, 7, 0.6);
+            }
+
+            to {
+                text-shadow: 0 0 15px rgba(243, 167, 7, 1), 0 0 30px rgba(243, 167, 7, 0.8);
+            }
+        }
+
+        * {
+            margin: 0px;
+            padding: 0;
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #f8f8f8;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 5px;
+            background: rgba(243, 167, 7, 0.2);
+            border: 1px solid rgba(243, 167, 7, 0.3);
+        }
+
+        .pod {
+            width: 100%;
+            height: 100%;
+        }
+
+        p {
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        ul li {
+            display: inline-block;
+            line-height: 35px;
+        }
+
+        li a {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        li p {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .bid {
+            color: #ff6b6b;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            font-weight: 600;
+        }
+
+        .tit {
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            font-weight: 600;
+        }
+
+        .line {
+            width: 1px;
+            height: 12px;
+            background-color: #f3a707;
+        }
+
+        a:hover {
+            color: #ffffff;
+            background: rgba(243, 167, 7, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 167, 7, 0.4);
+        }
+
+        #timess {
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        * {
+            cursor: default !important;
+        }
+
+        /* 美化分隔线 */
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #f3a707, transparent);
+            margin: 30px 0;
+        }
+
+        /* 表格样式美化 */
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(243, 167, 7, 0.3);
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            border: 1px solid rgba(243, 167, 7, 0.4);
+            padding: 15px;
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .schedule-table th {
+            background: linear-gradient(135deg, rgba(243, 167, 7, 0.8), rgba(243, 167, 7, 0.6));
+            font-weight: 700;
+            color: #1a1a1a;
+            text-shadow: none;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .schedule-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .schedule-table tr:hover {
+            background: rgba(243, 167, 7, 0.2);
+            transform: scale(1.01);
+        }
+
+        .schedule-table td:hover {
+            background: rgba(243, 167, 7, 0.3);
+        }
+
+        .placeholder {
+            color: #cccccc;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+        }
+
+        /* 美化版权信息 */
+        p:last-child {
+            text-align: center;
+            font-size: 1rem;
+            color: #f8f8f8;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            margin: 40px 0 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(243, 167, 7, 0.2);
+        }
+
+        /* 美化返回主页链接 */
+        a[href="./"] {
+            display: inline-block;
+            margin: 20px;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            background: rgba(243, 167, 7, 0.3);
+            border-radius: 25px;
+            border: 2px solid rgba(243, 167, 7, 0.5);
+        }
+
+        a[href="./"]:hover {
+            background: rgba(243, 167, 7, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(243, 167, 7, 0.4);
+        }
+
+        /* 添加脉冲动画 */
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+                text-shadow: 0 0 5px rgba(243, 167, 7, 0.8);
+            }
+
+            50% {
+                opacity: 0.7;
+                text-shadow: 0 0 10px rgba(243, 167, 7, 1);
+            }
+
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 5px rgba(243, 167, 7, 0.8);
+            }
+        }
+
+        .random-number {
+            font-family: monospace !important;
+            font-weight: bold !important;
+            color: #f3a707 !important;
+        }
+
+        .no-data {
+            color: #888888 !important;
+            font-style: italic !important;
+            background-color: rgba(136, 136, 136, 0.1) !important;
+            cursor: help !important;
+            position: relative !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .no-data:hover {
+            background-color: rgba(136, 136, 136, 0.3) !important;
+            color: #666666 !important;
+            transform: scale(1.05) !important;
+        }
+
+        /* 移除原有的placeholder样式，因为现在使用no-data类 */
+        .placeholder {
+            color: #888;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+
+<body background="../assets/backrooms.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
+    <a href="./">返回backrooms wiki</a>
+    <a href="times.txt">浏览具体文件</a>
+    <script>
+        // 检查用户权限
+        function checkUserPermission() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                alert('请先登录以访问该页面');
+                window.location.href = '../';
+                return;
+            }
+        }
+
+        // 页面加载时检查权限
+        document.addEventListener('DOMContentLoaded', checkUserPermission);
+    </script>
+    <hr>
+    <h1 id="top">网页常规部署时刻表</h1>
+    <h4>ZIYIT Deployment Schedule</h4>
+    <hr>
+    <div>
+        <div id="timess"></div>
+    </div>
+    <script>
+        const timessElement = document.getElementById('timess');
+        fetch('times.txt')
+            .then(response => {
+                return response.text();
+            })
+            .then(data => {
+                // 解析文本数据为表格
+                const lines = data.trim().split('\n');
+                let tableHTML = '<table class="schedule-table">';
+
+                // 处理表头
+                const headerLine = lines[0].replace(/^####\s+/, '');
+                const headers = headerLine.split(/\s+/);
+                tableHTML += '<tr>';
+                tableHTML += '<th>序号</th>';
+                headers.forEach(header => {
+                    tableHTML += `<th>${header}</th>`;
+                });
+                tableHTML += '</tr>';
+
+                // 处理数据行
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (line) {
+                        const parts = line.split(/\s+/);
+                        tableHTML += '<tr>';
+
+                        // 序号列
+                        tableHTML += `<td>${parts[0]}</td>`;
+
+                        // 数据列
+                        for (let j = 1; j < parts.length; j++) {
+                            const cell = parts[j];
+                            if (cell === '#####') {
+                                tableHTML += '<td class="no-data" title="本格无任何数据">[NO DATA]</td>';
+                            } else if (cell.includes('~')) {
+                                // 处理包含~符号的单元格
+                                tableHTML += `<td class="random-number" data-original="${cell}">${cell}</td>`;
+                            } else {
+                                tableHTML += `<td>${cell}</td>`;
+                            }
+                        }
+
+                        tableHTML += '</tr>';
+                    }
+                }
+
+                tableHTML += '</table>';
+                timessElement.innerHTML = tableHTML;
+
+                // 启动随机数字动画
+                startRandomNumberAnimation();
+            })
+            .catch(error => {
+                console.error('Error fetching timess:', error);
+                timessElement.innerHTML = '<p>无法加载时刻表文件。</p>';
+            });
+
+        // 随机数字动画函数
+        function startRandomNumberAnimation() {
+            const randomCells = document.querySelectorAll('.random-number');
+
+            randomCells.forEach(cell => {
+                const originalText = cell.getAttribute('data-original');
+                let animationInterval;
+
+                // 开始动画
+                function startAnimation() {
+                    animationInterval = setInterval(() => {
+                        // 生成随机数字替换~符号
+                        let newText = originalText;
+                        let hasChanged = false;
+
+                        // 替换所有~符号为随机数字
+                        newText = newText.replace(/~/g, () => {
+                            hasChanged = true;
+                            return Math.floor(Math.random() * 10); // 0-9的随机数字
+                        });
+
+                        if (hasChanged) {
+                            cell.textContent = newText;
+                        }
+                    }, 50); // 每0.05秒更新一次
+                }
+
+                // 鼠标悬停时停止动画，显示原始文本
+                cell.addEventListener('mouseenter', () => {
+                    if (animationInterval) {
+                        clearInterval(animationInterval);
+                        animationInterval = null;
+                    }
+                    cell.textContent = '完成后立即部署';
+                    cell.style.color = '#ff6b6b'; // 悬停时改变颜色
+                });
+
+                // 鼠标离开时恢复动画
+                cell.addEventListener('mouseleave', () => {
+                    cell.style.color = ''; // 恢复原色
+                    if (!animationInterval) {
+                        startAnimation();
+                    }
+                });
+
+                // 开始动画
+                startAnimation();
+
+                // 添加特殊样式
+                cell.style.fontFamily = 'monospace';
+                cell.style.fontWeight = 'bold';
+                cell.style.animation = 'pulse 1s infinite';
+            });
+        }
+    </script>
+    <hr>
+    <a href="#top">
+        <img src="../assets/up.png" alt="上滑">
+    </a>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <p>&copy;2025&nbsp;&nbsp;ZIYIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>版权所有，侵权必究</strong></p>
+</body>
+
+</html>
