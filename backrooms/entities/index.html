@@ -280,6 +280,10 @@
             float: right;
         }
 
+        .del {
+            float: right;
+        }
+
         .rew::before {
             content: "\0020\f071";
             font-weight: 900;
@@ -287,8 +291,21 @@
             color: rgb(var(--dark-accent));
         }
 
+        .del::before {
+            content: "\0020\f2ed";
+            font-weight: 900;
+            font-family: "Font Awesome 5 Free";
+            color: rgb(var(--dark-accent));
+        }
+
         .rew::after {
             content: "该文章正在重写中";
+            font-family: 'Noto Sans SC';
+            color: rgb(var(--dark-accent));
+        }
+
+        .del::after {
+            content: "该文章正在删除中";
             font-family: 'Noto Sans SC';
             color: rgb(var(--dark-accent));
         }
@@ -390,11 +407,6 @@
 <body id="html-body">
     <div id="skrollr-body">
         <a name="page-top"></a>
-
-
-
-
-
         <div id="container-wrap-wrap">
             <div id="container-wrap">
                 <div id="container">
@@ -408,6 +420,7 @@
                                         <ul>
                                             <li><a href="../normal-levels">层级</a></li>
                                             <li><a href="./">实体</a></li>
+                                            <li><a href="../objects/">物品</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="../">返回上一步</a></li>
@@ -422,6 +435,7 @@
                                         <ul>
                                             <li><a href="../normal-levels">层级</a></li>
                                             <li><a href="./">实体</a></li>
+                                            <li><a href="../objects/">物品</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -483,9 +497,8 @@
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-4">Entity 4</a> - “死亡飞蛾”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-5">Entity 5</a> - “肢团”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-6">Entity 6</a> - “钝人”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-7">Entity 7</a> - “杰瑞”<span
-                                                class="rew"><span style="white-space: pre-wrap;">&#32;</span></span>
-                                        </li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-7">Entity 7</a> - [NO DATA]<span class="del"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-8">Entity 8</a> - “猎犬”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-9">Entity 9</a> - “无面灵”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-10">Entity 10</a> - “窃皮者”</li>
@@ -503,9 +516,8 @@
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-21">Entity 21</a> - “钩头”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-22">Entity 22</a> - “警告风筝”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-23">Entity 23</a> - “触不可及之驹”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-24">Entity 24</a> - “尸鼠”<span
-                                                class="rew"><span style="white-space: pre-wrap;">&#32;</span></span>
-                                        </li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-24">Entity 24</a> - [NO DATA]<span class="del"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-25">Entity 25</a> - “瘟疫地精”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-26">Entity 26</a> - “萨曼莎”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-27">Entity 27</a> - “鸭典娜”</li>
@@ -530,7 +542,7 @@
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-43">Entity 43</a> - “龙石像”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-44">Entity 44</a> - “八卦标灯”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-45">Entity 45</a> - “汲碌焰灵”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-46">Entity 46</a> - “幸运纸鹤”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-46">Entity 46</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-47">Entity 47</a> - “泰迪”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-48">Entity 48</a> - “活体居蛛”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-49">Entity 49</a> - “葡萄藤怪”</li>
@@ -545,10 +557,10 @@
                                                 56 不存在。”</span></li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-57">Entity 57</a> - “蛭蛇”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-58">Entity 58</a> - “艾蒂姆”</li>
-                                        <li><a class="newpage" href="/entity-59">Entity 59</a> - [NO DATA]</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-59">Entity 59</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-60">Entity 60</a> - “爬爬”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-61">Entity 61</a> - “椰饵”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-62">Entity 62</a> - “错音玩偶”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-62">Entity 62</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-63">Entity 63</a> - “残缺者”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-64">Entity 64</a> - “谜题巨匠”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-65">Entity 65</a> - “Moley的欢乐剧场吧”</li>
@@ -573,13 +585,13 @@
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-82">Entity 82</a> - “Koko”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-83">Entity 83</a> - “隐士”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-84">Entity 84</a> - “拉斯普京·巴塞洛缪国王三世”</li>
-                                        <li><a class="newpage" href="/entity-85">Entity 85</a> - [NO DATA]</li>
-                                        <li><a class="newpage" href="/entity-86">Entity 86</a> - [NO DATA]</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-85">Entity 85</a> - [NO DATA]</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-86">Entity 86</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-87">Entity 87</a> - “未命名项目”</li>
-                                        <li><a class="newpage" href="/entity-88">Entity 88</a> - “Robo'Vision”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-88">Entity 88</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-89">Entity 89</a> - “蚂蚁”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-90">Entity 90</a> - “钢皮”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-91">Entity 91</a> - “弗里曼先生”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-91">Entity 91</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-92">Entity 92</a> - “Ferren”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-93">Entity 93</a> - “<span
                                                 style="text-decoration: line-through;">夜随</span> 夜萃”</li>
@@ -587,8 +599,9 @@
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-95">Entity 95</a> - “现实之虫”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-96">Entity 96</a> - “邻里守望”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-97">Entity 97</a> - “尖噬怪”</li>
-                                        <li><a class="newpage" href="/entity-98">Entity 98</a> - [NO DATA]</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-98">Entity 98</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-99">Entity 99</a> - “游戏大师”</li>
+                                        <li><a href="./iets.html">IETS</a> - “Isle 实体威胁评分”</li>
                                     </ul>
                                 </div>
                                 <div class="style-block">
@@ -597,24 +610,23 @@
                                         <p><a href="#t">▲</a></p>
                                     </div>
                                     <ul>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-100">Entity 100</a> - <tt>“你知晓我是何人。”</tt>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-100">Entity 100</a> - [NO DATA]
                                         </li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-101">Entity 101</a> - “扈从们”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-102">Entity 102</a> - “无头猎手”</li>
-                                        <li><a class="newpage" href="/entity-103">Entity 103</a> - [NO DATA]</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-103">Entity 103</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-104">Entity 104</a> - “Photoshop”</li>
-                                        <li><a class="newpage" href="/entity-105">Entity 105</a> - [NO DATA]</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-105">Entity 105</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-106">Entity 106</a> - “tgochi.exe”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-107">Entity 107</a> - “腐蚀者”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-108">Entity 108</a> - “猎鸟”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-107">Entity 107</a> - [NO DATA]</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-108">Entity 108</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-109">Entity 109</a> - “Festa！！”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-110">Entity 110</a> - “食肉气球”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-111">Entity 111</a> - “管家”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-112">Entity 112</a> - “恶魂”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-113">Entity 113</a> - “赫伯特”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-113">Entity 113</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-114">Entity 114</a> - “洛特卡”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-115">Entity 115</a> - “The Artikeli/Created
-                                            Ones”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-115">Entity 115</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-116">Entity 116</a> - “牙医”<span class="rew"><span
                                                     style="white-space: pre-wrap;">&#32;</span></span></li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-117">Entity 117</a> - [NO DATA]</li>
@@ -636,23 +648,22 @@
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-133">Entity 133</a> - “信使”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-134">Entity 134</a> - “恐惧蜈蚣”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-135">Entity 135</a> - “行李员”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-136">Entity 136</a> - “编码员”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-136">Entity 136</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-137">Entity 137</a> - “音乐家”</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-138">Entity 138</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-139">Entity 139</a> - “戏偶”<span class="rew"><span
                                                     style="white-space: pre-wrap;">&#32;</span></span></li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-140">Entity 140</a> - “Blanche”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-141">Entity 141</a> - “特使”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-142">Entity 142</a> - &quot;Evolution
-                                            Engine&quot;</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-142">Entity 142</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-143">Entity 143</a> - “掠夺者杂草”</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-144">Entity 144</a> -
-                                            &quot;Nonbelievers&quot;</li>
+                                            [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-145">Entity 145</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-146">Entity 146</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-147">Entity 147</a> - <span
                                                 style="color: #9722c1"><strong><span class="txt-1"><span
-                                                            style="white-space: pre-wrap;">&#32;</span>“这只是时间问题”</span></strong></span>
+                                                            style="white-space: pre-wrap;">&#32;</span>[NO DATA]</span></strong></span>
                                         </li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-148">Entity 148</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-149">Entity 149</a> - “Theodore Kensley”</li>
@@ -671,48 +682,49 @@
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-162">Entity 162</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-163">Entity 163</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-164">Entity 164</a> - <span
-                                                style="color: red">&quot;Crimson Eyes&quot;</span></li>
+                                                style="color: red">[NO DATA]</span></li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-165">Entity 165</a> - <span
-                                                style="color:white;background-color:black;padding:0 0.1rem;">“孤独者”</span>
+                                                style="color:white;background-color:black;padding:0 0.1rem;">[NO DATA]</span>
                                         </li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-166">Entity 166</a> - &quot;Rivechs&quot;
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-166">Entity 166</a> - [NO DATA]
                                         </li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-167">Entity 167</a> - “派对之主”<span class="rew"><span
                                                     style="white-space: pre-wrap;">&#32;</span></span></li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-168">Entity 168</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-169">Entity 169</a> - <em>“BOING！”</em></li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-170">Entity 170</a> - “火炎鳌鳄”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-170">Entity 170</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-171">Entity 171</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-172">Entity 172</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-173">Entity 173</a> - “呼唤”</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-174">Entity 174</a> - [NO DATA]</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-175">Entity 175</a> - &quot;Webmaker&quot;
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-175">Entity 175</a> - [NO DATA]
                                         </li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-176">Entity 176</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-177">Entity 177</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-178">Entity 178</a> - [NO DATA]</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-179">Entity 179</a> - <strong>M</strong>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-179">Entity 179</a> - [NO DATA]
                                         </li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-180">Entity 180</a> - “Berry”</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-181">Entity 181</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-182">Entity 182</a> - “蒙面信使”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-183">Entity 183</a> - “狂欢小丑”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-183">Entity 183</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-184">Entity 184</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-185">Entity 185</a> - “喜剧演员”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-186">Entity 186</a> - “歌手”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-186">Entity 186</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-187">Entity 187</a> - “仆从”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-188">Entity 188</a> - “迷失者”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-188">Entity 188</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-189">Entity 189</a> - “机巧子民”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-190">Entity 190</a> - “Men in Black”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-191">Entity 191</a> - “The Company”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-190">Entity 190</a> - [NO DATA]</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-191">Entity 191</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-192">Entity 192</a> - &quot;欺诈鸟&quot;</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-193">Entity 193</a> - “辛迪”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-193">Entity 193</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-194">Entity 194</a> - “水晶姐妹”</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-195">Entity 195</a> - “无尽/无名”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-195">Entity 195</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-196">Entity 196</a> - “残垣子裔”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-197">Entity 197</a> - “爵士脑”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-198">Entity 198</a> - “毛绒恐龙”</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-199">Entity 199</a> - [NO DATA]</li>
+                                        <li><a href="./iets.html">IETS</a> - “Isle 实体威胁评分”</li>
                                     </ul>
                                 </div>
                                 <div class="style-block">
@@ -733,11 +745,10 @@
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-209">Entity 209</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-210">Entity 210</a> - “内鬼”</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-211">Entity 211</a> - [NO DATA]</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-212">Entity 212</a> - “WOOOM”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-212">Entity 212</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-213">Entity 213</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-214">Entity 214</a> - [NO DATA]</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-215">Entity 215</a> - &quot;The Bronze
-                                            Builders&quot;</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-215">Entity 215</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-216">Entity 216</a> - <span
                                                 style="color: #c49102"><strong>“源始神子之化形”</strong></span></li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-217">Entity 217</a> - [NO DATA]</li>
@@ -806,13 +817,12 @@
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-280">Entity 280</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-281">Entity 281</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-282">Entity 282</a> - [NO DATA]</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-283">Entity 283</a> - “Volares”</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-283">Entity 283</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-284">Entity 284</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-285">Entity 285</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-286">Entity 286</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-287">Entity 287</a> - [NO DATA]</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-288">Entity 288</a> - &quot;An Operative's
-                                            Encounter With Two Stupid Ducks&quot;</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-288">Entity 288</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-289">Entity 289</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-290">Entity 290</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-291">Entity 291</a> - [NO DATA]</li>
@@ -824,6 +834,7 @@
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-297">Entity 297</a> - “黑暗君主”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-298">Entity 298</a> - “鲸犬”</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-299">Entity 299</a> - [NO DATA]</li>
+                                        <li><a href="./iets.html">IETS</a> - “Isle 实体威胁评分”</li>
                                     </ul>
                                 </div>
                                 <div class="style-block">
@@ -912,8 +923,7 @@
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-377">Entity 377</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-378">Entity 378</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-379">Entity 379</a> - [NO DATA]</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-380">Entity 380</a> - &quot;Administrative
-                                            Sentinel Constructs&quot;</li>
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-380">Entity 380</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-381">Entity 381</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-382">Entity 382</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-383">Entity 383</a> - [NO DATA]</li>
@@ -933,6 +943,7 @@
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-397">Entity 397</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-398">Entity 398</a> - “狂猎”</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-399">Entity 399</a> - [NO DATA]</li>
+                                        <li><a href="./iets.html">IETS</a> - “Isle 实体威胁评分”</li>
                                     </ul>
                                 </div>
                                 <div class="style-block">
@@ -1042,6 +1053,7 @@
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-497">Entity 497</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-498">Entity 498</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-499">Entity 499</a> - [NO DATA]</li>
+                                        <li><a href="./iets.html">IETS</a> - “Isle 实体威胁评分”</li>
                                     </ul>
                                 </div>
                                 <div class="style-block">
@@ -1150,6 +1162,7 @@
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-597">Entity 597</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-598">Entity 598</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-599">Entity 599</a> - [NO DATA]</li>
+                                        <li><a href="./iets.html">IETS</a> - “Isle 实体威胁评分”</li>
                                     </ul>
                                 </div>
                                 <div class="style-block">
@@ -1257,9 +1270,9 @@
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-696">Entity 696</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-697">Entity 697</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-698">Entity 698</a> - [NO DATA]</li>
-                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-699">Entity 699</a> -
-                                            &quot;Greinophones&quot;<span class="rew"><span
+                                        <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-699">Entity 699</a> - [NO DATA]<span class="del"><span
                                                     style="white-space: pre-wrap;">&#32;</span></span></li>
+                                        <li><a href="./iets.html">IETS</a> - “Isle 实体威胁评分”</li>
                                     </ul>
                                 </div>
                                 <div class="style-block">
@@ -1369,6 +1382,7 @@
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-797">Entity 797</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-798">Entity 798</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-799">Entity 799</a> - [NO DATA]</li>
+                                        <li><a href="./iets.html">IETS</a> - “Isle 实体威胁评分”</li>
                                     </ul>
                                 </div>
                                 <div class="style-block">
@@ -1477,6 +1491,7 @@
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-897">Entity 897</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-898">Entity 898</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-899">Entity 899</a> - [NO DATA]</li>
+                                        <li><a href="./iets.html">IETS</a> - “Isle 实体威胁评分”</li>
                                     </ul>
                                 </div>
                                 <div class="style-block">
@@ -1585,6 +1600,7 @@
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-997">Entity 997</a> - [NO DATA]</li>
                                         <li><a class="newpage" href="https://backrooms-wiki-cn.wikidot.com/entity-998">Entity 998</a> - [NO DATA]</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-999">Entity 999</a> - “认知病”</li>
+                                        <li><a href="./iets.html">IETS</a> - “Isle 实体威胁评分”</li>
                                     </ul>
                                 </div>
                             </div>
@@ -1594,6 +1610,9 @@
                                 </span>
                                 <span>
                                     <a href="./slyq.md">审核要求</a>
+                                </span>
+                                <span>
+                                    <a href="./iets.html">IETS</a>
                                 </span>
                             </div>
 

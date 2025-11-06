@@ -140,29 +140,6 @@
             word-break: break-all;
         }
     </style>
-    <style>
-        /* 最强大的覆盖方法 - 针对class-deadzone容器 */
-        .sd-container.class-deadzone .bottom-text .lang-cn::after,
-        .sd-container.class-deadzone .bottom-text .lang-tr::after {
-            content: "天堂" !important;
-            display: inline !important;
-            font-size: inherit !important;
-            color: inherit !important;
-            text-shadow: inherit !important;
-        }
-        
-        /* 完全隐藏原有内容 */
-        .sd-container.class-deadzone .bottom-text .lang-cn,
-        .sd-container.class-deadzone .bottom-text .lang-tr {
-            display: none !important;
-            visibility: hidden !important;
-        }
-        
-        /* 备用方案：直接修改伪元素内容 */
-        .class-deadzone .bottom-text span[class*="lang-"]::after {
-            content: "天堂" !important;
-        }
-    </style>
     <script type="text/javascript"
         src="https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc/common--modules/js/list/ListPagesModule.js"></script>
 </head>
@@ -185,6 +162,7 @@
                                         <ul>
                                             <li><a href="../">层级</a></li>
                                             <li><a href="../../entities">实体</a></li>
+                                            <li><a href="../../objects/">物品</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="../">返回上一步</a></li>
@@ -199,6 +177,7 @@
                                         <ul>
                                             <li><a href="../">层级</a></li>
                                             <li><a href="../../entities">实体</a></li>
+                                            <li><a href="../../objects/">物品</a></li>
                                         </ul>
                                     </li>
                                     </li>
