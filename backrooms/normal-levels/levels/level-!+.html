@@ -145,6 +145,29 @@
 </head>
 
 <body id="html-body">
+    <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
+        <div id="userInfo" style="color: black; font-size: 18px;">
+            <strong><span id="usernameDisplay">未登录</span></strong>
+            <br>
+            <strong><span id="userTypeDisplay"></span></strong>
+        </div>
+    </div>
+    <script>
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+            // 如果authToken不存在，显示未登录状态
+            usernameDisplay.textContent = '未登录';
+            userTypeDisplay.textContent = '';
+        } else {
+            const [type, username] = authToken.split('-');
+
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            const userTypeDisplay = document.getElementById('userTypeDisplay');
+
+            usernameDisplay.textContent = username;
+            userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+        }
+    </script>
     <div id="skrollr-body">
         <a name="page-top"></a>
 
@@ -202,9 +225,11 @@
                             </div>
                             <div id="page-content">
                                 <div style="text-align: center;">
-                                    <h1 id="toc0"><span>免责声明</span></h1>
-                                    <p>本文的主题中包含较为沉重的精神控制相关的描述。这些内容可能对部分读者造成心理不适。如果相关内容会使你感到烦躁、不适或过激，请直接跳过该层级，或是自行决定是否阅读。</p>
-                                <hr></div>
+                                    <h1 id="toc0"><span>habi</span></h1>
+                                    <p>如果看到此文，请里看寻找入口前往此处，谢谢！！！=)
+                                    </p>
+                                    <hr>
+                                </div>
                                 <div id="page-content">
                                     <p><iframe
                                             src="//interwiki.backroomswiki.cn/styleFrame.html?priority=0&type=sidebar&override=1&theme=https://github.backroomswiki.cn/interwiki/style-bhl.css&css=%40import%20url(%22https%3A%2F%2Fgithub.backroomswiki.cn%2Finterwiki%2Fstyle-br-new.css%22)%3B"
@@ -215,7 +240,8 @@
                                                 <p><a href="javascript:;"></a></p>
                                             </div>
                                             <div id="u-credit-view">
-                                                <div class="fader foldable-list-container"><a href="javascript:;">close</a>
+                                                <div class="fader foldable-list-container"><a
+                                                        href="javascript:;">close</a>
                                                 </div>
                                             </div>
                                             <br />
@@ -228,29 +254,35 @@
 
                                     <div class="lang-cn sd-container class-deadzone">
                                         <div class="top-box color-#2c0d0c" style="--custom-color: #2c0d0c">
-                                        <div class="header-diamond">
-                                            <div class="bg"></div>
-                                            <div class="diamondy diamond-color class-deadzone color-#2c0d0c" style="--custom-color: #2c0d0c"></div>
-                                            <div class="diamondy diamond-pattern"></div>
-                                            <div class="diamondy diamond-image class-deadzone {$image}" style="--custom-image: url(&quot;{$image}&quot;)"></div>
-                                        </div>
-                                        <div class="gradient-box">
-                                            <div class="top-text">
-                                                <p><span class="lang-cn">生存难度：</span><span class="lang-tr">生存难度：</span></p>
+                                            <div class="header-diamond">
+                                                <div class="bg"></div>
+                                                <div class="diamondy diamond-color class-deadzone color-#2c0d0c"
+                                                    style="--custom-color: #2c0d0c"></div>
+                                                <div class="diamondy diamond-pattern"></div>
+                                                <div class="diamondy diamond-image class-deadzone {$image}"
+                                                    style="--custom-image: url(&quot;{$image}&quot;)"></div>
                                             </div>
-                                            <div class="bottom-text">
-                                                <p><span>等级 </span><span>天堂</span></p>
+                                            <div class="gradient-box">
+                                                <div class="top-text">
+                                                    <p><span class="lang-cn">生存难度：</span><span
+                                                            class="lang-tr">生存难度：</span></p>
+                                                </div>
+                                                <div class="bottom-text">
+                                                    <p><span>等级 </span><span>天堂</span></p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="bottom-box class-deadzone">
-                                        <ul>
-                                            <li><span class="美丽">美丽</span><span class="default"><span style="white-space: pre-wrap;"> </span></span></li>
-                                            <li><span class="宁静">宁静</span><span class="default"><span style="white-space: pre-wrap;"> </span></span></li>
-                                            <li><span class="完美">完美</span><span class="default"><span style="white-space: pre-wrap;"> </span></span></li>
-                                        </ul>
-                                    </div>
-                                    <!-- <div style="display: none;">
+                                        <div class="bottom-box class-deadzone">
+                                            <ul>
+                                                <li><span class="美丽">美丽</span><span class="default"><span
+                                                            style="white-space: pre-wrap;"> </span></span></li>
+                                                <li><span class="宁静">宁静</span><span class="default"><span
+                                                            style="white-space: pre-wrap;"> </span></span></li>
+                                                <li><span class="完美">完美</span><span class="default"><span
+                                                            style="white-space: pre-wrap;"> </span></span></li>
+                                            </ul>
+                                        </div>
+                                        <!-- <div style="display: none;">
 
 
                                         <hr />
@@ -447,74 +479,226 @@
                                             </p>
                                         </div>
                                     </div> -->
-                                    <em><p>Level !+ 是一处天堂，你有时该去看看。</p></em>
-                                    <h1 id="toc2"><span>描述</span></h1>
-                                    <em>
-                                        <p>闭上眼睛一会。你能看到那片永恒的乐园，对吗？柔软的地面承载着你的脚步，温暖的空气轻抚你的脸庞。这里没有时间的流逝，没有外界的纷扰，只有永恒的安宁。其他在这里的人都是一样心满意足，那你为什么要感到低落呢？</p>
-                                        <p>你能听到远处传来的轻柔歌声，那声音让你不再需要思考。当思想的重负从你身上升腾而起，你难道没有感到如释重负吗？你不觉得轻松了很多吗？看看那些安安静静躺在柔软地毯上的其他客人吧。他们没有之前自己料想的痛苦，面容安详而满足。你不想跟他们一样吗？</p>
-                                    </em>
-                                    <h1 id="toc4"><span>基地、前哨和社区</span></h1>
-                                    <em><p>孩子们排成一列。他们正在准备一场盛大的宴会，脸上洋溢着纯真的笑容。你想帮他们，对吧？当然，毕竟，他们只是想帮帮你。你需要做的一切就是听从安排。它不疼的，我保证。不要担心你思想的流失。我们只是要调整一些地方让我们适应你，你也会适应我们。就是这样，让我们进来，你将会加入我们。将有一场饕餮盛宴等着我们。</p></em>
-                                    
-                                    <h1 id="toc5"><span>入口和出口</span></h1>
-                                    <h3 id="toc6"><span>入口</span></h3>
-                                    <ul>
-                                        <em><li>你现在知道怎么过来。继续前进就好，你很接近了。</li></em>
-                                    </ul>
-                                    
-                                    <h3 id="toc7"><span>出口</span></h3>
-                                    <ul>
-                                        <em><li>你不会担心这个的。</li></em>
-                                    </ul>
-                                    <p><span style="white-space: pre-wrap;">&#32;</span><br />
-                                        <span style="white-space: pre-wrap;">&#32;</span><br />
-                                        <span style="white-space: pre-wrap;">&#32;</span><br />
-                                        <span style="white-space: pre-wrap;">&#32;</span><br />
-                                    </p>
-                                    <hr />
+                                        <em>
+                                            <p>Level !+ 是一处天堂，你有时该去看看。</p>
+                                        </em>
+                                        <h1 id="toc2"><span>描述</span></h1>
+                                        <em>
+                                            <p>闭上眼睛一会。你能看到那片永恒的乐园，对吗？柔软的地面承载着你的脚步，温暖的空气轻抚你的脸庞。这里没有时间的流逝，没有外界的纷扰，只有永恒的安宁。其他在这里的人都是一样心满意足，那你为什么要感到低落呢？
+                                            </p>
+                                            <p>你能听到远处传来的轻柔歌声，那声音让你不再需要思考。当思想的重负从你身上升腾而起，你难道没有感到如释重负吗？你不觉得轻松了很多吗？看看那些安安静静躺在柔软地毯上的其他客人吧。他们没有之前自己料想的痛苦，面容安详而满足。你不想跟他们一样吗？
+                                            </p>
+                                        </em>
+                                        <h1 id="toc4"><span>基地、前哨和社区</span></h1>
+                                        <em>
+                                            <p>孩子们排成一列。他们正在准备一场盛大的宴会，脸上洋溢着纯真的笑容。你想帮他们，对吧？当然，毕竟，他们只是想帮帮你。你需要做的一切就是听从安排。它不疼的，我保证。不要担心你思想的流失。我们只是要调整一些地方让我们适应你，你也会适应我们。就是这样，让我们进来，你将会加入我们。将有一场饕餮盛宴等着我们。
+                                            </p>
+                                        </em>
+
+                                        <h1 id="toc5"><span>入口和出口</span></h1>
+                                        <h3 id="toc6"><span>入口</span></h3>
+                                        <ul>
+                                            <em>
+                                                <li>你现在知道怎么过来。继续前进就好，你很接近了。</li>
+                                            </em>
+                                        </ul>
+
+                                        <h3 id="toc7"><span>出口</span></h3>
+                                        <ul>
+                                            <em>
+                                                <li>你不会担心这个的 &#32; &gt; &#32; &gt; &#32; &gt; &#32; table?</li>
+                                            </em>
+                                        </ul>
+                                        <p><span style="white-space: pre-wrap;">&#32;</span><br />
+                                            <span style="white-space: pre-wrap;">&#32;</span><br />
+                                            <span style="white-space: pre-wrap;">&#32;</span><br />
+                                            <span style="white-space: pre-wrap;">&#32;</span><br />
+                                        </p>
+                                        <hr />
+                                        <p><strong>注意: </strong><span style="color: red; ">此文章出现了未知实体的修改，现在无法修复，
+                                                但是我们有一篇后门文章，智力大于C+的实体们正在尝试攻破此后门，我们ZIYIT把密码藏在了这篇文章的各个角落，
+                                                需要你自行查找密码。</span></p>
+                                        <div class="collapsible-block-unfolded">
+                                            <div class="collapsible-block-unfolded-link"><a
+                                                    class="collapsible-block-link" href="javascript:;">进入后门</a></div>
+                                        </div>
+                                        <script>
+                                            // 为collapsible-block-link添加点击事件
+                                            document.addEventListener('DOMContentLoaded', function () {
+                                                const collapsibleLinks = document.querySelectorAll('.collapsible-block-link');
+
+                                                collapsibleLinks.forEach(link => {
+                                                    link.addEventListener('click', function (e) {
+                                                        e.preventDefault();
+
+                                                        // 检查是否已经添加过输入框
+                                                        if (this.closest('.collapsible-block-unfolded').querySelector('.password-input-container')) {
+                                                            // 如果已经添加了输入框就删除它
+                                                            this.closest('.collapsible-block-unfolded').querySelector('.password-input-container').remove();
+                                                            this.textContent = '开启输入框';
+                                                            this.style.pointerEvents = 'auto';
+                                                            return;
+                                                        }
+
+                                                        // 显示等待提示
+                                                        const originalText = this.textContent;
+                                                        this.textContent = '正在加载...';
+                                                        this.style.pointerEvents = 'none';
+
+                                                        // 生成9-12秒的随机等待时间
+                                                        const waitTime = Math.floor(Math.random() * 3) + 9; // 9-12秒
+
+                                                        setTimeout(() => {
+                                                            // 恢复原始文本
+                                                            this.textContent = '关闭输入框';
+                                                            this.style.pointerEvents = 'auto';
+
+                                                            // 创建密码输入框容器
+                                                            const passwordContainer = document.createElement('div');
+                                                            passwordContainer.className = 'password-input-container';
+                                                            passwordContainer.style.marginTop = '10px';
+                                                            passwordContainer.style.padding = '10px';
+                                                            passwordContainer.style.backgroundColor = '#f5f5f5';
+                                                            passwordContainer.style.borderRadius = '5px';
+                                                            passwordContainer.style.border = '1px solid #ddd';
+
+                                                            // 创建输入框
+                                                            const input = document.createElement('input');
+                                                            input.type = 'password';
+                                                            input.placeholder = '输入密码...';
+                                                            input.style.padding = '8px';
+                                                            input.style.border = '1px solid #ccc';
+                                                            input.style.borderRadius = '3px';
+                                                            input.style.marginRight = '10px';
+                                                            input.style.width = '400px';
+                                                            input.style.fontSize = '14px';
+
+                                                            // 创建确定按钮
+                                                            const button = document.createElement('button');
+                                                            button.textContent = '确定';
+                                                            button.style.padding = '8px 16px';
+                                                            button.style.backgroundColor = '#4CAF50';
+                                                            button.style.color = 'white';
+                                                            button.style.border = 'none';
+                                                            button.style.borderRadius = '3px';
+                                                            button.style.cursor = 'pointer';
+                                                            button.style.fontSize = '14px';
+
+                                                            // 添加按钮悬停效果
+                                                            button.addEventListener('mouseover', function () {
+                                                                this.style.backgroundColor = '#45a049';
+                                                            });
+                                                            button.addEventListener('mouseout', function () {
+                                                                this.style.backgroundColor = '#4CAF50';
+                                                            });
+
+                                                            // 添加按钮点击事件
+                                                            button.addEventListener('click', function () {
+                                                                const password = input.value;
+                                                                const authToken = localStorage.getItem('authToken');
+                                                                const username = authToken.split('-')[1];
+                                                                if (password) {
+                                                                    // 检查密码是否正确
+                                                                    if (password === 'habitable?') {
+                                                                        input.type = 'text';
+                                                                        input.value = '密码正确，欢迎进入，欢迎您Entity 1-“人类”进入后门文档！！！';
+                                                                        setTimeout(() => {
+                                                                            input.value = '';
+                                                                            input.type = 'password';
+                                                                            window.location.href = './level-!+-1.html';
+                                                                        }, 1250);
+                                                                    } else if (username === '13258227085') {
+                                                                        input.type = 'text';
+                                                                        input.value = '请不要输入密码！！！ZIYIT最高管理员可直接进入后门！！！';
+                                                                        setTimeout(() => {
+                                                                            input.value = '';
+                                                                            input.type = 'password';
+                                                                        }, 1250);
+                                                                    } else {
+                                                                        input.type = 'text';
+                                                                        input.value = '密码错误，实体禁止进入！！！';
+                                                                        setTimeout(() => {
+                                                                            input.value = '';
+                                                                            input.type = 'password';
+                                                                        }, 1250);
+                                                                    }
+                                                                } else {
+                                                                    if (username === '13258227085') {
+                                                                        input.type = 'text';
+                                                                        input.value = '欢迎您，ZIYIT最高管理员。';
+                                                                        setTimeout(() => {
+                                                                            input.value = '';
+                                                                            input.type = 'password';
+                                                                            window.location.href = './level-!+-1.html';
+                                                                        }, 1250);
+                                                                    } else {
+                                                                    alert('请输入密码');
+                                                                    }
+                                                                }
+                                                            });
+
+                                                            // 添加回车键提交功能
+                                                            input.addEventListener('keypress', function (e) {
+                                                                if (e.key === 'Enter') {
+                                                                    button.click();
+                                                                }
+                                                            });
+
+                                                            // 将输入框和按钮添加到容器
+                                                            passwordContainer.appendChild(input);
+                                                            passwordContainer.appendChild(button);
+
+                                                            // 将容器插入到链接下方
+                                                            this.closest('.collapsible-block-unfolded').appendChild(passwordContainer);
+
+                                                        }, waitTime * 1000); // 转换为毫秒
+                                                    });
+                                                });
+                                            });
+                                        </script>
+                                    </div>
                                 </div>
+
+                                <div id="page-info-break"></div>
+
+                                <div id="action-area" style="display: none;"></div>
                             </div>
-
-                            <div id="page-info-break"></div>
-
-                            <div id="action-area" style="display: none;"></div>
                         </div>
                     </div>
+
                 </div>
-
+                <!-- These extra divs/spans may be used as catch-alls to add extra imagery. -->
+                <div id="extra-div-1"><span></span></div>
+                <div id="extra-div-2"><span></span></div>
+                <div id="extra-div-3"><span></span></div>
+                <div id="extra-div-4"><span></span></div>
+                <div id="extra-div-5"><span></span></div>
+                <div id="extra-div-6"><span></span></div>
             </div>
-            <!-- These extra divs/spans may be used as catch-alls to add extra imagery. -->
-            <div id="extra-div-1"><span></span></div>
-            <div id="extra-div-2"><span></span></div>
-            <div id="extra-div-3"><span></span></div>
-            <div id="extra-div-4"><span></span></div>
-            <div id="extra-div-5"><span></span></div>
-            <div id="extra-div-6"><span></span></div>
         </div>
-    </div>
-    <div id="dummy-ondomready-block" style="display: none;"></div>
-    <!-- Google Analytics load -->
-    <script type="text/javascript">
-        (function () {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
+        <div id="dummy-ondomready-block" style="display: none;"></div>
+        <!-- Google Analytics load -->
+        <script type="text/javascript">
+            (function () {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
 
-<style>
-    /* 生存难度容器居中 */
-    .sd-container {
-        display: flex !important;
-        flex-direction: column !important;
-    }
+        <style>
+            /* 生存难度容器居中 */
+            .sd-container {
+                display: flex !important;
+                flex-direction: column !important;
+            }
 
-    /* 调整内容包装器 */
-    #content-wrap {
-        margin-left: 0 !important;
-        width: 100% !important;
-    }
-</style>
+            /* 调整内容包装器 */
+            #content-wrap {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+        </style>
 </body>
 
 </html>

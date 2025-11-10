@@ -114,6 +114,33 @@
 </head>
 
 <body style="background: url(../assets/backrooms.jpg) no-repeat center center fixed; background-size: cover;">
+    <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
+        <img id="userAvatar" src="" alt="" style="width: 65px; height: 50px; display: none;">
+        <div id="userInfo" style="color: black; font-size: 18px;">
+            <strong><span id="usernameDisplay">未登录</span></strong>
+            <br>
+            <strong><span id="userTypeDisplay"></span></strong>
+        </div>
+    </div>
+    <script>
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+            // 如果authToken不存在，显示未登录状态
+            usernameDisplay.textContent = '未登录';
+            userTypeDisplay.textContent = '';
+        }else{
+        const [type, username] = authToken.split('-');
+
+        const userAvatar = document.getElementById('userAvatar');
+        const usernameDisplay = document.getElementById('usernameDisplay');
+        const userTypeDisplay = document.getElementById('userTypeDisplay');
+
+        userAvatar.src = '../assets/ziyit.png';
+        userAvatar.style.display = 'block';
+        usernameDisplay.textContent = username;
+        userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+        }
+    </script>
     <h1 style="background-color: rgba(195, 234, 249, 0.29);">ZIYIT后室信息</h1>
     <hr>
     <div class="box">

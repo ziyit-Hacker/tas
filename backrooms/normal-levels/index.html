@@ -501,6 +501,29 @@ YRDZST
 </head>
 
 <body id="html-body">
+    <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
+        <div id="userInfo" style="color: black; font-size: 18px;">
+            <strong><span id="usernameDisplay">未登录</span></strong>
+            <br>
+            <strong><span id="userTypeDisplay"></span></strong>
+        </div>
+    </div>
+    <script>
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+            // 如果authToken不存在，显示未登录状态
+            usernameDisplay.textContent = '未登录';
+            userTypeDisplay.textContent = '';
+        } else {
+            const [type, username] = authToken.split('-');
+
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            const userTypeDisplay = document.getElementById('userTypeDisplay');
+
+            usernameDisplay.textContent = username;
+            userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+        }
+    </script>
     <div id="skrollr-body">
         <a name="page-top"></a>
         <div id="container-wrap-wrap">
@@ -591,10 +614,10 @@ YRDZST
                                         <p><a href="#t">▲</a></p>
                                     </div>
                                     <ul>
-                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/levels/level-0.html">Level 0</a> - “教学关卡”</li>
-                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/levels/level-1.html">Level 1</a> - “宜居地带”</li>
-                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/levels/level-2.html">Level 2</a> - “废弃公共带”</li>
-                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/levels/level-3.html">Level 3</a> - “发电站”</li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-0.html">Level 0</a> - “教学关卡”</li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-1.html">Level 1</a> - “宜居地带”</li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-2.html">Level 2</a> - “废弃公共带”</li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-3.html">Level 3</a> - “发电站”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/level-4">Level 4</a> - ”废弃办公室“</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/level-5">Level 5</a> - “恐怖旅馆”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/level-6">Level 6</a> - “熄灯”</li>

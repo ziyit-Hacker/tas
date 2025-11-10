@@ -118,12 +118,41 @@
 </head>
 
 <body id="html-body">
+    <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
+        <div id="userInfo" style="color: black; font-size: 18px;">
+            <strong><span id="usernameDisplay">未登录</span></strong>
+            <br>
+            <strong><span id="userTypeDisplay"></span></strong>
+        </div>
+    </div>
+    <script>
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+            // 如果authToken不存在，显示未登录状态
+            usernameDisplay.textContent = '未登录';
+            userTypeDisplay.textContent = '';
+        } else {
+            const [type, username] = authToken.split('-');
+
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            const userTypeDisplay = document.getElementById('userTypeDisplay');
+
+            usernameDisplay.textContent = username;
+            userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+        }
+    </script>
     <div id="skrollr-body">
         <a name="page-top"></a>
         <div id="container-wrap-wrap">
             <div id="container-wrap">
                 <div id="container">
                     <div id="header">
+                        <style>
+                            :root {
+                            --header-title: "ZIYIT & M.E.G.";
+                            --header-subtitle: "让后室生活更美好";
+                            }
+                        </style>
                         <h1><a href="../"><span>ZIYIT & M.E.G.</span></a></h1>
                         <h2><span>让后室生活更美好</span></h2>
                         <div id="top-bar">
