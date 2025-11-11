@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+
+<head>
+    <title>子区集列表 - ZIYIT Backrooms中文维基</title>
+    <script type="text/javascript"
+        src="https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc/common--javascript/init.combined.js"></script>
+    <script type="text/javascript">
+        var URL_HOST = 'www.wikidot.com';
+        var URL_DOMAIN = 'wikidot.com';
+        var USE_SSL = true;
+        var URL_STATIC = 'https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc';
+        // global request information
+
+        var WIKIREQUEST = {};
+        WIKIREQUEST.info = {};
+
+        WIKIREQUEST.info.domain = "backrooms-wiki-cn.wikidot.com";
+        WIKIREQUEST.info.siteId = 4716348;
+        WIKIREQUEST.info.siteUnixName = "backrooms-wiki-cn";
+        WIKIREQUEST.info.categoryId = 40786773;
+        WIKIREQUEST.info.themeId = 1;
+        WIKIREQUEST.info.requestPageName = "sub-layers";
+        OZONE.request.timestamp = 1762866345;
+        OZONE.request.date = new Date();
+        WIKIREQUEST.info.lang = 'cn';
+        WIKIREQUEST.info.pageUnixName = "sub-layers";
+        WIKIREQUEST.info.pageId = 1312533652;
+        WIKIREQUEST.info.lang = "cn";
+        OZONE.lang = "cn";
+        var isUAMobile = !!/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    </script>
+    <script type="text/javascript">
+
+        require.config({
+            baseUrl: URL_STATIC + '/common--javascript',
+            paths: {
+                'jquery.ui': 'jquery-ui.min',
+                'jquery.form': 'jquery.form'
+            }
+        });
+
+    </script>
+
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta name="theme-color" content="#35B1A4">
+    <meta name="og:type" content="article">
+    <meta name="description" content="后室文档公共数据库——你曾经来过这里。">
+    <meta name="og:site_name" content="The Backrooms 中文维基">
+    <meta name="og:image" content="https://backrooms-oversight-cn.wdfiles.com/local--files/bml-emojis-1/bml_04.png">
+    <meta name="og:locale" content="zh-cn">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="content-language" content="cn">
+    <script type="text/javascript"
+        src="https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc/common--javascript/WIKIDOT.combined.js"></script>
+
+
+    <style type="text/css" id="internal-style">
+        /* modules */
+
+
+        /* theme */
+        @import url(https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc/common--theme/base/css/style.css);
+        @import url(https://github.backroomswiki.cn/Old_BHL/css/liminal-impact.css);
+    </style>
+
+
+
+
+    <link rel="shortcut icon" href="/local--favicon/favicon.gif">
+    <link rel="icon" type="image/gif" href="/local--favicon/favicon.gif">
+
+    <link rel="apple-touch-icon" href="/local--iosicon/iosicon_57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/local--iosicon/iosicon_72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/local--iosicon/iosicon.png">
+
+    <meta name="msapplication-TileImage" content="/local--wp8icon/wp8icon.png">
+    <meta name="msapplication-TileColor" content="#000000">
+
+    <link rel="alternate" type="application/wiki" title="Edit this page"
+        href="javascript:WIKIDOT.page.listeners.editClick()">
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-18234656-1']);
+        _gaq.push(['_setDomainName', 'none']);
+        _gaq.push(['_setAllowLinker', true]);
+        _gaq.push(['_trackPageview']);
+
+        _gaq.push(['old._setAccount', 'UA-68540-5']);
+        _gaq.push(['old._setDomainName', 'none']);
+        _gaq.push(['old._setAllowLinker', true]);
+        _gaq.push(['old._trackPageview']);
+
+        _gaq.push(['userTracker._setAccount', 'UA-290379544-1']);
+        _gaq.push(['userTracker._trackPageview']);
+    </script>
+
+    <script type="text/javascript">
+        window.google_analytics_uacct = 'UA-18234656-1';
+        window.google_analytics_domain_name = 'none';
+    </script>
+
+    <link rel="manifest" href="/onesignal/manifest.json">
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" acync=""></script>
+    <script>
+        var OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+            OneSignal.init({
+                appId: null,
+            });
+        });
+    </script>
+
+    <meta name="google-adsense-account" content="ca-pub-7805322678042888">
+    <style>
+        @import url('https://use.fontawesome.com/releases/v5.11.2/css/all.css');
+
+        /* Intro 和 Style Block */
+        .intro {
+            display: grid;
+            grid-template: 'in others' 'in out' 'toc toc';
+            grid-template-columns: .62fr .38fr;
+            grid-template-rows: auto min-content auto;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .intro-in {
+            grid-area: in;
+        }
+
+        .intro-out {
+            grid-area: out;
+        }
+
+        .intro-others {
+            grid-area: others;
+        }
+
+        .intro-toc {
+            grid-area: toc;
+        }
+
+        .intro-block,
+        .style-block {
+            padding: 0;
+            background-color: rgb(var(--pale-gray-monochrome));
+            border: rgb(var(--gray-monochrome)) solid 0.2rem;
+            border-top: none;
+            position: relative;
+        }
+
+        .intro-block p {
+            margin: 1rem;
+        }
+
+        .style-block {
+            margin-bottom: 1rem;
+        }
+
+        .intro-block h1,
+        .intro-block h2,
+        .intro-block h3,
+        .intro-block h4,
+        .intro-block h5,
+        .intro-block h6,
+        .style-block h1,
+        .style-block h2,
+        .style-block h3,
+        .style-block h4,
+        .style-block h5,
+        .style-block h6 {
+            background-color: rgb(var(--gray-monochrome));
+            color: rgb(var(--pale-gray-monochrome));
+            padding: 0.3em 1rem 0.3em 0.5em;
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        .intro-toc {
+            background-color: rgb(var(--gray-monochrome));
+            border-right: rgb(var(--gray-monochrome)) solid 0.1rem;
+            border-left: rgb(var(--gray-monochrome)) solid 0.1rem;
+            border-bottom: rgb(var(--gray-monochrome)) solid 0.1rem;
+        }
+
+        .intro-toc h1,
+        .intro-toc h2,
+        .intro-toc h3,
+        .intro-toc h4,
+        .intro-toc h5,
+        .intro-toc h6 {
+            padding-bottom: calc(0.3em - 0.1rem);
+        }
+
+        .intro-toc p,
+        .intro-toc p a {
+            display: flex;
+        }
+
+        .intro-toc p {
+            flex-wrap: wrap;
+            margin: 0;
+        }
+
+        .intro-toc p a {
+            width: 20%;
+            color: rgb(var(--black-monochrome));
+            background-color: rgb(var(--pale-gray-monochrome));
+            border: rgb(var(--gray-monochrome)) solid 0.1rem;
+            padding: 0.5rem 0;
+            box-sizing: border-box;
+            text-decoration: none !important;
+            justify-content: center;
+            align-content: center;
+            transition: 300ms;
+            font-family: var(--mono-font);
+        }
+
+        .intro-toc p a:hover {
+            color: rgb(var(--link-color));
+            background-color: rgb(var(--white-monochrome));
+        }
+
+        .style-block ul,
+        .intro-others ul {
+            padding: 1px 1em;
+        }
+
+        .style-block ul>li,
+        .intro-others ul>li {
+            padding: 0.1rem 0.2rem;
+        }
+
+        .style-block ul>li:nth-child(even),
+        .intro-others ul>li:nth-child(odd) {
+            background: rgba(var(--white-monochrome), 0.3);
+        }
+
+        .style-block ul>li>ul {
+            padding: 0;
+            margin-left: 1.5rem;
+            position: relative;
+        }
+
+        .style-block ul>li>ul::before {
+            content: "⤷";
+            display: block;
+            left: -1rem;
+            top: 0;
+            position: absolute;
+        }
+
+        .style-block h2 {
+            display: flex;
+        }
+
+        .style-block h2 span {
+            padding-left: 0.5em;
+        }
+
+        .style-block h2::before {
+            margin-top: -0.9rem;
+            content: ' ';
+            width: 1.3rem;
+            background: rgb(var(--pale-gray-monochrome));
+            display: block;
+            clip-path: polygon(-100% -100%, 100% 0%, 100% 100%, 50% 80%, 0% 100%);
+            border: rgb(var(--gray-monochrome)) solid 0.2rem;
+            border-bottom: none;
+        }
+
+        /* Icons */
+        .infomark::before {
+            content: "\f05a";
+            font-weight: 900;
+            font-family: "Font Awesome 5 Free";
+        }
+
+        .penmark::before {
+            content: "\f304";
+            font-weight: 900;
+            font-family: "Font Awesome 5 Free";
+        }
+
+        .moremark::after {
+            content: "\f2f6";
+            font-weight: 900;
+            font-family: "Font Awesome 5 Free";
+        }
+
+        .import::after {
+            content: "\f1d8";
+            font-weight: 900;
+            font-family: "Font Awesome 5 Free";
+        }
+
+        .rew {
+            float: right;
+        }
+
+        .del {
+            float: right;
+        }
+
+        .run {
+            float: right;
+        }
+
+        .rew::before {
+            content: "\0020\f071";
+            font-weight: 900;
+            font-family: "Font Awesome 5 Free";
+            color: rgb(var(--dark-accent));
+        }
+
+        .del::before {
+            content: "\0020\f2ed";
+            font-weight: 900;
+            font-family: "Font Awesome 5 Free";
+            color: rgb(var(--dark-accent));
+        }
+
+        .run::before {
+            content: "\0020\f04b";
+            font-weight: 900;
+            font-family: "Font Awesome 5 Free";
+            color: rgb(var(--dark-accent));
+        }
+
+        .rew::after {
+            content: "该文章正在重写中";
+            font-family: 'Noto Sans SC';
+            color: rgb(var(--dark-accent));
+        }
+
+        .del::after {
+            content: "该文章正在删除中";
+            font-family: 'Noto Sans SC';
+            color: rgb(var(--dark-accent));
+        }
+
+        .run::after {
+            content: "该文章正在编写中";
+            font-family: 'Noto Sans SC';
+            color: rgb(var(--dark-accent));
+        }
+
+        /* Other */
+        #page-title {
+            padding-bottom: 0.1rem;
+            border-bottom: rgb(var(--gray-monochrome)) solid 0.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        li::marker {
+            content: ' ';
+            font-size: 0px;
+        }
+
+        .back-to-toc {
+            position: absolute;
+            right: 1rem;
+            top: 0.43125rem;
+        }
+
+        .back-to-toc p {
+            margin: 0;
+        }
+
+        .back-to-toc p a {
+            color: rgb(var(--white-monochrome));
+            text-decoration: none !important;
+        }
+
+        .back-to-toc p a:hover {
+            color: rgb(var(--pale-gray-monochrome));
+        }
+
+        .back-to-toc p a::after {
+            content: '回到顶部';
+            padding-left: 0.5em;
+        }
+
+        #breadcrumbs,
+        .pseudocrumbs {
+            margin: 0 0 1em;
+        }
+
+        /* Mobile */
+        @media only screen and (max-width: 768px) {
+            .intro {
+                grid-template: 'in' 'out' 'others' 'toc';
+                grid-template-columns: 1fr;
+            }
+
+            .rew::after {
+                content: "重写中";
+            }
+
+            .style-block h1,
+            .style-block h2,
+            .style-block h3,
+            .style-block h4,
+            .style-block h5,
+            .style-block h6 {
+                padding: 0.5rem 0.5rem;
+            }
+
+            .style-block h2::before {
+                width: 1rem;
+            }
+
+            .back-to-toc {
+                top: 0.584375rem;
+            }
+
+            .back-to-toc p a::after {
+                content: '返回';
+            }
+        }
+
+        @media only screen and (max-width: 1000px) {
+            .intro-toc p a {
+                width: 50%;
+            }
+        }
+    </style>
+    <style>
+        .sub-block>ul>li {
+            font-weight: bold;
+            background: transparent !important;
+            padding: 0rem 0.2rem;
+        }
+
+        .sub-block>ul>li>a {
+            padding: 0.3em 0.5em;
+            background-color: rgba(var(--dark-accent), 0.7);
+            color: rgb(var(--pale-gray-monochrome));
+            text-decoration: none !important;
+            font-weight: bold;
+            display: block;
+        }
+
+        .sub-block>ul>li>ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        .sub-block>ul>li>ul::before {
+            display: none;
+        }
+
+        .sub-block>ul>li>ul>li {
+            padding: 0.3em 0 0.3em 1em;
+        }
+
+        .sub-block>ul>li>ul>li:nth-child(even) {
+            background: rgba(var(--white-monochrome), 0.3);
+        }
+
+        .intro-toc p a {
+            width: 25%;
+            font-family: var(--title-font);
+        }
+
+        @media only screen and (max-width: 900px) {
+            .intro-toc p a {
+                width: 50%;
+            }
+        }
+    </style>
+    <style>
+        .intro-toc p a {
+            width: calc(100% / 3);
+        }
+    </style>
+    <style>
+        /* 字体 */
+        @import url('http://scpsandboxcn.wikidot.com/local--files/typeface/Typeface-zcoolwenyiti.css');
+
+        /* Level 5.1 - “恐怖旅馆赌场盛大开幕” */
+        .casino {
+            font-family: 'zcoolwenyiti', sans-serif;
+        }
+    </style>
+    <script type="text/javascript"
+        src="https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc/common--modules/js/list/ListPagesModule.js"></script>
+</head>
+
+<body id="html-body">
+    <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
+        <div id="userInfo" style="color: black; font-size: 18px;">
+            <strong><span id="usernameDisplay">未登录</span></strong>
+            <br>
+            <strong><span id="userTypeDisplay"></span></strong>
+        </div>
+    </div>
+    <script>
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+            // 如果authToken不存在，显示未登录状态
+            usernameDisplay.textContent = '未登录';
+            userTypeDisplay.textContent = '';
+        } else {
+            const [type, username] = authToken.split('-');
+
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            const userTypeDisplay = document.getElementById('userTypeDisplay');
+
+            usernameDisplay.textContent = username;
+            userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+        }
+    </script>
+    <div id="skrollr-body">
+        <a name="page-top"></a>
+        <div id="container-wrap-wrap">
+            <div id="container-wrap">
+                <div id="container">
+                    <div id="header">
+                        <h1><a href="../"><span>The Backrooms中文维基</span></a></h1>
+
+                        <h2><span>你曾经来过这里</span></h2>
+                        <div id="top-bar">
+                            <div class="top-bar">
+                                <ul>
+                                    <li>图书馆
+                                        <ul>
+                                            <li><a href="../normal-levels/">层级</a></li>
+                                            <li><a href="./">子区集</a></li>
+                                            <li><a href="../entities">实体</a></li>
+                                            <li><a href="../objects/">物品</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="../">返回上一步</a></li>
+                                </ul>
+                            </div>
+                            <div class="mobile-top-bar">
+                                <div class="open-menu">
+                                    <p><a href="#side-bar">≡</a></p>
+                                </div>
+                                <ul>
+                                    <li>图书馆
+                                        <ul>
+                                            <li><a href="../normal-levels/">层级</a></li>
+                                            <li><a href="./">子区集</a></li>
+                                            <li><a href="../entities">实体</a></li>
+                                            <li><a href="../objects/">物品</a></li>
+                                        </ul>
+                                    </li>
+                                    </li>
+                                    <li><a href="../">返回上一步</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="content-wrap">
+                        <div id="main-content">
+                            <div id="action-area-top"></div>
+
+
+                            <div id="page-title">
+                                子区集列表
+                            </div>
+                            <div id="page-content">
+                                <div class="intro">
+                                    <div class="intro-in intro-block">
+                                        <h2><span><span class="infomark"><span
+                                                        style="white-space: pre-wrap;">&#32;</span></span>什么是子区集？</span>
+                                        </h2>
+                                        <p><em>子区集</em>（Sub-Layers）通常是那些可以为一个现有层级增添更多细节的地点。它包含这两种场所——<em>“子层级”</em>（Sub-Levels）和<em>“房间”</em>（Rooms）。子层级是与其父层级存在关联的层级地区，但同时，它们也仍然属于与父层级不同的独立层级分类。房间则是那些太小而不能被视为独立层级的地点。通常，它们的位置处于对应的现有层级之中，但也并非总是如此。
+                                        </p>
+                                        <p>子层级旨在为已编写的层级增添相关背景知识或“深度”。可以将它们视为“在其对应层级中所找到的衍生产物”，或“层级中的层级”，或“两个层级之间的层级”。子层级通常更小，却拥有更详细的描述（当然，并非总是如此）。一个层级可以拥有任意多的子层级，只要它们保持与其父层级松散的主题关联即可。
+                                        </p>
+                                        <p>房间是出现在特定层级中的特殊地点。房间通常遵循着它们所出现在的层级的主题风格。房间既不是无限的，也不会很大，这就是为什么它们被标记为“房间”。</p>
+                                    </div>
+                                    <div class="intro-others intro-block">
+                                        <h2><span>更多层级<span class="moremark"><span
+                                                        style="white-space: pre-wrap;">&#32;</span></span></span></h2>
+                                        <ul>
+                                            <li><strong><a href="../normal-levels/">普通层级</a></strong></li>
+                                        </ul>
+                                    </div>
+                                    <div class="intro-block intro-toc">
+                                        <h4><span>快速跳转<span class="import"><span
+                                                        style="white-space: pre-wrap;">&#32;</span></span><a
+                                                    name="t"></a></span></h4>
+                                        <p><a href="#0">普通子层级</a><a href="#1">隐秘子层级</a><a href="#2">房间</a></p>
+                                    </div>
+                                </div>
+                                <div class="style-block sub-block">
+                                    <h2 id="toc0"><span>普通子层级<a name="0"></a></span></h2>
+                                    <div class="back-to-toc">
+                                        <p><a href="#t">▲</a></p>
+                                    </div>
+                                    <ul>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-0">Level 0</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-0-1">Level
+                                                        0.1</a> - “天顶站”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-0-2">Level
+                                                        0.2</a> - “重塑的混乱”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-0-3">Level
+                                                        0.3</a> - “冰室”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-1">Level 1</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-1-1">Level
+                                                        1.1</a> - “腐败的走廊”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-1-2">Level
+                                                        1.2</a> - “砼苑”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-1-3">Level
+                                                        1.3</a> - “恶性肿瘤”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-1-4">Level
+                                                        1.4</a> - “Level √2”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-1-5">Level
+                                                        1.5</a> - “颠倒”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-3">Level 3</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-3-1">Level
+                                                        3.1</a> - “复杂空间”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-3-5">Level
+                                                        3.5</a> - <span
+                                                        style="color: rgb(70, 70, 70); text-shadow: 0px 0px 1px rgba(40, 150, 100, 0.7);">“电都”</span>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-5">Level 5</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-5-1">Level
+                                                        5.1</a> - <span class="casino"><span
+                                                            style="color: #ff2012">“恐怖旅馆赌场盛大开幕”</span></span></li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-5-2">Level
+                                                        5.2</a> - “胜景”</li>
+                                                <li><a class="newpage"
+                                                        href="https://backrooms-wiki-cn.wikidot.com/level-5-3">Level
+                                                        5.3</a> - [NO DATA]<span class="del"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-6">Level 6</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-6-1">Level
+                                                        6.1</a> - “零食室”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-6-2">Level
+                                                        6.2</a> - “霓虹迷宫”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-6-3">Level
+                                                        6.3</a> - <strong>“梵塔黑”</strong>
+                                                    <ul>
+                                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-6-31">Level
+                                                                6.31</a> - “刺穿面纱”</li>
+                                                    </ul>
+                                                </li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-6-5">Level
+                                                        6.5</a> - “此间昏晦众生盲，有女独’目‘，亦尊为皇。”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-7">Level 7</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-7-6">Level
+                                                        7.6</a> - “深海脱逃”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-7-7">Level
+                                                        7.7</a> - “<span style="color: #0000ff">逐放岩墟</span>”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-7-8">Level
+                                                        7.8</a> - “钉桩洋”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/trimmed:level-7-9">Level
+                                                        7.9</a> - “地表洞穴”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-8">Level 8</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-8-1">Level
+                                                        8.1</a> - “<strong>死</strong>穴”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/the-sanctum">地下圣殿</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-9">Level 9</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-9-1">Level
+                                                        9.1</a> - “我们能不能假装深红森林是被陨石砸没的？”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-9-2">Level
+                                                        9.2</a> - “黑市”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-9-3">Level
+                                                        9.3</a> - “繁流迷雾”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-9-5">Level
+                                                        9.5</a> - “罗切斯特蓝调”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-10">Level 10</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-10-1">Level
+                                                        10.1</a> - “尸湖”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-10-2">Level
+                                                        10.2</a> - “草垛天国”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-11">Level 11</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-11-1">Asset
+                                                        11.1</a> - “私有企业”</li>
+                                                <li><a
+                                                        href="https://backrooms-wiki-cn.wikidot.com/level-11-2">Scene-01.2</a>
+                                                    - “避难所”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-11-3">Level
+                                                        11.3</a> - “红灯区”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-12">Level 12</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-12-1">Level
+                                                        12.1</a> - “<tt>灯的开关</tt>”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-15">Level 15</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-15-1">Level
+                                                        15.1</a> - “枉然”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-18">Level 18</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-18-1">Level
+                                                        18.1</a> - <span class="Chakra"><span
+                                                            style="color: #cc0000"><strong>“清明绝境”</strong></span></span>
+                                                </li>
+                                                <li><a class="newpage"
+                                                        href="https://backrooms-wiki-cn.wikidot.com/vultures-in-the-paper-oasis">[NO DATA]<span class="del"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-36">Level 36</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/trimmed:level-36-1">Level
+                                                        36.1</a> - “客机”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-37">Level 37</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-37-1">Level
+                                                        37.1</a> - “血红池房”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-46">Level 46</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-46-1">Ground
+                                                        46.1</a> - “盐丘与涤罪修院”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-48">Level 48</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-48-1">Ground
+                                                        48.1</a> - “夜光之地”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-49">Level 49</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-49-1">Level
+                                                        49.1</a> - “勿忘先烈”</li>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-49-2">Level
+                                                        49.2</a> - “训练场M-1”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-63">Level 63</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-63-3">Level
+                                                        63.3</a> - “安眠天堂”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-178">Level 178</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-178-1">Level
+                                                        178.1</a> - “梦都京”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-204">Level 204</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-204-1">Level
+                                                        204.1</a> - “神妙墓穴”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="newpage"
+                                                href="https://backrooms-wiki-cn.wikidot.com/trimmed:level-356">Level
+                                                356</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-356-1">Level
+                                                        356.1</a> - “告白墙”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-405">Level 405</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-405-1">Level
+                                                        405.1</a> - “我是人，濒死之人，行尸走肉。”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-410">Level 410</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-410-1">Level
+                                                        410.1</a> - “超不正常地下室”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-422">Level 422</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-422-1">Level
+                                                        422.1</a> - “水镜”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-484">Level 484</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-484-1">Level
+                                                        484.1</a> - “白室”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-522">Level 522</a>
+                                            <ul>
+                                                <li><a class="newpage"
+                                                        href="https://backrooms-wiki-cn.wikidot.com/level-522-1">Ground
+                                                        522.1</a> - [NO DATA]<span class="del"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-800">Level 800</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-800-1">Level
+                                                        800.1</a> - <strong>名称待定</strong></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-909">Level 909</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-909-0">Level
+                                                        909.0</a> - <strong>该页面已被隔离</strong>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-974">Level 974</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-974-1">Level
+                                                        974.1</a> - “梦眠”</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-998">Level 998</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/level-998-2">Level
+                                                        998.2</a> - “搏击俱乐部”</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="style-block sub-block">
+                                    <h2 id="toc1"><span>隐秘子层级<a name="1"></a></span></h2>
+                                    <div class="back-to-toc">
+                                        <p><a href="#t">▲</a></p>
+                                    </div>
+                                    <ul>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/tournesol">赫菲斯托斯锻炉</a>
+                                            <ul>
+                                                <li><a href="https://backrooms-wiki-cn.wikidot.com/remords">悔恨</a><span class="rew"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="style-block sub-block">
+                                    <h2 id="toc2"><span>房间<a name="2"></a></span></h2>
+                                    <div class="back-to-toc">
+                                        <p><a href="#t">▲</a></p>
+                                    </div>
+                                    <ul>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-0">Level 0</a>
+                                            <ul>
+                                                <li><a href="./rooms/room-1">马尼拉房间</a></li>
+                                                <li><a href="./rooms/room-2">红室</a></li>
+                                                <li><a href="./rooms/room-3">痛楚</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-1">Level 1</a>
+                                            <ul>
+                                                <li><a class="newpage" href="./rooms/room-4">Alpha基地</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                                <li><a class="newpage" href="./rooms/room-5">交易保险库</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-2">Level 2</a>
+                                            <ul>
+                                                <li><a class="newpage" href="./rooms/room-6">办公区EL3A</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-4">Level 4</a>
+                                            <ul>
+                                                <li><a class="newpage" class="newpage" href="./rooms/room-7">办公室市场</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-7">Level 7</a>
+                                            <ul>
+                                                <li><a class="newpage" href="./rooms/room-8">超深渊带</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-11">Level 11</a>
+                                            <ul>
+                                                <li><a class="newpage" href="./rooms/room-9">散场之后</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                                <li><a class="newpage" href="./rooms/room-10">总部</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                                <li><a class="newpage" href="./rooms/room-11">后室电台工作室</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-43">Level 43</a>
+                                            <ul>
+                                                <li><a class="newpage" href="./rooms/room-12">中庭</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-46-1">Ground 46.1</a>
+                                            <ul>
+                                                <li><a class="newpage" href="./rooms/room-13">亵圣葬冈</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-48-1">Ground 48.1</a>
+                                            <ul>
+                                                <li><a class="newpage" href="./rooms/room-14">飞地</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-78">Level 78</a>
+                                            <ul>
+                                                <li><a class="newpage" href="./rooms/room-15">直抵群星（Ad Astra）</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-229">Level 229</a>
+                                            <ul>
+                                                <li><a class="newpage" href="./rooms/room-16">大张之口</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/level-797">Level 797</a>
+                                            <ul>
+                                                <li><a class="newpage" href="./rooms/room-17">传说中的教堂</a><span class="run"><span
+                                                    style="white-space: pre-wrap;">&#32;</span></span></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="page-tags">
+                                <span>
+                                    <a href="../">总览</a>
+                                </span>
+                            </div>
+
+                            <div id="action-area" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    /* 生存难度容器居中 */
+    .sd-container {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* 调整内容包装器 */
+    #content-wrap {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+</style>
+
+</html>
