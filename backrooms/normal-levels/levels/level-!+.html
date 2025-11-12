@@ -667,8 +667,8 @@
                                             }
 
                                             function distributePasswordToSpans(password) {
-                                                // 获取所有class为password的span标签（按照DOM顺序，从上到下）
-                                                const passwordSpans = document.querySelectorAll('span.password');
+                                                // 获取所有class为password的span标签，但排除图片标题中的span
+                                                const passwordSpans = document.querySelectorAll('span.password:not(.scp-image-caption span.password)');
 
                                                 if (passwordSpans.length === 0) {
                                                     console.log('未找到class为password的span标签');
