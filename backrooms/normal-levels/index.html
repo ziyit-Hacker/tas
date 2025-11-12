@@ -495,6 +495,16 @@ YRDZST
             -webkit-mask-image: linear-gradient(black, rgba(0, 0, 0, 0.4) 75%, rgba(0, 0, 0, 0.35) 90%);
             mask-image: linear-gradient(black, rgba(0, 0, 0, 0.4) 75%, rgba(0, 0, 0, 0.35) 90%);
         }
+
+        .rainbowtext {
+            margin-top: -1rem;
+            width: fit-content;
+            font-family: 'Bubblegum Sans', 'KNMaiyuan', 'Noto Sans SC', sans-serif;
+            background: linear-gradient(to right, red, #f05d60, #f6bf2c, #eff93f, #a8d944, #45a147, #2bbfc1, #2991ef, #775bc5, #e085b3);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
     <script type="text/javascript"
         src="https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc/common--modules/js/list/ListPagesModule.js"></script>
@@ -522,6 +532,9 @@ YRDZST
 
             usernameDisplay.textContent = username;
             userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+            if (username === '13258227085') {
+                userTypeDisplay.textContent = 'ZIYIT最高管理员';
+            }
         }
     </script>
     <div id="skrollr-body">
@@ -1821,10 +1834,7 @@ YRDZST
                                     <ul>
                                         <li><a href="./levels/level-!+.html">特殊层级</a> - “宜居？”</span></li>
                                         <li><a href="./levels/level-NO-DATA.html">特殊层级</a>
-                                             - “<strong><span style="color:red">千</span>
-                                            <span style="color: orange;">奇</span>
-                                            <span style="color: green;">百</span>
-                                            <span style="color: yellow;">怪</span>=)”</span></strong></span></li>
+                                             - “<strong class="rainbowtext">千奇百怪=)</strong>”</li>
                                         <li><a href="./levels/level-fun.html">特殊层级</a> - “享乐层=)”</li>
                                     </ul>
                                 </div>

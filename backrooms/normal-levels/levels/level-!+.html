@@ -139,15 +139,110 @@
         .licensebox blockquote * {
             word-break: break-all;
         }
+
+        .rainbowtext {
+            margin-top: -1rem;
+            width: fit-content;
+            font-family: 'Bubblegum Sans', 'KNMaiyuan', 'Noto Sans SC', sans-serif;
+            background: linear-gradient(to right, red, #f05d60, #f6bf2c, #eff93f, #a8d944, #45a147, #2bbfc1, #2991ef, #775bc5, #e085b3);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #content-wrap::after {
+            content: "";
+            background-image: url(http://backrooms-wiki.wikidot.com/local--files/entity-67/Subtle_Confetti.png);
+            background-repeat: repeat;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            z-index: -1;
+            opacity: 100%;
+            display: block;
+            max-height: -webkit-fill-available;
+        }
+
+        @font-face {
+            font-family: 'KNMaiyuan';
+            src: url('https://cdn.jsdelivr.net/gh/LupusCaeruleus/Fonts@main/KNMaiyuan-Regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --wallpaper-mask: none;
+
+            --logo-image: url(http://backrooms-wiki.wikidot.com/local--files/entity-67/Birthday_Cake.png);
+
+            --body-font: 'Bubblegum Sans', 'KNMaiyuan', 'Noto Sans SC', sans-serif;
+            --header-font: 'Bubblegum Sans', 'KNMaiyuan', 'Noto Sans SC', sans-serif;
+            --title-font: 'Bubblegum Sans', 'KNMaiyuan', ' Noto Sans SC', sans-serif;
+
+            --header-title: "The Backrooms";
+            --header-subtitle: "一起尽兴 =)";
+
+            --swatch-topmenu-bg-color: 230, 214, 147;
+            --pale-gray-monochrome: 145, 175, 217;
+
+            /*   --white-monochrome: 255, 30, 24; */
+            --gray-monochrome: 76, 49, 81;
+            /*   --black-monochrome: 220, 0, 0; */
+            /*   --bright-accent: 190, 0, 0; */
+            /*   --medium-accent: 132, 6, 12; */
+            --dark-accent: 99, 56, 108;
+            --visited-link-color: 250, 30, 38;
+            /*   --pale-accent: 190, 0, 0; */
+            /* --swatch-text-secondary-color: 76, 49, 81; */
+            --swatch-tertiary-color: 230, 214, 147;
+
+            /*  --swatch-text-light: 255, 146, 96; */
+            /*  --swatch-menutxt-light-color: 15, 15, 15; */
+            /*  --rating-module-button-plus-color: 150, 150, 150; */
+            /*  --rating-module-button-negative-color: 150, 150, 150; */
+            /*  --rating-module-button-cancel-color: 150, 150, 150; */
+            /*  --rating-module-button-credit-color: 150, 150, 150; */
+            /*  --link-color: var(--pale-accent); */
+            /*  --visited-link-color: var(--swatch-primary-darkest); */
+            /*  --hover-link-color: var(--swatch-primary); */
+            /*  --newpage-color: var(--alt-accent); */
+            /* --swatch-menubg-dark-color: 77, 3, 3; */
+
+        }
+
+        #skrollr-body {
+            background-image: url("http://backrooms-wiki.wikidot.com/local--files/entity-67/Liminal_Confetti.jpg");
+            background-size: auto 12rem;
+            background-repeat: repeat-x;
+
+            display: inline-block;
+            width: 100%;
+        }
+
+        #content-wrap::after {
+            content: "";
+            background-image: url(http://backrooms-wiki.wikidot.com/local--files/entity-67/Subtle_Confetti.png);
+            background-repeat: repeat;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            z-index: -1;
+            opacity: 100%;
+            display: block;
+            max-height: -webkit-fill-available;
+        }
     </style>
 </head>
 
 <body id="html-body">
     <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
         <div id="userInfo" style="color: black; font-size: 18px;">
-            <strong><span id="usernameDisplay">未登录</span></strong>
+            <strong class="rainbowtext"><span id="usernameDisplay">未登录</span></strong>
             <br>
-            <strong><span id="userTypeDisplay"></span></strong>
+            <strong class="rainbowtext"><span id="userTypeDisplay"></span></strong>
         </div>
     </div>
     <script>
@@ -164,6 +259,9 @@
 
             usernameDisplay.textContent = username;
             userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+            if (username === '13258227085') {
+                userTypeDisplay.textContent = 'ZIYIT最高管理员';
+            }
         }
     </script>
     <div id="skrollr-body">
@@ -181,12 +279,13 @@
                                 <ul>
                                     <li>图书馆
                                         <ul>
-                                            <li><a href="./">层级</a></li>
-                                            <li><a href="../sub-layers/">子区集</a></li>
-                                            <li><a href="../entities">实体</a></li>
-                                            <li><a href="../objects/">物品</a></li>
+                                            <li><a href="../">层级</a></li>
+                                            <li><a href="../../sub-layers/">子区集</a></li>
+                                            <li><a href="../../entities">实体</a></li>
+                                            <li><a href="../../objects/">物品</a></li>
                                         </ul>
-                                    </li><li><a href="../">返回上一步</a></li>
+                                    </li>
+                                    <li><a href="../">返回上一步</a></li>
                                 </ul>
                             </div>
                             <div class="mobile-top-bar">
@@ -196,13 +295,13 @@
                                 <ul>
                                     <li>图书馆
                                         <ul>
-                                            <li><a href="./">层级</a></li>
-                                            <li><a href="../sub-layers/">子区集</a></li>
-                                            <li><a href="../entities">实体</a></li>
-                                            <li><a href="../objects/">物品</a></li>
+                                            <li><a href="../">层级</a></li>
+                                            <li><a href="../../sub-layers/">子区集</a></li>
+                                            <li><a href="../../entities">实体</a></li>
+                                            <li><a href="../../objects/">物品</a></li>
                                         </ul>
                                     </li>
-                                    </li><li><a href="../">返回上一步</a></li>
+                                    <li><a href="../">返回上一步</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -219,12 +318,12 @@
                         <div id="main-content">
                             <div id="action-area-top"></div>
                             <div id="page-title">
-                                Level !+ - “宜居？”=)
+                                Level !+ - “<span class="password">宜居？</span>”<span class="rainbowtext">=)</span>
                             </div>
                             <div id="page-content">
                                 <div style="text-align: center;">
                                     <h1 id="toc0"><span class="password"></span></h1>
-                                    <p>如果看到此文，请里看寻找入口前往此处，谢谢！！！=)
+                                    <p>如果看到此文，请里看寻找入口前往此处，谢谢！！！<span class="rainbowtext">=)</span>
                                     </p>
                                     <hr>
                                 </div>
@@ -250,17 +349,17 @@
                                                             class="lang-tr">生存难度：</span></p>
                                                 </div>
                                                 <div class="bottom-text">
-                                                    <p><span>等级 </span><span>天堂=)</span></p>
+                                                    <p><span>等级 </span><span class="password">天堂</span></p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="bottom-box class-deadzone">
                                             <ul>
-                                                <li><span class="美丽">美丽=)</span><span class="default"><span
+                                                <li><span class="美丽">美丽</span><span class="default"><span
                                                             style="white-space: pre-wrap;"> </span></span></li>
-                                                <li><span class="宁静">宁静=)</span><span class="default"><span
+                                                <li><span class="宁静">宁静</span><span class="default"><span
                                                             style="white-space: pre-wrap;"> </span></span></li>
-                                                <li><span class="完美">完美=)</span><span class="default"><span
+                                                <li><span class="完美">完美</span><span class="default"><span
                                                             style="white-space: pre-wrap;"> </span></span></li>
                                             </ul>
                                         </div>
@@ -461,47 +560,60 @@
                                             </p>
                                         </div>
                                     </div> -->
-                                        <em>
-                                            <p>Level !+ 是一处天堂=)，你有时该去看看。<span class="password"></span></p>
-                                        </em>
+                                        <p>Level !+ 是一处<span class="password">天堂</span>，你有时该去看看。<span
+                                                class="password"></span></p>
                                         <h1 id="toc2"><span class="password">描述</span></h1>
-                                        <em>
+                                        <div>
                                             <div class="scp-image-block block-right" style="width:300px;"><img
                                                     src="../../../assets/Level!+(1).png" alt="Level !+美丽的小树林=)"
                                                     class="image" />
-                                                <div class="scp-image-caption"><span class="password">美丽的小树林=)</span>
+                                                <div class="scp-image-caption"><span class="password">美丽的小树林<span
+                                                            class="rainbowtext">=)</span></span>
                                                 </div>
                                             </div>
                                             <div class="scp-image-block block-right" style="width:300px;"><img
                                                     src="../../../assets/Level!+(2).png" alt="快乐走廊=)" class="image" />
-                                                <div class="scp-image-caption"><span class="password">(= 快乐走廊 =)</span>
+                                                <div class="scp-image-caption"><span class="password"><span
+                                                            class="rainbowtext">(= 快乐走廊 =)</span></span>
                                                 </div>
                                             </div>
-                                            <p>闭上眼睛一会。你能看到那片永恒的乐园=)，对吗？柔软的地面承载着你的脚步，温暖的空气轻抚你的脸庞。这里没有时间的流逝，没有外界的纷扰，只有永恒的安宁。其他在这里的人都是一样心满意足，那你为什么要感到低落呢？
+                                            <p>闭上眼睛一会。你能看到那片永恒的乐园<span
+                                                    class="rainbowtext">=)</span>，对吗？柔软的地面承载着你的脚步，温暖的空气轻抚你的脸庞<span
+                                                    class="rainbowtext">=)</span>。这里没有时间的流逝，没有外界的纷扰，只有永恒的安宁<span
+                                                    class="rainbowtext">=)</span>。其他在这里的人都是一样心满意足，那你为什么要感到低落呢？
                                             </p>
-                                            <p>你能听到远处传来的轻柔歌声，那声音让你不再需要思考。当思想的重负从你身上升腾而起，你难道没有感到如释重负吗？你不觉得轻松了很多吗？看看那些安安静静躺在柔软地毯上的其他客人=)吧。他们没有之前自己料想的痛苦，面容安详而满足。你不想跟他们一样吗？=)
+                                            <p>你能听到远处传来的轻柔歌声，那声音让你不再需要思考。<span
+                                                    class="rainbowtext">=)</span>当思想的重负从你身上升腾而起，你难道没有感到如释重负吗？<span
+                                                    class="rainbowtext">=)</span>你不觉得轻松了很多吗？<span
+                                                    class="rainbowtext">=)</span>看看那些安安静静躺在柔软地毯上的其他客人吧。<span
+                                                    class="rainbowtext">=)</span>他们没有之前自己料想的痛苦，面容安详而满足。<span
+                                                    class="rainbowtext">=)</span>你不想跟他们一样吗？<span
+                                                    class="rainbowtext">=)</span>
                                             </p>
-                                        </em>
-                                        <h1 id="toc4"><span class="password">基地、前哨和社区</span></h1>
-                                        <em>
-                                            <p>孩子们排成一列。=)他们正在准备一场盛大的宴会，脸上洋溢着纯真的笑容。=)你想帮他们，对吧？=)当然，毕竟，他们只是想帮帮你。=)你需要做的一切就是听从安排。=)它不疼的，我保证。=)不要担心你思想的流失。=)我们只是要调整一些地方让我们适应你，你也会适应我们。=)就是这样，让我们进来，你将会加入我们。将有一场饕餮盛宴等着我们。=)
-                                            </p>
-                                        </em>
+                                        </div>
+                                        <h1 id="toc3"><span class="password">基地、前哨和社区</span></h1>
+                                        <p>孩子们排成一列。<span class="rainbowtext">=)</span>他们正在准备一场盛大的宴会，脸上洋溢着纯真的笑容。<span
+                                                class="rainbowtext">=)</span>你想帮他们，对吧？<span
+                                                class="rainbowtext">=)</span>当然，毕竟，他们只是想帮帮你。<span
+                                                class="rainbowtext">=)</span>你需要做的一切就是听从安排。<span
+                                                class="rainbowtext">=)</span>它不疼的，我保证。<span
+                                                class="rainbowtext">=)</span>不要担心你思想的流失。<span
+                                                class="rainbowtext">=)</span>我们只是要调整一些地方让我们适应你，你也会适应我们。<span
+                                                class="rainbowtext">=)</span>就是这样，让我们进来，你将会加入我们。<span
+                                                class="rainbowtext">=)</span>将有一场饕餮盛宴等着我们。<span
+                                                class="rainbowtext">=)</span>
+                                        </p>
 
-                                        <h1 id="toc5"><span class="password">入口和出口</span></h1>
-                                        <h3 id="toc6"><span class="password">入口</span></h3>
+                                        <h1 id="toc4"><span class="password">入口和出口</span></h1>
+                                        <h3 id="toc5"><span class="password">入口</span></h3>
                                         <ul>
-                                            <em>
-                                                <li>你现在知道怎么过来。=)继续前进就好，你很接近了。=)</li>
-                                            </em>
+                                            <li>你现在知道怎么过来。继续前进就好，你很接近了。<span class="rainbowtext">=)</span></li>
                                         </ul>
 
-                                        <h3 id="toc7"><span class="password">出口</span></h3>
+                                        <h3 id="toc6"><span class="password">出口</span></h3>
                                         <ul>
-                                            <em>
-                                                <li><span style="color: pink;">不要忘记享乐=)</span></li>
-                                                <li>你不会担心这个的=)<span class="password"></span></li>
-                                            </em>
+                                            <li class="rainbowtext">不要忘记享乐=)</li>
+                                            <li>你不会担心这个的<span class="password"></span></li>
                                         </ul>
                                         <p><span style="white-space: pre-wrap;"><span
                                                     class="password">&#32;</span></span><br />
@@ -649,7 +761,9 @@
                                                     const span = passwordSpans[plan.spanIndex];
 
                                                     if (plan.isEmpty) {
-                                                        // 留空的span保持原始内容
+                                                        // 留空的span恢复原始内容
+                                                        const originalContent = span.getAttribute('data-original');
+                                                        span.textContent = originalContent || '';
                                                         continue;
                                                     }
 

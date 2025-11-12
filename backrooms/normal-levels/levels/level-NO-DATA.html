@@ -139,6 +139,16 @@
         .licensebox blockquote * {
             word-break: break-all;
         }
+
+        .rainbowtext {
+            margin-top: -1rem;
+            width: fit-content;
+            font-family: 'Bubblegum Sans', 'KNMaiyuan', 'Noto Sans SC', sans-serif;
+            background: linear-gradient(to right, red, #f05d60, #f6bf2c, #eff93f, #a8d944, #45a147, #2bbfc1, #2991ef, #775bc5, #e085b3);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 
     <script type="text/javascript"
@@ -167,6 +177,9 @@
 
             usernameDisplay.textContent = username;
             userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+            if (username === '13258227085') {
+                userTypeDisplay.textContent = 'ZIYIT最高管理员';
+            }
         }
     </script>
     <div id="skrollr-body">
@@ -220,10 +233,7 @@
                     <div id="content-wrap">
                         <div id="main-content">
                             <div id="page-title">
-                                Level NO DATA - “<strong><span style="color:red">千</span>
-                                             <span style="color: orange;">奇</span>
-                                             <span style="color: green;">百</span>
-                                             <span style="color: yellow;">怪</span>=)</strong>”
+                                Level NO DATA - “<strong class="rainbowtext">千奇百怪=)</strong>”
                             </div>
                             <div id="breadcrumbs">
                                 <a>2025经典速写</a> &raquo; Level NO DATA - “千奇百怪=)”

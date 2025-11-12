@@ -166,6 +166,9 @@
 
             usernameDisplay.textContent = username;
             userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+            if (username === '13258227085') {
+                userTypeDisplay.textContent = 'ZIYIT最高管理员';
+            }
         }
     </script>
     <div id="skrollr-body">
@@ -183,12 +186,13 @@
                                 <ul>
                                     <li>图书馆
                                         <ul>
-                                            <li><a href="./">层级</a></li>
+                                            <li><a href="../">层级</a></li>
                                             <li><a href="../../sub-layers/">子区集</a></li>
                                             <li><a href="../../entities">实体</a></li>
                                             <li><a href="../../objects/">物品</a></li>
                                         </ul>
-                                    </li><li><a href="../">返回上一步</a></li>
+                                    </li>
+                                    <li><a href="../">返回上一步</a></li>
                                 </ul>
                             </div>
                             <div class="mobile-top-bar">
@@ -204,7 +208,7 @@
                                             <li><a href="../../objects/">物品</a></li>
                                         </ul>
                                     </li>
-                                    </li><li><a href="../">返回上一步</a></li>
+                                    <li><a href="../">返回上一步</a></li>
                                 </ul>
                             </div>
                         </div>
