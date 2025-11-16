@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>只因科技 - 音乐</title>
+    <link rel="icon" href="../assets/ziyit.png" type="image/x-icon">
+    <script src="../assets/f12check.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+
+            div[style*="max-width: 400px"] {
+                width: 90%;
+                margin: 10px auto;
+                padding: 15px;
+            }
+
+            input,
+            select {
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+    </style>
+    <style>
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .product {
+            margin: 10px;
+        }
+
+        .brg {
+            text-align: left;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        * {
+            cursor: default !important;
+        }
+
+        /* 音乐播放器样式 */
+        .music-player {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .player-btn {
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .player-btn:hover {
+            background-color: #005a9e;
+        }
+
+        .player-info {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .current-song {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .player-status {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .music-list {
+            list-style: none;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .music-item {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .music-item:hover {
+            background-color: #e0e0e0;
+        }
+
+        .music-item.playing {
+            background-color: #0078d4;
+            color: white;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #ddd;
+            border-radius: 3px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #0078d4;
+            width: 0%;
+            transition: width 0.1s;
+        }
+    </style>
+</head>
+
+<body background="../assets/bgl.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
+    <marquee style="background-color: yellow;">
+        <strong>
+            <span
+                style="color: red;">本页面现处于测试阶段!!!如发现bug请将bug描述邮件发送到3950140506@qq.com。如果像投稿推荐网站请将网站的url和好处用途一起发送到邮箱3779502017@qq.com。</span>
+        </strong>
+    </marquee>
+    <script>
+        // 检查用户权限
+        function checkUserPermission() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                alert('请先登录以访问该页面');
+                window.location.href = './';
+                return;
+            }
+
+            const [typeCode] = authToken.split('-');
+            if (typeCode === 'UR') {
+                alert('您没有权限访问该页面');
+                window.location.href = './';
+            }
+        }
+
+        // 页面加载时检查权限
+        document.addEventListener('DOMContentLoaded', checkUserPermission);
+    </script>
+    <a href="../">返回主页</a>
+    <hr>
+    <h1>欢迎来到 只因科技 - 音乐 界面</h1>
+    <h2>您可以选择任意一首歌在线聆听。</h2>
+    <hr>
+
+    <!-- 音乐播放器 -->
+    <div class="music-player">
+        <div class="player-info">
+            <div class="current-song">请选择一首歌曲</div>
+            <div class="player-status">暂停中</div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div class="player-controls">
+            <button class="player-btn" id="prev-btn">◀◀</button>
+            <button class="player-btn" id="play-btn">▶</button>
+            <button class="player-btn" id="next-btn">▶▶</button>
+        </div>
+
+        <audio id="audio-player" preload="metadata"></audio>
+    </div>
+
+    <!-- 音乐列表 -->
+    <div id="search" style="text-align: center; margin: 20px auto; max-width: 600px;">
+        <form method="get" style="display: flex;" autocomplete="off">
+            <label for="search-input" style="font-size: 24px; color: #1b222e"><strong>搜索音乐: </strong></label>
+            <input type="text" id="search-input" name="q" placeholder="搜索..."
+                style="flex: 1; padding: 10px; font-size: 16px; border: 1px solid #0078d4; border-radius: 100px 0 0 100px; outline: none;">
+            <button type="submit" id="search-button"
+                style="padding: 10px 15px; background-color: #0078d4; color: white; border: none; border-radius: 0 100px 100px 0; cursor: pointer; width: auto;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                    style="vertical-align: middle;">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    <ul class="music-list" id="music-list">
+        <!-- 音乐列表将通过JavaScript动态生成 -->
+    </ul>
+
+    <p>&copy;2025&nbsp;&nbsp;ZIYIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>版权所有，侵权必究</strong></p>
+
+    <script>
+        // 音乐播放器功能
+        let currentMusicIndex = -1;
+        let musicList = [];
+        let isPlaying = false;
+
+        const audioPlayer = document.getElementById('audio-player');
+        const playBtn = document.getElementById('play-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSong = document.querySelector('.current-song');
+        const playerStatus = document.querySelector('.player-status');
+        const progress = document.getElementById('progress');
+        const musicListElement = document.getElementById('music-list');
+
+        // 加载音乐列表
+        fetch('music.txt')
+            .then(response => response.text())
+            .then(data => {
+                musicList = data.split('\n').filter(line => line.trim() !== '');
+                renderMusicList();
+            })
+            .catch(error => {
+                console.error('加载音乐列表失败:', error);
+            });
+
+        // 渲染音乐列表
+        function renderMusicList() {
+            musicListElement.innerHTML = '';
+            musicList.forEach((music, index) => {
+                const [name, location] = music.split(' \\ ');
+                const li = document.createElement('li');
+                li.className = 'music-item';
+                li.textContent = name;
+                li.addEventListener('click', () => playMusic(index));
+                musicListElement.appendChild(li);
+            });
+        }
+
+        // 播放音乐
+        function playMusic(index) {
+            if (index < 0 || index >= musicList.length) return;
+
+            const [name, location] = musicList[index].split(' \\ ');
+            audioPlayer.src = location;
+            currentMusicIndex = index;
+            currentSong.textContent = name;
+
+            // 更新列表样式
+            document.querySelectorAll('.music-item').forEach((item, i) => {
+                item.classList.toggle('playing', i === index);
+            });
+
+            audioPlayer.play();
+            isPlaying = true;
+            playBtn.textContent = '⏸';
+            playerStatus.textContent = '播放中';
+        }
+
+        // 播放/暂停控制
+        playBtn.addEventListener('click', () => {
+            if (currentMusicIndex === -1 && musicList.length > 0) {
+                playMusic(0);
+                return;
+            }
+
+            if (isPlaying) {
+                audioPlayer.pause();
+                playBtn.textContent = '▶';
+                playerStatus.textContent = '暂停中';
+            } else {
+                audioPlayer.play();
+                playBtn.textContent = '⏸';
+                playerStatus.textContent = '播放中';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // 上一首
+        prevBtn.addEventListener('click', () => {
+            if (musicList.length === 0) return;
+            let newIndex = currentMusicIndex - 1;
+            if (newIndex < 0) newIndex = musicList.length - 1;
+            playMusic(newIndex);
+        });
+
+        // 下一首
+        nextBtn.addEventListener('click', () => {
+            if (musicList.length === 0) return;
+            let newIndex = currentMusicIndex + 1;
+            if (newIndex >= musicList.length) newIndex = 0;
+            playMusic(newIndex);
+        });
+
+        // 更新进度条
+        audioPlayer.addEventListener('timeupdate', () => {
+            const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progress.style.width = progressPercent + '%';
+        });
+
+        // 点击进度条跳转
+        document.querySelector('.progress-bar').addEventListener('click', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const duration = audioPlayer.duration;
+
+            if (duration) {
+                audioPlayer.currentTime = (clickX / width) * duration;
+            }
+        });
+
+        // 歌曲结束自动下一首
+        audioPlayer.addEventListener('ended', () => {
+            nextBtn.click();
+        });
+
+        // 搜索功能
+        document.getElementById('search-button').addEventListener('click', function (e) {
+            e.preventDefault();
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const musicItems = document.querySelectorAll('.music-item');
+
+            musicItems.forEach(item => {
+                item.style.display = 'none';
+                if (item.textContent.toLowerCase().includes(searchInput)) {
+                    item.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

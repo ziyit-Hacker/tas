@@ -18,17 +18,6 @@
             color: #66e656;
         }
 
-        .box {
-            width: 100%;
-            height: 35px;
-            background-color: #0b99fa;
-        }
-
-        .pod {
-            width: 100%;
-            height: 100%;
-        }
-
         p {
             color: black;
         }
@@ -169,7 +158,7 @@
         .hidden {
             display: none !important;
         }
-        
+
         .visible {
             display: inline-block !important;
         }
@@ -178,31 +167,16 @@
             cursor: default !important;
         }
 
-        .backrooms{
+        .backrooms {
             color: #8b4513;
         }
 
-        .backrooms:hover{
+        .backrooms:hover {
             color: #ff8000;
         }
     </style>
     <style>
         @media (max-width: 768px) {
-            .box {
-                height: auto;
-            }
-
-            ul.pod {
-                display: flex;
-                flex-direction: column;
-            }
-
-            ul.pod li {
-                display: block;
-                width: 100%;
-                text-align: center;
-            }
-
             .line {
                 display: none;
             }
@@ -220,6 +194,169 @@
                 text-align: center;
             }
         }
+
+        /* 添加backrooms导航栏的颜色变量 */
+        :root {
+            --gray-monochrome: 128, 128, 128;
+            --pale-gray-monochrome: 240, 240, 240;
+            --white-monochrome: 255, 255, 255;
+            --black-monochrome: 0, 0, 0;
+            --link-color: 53, 177, 164;
+            --mono-font: 'Courier New', monospace;
+        }
+
+        /* 折叠导航栏样式 - 修改为backrooms风格 */
+        .top-bar {
+            background-color: rgb(var(--gray-monochrome));
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .top-bar ul {
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .top-bar ul li {
+            position: relative;
+            margin: 0 0.5rem;
+        }
+
+        .top-bar ul li a {
+            color: rgb(var(--pale-gray-monochrome));
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            display: block;
+            transition: 300ms;
+            font-family: var(--mono-font);
+        }
+
+        .top-bar ul li a:hover {
+            color: rgb(var(--link-color));
+            background-color: rgb(var(--white-monochrome));
+        }
+
+        .top-bar ul li:hover {
+            color: rgb(var(--link-color));
+            background-color: rgb(var(--white-monochrome));
+        }
+
+        .top-bar ul ul {
+            display: none;
+            position: absolute;
+            background-color: rgb(var(--pale-gray-monochrome));
+            border: rgb(var(--gray-monochrome)) solid 0.2rem;
+            border-top: none;
+            padding: 0.5rem;
+            z-index: 1000;
+            min-width: 200px;
+            top: 100%;
+            left: 0;
+        }
+
+        .top-bar ul li:hover>ul {
+            display: block;
+        }
+
+        .top-bar ul ul li {
+            display: block;
+            margin: 0.2rem 0;
+        }
+
+        .top-bar ul ul li a {
+            color: rgb(var(--black-monochrome));
+            padding: 0.3rem 0.5rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .top-bar ul ul li a:hover {
+            color: rgb(var(--link-color));
+            background-color: rgb(var(--white-monochrome));
+        }
+
+        /* 移动端导航栏样式 - 修改为backrooms风格 */
+        .mobile-top-bar {
+            display: none;
+            background-color: rgb(var(--gray-monochrome));
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .mobile-top-bar .open-menu {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .mobile-top-bar .open-menu a {
+            font-size: 24px;
+            color: rgb(var(--pale-gray-monochrome));
+            text-decoration: none;
+        }
+
+        .mobile-top-bar ul {
+            display: none;
+            background-color: rgb(var(--pale-gray-monochrome));
+            border: rgb(var(--gray-monochrome)) solid 0.2rem;
+            border-top: none;
+            padding: 0.5rem;
+            margin: 0;
+        }
+
+        .mobile-top-bar ul.active {
+            display: block;
+        }
+
+        .mobile-top-bar ul li {
+            display: block;
+            margin: 0.3rem 0;
+        }
+
+        .mobile-top-bar ul li a {
+            color: rgb(var(--black-monochrome));
+            padding: 0.3rem 0.5rem;
+            display: block;
+            text-decoration: none;
+            transition: 300ms;
+        }
+
+        .mobile-top-bar ul li a:hover {
+            color: rgb(var(--link-color));
+            background-color: rgb(var(--white-monochrome));
+        }
+
+        .mobile-top-bar ul ul {
+            display: block;
+            position: static;
+            border: none;
+            padding: 0.5rem 0 0 1rem;
+            margin: 0;
+        }
+
+        .mobile-top-bar ul ul li {
+            margin: 0.2rem 0;
+        }
+
+        .navMenu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .top-bar {
+                display: none;
+            }
+
+            .mobile-top-bar {
+                display: block;
+            }
+        }
     </style>
 </head>
 
@@ -228,28 +365,78 @@
         background-attachment: fixed;">
     <h1>只因科技主页</h1>
     <hr>
-    <div class="box">
-        <ul class="pod" id="navMenu">
-            <li class="nav-item" data-role="all"><a href='.\download\'>下载</a></li>
-            <li class="nav-item" data-role="all"><a href='.\move\'>更多</a></li>
-            <li class="nav-item" data-role="all"><a href=".\move\mod">病毒库</a></li>
-            <li class="nav-item" data-role="admin"><a href=".\school\">学习</a></li>
-            <li class="nav-item" data-role="admin"><a href=".\search">搜索</a></li>
-            <li class="line nav-item" data-role="all"></li>
-            <li class="nav-item" data-role="admin">
-                <p>只因科技<span class="bid">开发者选项</span></p>
+    <div class="top-bar">
+        <ul id="navMenu">
+            <li class="nav-item" data-role="all">功能区
+                <ul>
+                    <li class="nav-item" data-role="all"><a href='./download/'>下载</a></li><br>
+                    <li class="nav-item" data-role="all"><a href='./move/'>更多</a></li><br>
+                    <li class="nav-item" data-role="all"><a href="./move/mod">病毒库</a></li><br>
+                    <li class="nav-item" data-role="admin"><a href="./school/">学习</a></li><br>
+                    <li class="nav-item" data-role="all"><a href="./search">搜索</a></li><br>
+                    <li class="nav-item" data-role="admin"><a href="./music/">音乐</a></li>
+                </ul>
             </li>
-            <li class="nav-item" data-role="admin"><a href=".\developers\">日志</a></li>
+            <li class="line nav-item" data-role="all"></li>
+            <li class="nav-item" data-role="admin">只因科技<span class="bid">开发者选项</span>
+                <ul>
+                    <li class="nav-item" data-role="admin"><a href="./developers/">日志</a></li>
+                </ul>
+            </li>
             <li class="line nav-item" data-role="admin"></li>
+            <li class="nav-item" data-role="all">图书馆
+                <ul>
+                    <li class="nav-item" data-role="all"><a href="./backrooms/">Backrooms Wiki</a></li><br>
+                    <li class="nav-item" data-role="all"><a href="./backrooms/normal-levels/">层级</a></li><br>
+                    <li class="nav-item" data-role="all"><a href="./backrooms/subareas/">子区集</a></li><br>
+                    <li class="nav-item" data-role="all"><a href="./backrooms/entities/">实体</a></li><br>
+                    <li class="nav-item" data-role="all"><a href="./backrooms/objects/">物品</a></li>
+                </ul>
+            </li>
+            <li class="line" data-role="all"></li>
             <li class="nav-item" data-role="admin">
                 <p><span class="bid">未开发</span>，敬请期待</p>
             </li>
             <li class="line nav-item" data-role="admin"></li>
-            <li class="nav-item" data-role="all"><a href="./backrooms/" class="backrooms">backrooms wiki</a></li>
-            <li class="nav-item" data-role="all"><a href="./backrooms/normal-levels/" class="backrooms">后室层级</a></li>
-            <li class="line" data-role="all"></li>
             <li class="nav-item" data-role="all"><a href="./user" id="userActionLink">用户中心</a></li>
-            <li><a href=".\user\" id="loginLink">登录</a></li>
+            <li><a href="./user/" id="loginLink">登录</a></li>
+        </ul>
+    </div>
+
+    <!-- 移动端导航栏 -->
+    <div class="mobile-top-bar">
+        <div class="open-menu">
+            <p><a href="#mobile-menu">≡</a></p>
+        </div>
+        <ul id="mobile-menu">
+            <li class="nav-item" data-role="all">功能区
+                <ul>
+                    <li class="nav-item" data-role="all"><a href='./download/'>下载</a></li>
+                    <li class="nav-item" data-role="all"><a href='./move/'>更多</a></li>
+                    <li class="nav-item" data-role="all"><a href="./move/mod">病毒库</a></li>
+                    <li class="nav-item" data-role="admin"><a href="./school/">学习</a></li>
+                    <li class="nav-item" data-role="all"><a href="./search">搜索</a></li>
+                    <li class="nav-item" data-role="admin"><a href="./music/">音乐</a></li>
+                </ul>
+            </li>
+            <li class="line nav-item" data-role="admin">
+            <li class="nav-item" data-role="admin">只因科技<span class="bid">开发者选项</span>
+                <ul>
+                    <li class="nav-item" data-role="admin"><a href="./developers/">日志</a></li>
+                </ul>
+            </li>
+            <li class="line nav-item" data-role="admin">
+            <li class="nav-item" data-role="all">图书馆
+                <ul>
+                    <li class="nav-item" data-role="all"><a href="./backrooms/">Backrooms Wiki</a></li>
+                    <li class="nav-item" data-role="all"><a href="./backrooms/normal-levels/">层级</a></li>
+                    <li class="nav-item" data-role="all"><a href="./backrooms/subareas/">子区集</a></li>
+                    <li class="nav-item" data-role="all"><a href="./backrooms/entities/">实体</a></li>
+                    <li class="nav-item" data-role="all"><a href="./backrooms/objects/">物品</a></li>
+                </ul>
+            </li>
+            <li><a href="./user" id="mobileUserActionLink">用户中心</a></li>
+            <li><a href="./user/" id="mobileLoginLink">登录</a></li>
         </ul>
     </div>
 
@@ -322,7 +509,7 @@
             { url: './images/slider07.jpg', title: '我的世界_寒坤的哔哩哔哩是"我的世界寒坤"', color: 'rgb(63, 44, 46)', link: 'https://space.bilibili.com/3546981356013833' },
             { url: './images/slider01.jpg', title: '登录界面大改，使用前必须登录', color: 'rgb(0, 120, 212)', link: '' },
             { url: './images/slider02.jpg', title: 'Backroom Wikidot版详细Wiki', color: 'rgb(72, 69, 60)', link: './backrooms/' },
-            { url: './images/slider03.jpg', title: '修复了注册页面的bug', color: 'rgb(67, 190, 255)', link:''},
+            { url: './images/slider03.jpg', title: '修复了注册页面的bug', color: 'rgb(67, 190, 255)', link: '' },
             { url: './images/asfl.png', title: '广告位招租', color: 'rgb(0, 0, 0)', link: 'mailto:3950140506@qq.com' },
         ]
         const img = document.querySelector('.slider-wrapper img')
@@ -380,8 +567,45 @@
             })
         })
     </script>
+
     <audio src="./assets/bm.mp3" style="display: none;"></audio>
+
     <script>
+        // 移动端导航栏折叠功能
+        document.addEventListener('DOMContentLoaded', function () {
+            const openMenuLink = document.querySelector('.mobile-top-bar .open-menu a');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (openMenuLink && mobileMenu) {
+                openMenuLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    mobileMenu.classList.toggle('active');
+                });
+            }
+
+            // 移动端子菜单折叠功能
+            const mobileMenuItems = document.querySelectorAll('#mobile-menu > li');
+            mobileMenuItems.forEach(item => {
+                const subMenu = item.querySelector('ul');
+                if (subMenu) {
+                    // 为有子菜单的项添加点击事件
+                    item.addEventListener('click', function (e) {
+                        if (e.target.tagName === 'A') return; // 如果是链接点击，不阻止
+                        e.stopPropagation();
+                        subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
+                    });
+                }
+            });
+
+            // 点击页面其他地方关闭移动菜单
+            document.addEventListener('click', function (e) {
+                if (!mobileMenu.contains(e.target) && !openMenuLink.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // 原有的音频播放功能
         let isPlay = false
         const audio = document.querySelector('audio')
         const bgmList = ['./assets/bm.mp3', './assets/bm2.mp3', './assets/bm3.mp3', './assets/bm4.mp3', './assets/bm5.mp3']
@@ -432,7 +656,7 @@
         })
         toggle()
     </script>
-    
+
     <script>
         async function checkBlacklist(authToken) {
             try {
@@ -472,12 +696,13 @@
             const authToken = localStorage.getItem('authToken');
             const navItems = document.querySelectorAll('.nav-item');
             const loginLink = document.getElementById('loginLink');
+            const mobileLoginLink = document.getElementById('mobileLoginLink');
             const slider = document.querySelector('.slider');
             const lines = document.querySelectorAll('.line');
 
             const ut = parseInt(localStorage.getItem('ut')) || 0;
             const username = authToken ? authToken.split('-')[1] : '';
-            
+
             if (ut > 240 && (username === 'cache' || username === 'temp')) {
                 localStorage.setItem('ut', 1024);
                 localStorage.removeItem('authToken');
@@ -490,7 +715,7 @@
                 alert('此账号为临时账号，体验时间为3.75分钟')
                 const timer = setInterval(() => {
                     let currentUt = parseInt(localStorage.getItem('ut')) || 0;
-                    
+
                     if (ut > 240) {
                         if (currentUt > 240) {
                             currentUt -= 1;
@@ -510,17 +735,19 @@
                             clearInterval(timer);
                         }
                     }
-                }, 100);
+                }, 1000);
             } else {
                 localStorage.removeItem('ut');
             }
 
             loginLink.style.display = 'inline-block';
+            if (mobileLoginLink) mobileLoginLink.style.display = 'inline-block';
 
             if (!authToken) {
                 navItems.forEach(item => item.style.display = 'none');
                 lines.forEach(line => line.style.display = 'none');
                 loginLink.style.display = 'inline-block';
+                if (mobileLoginLink) mobileLoginLink.style.display = 'inline-block';
                 return;
             }
 
@@ -532,7 +759,14 @@
                     item.style.display = isVirusDb ? 'inline-block' : 'none';
                 });
 
+                // 移动端也处理黑名单
+                document.querySelectorAll('#mobile-menu li').forEach(item => {
+                    const isVirusDb = item.querySelector('a[href=".\\move\\mod"]');
+                    item.style.display = isVirusDb ? 'block' : 'none';
+                });
+
                 loginLink.style.display = 'none';
+                if (mobileLoginLink) mobileLoginLink.style.display = 'none';
                 if (slider) slider.style.display = 'none';
                 document.querySelectorAll('footer').forEach(footer => footer.style.display = 'none');
                 document.getElementById('product').style.display = 'none';
@@ -558,6 +792,7 @@
                 }
                 const [type, username] = authToken.split('-');
                 loginLink.style.display = 'none';
+                if (mobileLoginLink) mobileLoginLink.style.display = 'none';
 
                 navItems.forEach(item => {
                     const role = item.getAttribute('data-role');
@@ -583,12 +818,16 @@
             checkBlacklist(authToken).then(isBlacklisted => {
                 if (!isBlacklisted) {
                     document.getElementById('userActionLink').style.display = 'block';
+                    if (document.getElementById('mobileUserActionLink')) {
+                        document.getElementById('mobileUserActionLink').style.display = 'block';
+                    }
                 } else {
                     document.getElementById('userActionLink').style.display = 'none';
+                    if (document.getElementById('mobileUserActionLink')) {
+                        document.getElementById('mobileUserActionLink').style.display = 'none';
+                    }
                 }
             });
-        } else {
-            document.getElementById('userActionLink').style.display = 'none';
         }
     </script>
 

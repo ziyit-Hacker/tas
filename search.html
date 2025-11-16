@@ -220,12 +220,6 @@
         background-attachment: fixed;">
     <h1>搜索</h1>
     <hr>
-    <marquee style="background-color: yellow;">
-        <strong>
-            <span
-                style="color: red;">本页面现处于测试阶段!!!如发现bug请将bug描述邮件发送到3950140506@qq.com。如果像投稿推荐网站请将网站的url和好处用途一起发送到邮箱3779502017@qq.com。</span>
-        </strong>
-    </marquee>
     <script>
         // 检查用户权限
         function checkUserPermission() {
@@ -234,12 +228,6 @@
                 alert('请先登录以访问该页面');
                 window.location.href = './';
                 return;
-            }
-
-            const [typeCode] = authToken.split('-');
-            if (typeCode === 'UR') {
-                alert('您没有权限访问该页面');
-                window.location.href = './';
             }
         }
 
