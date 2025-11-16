@@ -264,14 +264,14 @@
             const authToken = localStorage.getItem('authToken');
             if (!authToken) {
                 alert('请先登录以访问该页面');
-                window.location.href = './';
+                window.location.href = '../';
                 return;
             }
 
             const [typeCode] = authToken.split('-');
             if (typeCode === 'UR') {
                 alert('您没有权限访问该页面');
-                window.location.href = './';
+                window.location.href = '../';
             }
         }
 
