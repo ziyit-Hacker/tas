@@ -16,3 +16,4 @@
 老北京地道Funk (Baile Funk) \ ./Music/老北京地道.mp3 \ [NO DATA]
 颗秒funk_phonk \ ./Music/颗秒funk_phonk.mp3 \ [NO DATA]
 上厕所狂想曲 \ ./Music/上厕所狂想曲.mp3 \ ./Lyrics/纯音乐.txt
+凄惨东北印度阳光 \ ./Music/凄惨东北印度阳光.mp3 \ [NO DATA]
