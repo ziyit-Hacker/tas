@@ -1,0 +1,18 @@
+常用背景音乐1 \ ../assets/bm.mp3
+常用背景音乐2 \ ../assets/bm2.mp3
+常用背景音乐3 \ ../assets/bm3.mp3
+常用背景音乐4 \ ../assets/bm4.mp3
+常用背景音乐5 \ ../assets/bm5.mp3
+
+后室背景音乐1 \ ../assets/br.mp3
+后室背景音乐2 \ ../assets/br2.mp3
+后室背景音乐3 \ ../assets/br3.mp3
+后室背景音乐4 \ ../assets/br4.mp3
+
+德国民歌 \ ./Music/德国民歌.mp3
+外婆的渤海湾 \ ./Music/外婆的渤海湾.mp3
+【哈基米音乐】Умри, если меня не любишь \ ./Music/【哈基米音乐】Умри, если меня не любишь.mp3
+Умри, если меня не любишь【广东省惠州市育苗（预瞄）小学校歌】【donk 小曲】 \ ./Music/Умри, если меня не любишь.mp3
+老北京地道Funk (Baile Funk) \ ./Music/老北京地道.mp3
+颗秒funk_phonk \ ./Music/颗秒funk_phonk.mp3
+上厕所狂想曲.mp3 \ ./Music/上厕所狂想曲.mp3
