@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <title>升级VIP会员——只因科技(中国)</title>
+    <link rel="icon" href="../assets/ziyit.png" type="image/x-icon">
+    <script src="../assets/f12check.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @media (max-width: 768px) {
+            div[style*="max-width: 500px"] {
+                width: 90%;
+                padding: 15px;
+            }
+            input, select, button {
+                width: 90% !important;
+                font-size: 16px;
+            }
+            h1 {
+                font-size: 20px !important;
+            }
+        }
+    </style>
+    <style>
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .product {
+            margin: 10px;
+        }
+
+        .brg {
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: forestgreen;
+        }
+
+        a:hover {
+            text-decoration: underline overline;
+            color: chartreuse;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000000;
+        }
+
+        #previous:active {
+            cursor: wait;
+        }
+
+        .brg {
+            cursor: crosshair;
+        }
+
+        .bt {
+            cursor: default;
+        }
+
+        #Navigation {
+            width: 650px;
+            height: 134px;
+            background: url(ziyit_miv.png);
+            margin: 10px auto;
+        }
+
+        input {
+            padding: 12px 15px;
+            border: 1px solid #d3d3d3;
+            border-radius: 4px;
+            background-color: #fff;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            width: 280px;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+            color: #323130;
+        }
+
+        input:hover {
+            border-color: #8a8886;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0078d4;
+            box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.3);
+        }
+
+        .bt {
+            font-weight: 600;
+            color: #323130;
+            font-size: 14px;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+
+        button {
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #106ebe;
+        }
+
+        button:active {
+            background-color: #005a9e;
+        }
+
+        * {
+            cursor: default !important;
+        }
+    </style>
+</head>
+
+<body background="../assets/bgl.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
+    <div style="max-width: 500px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <h1 id="up" class="bt" style="font-size: 28px; margin-bottom: 20px;">升级VIP会员</h1>
+
+        <a href="../" id="upback" style="color: #0078d4; text-decoration: none;">返回首页</a>
+
+        <form method="get" autocomplete="off" onsubmit="event.preventDefault(); upgradeVIP();">
+            <div style="margin-bottom: 16px;">
+                <label for="username" class="bt">昵  称</label>
+                <input type="text" id="username" name="username" maxlength="11" placeholder="输入账号ID" autocomplete="off" required>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="password" class="bt">密  码</label>
+                <input type="password" id="password" name="password" placeholder="输入密码" autocomplete="off" required>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="vipLicense" class="bt">VIP许可证密钥</label>
+                <input type="password" id="vipLicense" name="vipLicense" minlength="29" maxlength="29"
+                    placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX" autocomplete="off" required>
+            </div>
+
+            <div id="errorMsg" style="color: #a4262c; margin-bottom: 16px; display: none;"></div>
+
+            <button onclick="upgradeVIP()" id="submit" style="width: 100%;">升级为VIP</button>
+        </form>
+
+        <div style="text-align: center; margin-top: 16px;">
+            <a href=".\register" id="register" style="color: #0078d4; text-decoration: none;">没有账号？点这里注册！</a>
+        </div>
+    </div>
+    <br>
+    <div id="errorMsg" style="color: red; display: none;"></div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script>
+    // 全局变量记录许可证错误次数
+    let licenseErrorCount = 0;
+    let isLocked = false;
+    let originalElements = {
+        upback: null,
+        submit: null,
+        register: null
+    };
+
+    function upgradeVIP() {
+        // 如果处于锁定状态，直接返回
+        if (isLocked) {
+            return;
+        }
+
+        const username = document.getElementById('username').value;
+        const password_input = document.getElementById('password').value;
+        const vipLicense = document.getElementById('vipLicense').value;
+        const errorMsg = document.getElementById('errorMsg');
+    
+        errorMsg.style.display = 'none';
+    
+        // 输入验证：检查所有必填字段是否为空
+        if (!username.trim()) {
+            errorMsg.textContent = '用户名不能为空';
+            errorMsg.style.display = 'block';
+            return;
+        }
+        
+        if (!password_input.trim()) {
+            errorMsg.textContent = '密码不能为空';
+            errorMsg.style.display = 'block';
+            return;
+        }
+        
+        if (!vipLicense.trim()) {
+            errorMsg.textContent = 'VIP许可证密钥不能为空';
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        // 对密码进行MD5加密
+        const password = CryptoJS.MD5(password_input).toString(CryptoJS.enc.Base64);
+        const authToken = `UR-${username}-${password}`;
+    
+        fetch('./user.txt')
+            .then(response => response.text())
+            .then(text => {
+                if (text.includes(authToken)) {
+                    fetch('./key.txt')
+                        .then(response => {
+                            if (!response.ok) throw new Error('读取许可码失败');
+                            return response.text();
+                        })
+                        .then(keyContent => {
+                            // 读取所有许可码到数组中，并去除每行的空白字符
+                            const validLicenses = keyContent.split('\n')
+                                .map(license => license.trim())
+                                .filter(license => license.length > 0);
+                            
+                            // 验证VIP许可证密钥是否存在于key.txt中
+                            if (!validLicenses.includes(vipLicense)) {
+                                licenseErrorCount++;
+                                errorMsg.textContent = `VIP许可证密钥错误，请检查密钥是否正确（错误次数：${licenseErrorCount}/3）`;
+                                errorMsg.style.display = 'block';
+                                
+                                // 如果错误次数达到3次，锁定页面
+                                if (licenseErrorCount >= 3) {
+                                    lockPage();
+                                }
+                                return;
+                            }
+                            
+                            // 验证成功，重置错误计数
+                            licenseErrorCount = 0;
+                            proceedWithVIPUpgrade(username, password, vipLicense, authToken);
+                        })
+                        .catch(error => {
+                            console.error('读取许可码文件出错:', error);
+                            errorMsg.textContent = '系统错误，无法验证VIP许可证密钥';
+                            errorMsg.style.display = 'block';
+                        });
+                } else {
+                    errorMsg.textContent = '用户名或密码错误';
+                    errorMsg.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('读取文件出错:', error);
+                errorMsg.textContent = '系统错误，请稍后再试';
+                errorMsg.style.display = 'block';
+            });
+    }
+
+    function lockPage() {
+        isLocked = true;
+        
+        // 保存原始元素
+        originalElements.upback = document.getElementById('upback');
+        originalElements.submit = document.getElementById('submit');
+        originalElements.register = document.getElementById('register');
+        
+        // 删除元素
+        if (originalElements.upback) originalElements.upback.remove();
+        if (originalElements.submit) originalElements.submit.remove();
+        if (originalElements.register) originalElements.register.remove();
+        
+        // 创建错误提示
+        const errorDiv = document.createElement('div');
+        errorDiv.id = 'licenseError';
+        errorDiv.style.color = 'red';
+        errorDiv.style.fontWeight = 'bold';
+        errorDiv.style.textAlign = 'center';
+        errorDiv.style.marginTop = '20px';
+        errorDiv.style.padding = '15px';
+        errorDiv.style.backgroundColor = '#ffe6e6';
+        errorDiv.style.border = '2px solid red';
+        errorDiv.style.borderRadius = '8px';
+        errorDiv.innerHTML = 'VIP许可证密钥验证错误次数过多，页面已锁定，请等待30秒后重试';
+        
+        // 插入到注册链接原来的位置
+        const registerContainer = document.querySelector('div[style*="text-align: center"]');
+        if (registerContainer) {
+            registerContainer.appendChild(errorDiv);
+        }
+        
+        // 30秒后恢复页面
+        setTimeout(() => {
+            restorePage();
+        }, 30000);
+    }
+
+    function restorePage() {
+        isLocked = false;
+        licenseErrorCount = 0;
+        
+        // 移除错误提示
+        const errorDiv = document.getElementById('licenseError');
+        if (errorDiv) errorDiv.remove();
+        
+        // 恢复原始元素
+        const registerContainer = document.querySelector('div[style*="text-align: center"]');
+        if (registerContainer) {
+            if (originalElements.upback) {
+                const formContainer = document.querySelector('div[style*="max-width: 500px"]');
+                if (formContainer) {
+                    const h1 = formContainer.querySelector('h1');
+                    if (h1) {
+                        h1.insertAdjacentElement('afterend', originalElements.upback);
+                    }
+                }
+            }
+            
+            if (originalElements.submit) {
+                const form = document.querySelector('form');
+                if (form) {
+                    const errorMsg = form.querySelector('#errorMsg');
+                    if (errorMsg) {
+                        errorMsg.insertAdjacentElement('afterend', originalElements.submit);
+                    }
+                }
+            }
+            
+            if (originalElements.register) {
+                registerContainer.appendChild(originalElements.register);
+            }
+        }
+    }
+
+    function proceedWithVIPUpgrade(username, password, vipLicense, old_user) {
+        const new_user = `ZC-${username}-${password}`;
+        
+        fetch('./upk.txt')
+            .then(response => response.text())
+            .then(upk => {
+                const now = new Date();
+                const timeStr = now.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+                
+                const message = `请将${old_user}/${upk}\\${new_user}'${timeStr}用短信发送到13258227085`;
+                
+                const msgDiv = document.createElement('div');
+                msgDiv.style.position = 'fixed';
+                msgDiv.style.top = '50%';
+                msgDiv.style.left = '50%';
+                msgDiv.style.transform = 'translate(-50%, -50%)';
+                msgDiv.style.backgroundColor = 'white';
+                msgDiv.style.padding = '20px';
+                msgDiv.style.borderRadius = '8px';
+                msgDiv.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+                msgDiv.style.zIndex = '1000';
+                msgDiv.style.textAlign = 'center';
+
+                const msgText = document.createElement('p');
+                msgText.textContent = message;
+                msgDiv.appendChild(msgText);
+
+                const confirmBtn = document.createElement('button');
+                confirmBtn.textContent = '已发送，回到主页';
+                confirmBtn.style.marginTop = '15px';
+                confirmBtn.onclick = function () {
+                    window.location.href = '../';
+                };
+                msgDiv.appendChild(confirmBtn);
+
+                document.body.appendChild(msgDiv);
+
+                navigator.clipboard.writeText(`${old_user}/${upk}\\${new_user}'${timeStr}`);
+            });
+    }
+</script>
+
+</html>
