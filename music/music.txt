@@ -9,7 +9,7 @@
 后室背景音乐3 \ ../assets/br3.mp3 \ ./Lyrics/纯音乐.txt
 后室背景音乐4 \ ../assets/br4.mp3 \ ./Lyrics/纯音乐.txt
 
-德国民歌 \ ./Music/德国民歌.mp3 \ ./Lyrics/艾丽卡.txt
+艾丽卡【德国民歌】【日耳曼民歌】 \ ./Music/德国民歌.mp3 \ ./Lyrics/艾丽卡.txt
 外婆的渤海湾 \ ./Music/外婆的渤海湾.mp3 \ ./Lyrics/纯音乐.txt
 【哈基米音乐】Умри, если меня не любишь \ ./Music/【哈基米音乐】Умри, если меня не любишь.mp3 \ ./Lyrics/哈基米.txt
 Умри, если меня не любишь【广东省惠州市育苗（预瞄）小学校歌】【donk 小曲】【因大小原因缩短了一点】 \ ./Music/Умри, если меня не любишь.mp3 \ ./Lyrics/Умри, если меня не любишь.txt
@@ -22,3 +22,5 @@
 登顶 \ ./Music/登顶.mp3 \ .\Lyrics\登顶.txt
 刀马刀马 \ ./Music/dmdm.mp3 \ [NO DATA]
 弥渡山歌 \ ./Music/弥渡山歌.mp3 \ ./Lyrics/弥渡山歌.txt
+
+Marsch der nationalen Volksarmee【德国军乐】 \ ./Music/Marsch der nationalen Volksarmee.mp3 \ ./Lyrics/德国军乐.txt

@@ -81,8 +81,8 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             cursor: pointer;
             font-size: 16px;
         }
@@ -246,6 +246,65 @@
                 max-height: 200px;
             }
         }
+
+        /* 歌词样式 */
+        .lyrics-content {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #666;
+            text-align: center;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .lyric-normal {
+            color: #666;
+            transition: all 0.3s ease;
+            padding: 5px 0;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .lyric-normal:hover {
+            background-color: rgba(0, 120, 212, 0.1);
+            color: #0078d4;
+        }
+
+        .lyric-current {
+            color: #0078d4;
+            font-weight: bold;
+            font-size: 16px;
+            background-color: rgba(0, 120, 212, 0.1);
+            border-radius: 5px;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        .lyric-current:hover {
+            background-color: rgba(0, 120, 212, 0.2);
+        }
+
+        /* 隐藏滚动条 */
+        .lyrics-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .lyrics-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .lyrics-content::-webkit-scrollbar-thumb {
+            background: #0078d4;
+            border-radius: 3px;
+        }
+
+        .lyrics-content::-webkit-scrollbar-thumb:hover {
+            background: #005a9e;
+        }
     </style>
 </head>
 
@@ -341,10 +400,15 @@
     <p>&copy;2025&nbsp;&nbsp;ZIYIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>版权所有，侵权必究</strong></p>
 
     <script>
+        // 页面加载时检查权限
+        document.addEventListener('DOMContentLoaded', checkUserPermission);
+
         // 音乐播放器功能
         let currentMusicIndex = -1;
         let musicList = [];
         let isPlaying = false;
+        let lyricsData = [];
+        let currentLyricIndex = -1;
 
         const audioPlayer = document.getElementById('audio-player');
         const playBtn = document.getElementById('play-btn');
@@ -354,128 +418,9 @@
         const playerStatus = document.querySelector('.player-status');
         const progress = document.getElementById('progress');
         const musicListElement = document.getElementById('music-list');
-
-        // 加载音乐列表
-        fetch('music.txt')
-            .then(response => response.text())
-            .then(data => {
-                musicList = data.split('\n').filter(line => line.trim() !== '');
-                renderMusicList();
-            })
-            .catch(error => {
-                console.error('加载音乐列表失败:', error);
-            });
-
-        // 渲染音乐列表
-        function renderMusicList() {
-            musicListElement.innerHTML = '';
-            musicList.forEach((music, index) => {
-                const [name, location] = music.split(' \\ ');
-                const li = document.createElement('li');
-                li.className = 'music-item';
-                li.textContent = name;
-                li.addEventListener('click', () => playMusic(index));
-                musicListElement.appendChild(li);
-            });
-        }
-
-        // 播放音乐
-        function playMusic(index) {
-            if (index < 0 || index >= musicList.length) return;
-
-            const [name, location] = musicList[index].split(' \\ ');
-            audioPlayer.src = location;
-            currentMusicIndex = index;
-            currentSong.textContent = name;
-
-            // 更新列表样式
-            document.querySelectorAll('.music-item').forEach((item, i) => {
-                item.classList.toggle('playing', i === index);
-            });
-
-            audioPlayer.play();
-            isPlaying = true;
-            playBtn.textContent = '⏸';
-            playerStatus.textContent = '播放中';
-        }
-
-        // 播放/暂停控制
-        playBtn.addEventListener('click', () => {
-            if (currentMusicIndex === -1 && musicList.length > 0) {
-                playMusic(0);
-                return;
-            }
-
-            if (isPlaying) {
-                audioPlayer.pause();
-                playBtn.textContent = '▶';
-                playerStatus.textContent = '暂停中';
-            } else {
-                audioPlayer.play();
-                playBtn.textContent = '⏸';
-                playerStatus.textContent = '播放中';
-            }
-            isPlaying = !isPlaying;
-        });
-
-        // 上一首
-        prevBtn.addEventListener('click', () => {
-            if (musicList.length === 0) return;
-            let newIndex = currentMusicIndex - 1;
-            if (newIndex < 0) newIndex = musicList.length - 1;
-            playMusic(newIndex);
-        });
-
-        // 下一首
-        nextBtn.addEventListener('click', () => {
-            if (musicList.length === 0) return;
-            let newIndex = currentMusicIndex + 1;
-            if (newIndex >= musicList.length) newIndex = 0;
-            playMusic(newIndex);
-        });
-
-        // 更新进度条
-        audioPlayer.addEventListener('timeupdate', () => {
-            const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-            progress.style.width = progressPercent + '%';
-        });
-
-        // 点击进度条跳转
-        document.querySelector('.progress-bar').addEventListener('click', (e) => {
-            const rect = e.target.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const width = rect.width;
-            const duration = audioPlayer.duration;
-
-            if (duration) {
-                audioPlayer.currentTime = (clickX / width) * duration;
-            }
-        });
-
-        // 歌曲结束自动下一首
-        audioPlayer.addEventListener('ended', () => {
-            nextBtn.click();
-        });
-
-        // 搜索功能
-        document.getElementById('search-button').addEventListener('click', function (e) {
-            e.preventDefault();
-            const searchInput = document.getElementById('search-input').value.toLowerCase();
-            const musicItems = document.querySelectorAll('.music-item');
-
-            musicItems.forEach(item => {
-                item.style.display = 'none';
-                if (item.textContent.toLowerCase().includes(searchInput)) {
-                    item.style.display = 'block';
-                }
-            });
-        });
-    </script>
-
-    <script>
-        // 获取时间显示元素
         const currentTimeElement = document.getElementById('current-time');
         const totalTimeElement = document.getElementById('total-time');
+        const lyricsContent = document.getElementById('lyrics-content');
 
         // 格式化时间为 MM:SS 格式
         function formatTime(seconds) {
@@ -493,70 +438,145 @@
             totalTimeElement.textContent = formatTime(audioPlayer.duration);
         }
 
-        // 播放音乐
-        function playMusic(index) {
-            if (index < 0 || index >= musicList.length) return;
-
-            const [name, location] = musicList[index].split(' \\ ');
-            audioPlayer.src = location;
-            currentMusicIndex = index;
-            currentSong.textContent = name;
-
-            // 更新列表样式
-            document.querySelectorAll('.music-item').forEach((item, i) => {
-                item.classList.toggle('playing', i === index);
-            });
-
-            // 重置时间显示
-            currentTimeElement.textContent = '00:00';
-            totalTimeElement.textContent = '**:**';
-
-            audioPlayer.play();
-            isPlaying = true;
-            playBtn.textContent = '⏸';
-            playerStatus.textContent = '播放中';
+        // 解析歌词时间格式 [mm:ss.xx]
+        function parseLyricTime(timeStr) {
+            const match = timeStr.match(/\[(\d+):(\d+)\.(\d+)\]/);
+            if (match) {
+                const minutes = parseInt(match[1]);
+                const seconds = parseInt(match[2]);
+                const milliseconds = parseInt(match[3]);
+                return minutes * 60 + seconds + milliseconds / 100;
+            }
+            return 0;
         }
 
-        // 更新进度条和时间显示
-        audioPlayer.addEventListener('timeupdate', () => {
-            const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-            progress.style.width = progressPercent + '%';
-            updateTimeDisplay();
-        });
+        // 解析歌词文件
+        function parseLyrics(lyricsText) {
+            const lines = lyricsText.split('\n');
+            const lyrics = [];
 
-        // 当音频元数据加载完成时更新总时长
-        audioPlayer.addEventListener('loadedmetadata', () => {
-            updateTimeDisplay();
-        });
+            lines.forEach(line => {
+                line = line.trim();
+                if (!line) return; // 跳过空行
+                
+                // 修复正则表达式：支持 [mm:ss.xx] 格式
+                const match = line.match(/^\[(\d+):(\d+)\.(\d+)\](.*)$/);
+                if (match) {
+                    const minutes = parseInt(match[1]);
+                    const seconds = parseInt(match[2]);
+                    const milliseconds = parseInt(match[3]);
+                    const text = match[4].trim();
+                    
+                    if (text) { // 只添加有歌词内容的行
+                        const timeInSeconds = minutes * 60 + seconds + milliseconds / 100;
+                        lyrics.push({
+                            time: timeInSeconds,
+                            text: text,
+                            original: line
+                        });
+                    }
+                } else {
+                    // 调试：输出无法解析的行
+                    console.log('无法解析的歌词行:', line);
+                }
+            });
 
-        // 当音频可以播放时更新总时长
-        audioPlayer.addEventListener('canplay', () => {
-            updateTimeDisplay();
-        });
-    </script>
+            // 按时间排序
+            lyrics.sort((a, b) => a.time - b.time);
+            console.log('解析后的歌词数据:', lyrics);
+            return lyrics;
+        }
 
-    <script>
-        // 获取歌词显示元素
-        const lyricsContent = document.getElementById('lyrics-content');
+        // 更新歌词显示
+        function updateLyrics(currentTime) {
+            // 找到当前时间对应的歌词
+            let newIndex = -1;
+            for (let i = lyricsData.length - 1; i >= 0; i--) {
+                if (currentTime >= lyricsData[i].time) {
+                    newIndex = i;
+                    break;
+                }
+            }
+
+            // 如果歌词索引没有变化，不需要更新
+            if (newIndex === currentLyricIndex) return;
+
+            currentLyricIndex = newIndex;
+
+            // 生成歌词HTML
+            const lyricsHTML = lyricsData.map((lyric, index) => {
+                const isCurrent = index === currentLyricIndex;
+                const className = isCurrent ? 'lyric-current' : 'lyric-normal';
+                return `<div class="${className}" data-time="${lyric.time}" onclick="seekToLyricTime(${lyric.time})">${lyric.text}</div>`;
+            }).join('');
+
+            lyricsContent.innerHTML = lyricsHTML;
+        }
+
+        // 点击歌词跳转到对应时间
+        function seekToLyricTime(time) {
+            if (audioPlayer.duration) {
+                audioPlayer.currentTime = time;
+                // 如果音频暂停，自动播放
+                if (audioPlayer.paused) {
+                    audioPlayer.play();
+                    isPlaying = true;
+                    playBtn.textContent = '||';
+                    playerStatus.textContent = '播放中';
+                }
+            }
+        }
 
         // 加载歌词
         async function loadLyrics(lyricsPath) {
             if (lyricsPath === '[NO DATA]') {
-                lyricsContent.textContent = '暂无歌词';
+                lyricsContent.innerHTML = '<div class="lyric-normal">暂无歌词</div>';
+                lyricsData = [];
+                currentLyricIndex = -1;
                 return;
             }
 
             try {
-                const response = await fetch(lyricsPath);
+                // 修复路径分隔符问题：将Windows风格的反斜杠转换为URL风格的斜杠
+                const normalizedPath = lyricsPath.replace(/\\/g, '/');
+                console.log('加载歌词文件:', normalizedPath);
+                const response = await fetch(normalizedPath);
                 if (!response.ok) {
                     throw new Error('歌词文件不存在');
                 }
                 const lyricsText = await response.text();
-                lyricsContent.textContent = lyricsText.trim() || '暂无歌词';
+                console.log('歌词文件内容:', lyricsText);
+                lyricsData = parseLyrics(lyricsText);
+                currentLyricIndex = -1;
+
+                if (lyricsData.length === 0) {
+                    lyricsContent.innerHTML = '<div class="lyric-normal">暂无歌词</div>';
+                } else {
+                    // 显示所有歌词（不按时间高亮）
+                    const lyricsHTML = lyricsData.map(lyric => 
+                        `<div class="lyric-normal" data-time="${lyric.time}" onclick="seekToLyricTime(${lyric.time})">${lyric.text}</div>`
+                    ).join('');
+                    lyricsContent.innerHTML = lyricsHTML;
+                }
             } catch (error) {
                 console.error('加载歌词失败:', error);
-                lyricsContent.textContent = '暂无歌词';
+                lyricsContent.innerHTML = '<div class="lyric-normal">暂无歌词</div>';
+                lyricsData = [];
+                currentLyricIndex = -1;
             }
+        }
+
+        // 渲染音乐列表
+        function renderMusicList() {
+            musicListElement.innerHTML = '';
+            musicList.forEach((music, index) => {
+                const [name, location, lyricsPath] = music.split(' \\ ');
+                const li = document.createElement('li');
+                li.className = 'music-item';
+                li.textContent = name;
+                li.addEventListener('click', () => playMusic(index));
+                musicListElement.appendChild(li);
+            });
         }
 
         // 播放音乐
@@ -582,22 +602,105 @@
 
             audioPlayer.play();
             isPlaying = true;
-            playBtn.textContent = '⏸';
+            playBtn.textContent = '||';
             playerStatus.textContent = '播放中';
         }
 
-        // 渲染音乐列表
-        function renderMusicList() {
-            musicListElement.innerHTML = '';
-            musicList.forEach((music, index) => {
-                const [name, location, lyricsPath] = music.split(' \\ ');
-                const li = document.createElement('li');
-                li.className = 'music-item';
-                li.textContent = name;
-                li.addEventListener('click', () => playMusic(index));
-                musicListElement.appendChild(li);
+        // 加载音乐列表
+        fetch('music.txt')
+            .then(response => response.text())
+            .then(data => {
+                musicList = data.split('\n').filter(line => line.trim() !== '');
+                renderMusicList();
+            })
+            .catch(error => {
+                console.error('加载音乐列表失败:', error);
             });
-        }
+
+        // 播放/暂停控制
+        playBtn.addEventListener('click', () => {
+            if (currentMusicIndex === -1 && musicList.length > 0) {
+                playMusic(0);
+                return;
+            }
+
+            if (isPlaying) {
+                audioPlayer.pause();
+                playBtn.textContent = '▶';
+                playerStatus.textContent = '暂停中';
+            } else {
+                audioPlayer.play();
+                playBtn.textContent = '||';
+                playerStatus.textContent = '播放中';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // 上一首
+        prevBtn.addEventListener('click', () => {
+            if (musicList.length === 0) return;
+            let newIndex = currentMusicIndex - 1;
+            if (newIndex < 0) newIndex = musicList.length - 1;
+            playMusic(newIndex);
+        });
+
+        // 下一首
+        nextBtn.addEventListener('click', () => {
+            if (musicList.length === 0) return;
+            let newIndex = currentMusicIndex + 1;
+            if (newIndex >= musicList.length) newIndex = 0;
+            playMusic(newIndex);
+        });
+
+        // 更新进度条和时间显示
+        audioPlayer.addEventListener('timeupdate', () => {
+            const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progress.style.width = progressPercent + '%';
+            updateTimeDisplay();
+            // 更新歌词显示
+            updateLyrics(audioPlayer.currentTime);
+        });
+
+        // 点击进度条跳转
+        document.querySelector('.progress-bar').addEventListener('click', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const duration = audioPlayer.duration;
+
+            if (duration) {
+                audioPlayer.currentTime = (clickX / width) * duration;
+            }
+        });
+
+        // 歌曲结束自动下一首
+        audioPlayer.addEventListener('ended', () => {
+            nextBtn.click();
+        });
+
+        // 当音频元数据加载完成时更新总时长
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            updateTimeDisplay();
+        });
+
+        // 当音频可以播放时更新总时长
+        audioPlayer.addEventListener('canplay', () => {
+            updateTimeDisplay();
+        });
+
+        // 搜索功能
+        document.getElementById('search-button').addEventListener('click', function (e) {
+            e.preventDefault();
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const musicItems = document.querySelectorAll('.music-item');
+
+            musicItems.forEach(item => {
+                item.style.display = 'none';
+                if (item.textContent.toLowerCase().includes(searchInput)) {
+                    item.style.display = 'block';
+                }
+            });
+        });
     </script>
 </body>
 
