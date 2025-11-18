@@ -24,3 +24,13 @@
 弥渡山歌 \ ./Music/弥渡山歌.mp3 \ ./Lyrics/弥渡山歌.txt
 
 Marsch der nationalen Volksarmee【德国军乐】 \ ./Music/Marsch der nationalen Volksarmee.mp3 \ ./Lyrics/德国军乐.txt
+这一程 \ ./Music/这一程.mp3 \ [NO DATA]
+至少我还算快乐 \ ./Music/至少我还算快乐.mp3 \ ./Lyrics/至少我还算快乐.txt
+压力！！！ \ ./Music/压力！.mp3 \ [NO DATA]
+新茶囊压力会 \ ./Music/新压non.mp3 \ [NO DATA]
+Higher Tobu【搞电脑音乐】 \ ./Music/Higher-Tobu.mp3 \ [NO DATA]
+Horizon Janji【搞电脑音乐】 \ ./Music/Horizon-Janji.mp3 \ [NO DATA]
+Outbreaker【常用搞电脑音乐】 \ ./Music/Outbreaker.mp3 \ [NO DATA]
+sun【搞电脑视频开头】 \ ./Music/sun.mp3 \ [NO DATA]
+Unity The Fat Rat【搞电脑音乐】 \ ./Music/Unity-TheFatRat.mp3 \ [NO DATA]
+握着我的抱枕【蓝瓶钙，好喝的钙】 \ ./Music/握着我的抱枕.mp3 \ [NO DATA]
