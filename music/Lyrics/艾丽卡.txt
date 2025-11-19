@@ -1,71 +1,70 @@
 [00:00.00]德国民歌 - 《Erika》
-[00:03.00]选材：Minecraft_zy(ZIYIT最高管理员)
-[00:06.00]写词：Minecraft_zy(ZIYIT最高管理员)
-[00:09.00]上传：Minecraft_zy(ZIYIT最高管理员)
-Auf der Heide blüht ein kleines Blümelein
-小小的花开在原野上
-und das heißt
-她的名字是
-Erika
-艾丽卡
-Heiß von hunderttausend kleinen Bienelein
-无数小蜜蜂
-wird umschwärmt
-都争相飞向
-Erika
-艾丽卡
-denn ihr Herz ist voller Süßigkeit
-只因花芯饱含着甜蜜
-zarter Duft entströmt dem Blütenkleid
-花朵散发迷人的芬芳
-Auf der Heide blüht ein kleines Blümelein
-小小的花开在原野上
-und das heißt
-她的名字是
-Erika
-艾丽卡
-In der Heimat wohnt ein kleines Mägdelein
-一个可爱少女住在家乡
-und das heißt
-她的名字是
-Erika
-艾丽卡
-Dieses Mädel ist mein treues Schätzelein
-那是我最心爱的姑娘
-und mein Glück
-我的小幸运
-Erika
-艾丽卡
-Wenn das Heidekraut rot-lila blüht
-当那石楠花盛开之时
-singe ich zum Gruß ihr dieses Lied
-请为我传去这首歌
-Auf der Heide blüht ein kleines Blümelein
-小小的花开在原野上
-und das heißt
-她的名字是
-Erika
-艾丽卡
-In mein'm Kämmerlein blüht auch ein Blümelein
-我小屋边也开着一朵小花
-und das heißt
-她的名字是
-Erika
-艾丽卡
-
-Schon beim Morgengrau'n sowie beim Dämmerschein
-无论是拂晓还是黄昏
-schaut's mich an
-都凝望着我
-Erika
-艾丽卡
-Und dann ist es mir, als spräch' es laut
-花丛中传来细细声响
-Denkst du auch an deine kleine Braut
-你是否记得你的俏新娘
-In der Heimat weint um dich ein Mägdelein
-故乡有位姑娘为你落泪
-und das heißt
-她的名字是
-Erika
-艾丽卡
+[00:03.00]选材：Minecraft_zy227(ZIYIT最高管理员)
+[00:06.00]写词：Minecraft_zy227(ZIYIT最高管理员)
+[00:09.00]上传：Minecraft_zy227(ZIYIT最高管理员)
+[00:11.15]Auf der Heide blüht ein kleines Blümelein
+[00:18.42]小小的花开在原野上
+[00:18.42]und das heißt
+[00:21.75]她的名字是
+[00:21.75]Erika
+[00:24.99]艾丽卡
+[00:24.99]Heiß von hunderttausend kleinen Bienelein
+[00:32.12]无数小蜜蜂
+[00:32.12]wird umschwärmt
+[00:35.23]都争相飞向
+[00:35.23]Erika
+[00:38.52]艾丽卡
+[00:38.52]denn ihr Herz ist voller Süßigkeit
+[00:44.78]只因花芯饱含着甜蜜
+[00:44.78]zarter Duft entströmt dem Blütenkleid
+[00:51.10]花朵散发迷人的芬芳
+[00:51.10]Auf der Heide blüht ein kleines Blümelein
+[00:58.18]小小的花开在原野上
+[00:58.18]und das heißt
+[01:01.44]她的名字是
+[01:01.44]Erika
+[01:06.66]艾丽卡
+[01:06.66]In der Heimat wohnt ein kleines Mägdelein
+[01:11.98]一个可爱少女住在家乡
+[01:11.98]und das heißt
+[01:15.25]她的名字是
+[01:15.25]Erika
+[01:18.39]艾丽卡
+[01:18.39]Dieses Mädel ist mein treues Schätzelein
+[01:25.44]那是我最心爱的姑娘
+[01:25.44]und mein Glück
+[01:28.75]我的小幸运
+[01:28.75]Erika
+[01:32.17]艾丽卡
+[01:32.17]Wenn das Heidekraut rot-lila blüht
+[01:38.33]当那石楠花盛开之时
+[01:38.33]singe ich zum Gruß ihr dieses Lied
+[01:44.44]请为我传去这首歌
+[01:44.44]Auf der Heide blüht ein kleines Blümelein
+[01:51.88]小小的花开在原野上
+[01:51.88]und das heißt
+[01:55.12]她的名字是
+[01:55.12]Erika
+[02:03.53]艾丽卡
+[02:03.53]In mein'm Kämmerlein blüht auch ein Blümelein
+[02:10.79]我小屋边也开着一朵小花
+[02:10.79]und das heißt
+[02:14.19]她的名字是
+[02:14.19]Erika
+[02:17.53]艾丽卡
+[02:17.53]Schon beim Morgengrau'n sowie beim Dämmerschein
+[02:24.41]无论是拂晓还是黄昏
+[02:24.41]schaut's mich an
+[02:27.49]都凝望着我
+[02:27.49]Erika
+[02:30.91]艾丽卡
+[02:30.91]Und dann ist es mir, als spräch' es laut
+[02:37.40]花丛中传来细细声响
+[02:37.40]Denkst du auch an deine kleine Braut
+[02:43.53]你是否记得你的俏新娘
+[02:43.53]In der Heimat weint um dich ein Mägdelein
+[02:50.10]故乡有位姑娘为你落泪
+[02:50.10]und das heißt
+[02:54.26]她的名字是
+[02:54.26]Erika
+[02:58.99]艾丽卡
