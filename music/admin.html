@@ -1462,11 +1462,6 @@
             }
         });
 
-        // 歌曲结束自动下一首
-        audioPlayer.addEventListener('ended', () => {
-            nextBtn.click();
-        });
-
         // 当音频元数据加载完成时更新总时长
         audioPlayer.addEventListener('loadedmetadata', () => {
             updateTimeDisplay();
@@ -1618,7 +1613,7 @@
             updateSystemInfo('LRC转换已重置');
         });
 
-                // 下载LRC文件
+        // 下载LRC文件
         document.getElementById('download-lrc').addEventListener('click', function() {
             if (lrcContent.trim() === '') {
                 alert('没有可下载的LRC内容');
