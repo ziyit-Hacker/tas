@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>音乐管理系统 - 管理员后台</title>
+    <link rel="icon" href="../assets/ziyit.png" type="image/x-icon">
+    <script src="../assets/f12check.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --border-color: #bdc3c7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default !important;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 头部导航 */
+        .admin-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .admin-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-title::before {
+            content: "🎵";
+            font-size: 32px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--light-color);
+            padding: 8px 15px;
+            border-radius: 25px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .header-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--accent-color), #2980b9);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* 主要内容区域 */
+        .admin-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 内容区域样式 */
+        .content-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-header {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* 用户管理样式 */
+        .user-management {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .user-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .user-search {
+            flex: 1;
+            min-width: 300px;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .user-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .user-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .user-btn.danger {
+            background: var(--danger-color);
+        }
+
+        .user-btn.danger:hover {
+            background: #c0392b;
+        }
+
+        .user-btn.success {
+            background: var(--success-color);
+        }
+
+        .user-btn.success:hover {
+            background: #229954;
+        }
+
+        .user-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .user-stat-card {
+            background: var(--light-color);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .user-stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .user-stat-label {
+            font-size: 14px;
+            color: var(--secondary-color);
+        }
+
+        .user-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .user-item {
+            display: grid;
+            grid-template-columns: 50px 1fr 120px 100px 100px 100px;
+            gap: 15px;
+            align-items: center;
+            padding: 15px;
+            margin: 8px 0;
+            background: var(--light-color);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .user-item:hover {
+            background: #d5dbdb;
+            transform: translateX(5px);
+        }
+
+        .user-avatar-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .user-type {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: var(--accent-color);
+            color: white;
+            display: inline-block;
+        }
+
+        .user-type.ur {
+            background: var(--warning-color);
+        }
+
+        .user-type.zc {
+            background: var(--success-color);
+        }
+
+        .user-status {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: var(--success-color);
+            color: white;
+        }
+
+        .user-status.offline {
+            background: var(--danger-color);
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: #2980b9;
+        }
+
+        .action-btn.edit {
+            background: var(--warning-color);
+        }
+
+        .action-btn.edit:hover {
+            background: #e67e22;
+        }
+
+        .action-btn.delete {
+            background: var(--danger-color);
+        }
+
+        .action-btn.delete:hover {
+            background: #c0392b;
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            background: white;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        /* 音乐播放器 */
+        .music-player-admin {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .player-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .player-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .control-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: #2980b9;
+            transform: scale(1.1);
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .time-display {
+            font-size: 14px;
+            color: var(--secondary-color);
+            min-width: 50px;
+            font-family: monospace;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        /* 歌词显示区域 */
+        .lyrics-admin {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .lyrics-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lyrics-content {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-color);
+            white-space: pre-wrap;
+            background: var(--light-color);
+            padding: 20px;
+            border-radius: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* 音乐列表 */
+        .music-list-admin {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            outline: none;
+            width: 300px;
+            font-size: 14px;
+        }
+
+        .search-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-items {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .music-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 8px 0;
+            background: var(--light-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .music-item:hover {
+            background: #d5dbdb;
+            transform: translateX(5px);
+        }
+
+        .music-item.playing {
+            background: var(--accent-color);
+            color: white;
+            border-left-color: var(--success-color);
+        }
+
+        .music-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .music-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .music-details {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .music-item.playing .music-details {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 系统信息 */
+        .system-info {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: var(--light-color);
+            border-radius: 8px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .info-value {
+            font-family: monospace;
+            color: var(--accent-color);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .admin-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+
+            .search-input {
+                width: 200px;
+            }
+
+            .user-item {
+                grid-template-columns: 40px 1fr 100px 80px 80px 80px;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .header-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .player-controls {
+                flex-wrap: wrap;
+            }
+
+            .user-controls {
+                flex-direction: column;
+            }
+
+            .user-search {
+                min-width: 100%;
+            }
+
+            .user-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .user-actions {
+                justify-content: center;
+            }
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
+        }
+
+        .user-status {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: var(--success-color);
+            color: white;
+        }
+
+        .user-status.offline {
+            background: var(--danger-color);
+        }
+
+        .user-status.blacklisted {
+            background: var(--danger-color);
+        }
+
+        .user-status.safe {
+            background: var(--success-color);
+        }
+
+        .user-status.ztg {
+            background: #9b59b6;
+            /* 紫色表示ZTG用户 */
+        }
+
+        /* LRC转换功能样式 */
+        .lrc-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        .lrc-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .lrc-btn:hover:not(:disabled) {
+            background: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .lrc-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .lrc-status {
+            font-size: 12px;
+            color: var(--secondary-color);
+            padding: 4px 8px;
+            border-radius: 10px;
+            background: var(--light-color);
+        }
+
+        .lrc-conversion-panel {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .lrc-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .lrc-panel-header h3 {
+            margin: 0;
+            color: var(--accent-color);
+        }
+
+        .lrc-progress {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: var(--secondary-color);
+        }
+
+        .lrc-control-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .lrc-action-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .lrc-action-btn:hover {
+            background: #229954;
+            transform: translateY(-2px);
+        }
+
+        .lrc-action-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .lrc-preview h4 {
+            margin: 0 0 10px 0;
+            color: var(--accent-color);
+        }
+
+        #lrc-preview-content {
+            width: 100%;
+            height: 150px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            resize: vertical;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- 头部导航 -->
+        <header class="admin-header">
+            <div class="header-top">
+                <h1 class="admin-title">音乐管理系统</h1>
+                <div class="user-info">
+                    <div class="user-avatar">AD</div>
+                    <div>
+                        <div class="user-name">管理员</div>
+                        <div class="user-role" id="user-role">系统管理员</div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-songs">0</div>
+                    <div class="stat-label">总歌曲数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="playing-song">-</div>
+                    <div class="stat-label">当前播放</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="online-users">1</div>
+                    <div class="stat-label">在线用户</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="system-status">正常</div>
+                    <div class="stat-label">系统状态</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <div class="admin-content">
+            <!-- 侧边栏 -->
+            <aside class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="menu-item active" data-section="music-management">
+                        <span>🎵</span> 音乐管理
+                    </li>
+                    <li class="menu-item" data-section="user-management">
+                        <span>👥</span> 用户管理
+                    </li>
+                    <li class="menu-item" onclick="window.location.href = '../developers/'">
+                        <span>📋</span> 日志查看
+                    </li>
+                    <li class="menu-item" onclick="window.location.href = './'">
+                        <span>🔙</span> 返回主页
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- 主内容区 -->
+            <main class="main-content">
+                <!-- 音乐管理 -->
+                <section id="music-management" class="content-section active">
+                    <!-- 音乐播放器 -->
+                    <section class="music-player-admin">
+                        <div class="player-header">
+                            <h2 class="player-title">音乐播放控制</h2>
+                            <div class="player-status" id="player-status">暂停中</div>
+                        </div>
+
+                        <div class="player-info">
+                            <div class="current-song" id="current-song">请选择一首歌曲</div>
+                        </div>
+
+                        <div class="progress-container">
+                            <span class="time-display" id="current-time">00:00</span>
+                            <div class="progress-bar">
+                                <div class="progress" id="progress"></div>
+                            </div>
+                            <span class="time-display" id="total-time">00:00</span>
+                        </div>
+
+                        <div class="player-controls">
+                            <button class="control-btn" id="prev-btn">◀◀</button>
+                            <button class="control-btn" id="play-btn">▶</button>
+                            <button class="control-btn" id="next-btn">▶▶</button>
+                        </div>
+
+                        <audio id="audio-player" preload="metadata"></audio>
+                    </section>
+
+                    <!-- 歌词显示 -->
+                    <section class="lyrics-admin">
+                        <div class="lyrics-header">
+                            <span>歌词内容</span>
+                            <span class="lyrics-info" id="lyrics-info">未加载</span>
+                            <div class="lrc-controls">
+                                <button class="lrc-btn" id="start-lrc-conversion">开始LRC转换</button>
+                                <button class="lrc-btn" id="download-lrc" disabled>下载LRC文件</button>
+                                <span class="lrc-status" id="lrc-status">准备就绪</span>
+                            </div>
+                        </div>
+                        <div class="lyrics-content" id="lyrics-content">
+                            请选择歌曲以显示歌词内容...
+                        </div>
+                        <div class="lrc-conversion-panel" id="lrc-conversion-panel" style="display: none;">
+                            <div class="lrc-panel-header">
+                                <h3>LRC歌词转换</h3>
+                                <div class="lrc-progress">
+                                    <span>当前行: <span id="current-line-index">0</span>/<span id="total-lines">0</span></span>
+                                    <span>当前时间: <span id="current-time-display">00:00.00</span></span>
+                                </div>
+                            </div>
+                            <div class="lrc-control-buttons">
+                                <button class="lrc-action-btn" id="next-line-btn">下一行歌词</button>
+                                <button class="lrc-action-btn" id="reset-lrc-btn">重置转换</button>
+                            </div>
+                            <div class="lrc-preview">
+                                <h4>LRC预览:</h4>
+                                <textarea id="lrc-preview-content" readonly></textarea>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 音乐列表 -->
+                    <section class="music-list-admin">
+                        <div class="list-header">
+                            <h2>音乐库管理</h2>
+                            <div class="search-container">
+                                <input type="text" class="search-input" id="search-input" placeholder="搜索歌曲...">
+                                <button class="search-btn" id="search-button">
+                                    <svg width="16" height="16" viewBox="0 0 16 16">
+                                        <path
+                                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="music-items" id="music-list">
+                            <!-- 音乐列表将通过JavaScript动态生成 -->
+                        </div>
+                    </section>
+                </section>
+
+                <!-- 用户管理 -->
+                <section id="user-management" class="content-section">
+                    <div class="section-header">
+                        <h2>用户管理</h2>
+                        <button class="user-btn success" id="add-user-btn">添加用户</button>
+                    </div>
+
+                    <div class="user-controls">
+                        <input type="text" class="user-search" id="user-search" placeholder="搜索用户名...">
+                        <button class="user-btn" id="refresh-users">刷新列表</button>
+                        <button class="user-btn danger" id="export-users">导出数据</button>
+                    </div>
+
+                    <div class="user-stats">
+                        <div class="user-stat-card">
+                            <div class="user-stat-number" id="total-users">0</div>
+                            <div class="user-stat-label">总用户数</div>
+                        </div>
+                        <div class="user-stat-card">
+                            <div class="user-stat-number" id="vip-users">0</div>
+                            <div class="user-stat-label">VIP用户</div>
+                        </div>
+                        <div class="user-stat-card">
+                            <div class="user-stat-number" id="normal-users">0</div>
+                            <div class="user-stat-label">普通用户</div>
+                        </div>
+                        <div class="user-stat-card">
+                            <div class="user-stat-number" id="online-user-count">1</div>
+                            <div class="user-stat-label">在线用户</div>
+                        </div>
+                        <div class="user-stat-card">
+                            <div class="user-stat-number" id="blacklist-users">0</div>
+                            <div class="user-stat-label">黑名单用户</div>
+                        </div>
+                    </div>
+
+                    <div class="user-list" id="user-list">
+                        <!-- 用户列表将通过JavaScript动态生成 -->
+                    </div>
+                </section>
+
+                <!-- 其他功能区域（占位） -->
+                <section id="data-statistics" class="content-section">
+                    <div class="section-header">
+                        <h2>数据统计</h2>
+                    </div>
+                    <p>数据统计功能开发中...</p>
+                </section>
+
+                <section id="system-settings" class="content-section">
+                    <div class="section-header">
+                        <h2>系统设置</h2>
+                    </div>
+                    <p>系统设置功能开发中...</p>
+                </section>
+
+                <section id="log-viewer" class="content-section">
+                    <div class="section-header">
+                        <h2>日志查看</h2>
+                    </div>
+                    <p>日志查看功能开发中...</p>
+                </section>
+
+                <section id="permission-management" class="content-section">
+                    <div class="section-header">
+                        <h2>权限管理</h2>
+                    </div>
+                    <p>权限管理功能开发中...</p>
+                </section>
+            </main>
+        </div>
+
+        <!-- 系统信息 -->
+        <footer class="system-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">服务器时间:</span>
+                    <span class="info-value" id="server-time">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">内存使用:</span>
+                    <span class="info-value" id="memory-usage">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">CPU负载:</span>
+                    <span class="info-value" id="cpu-load">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">最后更新:</span>
+                    <span class="info-value" id="last-update">-</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 用户编辑模态框 -->
+    <div class="modal" id="user-modal">
+        <div class="modal-content">
+            <div class="modal-header" id="modal-title">编辑用户</div>
+            <form id="user-form">
+                <div class="form-group">
+                    <label class="form-label">用户名</label>
+                    <input type="text" class="form-input" id="edit-username" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">密码</label>
+                    <input type="password" class="form-input" id="edit-password" placeholder="留空则不修改">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">用户类型</label>
+                    <select class="form-select" id="edit-usertype" required>
+                        <option value="UR">普通用户</option>
+                        <option value="ZC">VIP用户</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">ZTG用户</label>
+                    <select class="form-select" id="edit-ztg" required>
+                        <option value="False">否</option>
+                        <option value="True">是</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="user-btn danger" id="cancel-edit">取消</button>
+                    <button type="submit" class="user-btn success">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 菜单切换功能
+            function switchSection(sectionId) {
+                // 隐藏所有内容区域
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // 显示选中的内容区域
+                document.getElementById(sectionId).classList.add('active');
+                
+                // 更新菜单项active状态
+                document.querySelectorAll('.menu-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+            }
+
+            // 音乐管理菜单点击
+            document.querySelector('[data-section="music-management"]').addEventListener('click', function () {
+                switchSection('music-management');
+                updateSystemInfo('切换到音乐管理');
+            });
+
+            // 用户管理菜单点击
+            document.querySelector('[data-section="user-management"]').addEventListener('click', function () {
+                // 切换到用户管理页面
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById('user-management').classList.add('active');
+
+                // 更新菜单项active状态
+                document.querySelectorAll('.menu-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+
+                // 加载黑名单数据
+                loadBlacklist();
+
+                // 加载用户数据
+                loadUsers();
+            });
+
+            // 添加用户按钮
+            document.getElementById('add-user-btn').addEventListener('click', addUser);
+
+            // 刷新用户列表
+            document.getElementById('refresh-users').addEventListener('click', function () {
+                loadUsers();
+                updateSystemInfo('用户列表已刷新');
+            });
+
+            // 搜索用户
+            document.getElementById('user-search').addEventListener('input', searchUsers);
+
+            // 导出用户数据
+            document.getElementById('export-users').addEventListener('click', exportUsers);
+
+            // 模态框外部点击关闭
+            document.getElementById('user-modal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // 权限检查
+        function checkUserPermission() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                alert('请先登录以访问管理员页面');
+                window.location.href = './';
+                return;
+            }
+
+            const [typeCode] = authToken.split('-');
+            if (typeCode === 'UR') {
+                alert('您没有权限访问管理员页面');
+                window.location.href = './';
+            }
+
+            // 显示用户角色
+            const userRole = document.getElementById('user-role');
+            if (typeCode === 'AD') {
+                userRole.textContent = '系统管理员';
+            } else if (typeCode === 'ZC') {
+                userRole.textContent = 'VIP用户';
+            }
+        }
+
+        // 音乐播放器功能
+        let currentMusicIndex = -1;
+        let musicList = [];
+        let isPlaying = false;
+
+        const audioPlayer = document.getElementById('audio-player');
+        const playBtn = document.getElementById('play-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSong = document.getElementById('current-song');
+        const playerStatus = document.getElementById('player-status');
+        const progress = document.getElementById('progress');
+        const musicListElement = document.getElementById('music-list');
+        const currentTimeElement = document.getElementById('current-time');
+        const totalTimeElement = document.getElementById('total-time');
+        const lyricsContent = document.getElementById('lyrics-content');
+        const lyricsInfo = document.getElementById('lyrics-info');
+        const totalSongs = document.getElementById('total-songs');
+        const playingSong = document.getElementById('playing-song');
+
+        // 格式化时间为 MM:SS 格式
+        function formatTime(seconds) {
+            if (isNaN(seconds) || seconds === Infinity) {
+                return '00:00';
+            }
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        // 更新当前时间和总时长显示
+        function updateTimeDisplay() {
+            currentTimeElement.textContent = formatTime(audioPlayer.currentTime);
+            totalTimeElement.textContent = formatTime(audioPlayer.duration);
+        }
+
+        // 加载歌词
+        async function loadLyrics(lyricsPath) {
+            if (lyricsPath === '[NO DATA]') {
+                lyricsContent.innerHTML = '暂无歌词数据';
+                lyricsInfo.textContent = '无歌词';
+                return;
+            }
+
+            try {
+                const normalizedPath = lyricsPath.replace(/\\/g, '/');
+                const response = await fetch(normalizedPath);
+                if (!response.ok) {
+                    throw new Error('歌词文件不存在');
+                }
+                const lyricsText = await response.text();
+
+                // 直接显示歌词文件中的所有内容
+                lyricsContent.innerHTML = lyricsText;
+                lyricsInfo.textContent = '已加载';
+
+                // 更新系统信息
+                updateSystemInfo('歌词加载成功');
+            } catch (error) {
+                console.error('加载歌词失败:', error);
+                lyricsContent.innerHTML = '歌词加载失败';
+                lyricsInfo.textContent = '加载失败';
+                updateSystemInfo('歌词加载失败');
+            }
+        }
+
+        // 渲染音乐列表
+        function renderMusicList() {
+            musicListElement.innerHTML = '';
+            musicList.forEach((music, index) => {
+                const [name, location, lyricsPath] = music.split(' \\ ');
+                const item = document.createElement('div');
+                item.className = 'music-item';
+                if (index === currentMusicIndex) {
+                    item.classList.add('playing');
+                }
+
+                item.innerHTML = `
+                    <div class="music-info">
+                        <div class="music-name">${name}</div>
+                        <div class="music-details">${location.split('/').pop()}</div>
+                    </div>
+                `;
+
+                item.addEventListener('click', () => playMusic(index));
+                musicListElement.appendChild(item);
+            });
+
+            // 更新统计信息
+            totalSongs.textContent = musicList.length;
+        }
+
+        // 播放音乐
+        function playMusic(index) {
+            if (index < 0 || index >= musicList.length) return;
+
+            const [name, location, lyricsPath] = musicList[index].split(' \\ ');
+            audioPlayer.src = location;
+            currentMusicIndex = index;
+            currentSong.textContent = name;
+            playingSong.textContent = name;
+
+            // 更新列表样式
+            document.querySelectorAll('.music-item').forEach((item, i) => {
+                item.classList.toggle('playing', i === index);
+            });
+
+            // 重置时间显示
+            currentTimeElement.textContent = '00:00';
+            totalTimeElement.textContent = '00:00';
+
+            // 加载歌词
+            loadLyrics(lyricsPath);
+
+            audioPlayer.play();
+            isPlaying = true;
+            playBtn.textContent = '||';
+            playerStatus.textContent = '播放中';
+
+            updateSystemInfo(`正在播放: ${name}`);
+        }
+
+        // 加载音乐列表
+        fetch('music.txt')
+            .then(response => response.text())
+            .then(data => {
+                musicList = data.split('\n').filter(line => line.trim() !== '');
+                renderMusicList();
+                updateSystemInfo('音乐列表加载完成');
+            })
+            .catch(error => {
+                console.error('加载音乐列表失败:', error);
+                updateSystemInfo('音乐列表加载失败');
+            });
+
+        // 播放/暂停控制
+        playBtn.addEventListener('click', () => {
+            if (currentMusicIndex === -1 && musicList.length > 0) {
+                playMusic(0);
+                return;
+            }
+
+            if (isPlaying) {
+                audioPlayer.pause();
+                playBtn.textContent = '▶';
+                playerStatus.textContent = '暂停中';
+            } else {
+                audioPlayer.play();
+                playBtn.textContent = '||';
+                playerStatus.textContent = '播放中';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // 上一首
+        prevBtn.addEventListener('click', () => {
+            if (musicList.length === 0) return;
+            let newIndex = currentMusicIndex - 1;
+            if (newIndex < 0) newIndex = musicList.length - 1;
+            playMusic(newIndex);
+        });
+
+        // 下一首
+        nextBtn.addEventListener('click', () => {
+            if (musicList.length === 0) return;
+            let newIndex = currentMusicIndex + 1;
+            if (newIndex >= musicList.length) newIndex = 0;
+            playMusic(newIndex);
+        });
+
+        // 更新进度条和时间显示
+        audioPlayer.addEventListener('timeupdate', () => {
+            const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progress.style.width = progressPercent + '%';
+            updateTimeDisplay();
+        });
+
+        // 点击进度条跳转
+        document.querySelector('.progress-bar').addEventListener('click', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const duration = audioPlayer.duration;
+
+            if (duration) {
+                audioPlayer.currentTime = (clickX / width) * duration;
+            }
+        });
+
+        // 歌曲结束自动下一首
+        audioPlayer.addEventListener('ended', () => {
+            nextBtn.click();
+        });
+
+        // 当音频元数据加载完成时更新总时长
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            updateTimeDisplay();
+        });
+
+        // 搜索功能
+        document.getElementById('search-button').addEventListener('click', function (e) {
+            e.preventDefault();
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const musicItems = document.querySelectorAll('.music-item');
+
+            musicItems.forEach(item => {
+                const musicName = item.querySelector('.music-name').textContent.toLowerCase();
+                item.style.display = musicName.includes(searchInput) ? 'flex' : 'none';
+            });
+
+            updateSystemInfo(`搜索: ${searchInput}`);
+        });
+
+        // 系统信息更新
+        function updateSystemInfo(message) {
+            const lastUpdate = document.getElementById('last-update');
+            const now = new Date();
+            lastUpdate.textContent = now.toLocaleTimeString();
+
+            // 更新服务器时间
+            const serverTime = document.getElementById('server-time');
+            serverTime.textContent = now.toLocaleString();
+
+            // 模拟系统状态
+            const memoryUsage = document.getElementById('memory-usage');
+            const cpuLoad = document.getElementById('cpu-load');
+
+            memoryUsage.textContent = Math.floor(Math.random() * 30 + 20) + '%';
+            cpuLoad.textContent = Math.floor(Math.random() * 40 + 10) + '%';
+
+            console.log(`[系统] ${message}`);
+        }
+
+        // 初始化系统信息
+        setInterval(() => {
+            updateSystemInfo('系统运行正常');
+        }, 5000);
+
+        // 页面加载时检查权限
+        document.addEventListener('DOMContentLoaded', () => {
+            checkUserPermission();
+            updateSystemInfo('系统初始化完成');
+        });
+    </script>
+
+    <script>
+        // LRC歌词转换功能
+        let lrcConversionActive = false;
+        let currentLyricsLines = [];
+        let currentLrcIndex = 0;
+        let lrcContent = '';
+
+        // 开始LRC转换
+        document.getElementById('start-lrc-conversion').addEventListener('click', function() {
+            const lyricsText = document.getElementById('lyrics-content').textContent;
+            
+            if (lyricsText === '请选择歌曲以显示歌词内容...' || lyricsText === '暂无歌词数据' || lyricsText === '歌词加载失败') {
+                alert('请先选择一首歌曲并加载歌词');
+                return;
+            }
+
+            // 分割歌词为行
+            currentLyricsLines = lyricsText.split('\n').filter(line => line.trim() !== '');
+            
+            if (currentLyricsLines.length === 0) {
+                alert('没有可转换的歌词内容');
+                return;
+            }
+
+            // 过滤掉已经包含时间戳的行（LRC格式：[00:00.00]歌词内容）
+            const lrcTimeRegex = /^\[\d{2}:\d{2}\.\d{2}\].+/;
+            const linesToProcess = currentLyricsLines.filter(line => !lrcTimeRegex.test(line));
+            
+            if (linesToProcess.length === 0) {
+                alert('所有歌词行都已经包含时间戳，无需转换');
+                return;
+            }
+
+            lrcConversionActive = true;
+            currentLrcIndex = 0;
+            lrcContent = '';
+            currentLyricsLines = linesToProcess; // 只处理需要转换的行
+            
+            // 显示转换面板
+            document.getElementById('lrc-conversion-panel').style.display = 'block';
+            document.getElementById('current-line-index').textContent = '0';
+            document.getElementById('total-lines').textContent = currentLyricsLines.length;
+            document.getElementById('lrc-preview-content').value = '';
+            document.getElementById('lrc-status').textContent = '转换进行中';
+            document.getElementById('start-lrc-conversion').disabled = true;
+            document.getElementById('download-lrc').disabled = true;
+            
+            updateSystemInfo(`开始LRC歌词转换，需要处理${currentLyricsLines.length}行歌词`);
+        });
+
+        // 下一行歌词
+        document.getElementById('next-line-btn').addEventListener('click', function() {
+            if (!lrcConversionActive || currentLrcIndex >= currentLyricsLines.length) return;
+            
+            // 自动获取当前播放时间
+            const currentTime = audioPlayer.currentTime;
+            const minutes = Math.floor(currentTime / 60);
+            const seconds = Math.floor(currentTime % 60);
+            const milliseconds = Math.floor((currentTime % 1) * 100);
+            
+            const timeString = `[${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}]`;
+            const currentLine = currentLyricsLines[currentLrcIndex];
+            
+            // 添加到LRC内容
+            lrcContent += timeString + currentLine + '\n';
+            document.getElementById('lrc-preview-content').value = lrcContent;
+            
+            // 更新进度
+            currentLrcIndex++;
+            document.getElementById('current-line-index').textContent = currentLrcIndex;
+            
+            // 检查是否完成
+            if (currentLrcIndex >= currentLyricsLines.length) {
+                lrcConversionActive = false;
+                document.getElementById('lrc-status').textContent = '转换完成';
+                document.getElementById('download-lrc').disabled = false;
+                updateSystemInfo('LRC歌词转换完成');
+            } else {
+                updateSystemInfo(`已转换第${currentLrcIndex}行歌词，时间: ${timeString}`);
+            }
+        });
+
+        // 重置转换
+        document.getElementById('reset-lrc-btn').addEventListener('click', function() {
+            lrcConversionActive = false;
+            currentLyricsLines = [];
+            currentLrcIndex = 0;
+            lrcContent = '';
+            
+            document.getElementById('lrc-conversion-panel').style.display = 'none';
+            document.getElementById('lrc-preview-content').value = '';
+            document.getElementById('current-time-display').textContent = '00:00.00';
+            document.getElementById('current-line-index').textContent = '0';
+            document.getElementById('lrc-status').textContent = '准备就绪';
+            document.getElementById('start-lrc-conversion').disabled = false;
+            document.getElementById('download-lrc').disabled = true;
+            
+            updateSystemInfo('LRC转换已重置');
+        });
+
+                // 下载LRC文件
+        document.getElementById('download-lrc').addEventListener('click', function() {
+            if (lrcContent.trim() === '') {
+                alert('没有可下载的LRC内容');
+                return;
+            }
+            
+            // 获取原始歌词内容，包含已经存在的时间戳行
+            const originalLyricsText = document.getElementById('lyrics-content').textContent;
+            const originalLines = originalLyricsText.split('\n').filter(line => line.trim() !== '');
+            
+            // 分离已经包含时间戳的行和需要转换的行
+            const lrcTimeRegex = /^\[\d{2}:\d{2}\.\d{2}\].+/;
+            const existingLrcLines = originalLines.filter(line => lrcTimeRegex.test(line));
+            const finalLrcContent = existingLrcLines.join('\n') + '\n' + lrcContent;
+            
+            const currentSongName = document.getElementById('current-song').textContent;
+            const fileName = currentSongName + '.lrc';
+            
+            // 创建下载链接
+            const blob = new Blob([finalLrcContent], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            updateSystemInfo(`已下载LRC文件: ${fileName}`);
+        });
+
+        // 修改歌词加载函数，在加载歌词时重置LRC转换状态
+        const originalLoadLyrics = loadLyrics;
+        loadLyrics = async function(lyricsPath) {
+            await originalLoadLyrics(lyricsPath);
+            
+            // 重置LRC转换状态
+            lrcConversionActive = false;
+            document.getElementById('lrc-conversion-panel').style.display = 'none';
+            document.getElementById('lrc-status').textContent = '准备就绪';
+            document.getElementById('start-lrc-conversion').disabled = false;
+            document.getElementById('download-lrc').disabled = true;
+        };
+    </script>
+
+    <script>
+        // 用户管理功能
+        let userList = [];
+        let editingUserIndex = -1;
+
+        // 用户文件路径
+        const USER_FILE_PATH = '../user/user.txt';
+
+        // 添加用户
+        function addUser() {
+            editingUserIndex = -1;
+            document.getElementById('modal-title').textContent = '添加用户';
+            document.getElementById('user-form').reset();
+            document.getElementById('user-modal').classList.add('active');
+        }
+
+        // 删除用户
+        function deleteUser(index) {
+            if (confirm('确定要删除这个用户吗？此操作不可恢复！')) {
+                userList.splice(index, 1);
+                saveUsers();
+                renderUserList();
+                updateUserStats();
+                updateSystemInfo('用户删除成功');
+            }
+        }
+
+        // 加载用户数据
+        async function loadUsers() {
+            try {
+                const response = await fetch(USER_FILE_PATH);
+                if (!response.ok) {
+                    throw new Error('用户文件不存在');
+                }
+                const data = await response.text();
+                // 修复：正确处理每一行数据，去除空行和换行符
+                userList = data.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line !== '');
+                renderUserList();
+                updateUserStats();
+                updateSystemInfo('用户数据加载成功');
+            } catch (error) {
+                console.error('加载用户数据失败:', error);
+                userList = [];
+                renderUserList();
+                updateUserStats();
+                updateSystemInfo('用户数据加载失败');
+            }
+        }
+
+        // 保存用户数据
+        async function saveUsers() {
+            try {
+                // 这里需要实现文件保存逻辑
+                // 由于浏览器安全限制，无法直接写入文件
+                // 可以显示保存成功信息，实际保存需要后端支持
+                updateSystemInfo('用户数据已更新（需要后端支持实际保存）');
+            } catch (error) {
+                console.error('保存用户数据失败:', error);
+                updateSystemInfo('用户数据保存失败');
+            }
+        }
+
+        let blacklist = [];
+
+        // 加载黑名单数据
+        async function loadBlacklist() {
+            try {
+                const response = await fetch('../hmd.txt');
+                const data = await response.text();
+                blacklist = data.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line !== '')
+                    .map(user => {
+                        const parts = user.split('-');
+                        return parts.length >= 2 ? parts[1] : ''; // 只提取用户名
+                    })
+                    .filter(username => username !== '');
+                console.log('黑名单数据加载成功:', blacklist);
+                return true;
+            } catch (error) {
+                console.error('加载黑名单数据失败:', error);
+                blacklist = [];
+                return false;
+            }
+        }
+
+        // 检查用户是否在黑名单内
+        function isUserInBlacklist(username) {
+            return blacklist.includes(username);
+        }
+
+        // 渲染用户列表
+        function renderUserList() {
+            const userListElement = document.getElementById('user-list');
+            userListElement.innerHTML = '';
+
+            // 使用for循环遍历用户数据
+            for (let i = 0; i < userList.length; i++) {
+                const user = userList[i];
+
+                // 使用user.html中的方法：直接split('-')获取所有部分
+                const parts = user.split('-');
+                if (parts.length < 4) {
+                    console.warn('用户数据格式错误:', user);
+                    continue; // 跳过格式错误的用户数据
+                }
+
+                // 使用user.html中的方法：直接获取各部分
+                const type = parts[0];        // 用户类型
+                const username = parts[1];     // 用户名
+                const password = parts[2];    // 密码
+                const ifZTG = parts[3];       // ZTG状态
+
+                // 修复：正确处理ZTG状态，包括可能的换行符
+                const isZTG = ifZTG.trim() === 'True';
+                const isBlacklisted = isUserInBlacklist(username);
+
+                const item = document.createElement('div');
+                item.className = 'user-item';
+
+                item.innerHTML = `
+                    <div class="user-avatar-small">${username.charAt(0).toUpperCase()}</div>
+                    <div class="user-details">
+                        <div class="user-name">${username}</div>
+                        <div class="user-type ${type.toLowerCase()}">${type === 'ZC' ? 'VIP用户' : '普通用户'}</div>
+                    </div>
+                    <div class="user-status ${isZTG ? 'ztg' : ''}">${isZTG ? 'ZTG用户' : '普通用户'}</div>
+                    <div class="user-status ${isBlacklisted ? 'blacklisted' : 'safe'}">${isBlacklisted ? '黑名单' : '正常'}</div>
+                    <div class="user-actions">
+                        <button class="action-btn edit" onclick="editUser(${i})">编辑</button>
+                        <button class="action-btn delete" onclick="deleteUser(${i})">删除</button>
+                    </div>
+                `;
+
+                userListElement.appendChild(item);
+            }
+        }
+
+        // 更新用户统计信息
+        function updateUserStats() {
+            const totalUsers = userList.length;
+            const vipUsers = userList.filter(user => user.startsWith('ZC-')).length;
+            const normalUsers = userList.filter(user => user.startsWith('UR-')).length;
+            // 修复：正确统计ZTG用户数量
+            const ztgUsers = userList.filter(user => {
+                const parts = user.split('-');
+                return parts.length >= 4 && parts[3].trim() === 'True';
+            }).length;
+            
+            // 统计黑名单用户数量
+            const blacklistedUsers = userList.filter(user => {
+                const parts = user.split('-');
+                return parts.length >= 2 && isUserInBlacklist(parts[1]);
+            }).length;
+
+            document.getElementById('total-users').textContent = totalUsers;
+            document.getElementById('vip-users').textContent = vipUsers;
+            document.getElementById('normal-users').textContent = normalUsers;
+            document.getElementById('online-user-count').textContent = ztgUsers;
+            
+            // 添加黑名单用户统计显示
+            const blacklistElement = document.getElementById('blacklist-users');
+            if (blacklistElement) {
+                blacklistElement.textContent = blacklistedUsers;
+            }
+        }
+
+        // 编辑用户
+        function editUser(index) {
+            editingUserIndex = index;
+            const user = userList[index];
+            const parts = user.split('-');
+            if (parts.length < 4) {
+                console.error('用户数据格式错误，无法编辑:', user);
+                return;
+            }
+
+            // 使用user.html中的方法：直接获取各部分
+            const type = parts[0];        // 用户类型
+            const username = parts[1];    // 用户名
+            const password = parts[2];    // 密码
+            const ifZTG = parts[3];      // ZTG状态
+
+            document.getElementById('modal-title').textContent = '编辑用户';
+            document.getElementById('edit-username').value = username;
+            document.getElementById('edit-usertype').value = type;
+            document.getElementById('edit-ztg').value = ifZTG;
+            document.getElementById('edit-password').value = '';
+            document.getElementById('user-modal').classList.add('active');
+        }
+
+        // 搜索用户
+        function searchUsers() {
+            const searchTerm = document.getElementById('user-search').value.toLowerCase();
+            const userItems = document.querySelectorAll('.user-item');
+
+            userItems.forEach(item => {
+                const userName = item.querySelector('.user-name').textContent.toLowerCase();
+                item.style.display = userName.includes(searchTerm) ? 'grid' : 'none';
+            });
+
+            updateSystemInfo(`搜索用户: ${searchTerm}`);
+        }
+
+        // 导出用户数据
+        function exportUsers() {
+            const data = userList.join('\n');
+            const blob = new Blob([data], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'users_export.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            updateSystemInfo('用户数据导出成功');
+        }
+
+        // 用户表单提交
+        document.getElementById('user-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById('edit-username').value.trim();
+            const password = document.getElementById('edit-password').value;
+            const usertype = document.getElementById('edit-usertype').value;
+            const ztg = document.getElementById('edit-ztg').value;
+
+            if (!username) {
+                alert('请输入用户名');
+                return;
+            }
+
+            // 检查用户名是否已存在（编辑时排除当前用户）
+            const existingIndex = userList.findIndex((user, index) => {
+                const [_, existingUsername] = user.split('-');
+                return existingUsername === username && index !== editingUserIndex;
+            });
+
+            if (existingIndex !== -1) {
+                alert('用户名已存在，请使用其他用户名');
+                return;
+            }
+
+            // 构建用户数据行
+            let userData = `${usertype}-${username}`;
+
+            // 如果有新密码，使用新密码，否则保持原密码
+            if (password) {
+                // 这里应该对密码进行MD5BASE64加密
+                // 由于浏览器限制，这里使用简单处理
+                userData += `-${btoa(password)}`;
+            } else if (editingUserIndex !== -1) {
+                // 编辑时保留原密码
+                const oldUser = userList[editingUserIndex];
+                const [_, __, oldPassword] = oldUser.split('-');
+                userData += `-${oldPassword}`;
+            } else {
+                // 新增用户必须设置密码
+                alert('请设置密码');
+                return;
+            }
+
+            userData += `-${ztg}`;
+
+            if (editingUserIndex === -1) {
+                // 添加新用户
+                userList.push(userData);
+            } else {
+                // 更新现有用户
+                userList[editingUserIndex] = userData;
+            }
+
+            saveUsers();
+            renderUserList();
+            updateUserStats();
+            document.getElementById('user-modal').classList.remove('active');
+
+            updateSystemInfo(editingUserIndex === -1 ? '用户添加成功' : '用户信息更新成功');
+        });
+
+        // 取消编辑
+        document.getElementById('cancel-edit').addEventListener('click', function () {
+            document.getElementById('user-modal').classList.remove('active');
+        });
+
+        // 用户管理相关事件监听
+        document.addEventListener('DOMContentLoaded', function () {
+            // 用户管理菜单点击
+            document.querySelector('[data-section="user-management"]').addEventListener('click', function () {
+                // 切换到用户管理页面
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById('user-management').classList.add('active');
+
+                // 加载用户数据
+                loadUsers();
+            });
+
+            // 添加用户按钮
+            document.getElementById('add-user-btn').addEventListener('click', addUser);
+
+            // 刷新用户列表
+            document.getElementById('refresh-users').addEventListener('click', function () {
+                loadUsers();
+                updateSystemInfo('用户列表已刷新');
+            });
+
+            // 搜索用户
+            document.getElementById('user-search').addEventListener('input', searchUsers);
+
+            // 导出用户数据
+            document.getElementById('export-users').addEventListener('click', exportUsers);
+
+            // 模态框外部点击关闭
+            document.getElementById('user-modal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+
+        // 系统信息更新（补充）
+        function updateSystemInfo(message) {
+            const lastUpdate = document.getElementById('last-update');
+            const now = new Date();
+            lastUpdate.textContent = now.toLocaleTimeString();
+
+            // 更新服务器时间
+            const serverTime = document.getElementById('server-time');
+            serverTime.textContent = now.toLocaleString();
+
+            // 模拟系统状态
+            const memoryUsage = document.getElementById('memory-usage');
+            const cpuLoad = document.getElementById('cpu-load');
+
+            memoryUsage.textContent = Math.floor(Math.random() * 30 + 20) + '%';
+            cpuLoad.textContent = Math.floor(Math.random() * 40 + 10) + '%';
+
+            console.log(`[系统] ${message}`);
+        }
+    </script>
+</body>
+
+</html>
