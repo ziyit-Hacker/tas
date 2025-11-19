@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
@@ -311,12 +311,12 @@
 <body background="../assets/bgl.jpg" style=" background-repeat:no-repeat ;
         background-size:100% 100%;
         background-attachment: fixed;">
-    <marquee style="background-color: yellow;">
+    <!-- <marquee style="background-color: yellow;">
         <strong>
             <span
                 style="color: red;">本页面现处于测试阶段!!!如发现bug请将bug描述邮件发送到3950140506@qq.com。如果想投稿音乐请将音乐的文件或者的音乐在bilibili的视频的url或音乐的文件链接和歌词一起发送到邮箱3779502017@qq.com。</span>
         </strong>
-    </marquee>
+    </marquee> -->
     <script>
         // 检查用户权限
         function checkUserPermission() {
@@ -327,20 +327,123 @@
                 return;
             }
 
-            const [typeCode] = authToken.split('-');
-            if (typeCode === 'UR') {
-                alert('您没有权限访问该页面');
-                window.location.href = '../';
+            // 检查是否为ZC用户或管理员
+            const [typeCode, userId] = authToken.split('-');
+            if (typeCode !== 'ZC' && userId !== '13258227085') {
+                // 非ZC用户和非管理员隐藏管理员后台链接
+                const adminLink = document.querySelector('[data-role="admin"]');
+                if (adminLink) {
+                    adminLink.style.display = 'none';
+                }
+                if (userId !== '13258227085') {
+                    const adminstrLink = document.querySelector('[data-role="adminstr"]');
+                    if (adminstrLink) {
+                        adminstrLink.style.display = 'none';
+                    }
+                }
             }
         }
 
-        // 页面加载时检查权限
+        function Development() {
+            // 获取开发者工具链接
+            const devLink = document.getElementById('development');
+            if (devLink) {
+                devLink.addEventListener('click', function (e) {
+                    e.preventDefault(); // 阻止默认链接行为
+
+                    // 1. 先禁用f12check.js的功能
+                    disableF12Check();
+
+                    // 2. 短暂延迟后触发开发者工具
+                    setTimeout(() => {
+                        // 尝试触发F12快捷键
+                        const event = new KeyboardEvent('keydown', {
+                            key: 'F12',
+                            code: 'F12',
+                            keyCode: 123,
+                            which: 123,
+                            bubbles: true,
+                            cancelable: true
+                        });
+                        document.dispatchEvent(event);
+
+                        // 3. 重新启用f12check.js
+                        setTimeout(() => {
+                            enableF12Check();
+                        }, 1000);
+
+                    }, 100);
+
+                    // 显示提示信息
+                    alert('开发者工具已临时启用，请在1秒内按F12');
+                });
+            }
+        }
+
+        // 禁用f12check.js功能
+        function disableF12Check() {
+            // 移除所有事件监听器
+            document.removeEventListener('keydown', window.f12CheckKeydownHandler);
+            document.removeEventListener('contextmenu', window.f12CheckContextmenuHandler);
+
+            // 恢复console功能
+            if (window.originalConsole) {
+                window.console = window.originalConsole;
+            }
+        }
+
+        // 启用f12check.js功能
+        function enableF12Check() {
+            // 重新添加事件监听器
+            document.addEventListener('keydown', window.f12CheckKeydownHandler);
+            document.addEventListener('contextmenu', window.f12CheckContextmenuHandler);
+
+            // 重新应用console限制
+            Object.defineProperty(window, 'console', {
+                value: new Proxy(console, {
+                    get(target, prop) {
+                        if (['log', 'debug', 'info', 'error'].includes(prop)) {
+                            return function () { };
+                        }
+                        return target[prop];
+                    }
+                })
+            });
+        }
+
+        // 保存原始的f12check.js事件处理器
+        function initF12CheckHandlers() {
+            // 保存原始的事件处理器
+            window.f12CheckKeydownHandler = function (e) {
+                if (e.key === 'F12' ||
+                    (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key))) {
+                    e.preventDefault();
+                    return false;
+                }
+            };
+
+            window.f12CheckContextmenuHandler = function (e) {
+                e.preventDefault();
+                return false;
+            };
+
+            // 保存原始console
+            window.originalConsole = console;
+        }
+
+        // 初始化时保存原始处理器
+        document.addEventListener('DOMContentLoaded', initF12CheckHandlers);
+
+        // 页面加载时调用检查权限函数
         document.addEventListener('DOMContentLoaded', checkUserPermission);
+        document.addEventListener('DOMContentLoaded', Development);
     </script>
     <a href="../">返回主页</a>
     <hr>
     <h1>欢迎来到 只因科技 - 音乐 界面</h1>
     <h2>您可以选择任意一首歌在线聆听。</h2>
+    <a data-role="admin" href="./admin.html">管理员后台</a><br data-role="admin">
+    <a data-role="adminstr" href="#" id="development">开发者工具</a>
     <hr>
 
     <!-- 音乐播放器 -->
@@ -458,7 +561,7 @@
             lines.forEach(line => {
                 line = line.trim();
                 if (!line) return; // 跳过空行
-                
+
                 // 修复正则表达式：支持 [mm:ss.xx] 格式
                 const match = line.match(/^\[(\d+):(\d+)\.(\d+)\](.*)$/);
                 if (match) {
@@ -466,7 +569,7 @@
                     const seconds = parseInt(match[2]);
                     const milliseconds = parseInt(match[3]);
                     const text = match[4].trim();
-                    
+
                     if (text) { // 只添加有歌词内容的行
                         const timeInSeconds = minutes * 60 + seconds + milliseconds / 100;
                         lyrics.push({
@@ -553,7 +656,7 @@
                     lyricsContent.innerHTML = '<div class="lyric-normal">暂无歌词</div>';
                 } else {
                     // 显示所有歌词（不按时间高亮）
-                    const lyricsHTML = lyricsData.map(lyric => 
+                    const lyricsHTML = lyricsData.map(lyric =>
                         `<div class="lyric-normal" data-time="${lyric.time}" onclick="seekToLyricTime(${lyric.time})">${lyric.text}</div>`
                     ).join('');
                     lyricsContent.innerHTML = lyricsHTML;
