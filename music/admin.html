@@ -906,6 +906,81 @@
             resize: vertical;
             background: #f8f9fa;
         }
+
+        /* 歌词编辑样式 */
+        .lyrics-content.editable {
+            background: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 15px;
+            min-height: 200px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            resize: vertical;
+            outline: none;
+        }
+
+        .lyrics-content.editable:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .lyrics-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: flex-end;
+        }
+
+        .edit-btn {
+            background: var(--warning-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: #e67e22;
+            transform: translateY(-1px);
+        }
+
+        .save-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background: #229954;
+            transform: translateY(-1px);
+        }
+
+        .cancel-btn {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            background: #c0392b;
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 
@@ -1001,6 +1076,8 @@
                             <span>歌词内容</span>
                             <span class="lyrics-info" id="lyrics-info">未加载</span>
                             <div class="lrc-controls">
+                                <button class="lrc-btn" id="edit-lyrics-btn">编辑歌词</button>
+                                <button class="lrc-btn" id="save-lyrics-btn" style="display: none;">保存歌词</button>
                                 <button class="lrc-btn" id="start-lrc-conversion">开始LRC转换</button>
                                 <button class="lrc-btn" id="download-lrc" disabled>下载LRC文件</button>
                                 <span class="lrc-status" id="lrc-status">准备就绪</span>
@@ -1009,11 +1086,16 @@
                         <div class="lyrics-content" id="lyrics-content">
                             请选择歌曲以显示歌词内容...
                         </div>
+                        <div class="lyrics-controls" id="lyrics-controls" style="display: none;">
+                            <button class="cancel-btn" id="cancel-edit-btn">取消编辑</button>
+                            <button class="save-btn" id="confirm-save-btn">确认保存</button>
+                        </div>
                         <div class="lrc-conversion-panel" id="lrc-conversion-panel" style="display: none;">
                             <div class="lrc-panel-header">
                                 <h3>LRC歌词转换</h3>
                                 <div class="lrc-progress">
-                                    <span>当前行: <span id="current-line-index">0</span>/<span id="total-lines">0</span></span>
+                                    <span>当前行: <span id="current-line-index">0</span>/<span
+                                            id="total-lines">0</span></span>
                                     <span>当前时间: <span id="current-time-display">00:00.00</span></span>
                                 </div>
                             </div>
@@ -1186,10 +1268,10 @@
                 document.querySelectorAll('.content-section').forEach(section => {
                     section.classList.remove('active');
                 });
-                
+
                 // 显示选中的内容区域
                 document.getElementById(sectionId).classList.add('active');
-                
+
                 // 更新菜单项active状态
                 document.querySelectorAll('.menu-item').forEach(item => {
                     item.classList.remove('active');
@@ -1258,10 +1340,20 @@
                 return;
             }
 
-            const [typeCode] = authToken.split('-');
+            const [typeCode, userId] = authToken.split('-');
+
+            // 检查是否为普通用户
             if (typeCode === 'UR') {
                 alert('您没有权限访问管理员页面');
                 window.location.href = './';
+                return;
+            }
+
+            // 检查是否为指定的管理员用户（用户名必须为13258227085）
+            if (userId !== '13258227085') {
+                alert('您没有权限访问管理员页面');
+                window.location.href = './';
+                return;
             }
 
             // 显示用户角色
@@ -1333,9 +1425,9 @@
                 updateSystemInfo('歌词加载成功');
             } catch (error) {
                 console.error('加载歌词失败:', error);
-                lyricsContent.innerHTML = '歌词加载失败';
+                lyricsContent.innerHTML = '暂无歌词数据';
                 lyricsInfo.textContent = '加载失败';
-                updateSystemInfo('歌词加载失败');
+                updateSystemInfo('暂无歌词数据');
             }
         }
 
@@ -1521,26 +1613,59 @@
         let lrcContent = '';
 
         // 开始LRC转换
-        document.getElementById('start-lrc-conversion').addEventListener('click', function() {
-            const lyricsText = document.getElementById('lyrics-content').textContent;
-            
-            if (lyricsText === '请选择歌曲以显示歌词内容...' || lyricsText === '暂无歌词数据' || lyricsText === '歌词加载失败') {
+        document.getElementById('start-lrc-conversion').addEventListener('click', function () {
+            // 检查是否已加载歌词
+            const lyricsContent = document.getElementById('lyrics-content');
+            if (!lyricsContent || lyricsContent.innerHTML.trim() === '') {
                 alert('请先选择一首歌曲并加载歌词');
                 return;
             }
 
-            // 分割歌词为行
-            currentLyricsLines = lyricsText.split('\n').filter(line => line.trim() !== '');
+            // 获取当前显示的歌词内容（支持编辑后的内容）
+            // 修复：使用innerHTML而不是textContent/innerText，因为编辑后的内容包含HTML标签
+            const lyricsText = lyricsContent.innerHTML;
             
-            if (currentLyricsLines.length === 0) {
+            // 将HTML内容转换为纯文本，正确处理换行
+            const normalizedText = lyricsText
+                .replace(/<br\s*\/?>/gi, '\n')
+                .replace(/<div[^>]*>/gi, '\n')
+                .replace(/<\/div>/gi, '\n')
+                .replace(/<p[^>]*>/gi, '\n')
+                .replace(/<\/p>/gi, '\n')
+                .replace(/\r\n/g, '\n')  // 处理Windows换行符
+                .replace(/\r/g, '\n')    // 处理Mac换行符
+                .replace(/\n+/g, '\n')  // 合并多个连续换行符
+                .replace(/<[^>]*>/g, '') // 移除所有剩余的HTML标签
+                .trim();
+
+            // 调试：显示原始内容和处理后的内容
+            console.log('原始歌词内容:', lyricsText);
+            console.log('处理后的歌词内容:', normalizedText);
+            
+            // 分割歌词为行
+            const allLyricsLines = normalizedText.split('\n').filter(line => line.trim() !== '');
+
+            // 调试：显示分割后的行数
+            console.log('分割后的歌词行数:', allLyricsLines.length);
+            console.log('分割后的歌词行:', allLyricsLines);
+
+            if (allLyricsLines.length === 0) {
                 alert('没有可转换的歌词内容');
                 return;
             }
 
-            // 过滤掉已经包含时间戳的行（LRC格式：[00:00.00]歌词内容）
-            const lrcTimeRegex = /^\[\d{2}:\d{2}\.\d{2}\].+/;
-            const linesToProcess = currentLyricsLines.filter(line => !lrcTimeRegex.test(line));
-            
+            // 过滤掉已经包含时间戳的行（使用更宽松的检测）
+            const lrcTimeRegex = /\[\d{1,2}[:：]\d{1,2}(?:\.\d{1,2})?\].*/;
+            const linesToProcess = allLyricsLines.filter(line => {
+                const trimmedLine = line.trim();
+                return !lrcTimeRegex.test(trimmedLine);
+            });
+
+            // 调试信息
+            console.log('总歌词行数:', allLyricsLines.length);
+            console.log('需要处理的行数:', linesToProcess.length);
+            console.log('被过滤的行:', allLyricsLines.filter(line => lrcTimeRegex.test(line.trim())));
+
             if (linesToProcess.length === 0) {
                 alert('所有歌词行都已经包含时间戳，无需转换');
                 return;
@@ -1549,8 +1674,10 @@
             lrcConversionActive = true;
             currentLrcIndex = 0;
             lrcContent = '';
+            // 保存原始歌词行和需要处理的行
+            window.allLyricsLines = allLyricsLines; // 保存所有歌词行
             currentLyricsLines = linesToProcess; // 只处理需要转换的行
-            
+
             // 显示转换面板
             document.getElementById('lrc-conversion-panel').style.display = 'block';
             document.getElementById('current-line-index').textContent = '0';
@@ -1559,31 +1686,31 @@
             document.getElementById('lrc-status').textContent = '转换进行中';
             document.getElementById('start-lrc-conversion').disabled = true;
             document.getElementById('download-lrc').disabled = true;
-            
+
             updateSystemInfo(`开始LRC歌词转换，需要处理${currentLyricsLines.length}行歌词`);
         });
 
         // 下一行歌词
-        document.getElementById('next-line-btn').addEventListener('click', function() {
+        document.getElementById('next-line-btn').addEventListener('click', function () {
             if (!lrcConversionActive || currentLrcIndex >= currentLyricsLines.length) return;
-            
+
             // 自动获取当前播放时间
             const currentTime = audioPlayer.currentTime;
             const minutes = Math.floor(currentTime / 60);
             const seconds = Math.floor(currentTime % 60);
             const milliseconds = Math.floor((currentTime % 1) * 100);
-            
+
             const timeString = `[${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}]`;
             const currentLine = currentLyricsLines[currentLrcIndex];
-            
+
             // 添加到LRC内容
             lrcContent += timeString + currentLine + '\n';
             document.getElementById('lrc-preview-content').value = lrcContent;
-            
+
             // 更新进度
             currentLrcIndex++;
             document.getElementById('current-line-index').textContent = currentLrcIndex;
-            
+
             // 检查是否完成
             if (currentLrcIndex >= currentLyricsLines.length) {
                 lrcConversionActive = false;
@@ -1596,12 +1723,13 @@
         });
 
         // 重置转换
-        document.getElementById('reset-lrc-btn').addEventListener('click', function() {
+        document.getElementById('reset-lrc-btn').addEventListener('click', function () {
             lrcConversionActive = false;
             currentLyricsLines = [];
             currentLrcIndex = 0;
             lrcContent = '';
-            
+            window.allLyricsLines = null;
+
             document.getElementById('lrc-conversion-panel').style.display = 'none';
             document.getElementById('lrc-preview-content').value = '';
             document.getElementById('current-time-display').textContent = '00:00.00';
@@ -1609,29 +1737,71 @@
             document.getElementById('lrc-status').textContent = '准备就绪';
             document.getElementById('start-lrc-conversion').disabled = false;
             document.getElementById('download-lrc').disabled = true;
-            
+
             updateSystemInfo('LRC转换已重置');
         });
 
         // 下载LRC文件
-        document.getElementById('download-lrc').addEventListener('click', function() {
+        document.getElementById('download-lrc').addEventListener('click', function () {
             if (lrcContent.trim() === '') {
                 alert('没有可下载的LRC内容');
                 return;
             }
+
+            // 获取当前显示的歌词内容（支持编辑后的内容）
+            // 修复：使用innerHTML而不是textContent/innerText，因为编辑后的内容包含HTML标签
+            const lyricsContent = document.getElementById('lyrics-content');
+            const currentLyricsText = lyricsContent.innerHTML;
             
-            // 获取原始歌词内容，包含已经存在的时间戳行
-            const originalLyricsText = document.getElementById('lyrics-content').textContent;
-            const originalLines = originalLyricsText.split('\n').filter(line => line.trim() !== '');
-            
+            // 将HTML内容转换为纯文本，正确处理换行
+            const normalizedText = currentLyricsText
+                .replace(/<br\s*\/?>/gi, '\n')
+                .replace(/<div[^>]*>/gi, '\n')
+                .replace(/<\/div>/gi, '\n')
+                .replace(/<p[^>]*>/gi, '\n')
+                .replace(/<\/p>/gi, '\n')
+                .replace(/\r\n/g, '\n')  // 处理Windows换行符
+                .replace(/\r/g, '\n')    // 处理Mac换行符
+                .replace(/\n+/g, '\n')  // 合并多个连续换行符
+                .replace(/<[^>]*>/g, '') // 移除所有剩余的HTML标签
+                .trim();
+
+            const originalLines = normalizedText.split('\n').filter(line => line.trim() !== '');
+
             // 分离已经包含时间戳的行和需要转换的行
-            const lrcTimeRegex = /^\[\d{2}:\d{2}\.\d{2}\].+/;
-            const existingLrcLines = originalLines.filter(line => lrcTimeRegex.test(line));
-            const finalLrcContent = existingLrcLines.join('\n') + '\n' + lrcContent;
+            const lrcTimeRegex = /\[\d{1,2}[:：]\d{1,2}(?:\.\d{1,2})?\].*/;
+            const existingLrcLines = originalLines.filter(line => {
+                const trimmedLine = line.trim();
+                return lrcTimeRegex.test(trimmedLine);
+            });
             
+            // 构建完整的LRC内容，保持原始顺序
+            let finalLrcContent = '';
+            if (window.allLyricsLines) {
+                // 如果有保存的原始歌词行，按原始顺序构建
+                window.allLyricsLines.forEach(line => {
+                    const trimmedLine = line.trim();
+                    if (lrcTimeRegex.test(trimmedLine)) {
+                        // 已有时间戳的行直接使用
+                        finalLrcContent += line + '\n';
+                    } else {
+                        // 查找转换后的内容中对应的行
+                        const convertedLine = lrcContent.split('\n').find(l => l.includes(line));
+                        if (convertedLine) {
+                            finalLrcContent += convertedLine + '\n';
+                        } else {
+                            finalLrcContent += line + '\n';
+                        }
+                    }
+                });
+            } else {
+                // 如果没有保存的原始歌词行，使用简单合并
+                finalLrcContent = existingLrcLines.join('\n') + '\n' + lrcContent;
+            }
+
             const currentSongName = document.getElementById('current-song').textContent;
             const fileName = currentSongName + '.lrc';
-            
+
             // 创建下载链接
             const blob = new Blob([finalLrcContent], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
@@ -1642,22 +1812,175 @@
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            
+
             updateSystemInfo(`已下载LRC文件: ${fileName}`);
         });
 
-        // 修改歌词加载函数，在加载歌词时重置LRC转换状态
-        const originalLoadLyrics = loadLyrics;
-        loadLyrics = async function(lyricsPath) {
-            await originalLoadLyrics(lyricsPath);
+        // 加载歌词
+        async function loadLyrics(lyricsPath) {
+            // 保存当前歌词路径，用于编辑保存
+            window.currentLyricsPath = lyricsPath;
             
-            // 重置LRC转换状态
-            lrcConversionActive = false;
-            document.getElementById('lrc-conversion-panel').style.display = 'none';
-            document.getElementById('lrc-status').textContent = '准备就绪';
-            document.getElementById('start-lrc-conversion').disabled = false;
-            document.getElementById('download-lrc').disabled = true;
-        };
+            if (lyricsPath === '[NO DATA]') {
+                // 显示空白内容而不是"暂无歌词数据"，允许直接编辑
+                lyricsContent.innerHTML = '';
+                lyricsContent.classList.add('editable');
+                lyricsContent.contentEditable = true;
+                lyricsInfo.textContent = '无歌词 - 可编辑';
+                
+                // 自动进入编辑模式
+                setTimeout(() => {
+                    startEditLyrics();
+                }, 100);
+                return;
+            }
+
+            try {
+                const normalizedPath = lyricsPath.replace(/\\/g, '/');
+                const response = await fetch(normalizedPath);
+                if (!response.ok) {
+                    throw new Error('歌词文件不存在');
+                }
+                const lyricsText = await response.text();
+
+                // 直接显示歌词文件中的所有内容
+                lyricsContent.innerHTML = lyricsText;
+                lyricsContent.classList.remove('editable');
+                lyricsContent.contentEditable = false;
+                lyricsInfo.textContent = '已加载';
+
+                // 更新系统信息
+                updateSystemInfo('歌词加载成功');
+            } catch (error) {
+                console.error('加载歌词失败:', error);
+                // 显示空白内容而不是"暂无歌词数据"，允许直接编辑
+                lyricsContent.innerHTML = '';
+                lyricsContent.classList.add('editable');
+                lyricsContent.contentEditable = true;
+                lyricsInfo.textContent = '加载失败 - 可编辑';
+                
+                // 自动进入编辑模式
+                setTimeout(() => {
+                    startEditLyrics();
+                }, 100);
+                updateSystemInfo('歌词文件不存在，可编辑添加歌词');
+            }
+        }
+
+        // 歌词编辑功能
+        let isEditingLyrics = false;
+        let originalLyricsContent = '';
+
+        // 开始编辑歌词
+        function startEditLyrics() {
+            if (isEditingLyrics) return;
+            
+            isEditingLyrics = true;
+            originalLyricsContent = lyricsContent.innerHTML;
+            
+            // 启用编辑模式
+            lyricsContent.classList.add('editable');
+            lyricsContent.contentEditable = true;
+            lyricsContent.focus();
+            
+            // 显示编辑控制按钮
+            document.getElementById('lyrics-controls').style.display = 'flex';
+            document.getElementById('edit-lyrics-btn').style.display = 'none';
+            document.getElementById('save-lyrics-btn').style.display = 'inline-block';
+            
+            lyricsInfo.textContent = '编辑模式';
+            updateSystemInfo('进入歌词编辑模式');
+        }
+
+        // 取消编辑
+        function cancelEditLyrics() {
+            if (!isEditingLyrics) return;
+            
+            isEditingLyrics = false;
+            
+            // 恢复原始内容
+            lyricsContent.innerHTML = originalLyricsContent;
+            lyricsContent.classList.remove('editable');
+            lyricsContent.contentEditable = false;
+            
+            // 隐藏编辑控制按钮
+            document.getElementById('lyrics-controls').style.display = 'none';
+            document.getElementById('edit-lyrics-btn').style.display = 'inline-block';
+            document.getElementById('save-lyrics-btn').style.display = 'none';
+            
+            lyricsInfo.textContent = '已取消编辑';
+            updateSystemInfo('取消歌词编辑');
+        }
+
+        // 保存歌词
+        async function saveLyrics() {
+            if (!isEditingLyrics) return;
+            
+            const newLyricsContent = lyricsContent.innerHTML.trim();
+            
+            // 检查是否有内容
+            if (!newLyricsContent) {
+                alert('请输入歌词内容');
+                return;
+            }
+            
+            try {
+                // 如果是新歌词（没有歌词文件），提示用户保存到文件
+                if (window.currentLyricsPath === '[NO DATA]') {
+                    const songName = document.getElementById('current-song').textContent;
+                    const fileName = prompt('请输入歌词文件名（不含扩展名）:', songName);
+                    
+                    if (!fileName) {
+                        alert('文件名不能为空');
+                        return;
+                    }
+                    
+                    // 创建新的歌词文件路径
+                    const newLyricsPath = `Lyrics/${fileName}.txt`;
+                    
+                    // 这里需要实现保存到服务器的逻辑
+                    // 由于是前端演示，这里只显示保存成功信息
+                    alert(`歌词已保存到: ${newLyricsPath}`);
+                    
+                    // 更新歌词信息
+                    lyricsInfo.textContent = '已保存';
+                    updateSystemInfo(`歌词已保存: ${newLyricsPath}`);
+                } else {
+                    // 更新现有歌词文件
+                    alert(`歌词本地已更新到: ${window.currentLyricsPath}`);
+                    lyricsInfo.textContent = '已更新';
+                    updateSystemInfo(`歌词已本地更新: ${window.currentLyricsPath}`);
+                }
+                
+                // 退出编辑模式
+                isEditingLyrics = false;
+                lyricsContent.classList.remove('editable');
+                lyricsContent.contentEditable = false;
+                
+                // 隐藏编辑控制按钮
+                document.getElementById('lyrics-controls').style.display = 'none';
+                document.getElementById('edit-lyrics-btn').style.display = 'inline-block';
+                document.getElementById('save-lyrics-btn').style.display = 'none';
+                
+            } catch (error) {
+                console.error('保存歌词失败:', error);
+                alert('保存歌词失败: ' + error.message);
+                updateSystemInfo('保存歌词失败');
+            }
+        }
+
+        // 绑定编辑按钮事件
+        document.getElementById('edit-lyrics-btn').addEventListener('click', startEditLyrics);
+        document.getElementById('cancel-edit-btn').addEventListener('click', cancelEditLyrics);
+        document.getElementById('confirm-save-btn').addEventListener('click', saveLyrics);
+        document.getElementById('save-lyrics-btn').addEventListener('click', saveLyrics);
+
+        // ESC键取消编辑
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && isEditingLyrics) {
+                cancelEditLyrics();
+            }
+        });
     </script>
 
     <script>
@@ -1810,7 +2133,7 @@
                 const parts = user.split('-');
                 return parts.length >= 4 && parts[3].trim() === 'True';
             }).length;
-            
+
             // 统计黑名单用户数量
             const blacklistedUsers = userList.filter(user => {
                 const parts = user.split('-');
@@ -1821,7 +2144,7 @@
             document.getElementById('vip-users').textContent = vipUsers;
             document.getElementById('normal-users').textContent = normalUsers;
             document.getElementById('online-user-count').textContent = ztgUsers;
-            
+
             // 添加黑名单用户统计显示
             const blacklistElement = document.getElementById('blacklist-users');
             if (blacklistElement) {

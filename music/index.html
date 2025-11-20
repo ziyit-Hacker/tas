@@ -305,6 +305,213 @@
         .lyrics-content::-webkit-scrollbar-thumb:hover {
             background: #005a9e;
         }
+
+        /* VIP音乐样式 */
+        .music-item.vip {
+            background-color: #fff3cd !important;
+            border-left: 4px solid #ffc107 !important;
+            position: relative;
+        }
+
+        .vip-badge {
+            background-color: #ffc107;
+            color: #856404;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .music-item-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* 下载按钮样式 */
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .download-btn:hover:not(:disabled) {
+            background-color: #218838;
+        }
+
+        .download-btn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        /* 下载进度条样式 */
+        .download-progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        .download-progress-bar {
+            flex: 1;
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .download-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            width: 0%;
+            transition: width 0.5s ease-in-out;
+            border-radius: 4px;
+        }
+
+        .download-progress-text {
+            font-size: 12px;
+            color: #495057;
+            min-width: 60px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* 下载状态提示 */
+        .download-status {
+            font-size: 12px;
+            color: #6c757d;
+            text-align: center;
+            margin: 5px 0;
+            font-style: italic;
+        }
+
+        /* 下载状态提示 */
+        .download-status {
+            font-size: 12px;
+            color: #6c757d;
+            text-align: center;
+            margin: 5px 0;
+            font-style: italic;
+        }
+
+        /* 专业下载信息样式 */
+        .download-info-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 10px 0;
+            font-size: 11px;
+            color: #495057;
+        }
+
+        .download-info-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+        }
+
+        .download-info-label {
+            font-weight: bold;
+            color: #6c757d;
+        }
+
+        .download-info-value {
+            color: #495057;
+        }
+
+        /* 连接节点显示 */
+        .connection-nodes {
+            display: flex;
+            gap: 5px;
+            margin: 5px 0;
+        }
+
+        .connection-node {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #28a745;
+            animation: pulse 2s infinite;
+        }
+
+        .connection-node.inactive {
+            background-color: #6c757d;
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        /* 下载队列样式 */
+        .download-queue {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            max-width: 300px;
+            display: none;
+        }
+
+        .queue-header {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #495057;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 5px;
+        }
+
+        .queue-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            background-color: #f8f9fa;
+        }
+
+        .queue-item.active {
+            background-color: #e3f2fd;
+            border-left: 3px solid #0078d4;
+        }
+
+        .queue-item-name {
+            flex: 1;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .queue-item-progress {
+            width: 40px;
+            text-align: right;
+            font-size: 11px;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -329,18 +536,18 @@
 
             // 检查是否为ZC用户或管理员
             const [typeCode, userId] = authToken.split('-');
-            if (typeCode !== 'ZC' && userId !== '13258227085') {
-                // 非ZC用户和非管理员隐藏管理员后台链接
+            if (typeCode !== 'ZC' || userId !== '13258227085') {
+                // 非ZC用户或非管理员用户隐藏管理员后台链接
                 const adminLink = document.querySelector('[data-role="admin"]');
                 if (adminLink) {
                     adminLink.style.display = 'none';
                 }
-                if (userId !== '13258227085') {
-                    const adminstrLink = document.querySelector('[data-role="adminstr"]');
-                    if (adminstrLink) {
-                        adminstrLink.style.display = 'none';
-                    }
-                }
+
+                // 隐藏所有带有data-role="adminstr"的元素，包括链接和换行标签
+                const adminstrElements = document.querySelectorAll('[data-role="adminstr"]');
+                adminstrElements.forEach(element => {
+                    element.style.display = 'none';
+                });
             }
         }
 
@@ -442,7 +649,7 @@
     <hr>
     <h1>欢迎来到 只因科技 - 音乐 界面</h1>
     <h2>您可以选择任意一首歌在线聆听。</h2>
-    <a data-role="admin" href="./admin.html">管理员后台</a><br data-role="admin">
+    <a data-role="adminstr" href="./admin.html">管理员后台</a><br data-role="admin">
     <a data-role="adminstr" href="#" id="development">开发者工具</a>
     <hr>
 
@@ -502,7 +709,18 @@
 
     <p>&copy;2025&nbsp;&nbsp;ZIYIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>版权所有，侵权必究</strong></p>
 
+    <!-- 下载队列显示 -->
+    <div class="download-queue" id="download-queue">
+        <div class="queue-header">下载队列 (0/0)</div>
+        <div id="queue-items"></div>
+    </div>
+
     <script>
+        // 全局下载管理变量
+        let downloadQueue = [];
+        let currentDownload = null;
+        let downloadHistory = new Map(); // 用于断点续传
+        
         // 页面加载时检查权限
         document.addEventListener('DOMContentLoaded', checkUserPermission);
 
@@ -672,59 +890,418 @@
         // 渲染音乐列表
         function renderMusicList() {
             musicListElement.innerHTML = '';
+            const isVIP = isVIPUser();
+            
             musicList.forEach((music, index) => {
-                const [name, location, lyricsPath] = music.split(' \\ ');
+                const parts = music.split(' \\ ');
+                const name = parts[0];
+                const location = parts[1];
+                const lyricsPath = parts[2];
+                const vipStatus = parts[3] || 'UR'; // 默认为免费音乐
+                
                 const li = document.createElement('li');
                 li.className = 'music-item';
-                li.textContent = name;
+                
+                // 添加VIP标识
+                if (vipStatus === 'VIP') {
+                    li.style.backgroundColor = '#fff3cd'; // VIP黄色背景
+                    li.style.borderLeft = '4px solid #ffc107'; // VIP标识边框
+                    li.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            <span>${name}</span>
+                            <span style="background-color: #ffc107; color: #856404; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">VIP专属</span>
+                        </div>
+                    `;
+                } else {
+                    // 非VIP音乐：为VIP用户添加下载按钮
+                    if (isVIP) {
+                        li.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span>${name}</span>
+                                <button class="download-btn" onclick="downloadMusic(${index}, event)" 
+                                        style="background-color: #28a745; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                    下载
+                                </button>
+                            </div>
+                            <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
+                                <div class="download-progress-bar">
+                                    <div class="download-progress" id="download-progress-bar-${index}"></div>
+                                </div>
+                                <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
+                            </div>
+                            <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                            </div>
+                            <div class="download-info-container" id="download-info-${index}" style="display: none;">
+                                <div class="download-info-item">
+                                    <span class="download-info-label">速度:</span>
+                                    <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">剩余:</span>
+                                    <span class="download-info-value" id="download-eta-${index}">--:--</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">已下载:</span>
+                                    <span class="download-info-value" id="download-received-${index}">0 B</span>
+                                </div>
+                            </div>
+                            <div class="download-status" id="download-status-${index}" style="display: none;"></div>
+                        `;
+                    } else if (vipStatus === 'DL') {
+                        // DL标记的歌曲：为普通用户添加下载按钮（极慢速下载）
+                        li.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span>${name}</span>
+                                <button class="download-btn" onclick="downloadMusicForNormalUser(${index}, event)" 
+                                        style="background-color: #17a2b8; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                    下载（普通用户）
+                                </button>
+                            </div>
+                            <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
+                                <div class="download-progress-bar">
+                                    <div class="download-progress" id="download-progress-bar-${index}"></div>
+                                </div>
+                                <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
+                            </div>
+                            <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                            </div>
+                            <div class="download-info-container" id="download-info-${index}" style="display: none;">
+                                <div class="download-info-item">
+                                    <span class="download-info-label">速度:</span>
+                                    <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">剩余:</span>
+                                    <span class="download-info-value" id="download-eta-${index}">--:--</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">已下载:</span>
+                                    <span class="download-info-value" id="download-received-${index}">0 B</span>
+                                </div>
+                            </div>
+                            <div class="download-status" id="download-status-${index}" style="display: none;"></div>
+                        `;
+                    } else {
+                        li.textContent = name;
+                    }
+                }
+                
                 li.addEventListener('click', () => playMusic(index));
                 musicListElement.appendChild(li);
             });
         }
 
-        // 播放音乐
-        function playMusic(index) {
-            if (index < 0 || index >= musicList.length) return;
+        // 加载音乐列表数据
+        async function loadMusicList() {
+            try {
+                console.log('开始加载音乐列表数据...');
+                const response = await fetch('./music.txt');
+                if (!response.ok) {
+                    throw new Error('音乐列表文件不存在');
+                }
+                const musicText = await response.text();
+                console.log('音乐列表文件内容:', musicText);
 
-            const [name, location, lyricsPath] = musicList[index].split(' \\ ');
-            audioPlayer.src = location;
-            currentMusicIndex = index;
-            currentSong.textContent = name;
+                // 按行分割，过滤空行
+                musicList = musicText.split('\n')
+                    .filter(line => line.trim() !== '')
+                    .map(line => line.trim());
 
-            // 更新列表样式
-            document.querySelectorAll('.music-item').forEach((item, i) => {
-                item.classList.toggle('playing', i === index);
-            });
+                console.log('解析后的音乐列表:', musicList);
 
-            // 重置时间显示
-            currentTimeElement.textContent = '00:00';
-            totalTimeElement.textContent = '**:**';
-
-            // 加载歌词
-            loadLyrics(lyricsPath);
-
-            audioPlayer.play();
-            isPlaying = true;
-            playBtn.textContent = '||';
-            playerStatus.textContent = '播放中';
+                // 渲染音乐列表
+                renderMusicList();
+                console.log('音乐列表渲染完成，共加载', musicList.length, '首歌曲');
+            } catch (error) {
+                console.error('加载音乐列表失败:', error);
+                musicListElement.innerHTML = '<li style="color: red; text-align: center;">加载音乐列表失败，请刷新页面重试</li>';
+            }
         }
 
-        // 加载音乐列表
-        fetch('music.txt')
-            .then(response => response.text())
-            .then(data => {
-                musicList = data.split('\n').filter(line => line.trim() !== '');
-                renderMusicList();
-            })
-            .catch(error => {
-                console.error('加载音乐列表失败:', error);
-            });
+        // 检查用户是否为VIP
+        function isVIPUser() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) return false;
+
+            // 检查是否为ZC用户或管理员（视为VIP）
+            const [typeCode, userId] = authToken.split('-');
+            return typeCode === 'ZC' || userId === '13258227085';
+        }
+
+        // VIP试听功能
+        let vipTrialTimer = null;
+        let isVipTrialMode = false; // 添加试听模式标识
+        let vipTrialMusicIndex = -1; // 试听的音乐索引
+
+        // 简单有效的音频加载（防止IDM检测）
+        async function loadAudioSecurely(location, isVIPMusic, isVIPUser) {
+            try {
+                // 对于非VIP用户的VIP音乐，使用简单的15秒限制
+                if (isVIPMusic && !isVIPUser) {
+                    // 使用简单的Range请求限制为前15秒
+                    const response = await fetch(location, {
+                        headers: {
+                            'Range': 'bytes=0-240000' // 约15秒的音频数据
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const audioData = await response.arrayBuffer();
+                    const blob = new Blob([audioData], { type: 'audio/mpeg' });
+                    return URL.createObjectURL(blob);
+                } else {
+                    // VIP用户或免费音乐：直接加载完整音频
+                    const response = await fetch(location);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const audioData = await response.arrayBuffer();
+                    const blob = new Blob([audioData], { type: 'audio/mpeg' });
+                    return URL.createObjectURL(blob);
+                }
+            } catch (error) {
+                console.error('加载音频文件失败:', error);
+                throw error;
+            }
+        }
+
+        // 播放音乐（简化版本）
+        async function playMusic(index) {
+            if (index < 0 || index >= musicList.length) return;
+
+            const parts = musicList[index].split(' \\ ');
+            const name = parts[0];
+            const location = parts[1];
+            const lyricsPath = parts[2];
+            const vipStatus = parts[3] || 'UR';
+
+            // 检查是否为VIP音乐且用户不是VIP
+            if (vipStatus === 'VIP' && !isVIPUser()) {
+                // 清除之前的试听定时器
+                if (vipTrialTimer) {
+                    clearTimeout(vipTrialTimer);
+                    vipTrialTimer = null;
+                }
+
+                // 设置试听模式
+                isVipTrialMode = true;
+                vipTrialMusicIndex = index;
+
+                try {
+                    // 简单加载音频（只加载前15秒）
+                    const secureUrl = await loadAudioSecurely(location, true, false);
+                    audioPlayer.src = secureUrl;
+
+                    currentMusicIndex = index;
+                    currentSong.textContent = name + ' (试听中...)';
+
+                    // 更新列表样式
+                    document.querySelectorAll('.music-item').forEach((item, i) => {
+                        item.classList.toggle('playing', i === index);
+                    });
+
+                    // 重置时间显示
+                    currentTimeElement.textContent = '00:00';
+                    totalTimeElement.textContent = '00:15';
+
+                    // 加载歌词
+                    loadLyrics(lyricsPath);
+
+                    // 播放音乐
+                    audioPlayer.play();
+                    isPlaying = true;
+                    playBtn.textContent = '||';
+                    playerStatus.textContent = '试听中';
+
+                    // 设置15秒试听定时器
+                    vipTrialTimer = setTimeout(() => {
+                        // 暂停音乐
+                        audioPlayer.pause();
+                        isPlaying = false;
+                        playBtn.textContent = '▶';
+                        playerStatus.textContent = '试听结束';
+                        isVipTrialMode = false;
+
+                        // 显示VIP提示
+                        const confirmVIP = confirm('试听结束！这是VIP专属音乐，需要VIP才能完整收听。\n\n点击"确定"将自动播放下一首免费音乐。');
+
+                        if (confirmVIP) {
+                            // 自动播放下一首免费音乐
+                            playNextFreeMusic(index);
+                        } else {
+                            // 重置播放器状态
+                            currentSong.textContent = '请选择一首歌曲';
+                            playerStatus.textContent = '暂停中';
+                            audioPlayer.src = '';
+                            currentMusicIndex = -1;
+                            vipTrialMusicIndex = -1;
+                            document.querySelectorAll('.music-item').forEach(item => {
+                                item.classList.remove('playing');
+                            });
+                        }
+                    }, 15000);
+
+                    return;
+                } catch (error) {
+                    alert('加载音乐失败，请重试');
+                    return;
+                }
+            }
+
+            // 正常播放逻辑（免费音乐或VIP用户）
+            isVipTrialMode = false;
+            vipTrialMusicIndex = -1;
+
+            try {
+                // 加载完整音频
+                const secureUrl = await loadAudioSecurely(location, false, isVIPUser());
+                audioPlayer.src = secureUrl;
+
+                currentMusicIndex = index;
+                currentSong.textContent = name;
+
+                // 更新列表样式
+                document.querySelectorAll('.music-item').forEach((item, i) => {
+                    item.classList.toggle('playing', i === index);
+                });
+
+                // 重置时间显示
+                currentTimeElement.textContent = '00:00';
+                totalTimeElement.textContent = '**:**';
+
+                // 加载歌词
+                loadLyrics(lyricsPath);
+
+                audioPlayer.play();
+                isPlaying = true;
+                playBtn.textContent = '||';
+                playerStatus.textContent = '播放中';
+            } catch (error) {
+                alert('加载音乐失败，请重试');
+            }
+        }
+
+        // 播放下一首免费音乐
+        function playNextFreeMusic(currentIndex) {
+            let nextIndex = currentIndex + 1;
+            let foundFreeMusic = false;
+
+            // 从当前位置向后查找免费音乐
+            for (let i = nextIndex; i < musicList.length; i++) {
+                const parts = musicList[i].split(' \\ ');
+                const vipStatus = parts[3] || 'UR';
+                if (vipStatus !== 'VIP') {
+                    playMusic(i);
+                    foundFreeMusic = true;
+                    break;
+                }
+            }
+
+            // 如果后面没有免费音乐，从开头查找
+            if (!foundFreeMusic) {
+                for (let i = 0; i < currentIndex; i++) {
+                    const parts = musicList[i].split(' \\ ');
+                    const vipStatus = parts[3] || 'UR';
+                    if (vipStatus !== 'VIP') {
+                        playMusic(i);
+                        foundFreeMusic = true;
+                        break;
+                    }
+                }
+            }
+
+            // 如果整个列表都没有免费音乐
+            if (!foundFreeMusic) {
+                alert('很抱歉，当前没有可播放的免费音乐。');
+                audioPlayer.pause();
+                isPlaying = false;
+                playBtn.textContent = '▶';
+                playerStatus.textContent = '暂停中';
+                currentSong.textContent = '请选择一首歌曲';
+                document.querySelectorAll('.music-item').forEach(item => {
+                    item.classList.remove('playing');
+                });
+            }
+        }
+
+        // 获取可播放的音乐索引（跳过VIP音乐，非VIP用户）
+        function getNextPlayableIndex(currentIndex, direction) {
+            let newIndex = currentIndex;
+            const totalSongs = musicList.length;
+            let attempts = 0;
+
+            do {
+                if (direction === 'next') {
+                    newIndex = (newIndex + 1) % totalSongs;
+                } else {
+                    newIndex = (newIndex - 1 + totalSongs) % totalSongs;
+                }
+
+                // 检查是否回到起点（避免无限循环）
+                if (newIndex === currentIndex) {
+                    return -1; // 没有可播放的音乐
+                }
+
+                const parts = musicList[newIndex].split(' \\ ');
+                const vipStatus = parts[3] || 'UR';
+                // 如果是VIP用户或者不是VIP音乐，可以播放
+                if (isVIPUser() || vipStatus !== 'VIP') {
+                    return newIndex;
+                }
+
+                attempts++;
+                // 防止无限循环
+                if (attempts > totalSongs) {
+                    return -1;
+                }
+            } while (true);
+        }
 
         // 播放/暂停控制
-        playBtn.addEventListener('click', () => {
+        playBtn.addEventListener('click', async () => {
             if (currentMusicIndex === -1 && musicList.length > 0) {
-                playMusic(0);
+                // 如果是第一次播放，找到第一首可播放的音乐
+                let firstPlayableIndex = -1;
+                for (let i = 0; i < musicList.length; i++) {
+                    const parts = musicList[i].split(' \\ ');
+                    const vipStatus = parts[3] || 'UR';
+                    if (isVIPUser() || vipStatus !== 'VIP') {
+                        firstPlayableIndex = i;
+                        break;
+                    }
+                }
+
+                if (firstPlayableIndex !== -1) {
+                    await playMusic(firstPlayableIndex);
+                } else {
+                    alert('没有可播放的免费音乐');
+                }
                 return;
+            }
+
+            // 检查当前音乐是否为VIP音乐且用户不是VIP
+            if (currentMusicIndex !== -1) {
+                const parts = musicList[currentMusicIndex].split(' \\ ');
+                const vipStatus = parts[3] || 'UR';
+                if (vipStatus === 'VIP' && !isVIPUser()) {
+                    alert('这是VIP专属音乐，需要VIP才能完整收听');
+                    return;
+                }
             }
 
             if (isPlaying) {
@@ -740,45 +1317,113 @@
         });
 
         // 上一首
-        prevBtn.addEventListener('click', () => {
+        prevBtn.addEventListener('click', async () => {
             if (musicList.length === 0) return;
-            let newIndex = currentMusicIndex - 1;
-            if (newIndex < 0) newIndex = musicList.length - 1;
-            playMusic(newIndex);
+            const nextIndex = getNextPlayableIndex(currentMusicIndex, 'prev');
+            if (nextIndex !== -1) {
+                await playMusic(nextIndex);
+            } else {
+                alert('没有可播放的免费音乐');
+            }
         });
 
         // 下一首
-        nextBtn.addEventListener('click', () => {
+        nextBtn.addEventListener('click', async () => {
             if (musicList.length === 0) return;
-            let newIndex = currentMusicIndex + 1;
-            if (newIndex >= musicList.length) newIndex = 0;
-            playMusic(newIndex);
+            const nextIndex = getNextPlayableIndex(currentMusicIndex, 'next');
+            if (nextIndex !== -1) {
+                await playMusic(nextIndex);
+            } else {
+                alert('没有可播放的免费音乐');
+            }
         });
 
         // 更新进度条和时间显示
         audioPlayer.addEventListener('timeupdate', () => {
-            const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-            progress.style.width = progressPercent + '%';
-            updateTimeDisplay();
+            if (isVipTrialMode && vipTrialMusicIndex !== -1) {
+                // 试听模式：限制在15秒内
+                const maxTrialTime = 15; // 15秒试听
+                const currentTime = Math.min(audioPlayer.currentTime, maxTrialTime);
+
+                // 如果超过15秒，自动暂停
+                if (audioPlayer.currentTime >= maxTrialTime) {
+                    audioPlayer.pause();
+                    audioPlayer.currentTime = 0; // 重置到开头
+                    isPlaying = false;
+                    playBtn.textContent = '▶';
+                    playerStatus.textContent = '试听结束';
+
+                    // 显示VIP提示
+                    const confirmVIP = confirm('试听结束！这是VIP专属音乐，需要VIP才能完整收听。\n\n点击"确定"将自动播放下一首免费音乐。');
+
+                    if (confirmVIP) {
+                        playNextFreeMusic(vipTrialMusicIndex);
+                    } else {
+                        currentSong.textContent = '请选择一首歌曲';
+                        playerStatus.textContent = '暂停中';
+                        audioPlayer.src = '';
+                        currentMusicIndex = -1;
+                        vipTrialMusicIndex = -1;
+                        isVipTrialMode = false;
+                        document.querySelectorAll('.music-item').forEach(item => {
+                            item.classList.remove('playing');
+                        });
+                    }
+                    return;
+                }
+
+                // 更新进度条（基于15秒范围）
+                const progressPercent = (currentTime / maxTrialTime) * 100;
+                progress.style.width = progressPercent + '%';
+
+                // 更新时间显示
+                const minutes = Math.floor(currentTime / 60);
+                const seconds = Math.floor(currentTime % 60);
+                currentTimeElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                totalTimeElement.textContent = '00:15'; // 固定显示15秒
+            } else {
+                // 正常模式
+                const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                progress.style.width = progressPercent + '%';
+                updateTimeDisplay();
+            }
+
             // 更新歌词显示
             updateLyrics(audioPlayer.currentTime);
         });
 
         // 点击进度条跳转
         document.querySelector('.progress-bar').addEventListener('click', (e) => {
-            const rect = e.target.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const width = rect.width;
-            const duration = audioPlayer.duration;
+            if (isVipTrialMode && vipTrialMusicIndex !== -1) {
+                // 试听模式：只能在15秒范围内跳转
+                const rect = e.target.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const width = rect.width;
+                const maxTrialTime = 15; // 15秒试听
 
-            if (duration) {
-                audioPlayer.currentTime = (clickX / width) * duration;
+                // 计算跳转时间（限制在15秒内）
+                const newTime = Math.min((clickX / width) * maxTrialTime, maxTrialTime);
+                audioPlayer.currentTime = newTime;
+            } else {
+                // 正常模式
+                const rect = e.target.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const width = rect.width;
+                const duration = audioPlayer.duration;
+
+                if (duration) {
+                    audioPlayer.currentTime = (clickX / width) * duration;
+                }
             }
         });
 
         // 歌曲结束自动下一首
         audioPlayer.addEventListener('ended', () => {
-            nextBtn.click();
+            if (musicList.length === 0) return;
+            const nextIndex = getNextPlayableIndex(currentMusicIndex, 'next');
+            if (nextIndex !== -1) {
+                playMusic(nextIndex);
+            }
         });
 
         // 当音频元数据加载完成时更新总时长
@@ -786,24 +1431,668 @@
             updateTimeDisplay();
         });
 
-        // 当音频可以播放时更新总时长
-        audioPlayer.addEventListener('canplay', () => {
-            updateTimeDisplay();
+        // 页面加载完成后初始化音乐列表
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMusicList();
         });
 
         // 搜索功能
-        document.getElementById('search-button').addEventListener('click', function (e) {
+        document.getElementById('search').addEventListener('submit', function (e) {
             e.preventDefault();
-            const searchInput = document.getElementById('search-input').value.toLowerCase();
-            const musicItems = document.querySelectorAll('.music-item');
+            const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
 
-            musicItems.forEach(item => {
-                item.style.display = 'none';
-                if (item.textContent.toLowerCase().includes(searchInput)) {
-                    item.style.display = 'block';
+            if (!searchTerm) {
+                // 如果搜索框为空，显示所有音乐
+                renderMusicList();
+                return;
+            }
+
+            // 过滤音乐列表
+            const filteredList = musicList.filter(music => {
+                const name = music.split(' \\ ')[0].toLowerCase();
+                return name.includes(searchTerm);
+            });
+
+            // 渲染过滤后的列表
+            musicListElement.innerHTML = '';
+            const isVIP = isVIPUser();
+            
+            filteredList.forEach((music, index) => {
+                const parts = music.split(' \\ ');
+                const name = parts[0];
+                const location = parts[1];
+                const lyricsPath = parts[2];
+                const vipStatus = parts[3] || 'UR';
+
+                const li = document.createElement('li');
+                li.className = 'music-item';
+
+                // 添加VIP标识
+                if (vipStatus === 'VIP') {
+                    li.style.backgroundColor = '#fff3cd';
+                    li.style.borderLeft = '4px solid #ffc107';
+                    li.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            <span>${name}</span>
+                            <span style="background-color: #ffc107; color: #856404; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">VIP专属</span>
+                        </div>
+                    `;
+                } else if (vipStatus === 'DL') {
+                    // DL标记的歌曲：为普通用户添加下载按钮（极慢速下载）
+                    li.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            <span>${name}</span>
+                            <button class="download-btn" onclick="downloadMusicForNormalUser(${index}, event)" 
+                                    style="background-color: #17a2b8; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                下载（普通用户）
+                            </button>
+                        </div>
+                        <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
+                            <div class="download-progress-bar">
+                                <div class="download-progress" id="download-progress-bar-${index}"></div>
+                            </div>
+                            <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
+                        </div>
+                        <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
+                            <div class="connection-node"></div>
+                            <div class="connection-node"></div>
+                            <div class="connection-node"></div>
+                            <div class="connection-node"></div>
+                            <div class="connection-node"></div>
+                        </div>
+                        <div class="download-info-container" id="download-info-${index}" style="display: none;">
+                            <div class="download-info-item">
+                                <span class="download-info-label">速度:</span>
+                                <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
+                            </div>
+                            <div class="download-info-item">
+                                <span class="download-info-label">剩余:</span>
+                                <span class="download-info-value" id="download-eta-${index}">--:--</span>
+                            </div>
+                            <div class="download-info-item">
+                                <span class="download-info-label">已下载:</span>
+                                <span class="download-info-value" id="download-received-${index}">0 B</span>
+                            </div>
+                        </div>
+                        <div class="download-status" id="download-status-${index}" style="display: none;"></div>
+                    `;
+                } else if (isVIP) {
+                    // 非VIP音乐：为VIP用户添加下载按钮
+                    li.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            <span>${name}</span>
+                            <button class="download-btn" onclick="downloadMusic(${index}, event)" 
+                                    style="background-color: #28a745; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                下载
+                            </button>
+                        </div>
+                        <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
+                            <div class="download-progress-bar">
+                                <div class="download-progress" id="download-progress-bar-${index}"></div>
+                            </div>
+                            <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
+                        </div>
+                        <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
+                            <div class="connection-node"></div>
+                            <div class="connection-node"></div>
+                            <div class="connection-node"></div>
+                            <div class="connection-node"></div>
+                            <div class="connection-node"></div>
+                        </div>
+                        <div class="download-info-container" id="download-info-${index}" style="display: none;">
+                            <div class="download-info-item">
+                                <span class="download-info-label">速度:</span>
+                                <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
+                            </div>
+                            <div class="download-info-item">
+                                <span class="download-info-label">剩余:</span>
+                                <span class="download-info-value" id="download-eta-${index}">--:--</span>
+                            </div>
+                            <div class="download-info-item">
+                                <span class="download-info-label">已下载:</span>
+                                <span class="download-info-value" id="download-received-${index}">0 B</span>
+                            </div>
+                        </div>
+                        <div class="download-status" id="download-status-${index}" style="display: none;"></div>
+                    `;
+                } else {
+                    li.textContent = name;
                 }
+
+                // 找到原始索引
+                const originalIndex = musicList.indexOf(music);
+                li.addEventListener('click', () => playMusic(originalIndex));
+                musicListElement.appendChild(li);
             });
         });
+
+        // 专业下载功能（包含速度显示、剩余时间、断点续传、多文件队列）
+        async function downloadMusic(index, event) {
+            event.stopPropagation();
+            
+            const parts = musicList[index].split(' \\ ');
+            const name = parts[0];
+            const location = parts[1];
+            const button = event.target;
+            const progressContainer = document.getElementById(`download-progress-${index}`);
+            const progressBar = document.getElementById(`download-progress-bar-${index}`);
+            const progressText = document.getElementById(`download-progress-text-${index}`);
+            const statusText = document.getElementById(`download-status-${index}`);
+            const connectionNodes = document.getElementById(`connection-nodes-${index}`);
+            const downloadInfo = document.getElementById(`download-info-${index}`);
+            const downloadSpeed = document.getElementById(`download-speed-${index}`);
+            const downloadEta = document.getElementById(`download-eta-${index}`);
+            const downloadReceived = document.getElementById(`download-received-${index}`);
+
+            // 检查用户权限
+            if (!isVIPUser()) {
+                alert('只有VIP用户才能下载音乐！');
+                return;
+            }
+
+            // 添加到下载队列
+            addToDownloadQueue(index, name, location);
+        }
+
+        // 普通用户极慢速下载功能（仅限DL标记的歌曲）
+        async function downloadMusicForNormalUser(index, event) {
+            event.stopPropagation();
+            
+            const parts = musicList[index].split(' \\ ');
+            const name = parts[0];
+            const location = parts[1];
+            const vipStatus = parts[3] || 'UR';
+            const button = event.target;
+            const progressContainer = document.getElementById(`download-progress-${index}`);
+            const progressBar = document.getElementById(`download-progress-bar-${index}`);
+            const progressText = document.getElementById(`download-progress-text-${index}`);
+            const statusText = document.getElementById(`download-status-${index}`);
+            const connectionNodes = document.getElementById(`connection-nodes-${index}`);
+            const downloadInfo = document.getElementById(`download-info-${index}`);
+            const downloadSpeed = document.getElementById(`download-speed-${index}`);
+            const downloadEta = document.getElementById(`download-eta-${index}`);
+            const downloadReceived = document.getElementById(`download-received-${index}`);
+
+            // 检查是否为DL标记的歌曲
+            if (vipStatus !== 'DL') {
+                alert('只有标记为DL的歌曲才允许普通用户下载！');
+                return;
+            }
+
+            // 检查用户权限（普通用户不能下载VIP歌曲）
+            if (isVIPUser()) {
+                alert('VIP用户请使用VIP下载功能！');
+                return;
+            }
+
+            // 显示所有元素
+            button.disabled = true;
+            button.textContent = '准备下载...';
+            progressContainer.style.display = 'flex';
+            connectionNodes.style.display = 'flex';
+            downloadInfo.style.display = 'flex';
+            statusText.style.display = 'block';
+            statusText.textContent = '正在连接服务器...';
+
+            try {
+                // 百度网盘级别初始延迟：10-20秒
+                await new Promise(resolve => setTimeout(resolve, Math.random() * 10000 + 10000));
+                
+                // 初始连接失败概率：15%概率连接失败
+                if (Math.random() < 0.15) {
+                    throw new Error('服务器连接失败，请重试');
+                }
+                
+                // 获取文件信息
+                const response = await fetch(location, { method: 'HEAD' });
+                if (!response.ok) throw new Error('无法获取文件信息');
+                
+                const contentLength = response.headers.get('content-length');
+                const totalSize = contentLength ? parseInt(contentLength) : 0;
+
+                statusText.textContent = `文件大小: ${formatFileSize(totalSize)}`;
+
+                // 开始百度网盘级别慢速下载
+                const downloadResponse = await fetch(location);
+                if (!downloadResponse.ok) throw new Error(`下载失败: ${downloadResponse.status}`);
+
+                const reader = downloadResponse.body.getReader();
+                const chunks = [];
+                let receivedLength = 0;
+                let lastUpdateTime = Date.now();
+                let lastReceivedLength = 0;
+
+                // 更新连接节点状态（百度网盘级别慢动画）
+                let nodeIndex = 0;
+                const nodeInterval = setInterval(() => {
+                    const nodes = connectionNodes.querySelectorAll('.connection-node');
+                    nodes[nodeIndex].classList.add('inactive');
+                    nodeIndex = (nodeIndex + 1) % nodes.length;
+                    nodes[nodeIndex].classList.remove('inactive');
+                }, 3000); // 百度网盘级别的慢动画
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    chunks.push(value);
+                    receivedLength += value.length;
+
+                    // 百度网盘级别慢速：每次读取后延迟3000-8000ms
+                    await new Promise(resolve => setTimeout(resolve, Math.random() * 5000 + 3000));
+                    
+                    // 随机卡顿：40%概率暂停5-10秒（百度网盘级别）
+                    if (Math.random() < 0.4) {
+                        statusText.textContent = '网络连接不稳定，重新连接中...';
+                        await new Promise(resolve => setTimeout(resolve, Math.random() * 5000 + 5000));
+                        statusText.textContent = '连接恢复，继续下载...';
+                    }
+
+                    // 额外随机延迟：30%概率额外延迟3-6秒
+                    if (Math.random() < 0.3) {
+                        statusText.textContent = '服务器繁忙，请稍候...';
+                        await new Promise(resolve => setTimeout(resolve, Math.random() * 3000 + 3000));
+                        statusText.textContent = '继续下载...';
+                    }
+
+                    // 百度网盘特色：10%概率完全停止下载10-20秒
+                    if (Math.random() < 0.1) {
+                        statusText.textContent = '下载服务受限，请等待...';
+                        await new Promise(resolve => setTimeout(resolve, Math.random() * 10000 + 10000));
+                        statusText.textContent = '服务恢复，继续下载...';
+                    }
+
+                    // 下载过程中失败概率：20%概率下载中断
+                    if (Math.random() < 0.2) {
+                        throw new Error('网络连接中断，下载失败');
+                    }
+
+                    // 服务器错误概率：10%概率服务器错误
+                    if (Math.random() < 0.1) {
+                        throw new Error('服务器内部错误，请稍后重试');
+                    }
+
+                    // 文件损坏概率：5%概率文件损坏
+                    if (Math.random() < 0.05) {
+                        throw new Error('文件下载损坏，请重新下载');
+                    }
+
+                    // 计算下载速度（百度网盘级别极慢速）
+                    const currentTime = Date.now();
+                    const timeDiff = (currentTime - lastUpdateTime) / 1000; // 秒
+                    
+                    if (timeDiff >= 5) { // 每5秒更新一次速度（更慢）
+                        const bytesDiff = receivedLength - lastReceivedLength;
+                        const speed = bytesDiff / timeDiff; // 字节/秒
+                        
+                        // 强制限制速度在0-108B/s之间（百度网盘级别）
+                        const limitedSpeed = Math.max(0, Math.min(108, speed));
+                        
+                        // 更新速度显示
+                        downloadSpeed.textContent = `${formatSpeed(limitedSpeed)}`;
+                        downloadReceived.textContent = formatFileSize(receivedLength);
+                        
+                        // 计算剩余时间（基于极慢速）
+                        if (limitedSpeed > 0 && totalSize > 0) {
+                            const remainingBytes = totalSize - receivedLength;
+                            const remainingSeconds = remainingBytes / limitedSpeed;
+                            downloadEta.textContent = formatTime(remainingSeconds);
+                        }
+                        
+                        lastUpdateTime = currentTime;
+                        lastReceivedLength = receivedLength;
+                    }
+
+                    // 更新进度
+                    if (totalSize > 0) {
+                        const progress = Math.round((receivedLength / totalSize) * 100);
+                        progressBar.style.width = `${progress}%`;
+                        progressText.textContent = `${progress}%`;
+                        
+                        // 更新状态信息（显示百度网盘级别慢速）
+                        statusText.textContent = `下载中... 速度极慢，请耐心等待 (${formatSpeed(Math.random() * 108)})`;
+                    }
+                }
+
+                clearInterval(nodeInterval);
+
+                // 完成下载前的延迟（更长）
+                statusText.textContent = '下载完成，正在处理文件...';
+                await new Promise(resolve => setTimeout(resolve, 10000));
+
+                // 完成下载
+                const blob = new Blob(chunks);
+                const url = URL.createObjectURL(blob);
+                
+                // 创建下载链接
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${name}.mp3`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                // 更新状态
+                progressBar.style.width = '100%';
+                progressText.textContent = '100%';
+                statusText.textContent = '下载完成！';
+                statusText.style.color = '#28a745';
+                
+                const nodes = connectionNodes.querySelectorAll('.connection-node');
+                nodes.forEach(node => node.classList.add('inactive'));
+
+                // 15秒后隐藏（更长）
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                    connectionNodes.style.display = 'none';
+                    downloadInfo.style.display = 'none';
+                    statusText.style.display = 'none';
+                    button.disabled = false;
+                    button.textContent = '下载（普通用户）';
+                }, 15000);
+
+            } catch (error) {
+                console.error('下载失败:', error);
+                
+                progressBar.style.background = '#dc3545';
+                statusText.textContent = `下载失败: ${error.message}`;
+                statusText.style.color = '#dc3545';
+
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                    connectionNodes.style.display = 'none';
+                    downloadInfo.style.display = 'none';
+                    statusText.style.display = 'none';
+                    button.disabled = false;
+                    button.textContent = '下载（普通用户）';
+                }, 4000);
+            }
+        }
+
+        // 添加到下载队列
+        function addToDownloadQueue(index, name, location) {
+            const downloadItem = {
+                index: index,
+                name: name,
+                location: location,
+                status: 'waiting',
+                progress: 0,
+                startTime: null,
+                receivedLength: 0,
+                totalSize: 0,
+                speed: 0,
+                eta: '--:--'
+            };
+
+            downloadQueue.push(downloadItem);
+            updateDownloadQueueDisplay();
+
+            // 如果没有正在进行的下载，开始下载
+            if (!currentDownload) {
+                processDownloadQueue();
+            }
+        }
+
+        // 处理下载队列
+        async function processDownloadQueue() {
+            if (downloadQueue.length === 0) {
+                currentDownload = null;
+                return;
+            }
+
+            // 找到第一个等待中的下载
+            const waitingItem = downloadQueue.find(item => item.status === 'waiting');
+            if (!waitingItem) {
+                currentDownload = null;
+                return;
+            }
+
+            currentDownload = waitingItem;
+            waitingItem.status = 'downloading';
+            waitingItem.startTime = Date.now();
+            updateDownloadQueueDisplay();
+
+            await startDownload(waitingItem);
+            
+            // 完成后处理下一个
+            processDownloadQueue();
+        }
+
+        // 开始下载（包含所有专业功能）
+        async function startDownload(downloadItem) {
+            const { index, name, location } = downloadItem;
+            
+            // 获取DOM元素
+            const button = document.querySelector(`#download-progress-${index}`).previousElementSibling.querySelector('.download-btn');
+            const progressContainer = document.getElementById(`download-progress-${index}`);
+            const progressBar = document.getElementById(`download-progress-bar-${index}`);
+            const progressText = document.getElementById(`download-progress-text-${index}`);
+            const statusText = document.getElementById(`download-status-${index}`);
+            const connectionNodes = document.getElementById(`connection-nodes-${index}`);
+            const downloadInfo = document.getElementById(`download-info-${index}`);
+            const downloadSpeed = document.getElementById(`download-speed-${index}`);
+            const downloadEta = document.getElementById(`download-eta-${index}`);
+            const downloadReceived = document.getElementById(`download-received-${index}`);
+
+            // 显示所有元素
+            button.disabled = true;
+            button.textContent = '队列中...';
+            progressContainer.style.display = 'flex';
+            connectionNodes.style.display = 'flex';
+            downloadInfo.style.display = 'flex';
+            statusText.style.display = 'block';
+            statusText.textContent = '准备下载...';
+
+            // 激活连接节点
+            const nodes = connectionNodes.querySelectorAll('.connection-node');
+            nodes.forEach(node => node.classList.remove('inactive'));
+
+            try {
+                // 检查断点续传
+                const resumeInfo = downloadHistory.get(location);
+                let startByte = 0;
+                let receivedLength = resumeInfo ? resumeInfo.receivedLength : 0;
+
+                if (resumeInfo && resumeInfo.receivedLength > 0) {
+                    statusText.textContent = '检测到未完成下载，继续下载...';
+                    startByte = resumeInfo.receivedLength;
+                    receivedLength = resumeInfo.receivedLength;
+                }
+
+                // 获取文件信息
+                const response = await fetch(location, { method: 'HEAD' });
+                if (!response.ok) throw new Error('无法获取文件信息');
+                
+                const contentLength = response.headers.get('content-length');
+                const totalSize = contentLength ? parseInt(contentLength) : 0;
+                downloadItem.totalSize = totalSize;
+
+                statusText.textContent = `文件大小: ${formatFileSize(totalSize)}`;
+
+                // 开始下载（支持断点续传）
+                const downloadResponse = await fetch(location, {
+                    headers: startByte > 0 ? { 'Range': `bytes=${startByte}-` } : {}
+                });
+                if (!downloadResponse.ok) throw new Error(`下载失败: ${downloadResponse.status}`);
+
+                const reader = downloadResponse.body.getReader();
+                const chunks = [];
+                let lastUpdateTime = Date.now();
+                let lastReceivedLength = receivedLength;
+
+                // 更新连接节点状态
+                let nodeIndex = 0;
+                const nodeInterval = setInterval(() => {
+                    nodes[nodeIndex].classList.add('inactive');
+                    nodeIndex = (nodeIndex + 1) % nodes.length;
+                    nodes[nodeIndex].classList.remove('inactive');
+                }, 500);
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    chunks.push(value);
+                    receivedLength += value.length;
+                    downloadItem.receivedLength = receivedLength;
+
+                    // 计算下载速度
+                    const currentTime = Date.now();
+                    const timeDiff = (currentTime - lastUpdateTime) / 1000; // 秒
+                    
+                    if (timeDiff >= 1) { // 每秒更新一次速度
+                        const bytesDiff = receivedLength - lastReceivedLength;
+                        const speed = bytesDiff / timeDiff; // 字节/秒
+                        downloadItem.speed = speed;
+                        
+                        // 更新速度显示
+                        downloadSpeed.textContent = `${formatSpeed(speed)}`;
+                        downloadReceived.textContent = formatFileSize(receivedLength);
+                        
+                        // 计算剩余时间
+                        if (speed > 0 && totalSize > 0) {
+                            const remainingBytes = totalSize - receivedLength;
+                            const remainingSeconds = remainingBytes / speed;
+                            downloadItem.eta = formatTime(remainingSeconds);
+                            downloadEta.textContent = downloadItem.eta;
+                        }
+                        
+                        lastUpdateTime = currentTime;
+                        lastReceivedLength = receivedLength;
+                    }
+
+                    // 更新进度
+                    if (totalSize > 0) {
+                        const progress = Math.round((receivedLength / totalSize) * 100);
+                        downloadItem.progress = progress;
+                        progressBar.style.width = `${progress}%`;
+                        progressText.textContent = `${progress}%`;
+                        
+                        // 更新状态信息
+                        statusText.textContent = `下载中... ${formatSpeed(downloadItem.speed)} - 剩余 ${downloadItem.eta}`;
+                    }
+
+                    // 保存断点信息
+                    downloadHistory.set(location, {
+                        receivedLength: receivedLength,
+                        totalSize: totalSize,
+                        timestamp: Date.now()
+                    });
+
+                    // 随机延迟（保持慢速效果）
+                    await new Promise(resolve => setTimeout(resolve, Math.random() * 300 + 100));
+                }
+
+                clearInterval(nodeInterval);
+
+                // 完成下载
+                const blob = new Blob(chunks);
+                const url = URL.createObjectURL(blob);
+                
+                // 创建下载链接
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${name}.mp3`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                // 清理断点记录
+                downloadHistory.delete(location);
+
+                // 更新状态
+                downloadItem.status = 'completed';
+                progressBar.style.width = '100%';
+                progressText.textContent = '100%';
+                statusText.textContent = '下载完成！';
+                statusText.style.color = '#28a745';
+                nodes.forEach(node => node.classList.add('inactive'));
+
+                // 3秒后隐藏
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                    connectionNodes.style.display = 'none';
+                    downloadInfo.style.display = 'none';
+                    statusText.style.display = 'none';
+                    button.disabled = false;
+                    button.textContent = '下载';
+                }, 3000);
+
+            } catch (error) {
+                console.error('下载失败:', error);
+                downloadItem.status = 'error';
+                
+                progressBar.style.background = '#dc3545';
+                statusText.textContent = `下载失败: ${error.message}`;
+                statusText.style.color = '#dc3545';
+
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                    connectionNodes.style.display = 'none';
+                    downloadInfo.style.display = 'none';
+                    statusText.style.display = 'none';
+                    button.disabled = false;
+                    button.textContent = '下载';
+                }, 4000);
+            }
+
+            updateDownloadQueueDisplay();
+        }
+
+        // 更新下载队列显示
+        function updateDownloadQueueDisplay() {
+            const queueElement = document.getElementById('download-queue');
+            const queueHeader = document.querySelector('.queue-header');
+            const queueItems = document.getElementById('queue-items');
+            
+            if (downloadQueue.length > 0) {
+                queueElement.style.display = 'block';
+                const activeCount = downloadQueue.filter(item => item.status === 'downloading').length;
+                const totalCount = downloadQueue.length;
+                queueHeader.textContent = `下载队列 (${activeCount}/${totalCount})`;
+                
+                queueItems.innerHTML = '';
+                downloadQueue.forEach((item, i) => {
+                    const queueItem = document.createElement('div');
+                    queueItem.className = `queue-item ${item.status === 'downloading' ? 'active' : ''}`;
+                    queueItem.innerHTML = `
+                        <div class="queue-item-name">${item.name}</div>
+                        <div class="queue-item-progress">${item.progress}%</div>
+                    `;
+                    queueItems.appendChild(queueItem);
+                });
+            } else {
+                queueElement.style.display = 'none';
+            }
+        }
+
+        // 格式化速度
+        function formatSpeed(bytesPerSecond) {
+            if (bytesPerSecond === 0) return '0 B/s';
+            const k = 1024;
+            const sizes = ['B/s', 'KB/s', 'MB/s', 'GB/s'];
+            const i = Math.floor(Math.log(bytesPerSecond) / Math.log(k));
+            return parseFloat((bytesPerSecond / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // 格式化时间（秒转换为 MM:SS）
+        function formatTime(seconds) {
+            if (isNaN(seconds) || seconds === Infinity) return '--:--';
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        // 格式化文件大小
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
     </script>
 </body>
 

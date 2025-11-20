@@ -1,4 +1,4 @@
-[00:00.0]Marsch der nationalen Volksarmee - Erich-Weinert-Ensemble
+[00:00.00]Marsch der nationalen Volksarmee - Erich-Weinert-Ensemble
 [00:01.97]Lyrics by：Anonymous
 [00:03.95]Composed by：Anonymous
 [00:05.93]Wer rückt aus Fabriken aus Dörfern und Schmieden
@@ -20,4 +20,4 @@
 [01:06.42]Das sind wir das sind eure Genossen
 [01:10.12]In der Arbeiter Bauernarmee
 [01:14.03]Das sind wir das sind eure Genossen
-[01:17.770004]In der Arbeiter Bauernarmee
+[01:17.77]In der Arbeiter Bauernarmee

@@ -363,6 +363,100 @@
 <body background="./assets/bg.jpg" style=" background-repeat:no-repeat ;
         background-size:100% 100%;
         background-attachment: fixed;">
+    <script>
+        function Development() {
+            // 获取开发者工具链接
+            const devLink = document.getElementById('development');
+            if (devLink) {
+                devLink.addEventListener('click', function (e) {
+                    e.preventDefault(); // 阻止默认链接行为
+
+                    // 1. 先禁用f12check.js的功能
+                    disableF12Check();
+
+                    // 2. 短暂延迟后触发开发者工具
+                    setTimeout(() => {
+                        // 尝试触发F12快捷键
+                        const event = new KeyboardEvent('keydown', {
+                            key: 'F12',
+                            code: 'F12',
+                            keyCode: 123,
+                            which: 123,
+                            bubbles: true,
+                            cancelable: true
+                        });
+                        document.dispatchEvent(event);
+
+                        // 3. 重新启用f12check.js
+                        setTimeout(() => {
+                            enableF12Check();
+                        }, 1000);
+
+                    }, 100);
+
+                    // 显示提示信息
+                    alert('开发者工具已临时启用，请在1秒内按F12');
+                });
+            }
+        }
+
+        // 禁用f12check.js功能
+        function disableF12Check() {
+            // 移除所有事件监听器
+            document.removeEventListener('keydown', window.f12CheckKeydownHandler);
+            document.removeEventListener('contextmenu', window.f12CheckContextmenuHandler);
+
+            // 恢复console功能
+            if (window.originalConsole) {
+                window.console = window.originalConsole;
+            }
+        }
+
+        // 启用f12check.js功能
+        function enableF12Check() {
+            // 重新添加事件监听器
+            document.addEventListener('keydown', window.f12CheckKeydownHandler);
+            document.addEventListener('contextmenu', window.f12CheckContextmenuHandler);
+
+            // 重新应用console限制
+            Object.defineProperty(window, 'console', {
+                value: new Proxy(console, {
+                    get(target, prop) {
+                        if (['log', 'debug', 'info', 'error'].includes(prop)) {
+                            return function () { };
+                        }
+                        return target[prop];
+                    }
+                })
+            });
+        }
+
+        // 保存原始的f12check.js事件处理器
+        function initF12CheckHandlers() {
+            // 保存原始的事件处理器
+            window.f12CheckKeydownHandler = function (e) {
+                if (e.key === 'F12' ||
+                    (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key))) {
+                    e.preventDefault();
+                    return false;
+                }
+            };
+
+            window.f12CheckContextmenuHandler = function (e) {
+                e.preventDefault();
+                return false;
+            };
+
+            // 保存原始console
+            window.originalConsole = console;
+        }
+
+        // 初始化时保存原始处理器
+        document.addEventListener('DOMContentLoaded', initF12CheckHandlers);
+
+        // 页面加载时调用检查权限函数
+        document.addEventListener('DOMContentLoaded', Development);
+    </script>
     <h1>只因科技主页</h1>
     <hr>
     <div class="top-bar">
@@ -381,8 +475,11 @@
             <li class="nav-item" data-role="admin">只因科技<span class="bid">开发者选项</span>
                 <ul>
                     <li class="nav-item" data-role="admin"><a href="./developers/">日志</a></li><br>
-                    <li class="nav-item" data-role="admin"><a href="./backrooms/Deployment">常部署时间</a></li><br>
-                    <li class="nav-item" data-role="admin"><a href="./music/admin.html">后台管理</a></li>
+                    <li class="nav-item" data-role="admin"><a href="./backrooms/Deployment">常部署时间</a></li><br
+                        class="nav-item" data-role="adminstr">
+                    <li class="nav-item" data-role="adminstr"><a href="./music/admin.html">后台管理</a></li><br
+                        class="nav-item" data-role="adminstr">
+                    <li class="nav-item" data-role="adminstr"><a href="#" id="development">开发者工具</a></li>
                 </ul>
             </li>
             <li class="line nav-item" data-role="admin"></li>
@@ -425,6 +522,9 @@
             <li class="nav-item" data-role="admin">只因科技<span class="bid">开发者选项</span>
                 <ul>
                     <li class="nav-item" data-role="admin"><a href="./developers/">日志</a></li>
+                    <li class="nav-item" data-role="admin"><a href="./backrooms/Deployment">常部署时间</a></li>
+                    <li class="nav-item" data-role="adminstr"><a href="./music/admin.html">后台管理</a></li>
+                    <li class="nav-item" data-role="adminstr"><a href="#" id="development">开发者工具</a></li>
                 </ul>
             </li>
             <li class="line nav-item" data-role="admin">
@@ -798,15 +898,53 @@
 
                 navItems.forEach(item => {
                     const role = item.getAttribute('data-role');
-                    // 添加class而不是直接修改style
-                    if (role === 'all' ||
-                        (type === 'ZC' && role === 'admin') ||
-                        (type === 'UR' && role === 'user')) {
-                        item.classList.add('visible');
-                        item.classList.remove('hidden');
+
+                    // 如果是最高管理员，显示所有相关元素
+                    if (username === '13258227085') {
+                        if (role === 'all' || role === 'admin' || role === 'adminstr') {
+                            item.classList.add('visible');
+                            item.classList.remove('hidden');
+                        } else {
+                            item.classList.add('hidden');
+                            item.classList.remove('visible');
+                        }
                     } else {
-                        item.classList.add('hidden');
-                        item.classList.remove('visible');
+                        // 普通权限检查逻辑
+                        if (role === 'all' ||
+                            (type === 'ZC' && role === 'admin') ||
+                            (type === 'UR' && role === 'user')) {
+                            item.classList.add('visible');
+                            item.classList.remove('hidden');
+                        } else {
+                            item.classList.add('hidden');
+                            item.classList.remove('visible');
+                        }
+                    }
+
+                    // 处理adminstr元素的显示逻辑
+                    const adminstrElements = item.querySelectorAll('[data-role="adminstr"]');
+                    adminstrElements.forEach(element => {
+                        if (username === '13258227085') {
+                            // 显示所有带有"adminstr"的元素
+                            element.classList.add('visible');
+                            element.classList.remove('hidden');
+                        } else {
+                            // 隐藏所有带有"adminstr"的元素
+                            element.classList.add('hidden');
+                            element.classList.remove('visible');
+                        }
+                    });
+                });
+
+                // 额外处理移动端导航栏的adminstr元素
+                const mobileAdminstrElements = document.querySelectorAll('#mobile-menu [data-role="adminstr"]');
+                mobileAdminstrElements.forEach(element => {
+                    if (username === '13258227085') {
+                        element.classList.add('visible');
+                        element.classList.remove('hidden');
+                    } else {
+                        element.classList.add('hidden');
+                        element.classList.remove('visible');
                     }
                 });
             }, 250);
