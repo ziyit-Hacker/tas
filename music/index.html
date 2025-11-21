@@ -1043,44 +1043,240 @@
         let isVipTrialMode = false; // 添加试听模式标识
         let vipTrialMusicIndex = -1; // 试听的音乐索引
 
-        // 简单有效的音频加载（防止IDM检测）
+        // 音频加载
         async function loadAudioSecurely(location, isVIPMusic, isVIPUser) {
             try {
+                // 显示加载提示和进度条
+                showLoadingProgress('加载音乐中...', 0);
+                
                 // 对于非VIP用户的VIP音乐，使用简单的15秒限制
                 if (isVIPMusic && !isVIPUser) {
                     // 使用简单的Range请求限制为前15秒
                     const response = await fetch(location, {
                         headers: {
-                            'Range': 'bytes=0-240000' // 约15秒的音频数据
+                            'Range': 'bytes=0-300000' // 约15秒的音频数据
                         }
                     });
 
                     if (!response.ok) {
+                        hideLoadingProgress();
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
 
+                    const contentLength = parseInt(response.headers.get('content-length') || '285000');
                     const audioData = await response.arrayBuffer();
+                    
+                    // 更新进度到100%
+                    updateLoadingProgress(100, '音频数据处理中...');
+                    
                     const blob = new Blob([audioData], { type: 'audio/mpeg' });
+                    hideLoadingProgress();
                     return URL.createObjectURL(blob);
+                } else if (isVIPUser) {
+                    // VIP用户：直接使用音乐文件，不进行Blob转换
+                    hideLoadingProgress();
+                    return location; // 直接返回音乐文件路径
                 } else {
-                    // VIP用户或免费音乐：直接加载完整音频
+                    // 普通用户的免费音乐：使用带进度条的Blob方式
                     const response = await fetch(location);
 
                     if (!response.ok) {
+                        hideLoadingProgress();
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
 
-                    const audioData = await response.arrayBuffer();
+                    const contentLength = parseInt(response.headers.get('content-length') || '1000000');
+                    let loaded = 0;
+                    
+                    // 记录开始时间
+                    const startTime = Date.now();
+                    
+                    // 创建读取器来跟踪进度
+                    const reader = response.body.getReader();
+                    const chunks = [];
+                    
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        
+                        if (done) break;
+                        
+                        chunks.push(value);
+                        loaded += value.length;
+                        
+                        // 计算进度百分比
+                        const progress = Math.min(Math.round((loaded / contentLength) * 100), 100);
+                        
+                        // 计算预估剩余时间（基于当前加载速度）
+                        const elapsedTime = Date.now() - startTime;
+                        const speed = loaded / (elapsedTime / 1000); // bytes per second
+                        const remainingBytes = contentLength - loaded;
+                        const remainingTime = speed > 0 ? Math.round(remainingBytes / speed) : 0;
+                        
+                        // 更新进度条
+                        updateLoadingProgress(progress, `加载中... 预估剩余时间: ${formatTime(remainingTime)}`);
+                    }
+                    
+                    // 合并所有chunks
+                    const audioData = new Uint8Array(loaded);
+                    let position = 0;
+                    for (const chunk of chunks) {
+                        audioData.set(chunk, position);
+                        position += chunk.length;
+                    }
+                    
+                    // 更新进度到100%
+                    updateLoadingProgress(100, '音频数据处理中...');
+                    
                     const blob = new Blob([audioData], { type: 'audio/mpeg' });
+                    hideLoadingProgress();
                     return URL.createObjectURL(blob);
                 }
             } catch (error) {
+                hideLoadingProgress();
                 console.error('加载音频文件失败:', error);
                 throw error;
             }
         }
 
-        // 播放音乐（简化版本）
+        // 显示加载进度条
+        function showLoadingProgress(message, progress) {
+            let progressContainer = document.getElementById('loading-progress-container');
+            if (!progressContainer) {
+                progressContainer = document.createElement('div');
+                progressContainer.id = 'loading-progress-container';
+                progressContainer.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: rgba(0, 0, 0, 0.9);
+                    color: white;
+                    padding: 30px;
+                    border-radius: 15px;
+                    z-index: 10000;
+                    font-size: 16px;
+                    font-weight: bold;
+                    min-width: 300px;
+                    text-align: center;
+                `;
+                
+                const messageElement = document.createElement('div');
+                messageElement.id = 'loading-progress-message';
+                messageElement.style.marginBottom = '15px';
+                messageElement.textContent = message;
+                
+                const progressBarContainer = document.createElement('div');
+                progressBarContainer.style.cssText = `
+                    width: 100%;
+                    height: 20px;
+                    background: #333;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    margin-bottom: 10px;
+                `;
+                
+                const progressBar = document.createElement('div');
+                progressBar.id = 'loading-progress-bar';
+                progressBar.style.cssText = `
+                    height: 100%;
+                    background: linear-gradient(90deg, #4CAF50, #45a049);
+                    border-radius: 10px;
+                    width: ${progress}%;
+                    transition: width 0.3s ease;
+                `;
+                
+                const progressText = document.createElement('div');
+                progressText.id = 'loading-progress-text';
+                progressText.style.cssText = `
+                    font-size: 14px;
+                    color: #ccc;
+                `;
+                progressText.textContent = `${progress}%`;
+                
+                const timeText = document.createElement('div');
+                timeText.id = 'loading-time-text';
+                timeText.style.cssText = `
+                    font-size: 12px;
+                    color: #999;
+                    margin-top: 5px;
+                `;
+                
+                progressBarContainer.appendChild(progressBar);
+                progressContainer.appendChild(messageElement);
+                progressContainer.appendChild(progressBarContainer);
+                progressContainer.appendChild(progressText);
+                progressContainer.appendChild(timeText);
+                document.body.appendChild(progressContainer);
+            }
+            
+            document.getElementById('loading-progress-message').textContent = message;
+            document.getElementById('loading-progress-bar').style.width = `${progress}%`;
+            document.getElementById('loading-progress-text').textContent = `${progress}%`;
+            progressContainer.style.display = 'block';
+            
+            // 记录开始时间
+            window.loadingStartTime = Date.now();
+        }
+
+        // 更新加载进度
+        function updateLoadingProgress(progress, message) {
+            const progressContainer = document.getElementById('loading-progress-container');
+            if (!progressContainer) return;
+            
+            if (message) {
+                document.getElementById('loading-progress-message').textContent = message;
+            }
+            
+            document.getElementById('loading-progress-bar').style.width = `${progress}%`;
+            document.getElementById('loading-progress-text').textContent = `${progress}%`;
+            
+            // 更新预估时间
+            if (progress > 0) {
+                const elapsedTime = Date.now() - window.loadingStartTime;
+                const totalEstimatedTime = (elapsedTime / progress) * 100;
+                const remainingTime = totalEstimatedTime - elapsedTime;
+                
+                const timeText = document.getElementById('loading-time-text');
+                if (timeText) {
+                    timeText.textContent = `预估剩余时间: ${formatTime(Math.max(0, Math.round(remainingTime / 1000)))}`;
+                }
+            }
+        }
+
+        // 隐藏加载进度条
+        function hideLoadingProgress() {
+            const progressContainer = document.getElementById('loading-progress-container');
+            if (progressContainer) {
+                progressContainer.style.display = 'none';
+            }
+        }
+
+        // 格式化时间（秒转换为时分秒）
+        function formatTime(seconds) {
+            if (seconds < 60) {
+                return `${seconds}秒`;
+            } else if (seconds < 3600) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                return `${minutes}分${remainingSeconds}秒`;
+            } else {
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
+                return `${hours}时${minutes}分`;
+            }
+        }
+
+        // 显示加载提示（兼容旧代码）
+        function showLoadingMessage(message) {
+            showLoadingProgress(message, 0);
+        }
+
+        // 隐藏加载提示（兼容旧代码）
+        function hideLoadingMessage() {
+            hideLoadingProgress();
+        }
+
+        // 播放音乐
         async function playMusic(index) {
             if (index < 0 || index >= musicList.length) return;
 
@@ -1090,19 +1286,24 @@
             const lyricsPath = parts[2];
             const vipStatus = parts[3] || 'UR';
 
+            // 清除之前的试听定时器并重置试听模式（放在所有情况之前）
+            if (vipTrialTimer) {
+                clearTimeout(vipTrialTimer);
+                vipTrialTimer = null;
+            }
+            isVipTrialMode = false;
+            vipTrialMusicIndex = -1;
+
             // 检查是否为VIP音乐且用户不是VIP
             if (vipStatus === 'VIP' && !isVIPUser()) {
-                // 清除之前的试听定时器
-                if (vipTrialTimer) {
-                    clearTimeout(vipTrialTimer);
-                    vipTrialTimer = null;
-                }
-
                 // 设置试听模式
                 isVipTrialMode = true;
                 vipTrialMusicIndex = index;
 
                 try {
+                    // 显示加载提示
+                    showLoadingProgress('加载VIP音乐试听中...', 0);
+                    
                     // 简单加载音频（只加载前15秒）
                     const secureUrl = await loadAudioSecurely(location, true, false);
                     audioPlayer.src = secureUrl;
@@ -1158,16 +1359,25 @@
 
                     return;
                 } catch (error) {
+                    hideLoadingProgress();
                     alert('加载音乐失败，请重试');
                     return;
                 }
             }
 
             // 正常播放逻辑（免费音乐或VIP用户）
-            isVipTrialMode = false;
-            vipTrialMusicIndex = -1;
+            // 试听模式状态已经在开头重置，这里不需要再次设置
 
             try {
+                // 根据用户类型显示不同的加载提示
+                if (isVIPUser()) {
+                    // VIP用户直接加载，不显示进度条
+                    showLoadingMessage('VIP优先加载中...');
+                } else {
+                    // 普通用户显示进度条
+                    showLoadingProgress('普通用户音乐加载中...', 0);
+                }
+                
                 // 加载完整音频
                 const secureUrl = await loadAudioSecurely(location, false, isVIPUser());
                 audioPlayer.src = secureUrl;
@@ -1192,6 +1402,7 @@
                 playBtn.textContent = '||';
                 playerStatus.textContent = '播放中';
             } catch (error) {
+                hideLoadingProgress();
                 alert('加载音乐失败，请重试');
             }
         }

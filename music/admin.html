@@ -981,6 +981,260 @@
             background: #c0392b;
             transform: translateY(-1px);
         }
+
+        .verifier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .verifier-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .verifier-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-item {
+            font-size: 14px;
+            color: var(--secondary-color);
+        }
+
+        .stat-item span {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .verifier-input {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-group .form-input {
+            flex: 1;
+        }
+
+        /* 坤币验钞机样式 */
+        .coin-verifier {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+
+        plainText .verifier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .verifier-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .verifier-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-item {
+            font-size: 14px;
+            color: var(--secondary-color);
+        }
+
+        .stat-item span {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .verifier-input {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-group .form-input {
+            flex: 1;
+        }
+
+        .verifier-result {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .result-header h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .result-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .result-status.normal {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .result-status.abnormal {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .result-status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .detail-value {
+            color: var(--primary-color);
+            font-family: monospace;
+        }
+
+        .warning-highlight {
+            background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+            border: 2px solid #f39c12;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-weight: 600;
+            color: #856404;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            animation: pulse-warning 2s infinite;
+        }
+
+        @keyframes pulse-warning {
+            0% {
+                box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 4px 25px rgba(243, 156, 18, 0.6);
+            }
+
+            100% {
+                box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            }
+        }
+
+        .coin-list {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .list-header h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .coin-table-container {
+            overflow-x: auto;
+        }
+
+        .coin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .coin-table th {
+            background: var(--accent-color);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .coin-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .coin-table tr:hover {
+            background: rgba(52, 152, 219, 0.05);
+        }
+
+        .coin-table .status-normal {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .coin-table .status-abnormal {
+            color: #e74c3c;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -1028,6 +1282,9 @@
                     </li>
                     <li class="menu-item" data-section="user-management">
                         <span>👥</span> 用户管理
+                    </li>
+                    <li class="menu-item" data-section="coin-management">
+                        <span>💰</span>坤币管理
                     </li>
                     <li class="menu-item" onclick="window.location.href = '../developers/'">
                         <span>📋</span> 日志查看
@@ -1171,12 +1428,101 @@
                     </div>
                 </section>
 
-                <!-- 其他功能区域（占位） -->
-                <section id="data-statistics" class="content-section">
+                <!-- 坤币管理 -->
+                <section id="coin-management" class="content-section">
+                    <div class="section-header">
+                        <h2>坤币管理</h2>
+                    </div>
                     <div class="section-header">
                         <h2>数据统计</h2>
                     </div>
-                    <p>数据统计功能开发中...</p>
+                    <div class="coin-verifier">
+                        <div class="verifier-header">
+                            <h3>坤币验钞机</h3>
+                            <div class="verifier-stats">
+                                <span class="stat-item">总坤币数: <span id="total-coins">0</span></span>
+                                <span class="stat-item">正常坤币: <span id="normal-coins">0</span></span>
+                                <span class="stat-item">异常坤币: <span id="abnormal-coins">0</span></span>
+                            </div>
+                        </div>
+
+                        <div class="verifier-input">
+                            <div class="form-group">
+                                <label class="form-label">坤币编号</label>
+                                <input type="text" class="form-input" id="coin-id-input" placeholder="请输入坤币编号"
+                                    maxlength="20" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">坤币面额</label>
+                                <select class="form-select" id="coin-amount-input">
+                                    <option value="">请选择面额</option>
+                                    <option value="0.1">1燚</option>
+                                    <option value="1">1坤</option>
+                                    <option value="2">2坤</option>
+                                    <option value="10">10坤</option>
+                                    <option value="50">50坤</option>
+                                    <option value="100">100坤</option>
+                                </select>
+                                <input type="text" class="form-input" id="coin-custom-amount" placeholder="输入自定义面额"
+                                    style="display: none; margin-top: 5px;" required>
+                            </div>
+                            <div class="input-group">
+                                <button type="button" class="user-btn primary" id="verify-coin-btn">验证坤币</button>
+                                <button type="button" class="user-btn secondary" id="clear-input-btn">清空输入</button>
+                            </div>
+                        </div>
+
+                        <div class="verifier-result" id="verifier-result" style="display: none;">
+                            <div class="result-header">
+                                <h4>验证结果</h4>
+                                <span class="result-status" id="result-status"></span>
+                            </div>
+                            <div class="result-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">坤币编号:</span>
+                                    <span class="detail-value" id="result-id"></span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">坤币面额:</span>
+                                    <span class="detail-value" id="result-amount"></span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">坤币状态:</span>
+                                    <span class="detail-value" id="result-status-detail"></span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">验证时间:</span>
+                                    <span class="detail-value" id="result-time"></span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">验证结果:</span>
+                                    <span class="detail-value" id="result-verification"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="coin-list">
+                            <div class="list-header">
+                                <h4>坤币列表</h4>
+                                <button type="button" class="user-btn secondary" id="refresh-coins-btn">刷新列表</button>
+                            </div>
+                            <div class="coin-table-container">
+                                <table class="coin-table" id="coin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>坤币编号</th>
+                                            <th>坤币面额</th>
+                                            <th>坤币状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="coin-table-body">
+                                        <!-- 坤币列表将通过JavaScript动态生成 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <section id="system-settings" class="content-section">
@@ -1326,6 +1672,15 @@
                 if (e.target === this) {
                     this.classList.remove('active');
                 }
+            });
+
+            // 坤币管理菜单点击
+            document.querySelector('[data-section="coin-management"]').addEventListener('click', function () {
+                switchSection('coin-management');
+                updateSystemInfo('切换到坤币管理');
+
+                // 初始化坤币验钞机
+                initCoinVerifier();
             });
         });
     </script>
@@ -1624,7 +1979,7 @@
             // 获取当前显示的歌词内容（支持编辑后的内容）
             // 修复：使用innerHTML而不是textContent/innerText，因为编辑后的内容包含HTML标签
             const lyricsText = lyricsContent.innerHTML;
-            
+
             // 将HTML内容转换为纯文本，正确处理换行
             const normalizedText = lyricsText
                 .replace(/<br\s*\/?>/gi, '\n')
@@ -1641,7 +1996,7 @@
             // 调试：显示原始内容和处理后的内容
             console.log('原始歌词内容:', lyricsText);
             console.log('处理后的歌词内容:', normalizedText);
-            
+
             // 分割歌词为行
             const allLyricsLines = normalizedText.split('\n').filter(line => line.trim() !== '');
 
@@ -1752,7 +2107,7 @@
             // 修复：使用innerHTML而不是textContent/innerText，因为编辑后的内容包含HTML标签
             const lyricsContent = document.getElementById('lyrics-content');
             const currentLyricsText = lyricsContent.innerHTML;
-            
+
             // 将HTML内容转换为纯文本，正确处理换行
             const normalizedText = currentLyricsText
                 .replace(/<br\s*\/?>/gi, '\n')
@@ -1774,7 +2129,7 @@
                 const trimmedLine = line.trim();
                 return lrcTimeRegex.test(trimmedLine);
             });
-            
+
             // 构建完整的LRC内容，保持原始顺序
             let finalLrcContent = '';
             if (window.allLyricsLines) {
@@ -1820,14 +2175,14 @@
         async function loadLyrics(lyricsPath) {
             // 保存当前歌词路径，用于编辑保存
             window.currentLyricsPath = lyricsPath;
-            
+
             if (lyricsPath === '[NO DATA]') {
                 // 显示空白内容而不是"暂无歌词数据"，允许直接编辑
                 lyricsContent.innerHTML = '';
                 lyricsContent.classList.add('editable');
                 lyricsContent.contentEditable = true;
                 lyricsInfo.textContent = '无歌词 - 可编辑';
-                
+
                 // 自动进入编辑模式
                 setTimeout(() => {
                     startEditLyrics();
@@ -1858,7 +2213,7 @@
                 lyricsContent.classList.add('editable');
                 lyricsContent.contentEditable = true;
                 lyricsInfo.textContent = '加载失败 - 可编辑';
-                
+
                 // 自动进入编辑模式
                 setTimeout(() => {
                     startEditLyrics();
@@ -1874,20 +2229,20 @@
         // 开始编辑歌词
         function startEditLyrics() {
             if (isEditingLyrics) return;
-            
+
             isEditingLyrics = true;
             originalLyricsContent = lyricsContent.innerHTML;
-            
+
             // 启用编辑模式
             lyricsContent.classList.add('editable');
             lyricsContent.contentEditable = true;
             lyricsContent.focus();
-            
+
             // 显示编辑控制按钮
             document.getElementById('lyrics-controls').style.display = 'flex';
             document.getElementById('edit-lyrics-btn').style.display = 'none';
             document.getElementById('save-lyrics-btn').style.display = 'inline-block';
-            
+
             lyricsInfo.textContent = '编辑模式';
             updateSystemInfo('进入歌词编辑模式');
         }
@@ -1895,19 +2250,19 @@
         // 取消编辑
         function cancelEditLyrics() {
             if (!isEditingLyrics) return;
-            
+
             isEditingLyrics = false;
-            
+
             // 恢复原始内容
             lyricsContent.innerHTML = originalLyricsContent;
             lyricsContent.classList.remove('editable');
             lyricsContent.contentEditable = false;
-            
+
             // 隐藏编辑控制按钮
             document.getElementById('lyrics-controls').style.display = 'none';
             document.getElementById('edit-lyrics-btn').style.display = 'inline-block';
             document.getElementById('save-lyrics-btn').style.display = 'none';
-            
+
             lyricsInfo.textContent = '已取消编辑';
             updateSystemInfo('取消歌词编辑');
         }
@@ -1915,33 +2270,33 @@
         // 保存歌词
         async function saveLyrics() {
             if (!isEditingLyrics) return;
-            
+
             const newLyricsContent = lyricsContent.innerHTML.trim();
-            
+
             // 检查是否有内容
             if (!newLyricsContent) {
                 alert('请输入歌词内容');
                 return;
             }
-            
+
             try {
                 // 如果是新歌词（没有歌词文件），提示用户保存到文件
                 if (window.currentLyricsPath === '[NO DATA]') {
                     const songName = document.getElementById('current-song').textContent;
                     const fileName = prompt('请输入歌词文件名（不含扩展名）:', songName);
-                    
+
                     if (!fileName) {
                         alert('文件名不能为空');
                         return;
                     }
-                    
+
                     // 创建新的歌词文件路径
                     const newLyricsPath = `Lyrics/${fileName}.txt`;
-                    
+
                     // 这里需要实现保存到服务器的逻辑
                     // 由于是前端演示，这里只显示保存成功信息
                     alert(`歌词已保存到: ${newLyricsPath}`);
-                    
+
                     // 更新歌词信息
                     lyricsInfo.textContent = '已保存';
                     updateSystemInfo(`歌词已保存: ${newLyricsPath}`);
@@ -1951,17 +2306,17 @@
                     lyricsInfo.textContent = '已更新';
                     updateSystemInfo(`歌词已本地更新: ${window.currentLyricsPath}`);
                 }
-                
+
                 // 退出编辑模式
                 isEditingLyrics = false;
                 lyricsContent.classList.remove('editable');
                 lyricsContent.contentEditable = false;
-                
+
                 // 隐藏编辑控制按钮
                 document.getElementById('lyrics-controls').style.display = 'none';
                 document.getElementById('edit-lyrics-btn').style.display = 'inline-block';
                 document.getElementById('save-lyrics-btn').style.display = 'none';
-                
+
             } catch (error) {
                 console.error('保存歌词失败:', error);
                 alert('保存歌词失败: ' + error.message);
@@ -1976,7 +2331,7 @@
         document.getElementById('save-lyrics-btn').addEventListener('click', saveLyrics);
 
         // ESC键取消编辑
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && isEditingLyrics) {
                 cancelEditLyrics();
             }
@@ -2324,6 +2679,225 @@
             cpuLoad.textContent = Math.floor(Math.random() * 40 + 10) + '%';
 
             console.log(`[系统] ${message}`);
+        }
+    </script>
+
+    <script>
+        // 加载坤币数据
+        async function loadCoinData() {
+            try {
+                const response = await fetch('tkun.txt');
+                if (!response.ok) {
+                    throw new Error('坤币数据文件不存在');
+                }
+                const text = await response.text();
+                coinData = text.trim().split('\n').map(line => {
+                    const [id, amount, status] = line.split(' \\ ');
+                    return {
+                        id: id.trim(),
+                        amount: amount.trim(),
+                        status: status.trim(),
+                        // 标准化面额显示
+                        displayAmount: amount.trim() === '0.1' ? '燚' : amount.trim()
+                    };
+                });
+
+                updateCoinStats();
+                renderCoinTable();
+                updateSystemInfo('坤币数据加载成功');
+            } catch (error) {
+                console.error('加载坤币数据失败:', error);
+                updateSystemInfo('坤币数据加载失败');
+            }
+        }
+
+        // 更新坤币统计信息
+        function updateCoinStats() {
+            const totalCoins = coinData.length;
+            const normalCoins = coinData.filter(coin => coin.status === '正常').length;
+            const abnormalCoins = totalCoins - normalCoins;
+
+            document.getElementById('total-coins').textContent = totalCoins;
+            document.getElementById('normal-coins').textContent = normalCoins;
+            document.getElementById('abnormal-coins').textContent = abnormalCoins;
+        }
+
+        // 渲染坤币表格
+        function renderCoinTable() {
+            const tableBody = document.getElementById('coin-table-body');
+            tableBody.innerHTML = '';
+
+            coinData.forEach((coin, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td>${coin.id}</td>
+                <td>${coin.displayAmount}</td>
+                <td class="${coin.status === '正常' ? 'status-normal' : 'status-abnormal'}">${coin.status}</td>
+                <td>
+                    <button type="button" class="user-btn small" onclick="verifyCoinById('${coin.id}', '${coin.amount}')">验证</button>
+                </td>
+            `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // 根据坤币编号验证坤币
+        function verifyCoinById(coinId, coinAmount) {
+            document.getElementById('coin-id-input').value = coinId;
+
+            // 设置面额选择
+            const amountSelect = document.getElementById('coin-amount-input');
+            const customAmountInput = document.getElementById('coin-custom-amount');
+
+            if (coinAmount === '0.1') {
+                amountSelect.value = '0.1';
+                customAmountInput.style.display = 'none';
+            } else if (['1', '2', '10'].includes(coinAmount)) {
+                amountSelect.value = coinAmount;
+                customAmountInput.style.display = 'none';
+            } else {
+                amountSelect.value = 'custom';
+                customAmountInput.value = coinAmount;
+                customAmountInput.style.display = 'block';
+            }
+
+            verifyCoin();
+        }
+
+        // 验证坤币
+        function verifyCoin() {
+            const coinId = document.getElementById('coin-id-input').value.trim();
+            const amountSelect = document.getElementById('coin-amount-input');
+            const selectedAmount = amountSelect.value;
+            let inputAmount = selectedAmount;
+
+            // 处理自定义面额
+            if (selectedAmount === 'custom') {
+                inputAmount = document.getElementById('coin-custom-amount').value.trim();
+            }
+
+            if (!coinId) {
+                alert('请输入坤币编号');
+                return;
+            }
+
+            if (!inputAmount) {
+                alert('请选择或输入坤币面额');
+                return;
+            }
+            
+            const coin = coinData.find(c => c.id === coinId);
+            const resultElement = document.getElementById('verifier-result');
+            const resultStatus = document.getElementById('result-status');
+            const resultId = document.getElementById('result-id');
+            const resultAmount = document.getElementById('result-amount');
+            const resultStatusDetail = document.getElementById('result-status-detail');
+            const resultTime = document.getElementById('result-time');
+            const resultVerification = document.getElementById('result-verification');
+
+            // 清除之前的高亮效果
+            resultVerification.classList.remove('warning-highlight');
+
+            if (coin) {
+                resultElement.style.display = 'block';
+                resultId.textContent = coin.id;
+                resultAmount.textContent = coin.displayAmount;
+                resultStatusDetail.textContent = coin.status;
+                resultTime.textContent = new Date().toLocaleString('zh-CN');
+
+                // 验证编号和面额是否匹配
+                const isAmountCorrect = coin.amount === inputAmount;
+                const isStatusNormal = coin.status === '正常';
+
+                if (isAmountCorrect && isStatusNormal) {
+                    resultStatus.textContent = '真币';
+                    resultStatus.className = 'result-status normal';
+                    resultVerification.textContent = '✓ 编号和面额匹配，坤币状态正常';
+                    resultVerification.style.color = '#27ae60';
+                    // 添加高亮效果
+                    resultVerification.classList.add('warning-highlight');
+                } else if (!isAmountCorrect && isStatusNormal) {
+                    resultStatus.textContent = '可疑';
+                    resultStatus.className = 'result-status warning';
+                    resultVerification.textContent = '⚠ 编号存在但面额不匹配，请仔细检查';
+                    resultVerification.style.color = '#f39c12';
+                    // 添加高亮效果
+                    resultVerification.classList.add('warning-highlight');
+                } else if (isAmountCorrect && !isStatusNormal) {
+                    resultStatus.textContent = '异常';
+                    resultStatus.className = 'result-status abnormal';
+                    resultVerification.textContent = '✗ 编号和面额匹配，但坤币状态异常';
+                    resultVerification.style.color = '#e74c3c';
+                    // 添加高亮效果
+                    resultVerification.classList.add('warning-highlight');
+                } else {
+                    resultStatus.textContent = '假币';
+                    resultStatus.className = 'result-status abnormal';
+                    resultVerification.textContent = '✗ 编号和面额均不匹配，可能是假币';
+                    resultVerification.style.color = '#e74c3c';
+                    // 添加高亮效果
+                    resultVerification.classList.add('warning-highlight');
+                }
+
+                updateSystemInfo(`坤币 ${coin.id} 验证完成`);
+            } else {
+                resultElement.style.display = 'block';
+                resultId.textContent = coinId;
+                resultAmount.textContent = inputAmount === '0.1' ? '1燚' : inputAmount;
+                resultStatusDetail.textContent = '未找到';
+                resultTime.textContent = new Date().toLocaleString('zh-CN');
+                resultStatus.textContent = '无效';
+                resultStatus.className = 'result-status abnormal';
+                resultVerification.textContent = '✗ 坤币编号不存在，可能是假币';
+                resultVerification.style.color = '#e74c3c';
+
+                updateSystemInfo(`坤币 ${coinId} 未找到`);
+            }
+        }
+
+        // 清空输入
+        function clearInput() {
+            document.getElementById('coin-id-input').value = '';
+            document.getElementById('coin-amount-input').value = '';
+            document.getElementById('coin-custom-amount').value = '';
+            document.getElementById('coin-custom-amount').style.display = 'none';
+            document.getElementById('verifier-result').style.display = 'none';
+        }
+
+        // 刷新坤币列表
+        function refreshCoinList() {
+            loadCoinData();
+            clearInput();
+            updateSystemInfo('坤币列表已刷新');
+        }
+
+        // 初始化坤币验钞机
+        function initCoinVerifier() {
+            // 绑定事件监听器
+            document.getElementById('verify-coin-btn').addEventListener('click', verifyCoin);
+            document.getElementById('refresh-coins-btn').addEventListener('click', refreshCoinList);
+            document.getElementById('clear-input-btn').addEventListener('click', clearInput);
+
+            // 输入框回车键支持
+            document.getElementById('coin-id-input').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    verifyCoin();
+                }
+            });
+
+            // 面额选择变化处理
+            document.getElementById('coin-amount-input').addEventListener('change', function () {
+                const customAmountInput = document.getElementById('coin-custom-amount');
+                if (this.value === 'custom') {
+                    customAmountInput.style.display = 'block';
+                } else {
+                    customAmountInput.style.display = 'none';
+                    customAmountInput.value = '';
+                }
+            });
+
+            // 加载坤币数据
+            loadCoinData();
         }
     </script>
 </body>
