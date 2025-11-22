@@ -179,7 +179,7 @@
     <div class="form-container">
         <h1 id="up" class="bt" style="font-size: 24px; margin-bottom: 20px;">注册只因科技</h1>
 
-        <a href="../" style="color: #0078d4; text-decoration: none;">返回首页</a>
+        <a href="javascript:history.back()" style="color: #0078d4; text-decoration: none;">返回</a>
         
         <form method="get" autocomplete="off">
             <div style="margin-bottom: 16px;">
@@ -205,7 +205,7 @@
             </div>
             <div style="margin-bottom: 16px;">
                 <label for="password" class="bt">密 码</label>
-                <input type="password" id="password" name="password" autocomplete="current-password" autocomplete="off" required>
+                <input type="password" id="password" name="password" minlength="6" maxlength="16" autocomplete="current-password" autocomplete="off" required>
             </div>
 
             <div id="licenseDiv" style="margin-bottom: 20px; display:none;">
