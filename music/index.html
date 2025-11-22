@@ -683,11 +683,396 @@
             }
         }
     </style>
+
+    <style>
+        /* 基础样式重置和现代化设计 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default !important;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: url('../assets/bgl.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 导航栏美化 */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #34495e;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* 主容器美化 */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* 音乐播放器现代化设计 */
+        .music-player {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .music-player:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 播放器控制按钮美化 */
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .player-btn {
+            background: linear-gradient(135deg, #0078d4, #005a9e);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 120, 212, 0.3);
+        }
+
+        .player-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(0, 120, 212, 0.4);
+        }
+
+        .player-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* 播放器信息美化 */
+        .player-info {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .current-song {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .player-status {
+            font-size: 16px;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        /* 音乐列表现代化设计 */
+        .music-list {
+            list-style: none;
+            padding: 0;
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            margin: 20px 0;
+        }
+
+        .music-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .music-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .music-list::-webkit-scrollbar-thumb {
+            background: #0078d4;
+            border-radius: 4px;
+        }
+
+        .music-list::-webkit-scrollbar-thumb:hover {
+            background: #005a9e;
+        }
+
+        .music-item {
+            padding: 15px 20px;
+            margin: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .music-item:hover {
+            background: rgba(0, 120, 212, 0.1);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .music-item.playing {
+            background: linear-gradient(135deg, #0078d4, #005a9e);
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 120, 212, 0.3);
+        }
+
+        /* 进度条美化 */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .current-time,
+        .total-time {
+            font-size: 14px;
+            color: #7f8c8d;
+            font-weight: 600;
+            min-width: 50px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #0078d4, #00b7ff);
+            width: 0%;
+            transition: width 0.1s ease;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .progress::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: #0078d4;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 120, 212, 0.5);
+        }
+
+        /* 歌词容器美化 */
+        .lyrics-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .lyrics-header {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+
+        .lyrics-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #5d6d7e;
+            text-align: center;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        /* VIP音乐特殊样式 */
+        .music-item.vip {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            border-left: 4px solid #ffc107;
+            position: relative;
+            color: #856404;
+        }
+
+        .vip-badge {
+            background: linear-gradient(135deg, #ffc107, #ffd54f);
+            color: #856404;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+        }
+
+        /* 下载按钮美化 */
+        .download-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .download-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        /* 响应式设计优化 */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 20px 10px;
+            }
+
+            .music-player {
+                margin: 10px;
+                padding: 20px;
+                border-radius: 15px;
+            }
+
+            .player-controls {
+                gap: 10px;
+            }
+
+            .player-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 16px;
+            }
+
+            .current-song {
+                font-size: 20px;
+            }
+
+            .music-item {
+                padding: 12px 15px;
+                margin: 5px;
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px 20px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .music-player,
+        .lyrics-container {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 
-<body background="../assets/bgl.jpg" style=" background-repeat:no-repeat ;
+<body background="../assets/bgl.jpg" style=" background-repeat: no-repeat;
         background-size:100% 100%;
-        background-attachment: fixed;">
+        background-attachment: fixed;
+        background: url(../assets/bgl.jpg);">
     <!-- <marquee style="background-color: yellow;">
         <strong>
             <span
@@ -2873,7 +3258,7 @@
             // 人机验证
             const captcha = generateMathCaptcha();
             const userInput = prompt(captcha.question);
-            
+
             if (parseInt(userInput) !== captcha.answer) {
                 alert('验证失败，请重新获取');
                 return;
@@ -2900,10 +3285,10 @@
             // 正确的加密逻辑：先MD5加密，然后Base64编码
             const jsonString = JSON.stringify(params);
             const md5Hash = CryptoJS.MD5(jsonString).toString();
-            
+
             // 修复：正确的链接格式 - 包含music和time两个参数
             const encodedMusic = btoa(encodeURIComponent(md5Hash));
-            
+
             return `【${name}】${baseUrl}?music=${encodedMusic}&time=${timeParam}`;
         }
 
@@ -2917,26 +3302,26 @@
                 try {
                     // Base64解码
                     const decodedHash = decodeURIComponent(atob(musicParam));
-                    
+
                     // 验证链接有效期（超级管理员除外）
                     if (timeParam !== 'YJKW') {
                         const linkTimestamp = parseInt(timeParam);
                         const currentTimestamp = Math.floor(Date.now() / 1000);
                         const sevenDaysInSeconds = 7 * 24 * 60 * 60;
-                        
+
                         if (currentTimestamp - linkTimestamp > sevenDaysInSeconds) {
                             alert('链接已过期，有效期为7天');
                             return null;
                         }
                     }
-                    
+
                     // 查找匹配的音乐
                     for (let i = 0; i < musicList.length; i++) {
                         const musicData = musicList[i];
                         const parts = musicData.split(' \\ ');
                         const name = parts[0];
                         const vipStatus = parts[3] || 'UR';
-                        
+
                         // 重新生成参数并计算MD5
                         const params = {
                             music: i,
@@ -2946,12 +3331,12 @@
                         };
                         const jsonString = JSON.stringify(params);
                         const expectedHash = CryptoJS.MD5(jsonString).toString();
-                        
+
                         if (decodedHash === expectedHash) {
                             return params;
                         }
                     }
-                    
+
                     console.error('链接验证失败：未找到匹配的音乐');
                     return null;
                 } catch (error) {
@@ -3043,7 +3428,7 @@
 
             const musicData = musicList[selectedIndex];
             const parts = musicData.split(' \\ ');
-                const vipStatus = parts[3] || 'UR';
+            const vipStatus = parts[3] || 'UR';
             const isVIPUserFlag = isVIPUser();
 
             // 检查权限：非VIP用户不能导出VIP音乐
@@ -3127,37 +3512,37 @@
             }
         }
     </script>
-    
+
     <script>
         // 分享功能实现
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // 获取分享按钮元素 - 修复为新的ID
             const shareBtn = document.getElementById('share-link-btn');
             const wechatBtn = document.getElementById('share-wechat-btn');
             const qqBtn = document.getElementById('share-qq-btn');
-            
+
             if (!shareBtn || !wechatBtn || !qqBtn) {
                 console.error('分享按钮未找到，请检查HTML结构');
                 return;
             }
-            
+
             // 获取当前播放的歌曲信息
             function getCurrentMusicInfo() {
                 const currentSongElement = document.querySelector('.current-song');
                 if (!currentSongElement) return null;
-                
+
                 const currentSongName = currentSongElement.textContent;
                 if (!currentSongName || currentSongName === '请选择一首歌曲') {
                     alert('请先选择一首歌曲进行播放');
                     return null;
                 }
-                
+
                 // 在音乐列表中查找当前播放的歌曲
                 for (let i = 0; i < musicList.length; i++) {
                     const musicData = musicList[i];
                     const parts = musicData.split(' \\ ');
                     const name = parts[0];
-                    
+
                     if (name === currentSongName) {
                         return {
                             index: i,
@@ -3166,18 +3551,18 @@
                         };
                     }
                 }
-                
+
                 return null;
             }
-            
+
             // 生成音乐分享链接
             function generateShareLink(musicInfo) {
                 if (!musicInfo) return null;
-                
+
                 // 检查是否为超级管理员
                 const isSuperAdminUser = isSuperAdmin();
                 const timeParam = isSuperAdminUser ? 'YJKW' : Math.floor(Date.now() / 1000).toString();
-                
+
                 // 生成加密参数
                 const params = {
                     music: musicInfo.index,
@@ -3185,16 +3570,16 @@
                     vip: musicInfo.vipStatus,
                     timestamp: timeParam
                 };
-                
+
                 // 正确的加密逻辑：先MD5加密，然后Base64编码
                 const jsonString = JSON.stringify(params);
                 const md5Hash = CryptoJS.MD5(jsonString).toString();
                 const encodedMusic = btoa(encodeURIComponent(md5Hash));
-                
+
                 const baseUrl = window.location.href.split('?')[0];
                 return `【${musicInfo.name}】${baseUrl}?music=${encodedMusic}&time=${timeParam}`;
             }
-            
+
             // 复制到剪贴板
             function copyToClipboard(text) {
                 return new Promise((resolve, reject) => {
@@ -3210,7 +3595,7 @@
                         document.body.appendChild(textArea);
                         textArea.focus();
                         textArea.select();
-                        
+
                         try {
                             const successful = document.execCommand('copy');
                             document.body.removeChild(textArea);
@@ -3226,71 +3611,71 @@
                     }
                 });
             }
-            
+
             // 分享链接按钮点击事件
-            shareBtn.addEventListener('click', function() {
+            shareBtn.addEventListener('click', function () {
                 const musicInfo = getCurrentMusicInfo();
                 if (!musicInfo) return;
-                
+
                 const shareLink = generateShareLink(musicInfo);
                 if (!shareLink) {
                     alert('生成分享链接失败');
                     return;
                 }
-                
+
                 copyToClipboard(shareLink).then(() => {
                     // 显示成功提示
                     const originalText = shareBtn.textContent;
                     shareBtn.textContent = '已复制到剪贴板';
                     shareBtn.style.backgroundColor = '#28a745';
-                    
+
                     setTimeout(() => {
                         shareBtn.textContent = originalText;
                         shareBtn.style.backgroundColor = '';
                     }, 2000);
-                    
+
                     console.log('分享链接已复制:', shareLink);
                 }).catch(err => {
                     console.error('复制失败:', err);
                     alert('复制失败，请手动复制链接: ' + shareLink);
                 });
             });
-            
+
             // 分享到微信按钮点击事件
-            wechatBtn.addEventListener('click', function() {
+            wechatBtn.addEventListener('click', function () {
                 const musicInfo = getCurrentMusicInfo();
                 if (!musicInfo) return;
-                
+
                 const shareLink = generateShareLink(musicInfo);
                 if (!shareLink) {
                     alert('生成分享链接失败');
                     return;
                 }
-                
+
                 // 检测是否为移动设备
                 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                
+
                 if (isMobile) {
                     // 移动端：尝试自动分享
                     const wechatShareUrl = `weixin://dl/chat?text=${encodeURIComponent(shareLink)}`;
-                    
+
                     copyToClipboard(shareLink).then(() => {
                         const originalText = wechatBtn.textContent;
                         wechatBtn.textContent = '链接已复制';
                         wechatBtn.style.backgroundColor = '#07c160';
-                        
+
                         // 移动端尝试自动分享
                         try {
                             window.open(wechatShareUrl, '_blank');
                         } catch (error) {
                             console.log('微信分享协议被阻止');
                         }
-                        
+
                         setTimeout(() => {
                             wechatBtn.textContent = originalText;
                             wechatBtn.style.backgroundColor = '';
                         }, 2000);
-                        
+
                     }).catch(err => {
                         alert('复制失败，请手动复制链接: ' + shareLink);
                     });
@@ -3300,55 +3685,55 @@
                         const originalText = wechatBtn.textContent;
                         wechatBtn.textContent = '链接已复制';
                         wechatBtn.style.backgroundColor = '#07c160';
-                        
+
                         // 电脑端提示用户手动操作
                         setTimeout(() => {
                             alert('链接已复制到剪贴板！\n\n请在微信中：\n1. 打开要分享的聊天窗口\n2. 按 Ctrl+V 粘贴链接\n3. 发送消息');
                         }, 300);
-                        
+
                         setTimeout(() => {
                             wechatBtn.textContent = originalText;
                             wechatBtn.style.backgroundColor = '';
                         }, 2000);
-                        
+
                     }).catch(err => {
                         alert('复制失败，请手动复制链接: ' + shareLink);
                     });
                 }
             });
-            
+
             // 分享到QQ按钮点击事件
-            qqBtn.addEventListener('click', function() {
+            qqBtn.addEventListener('click', function () {
                 const musicInfo = getCurrentMusicInfo();
                 if (!musicInfo) return;
-                
+
                 const shareLink = generateShareLink(musicInfo);
                 if (!shareLink) return;
-                
+
                 // 检测是否为移动设备
                 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                
+
                 if (isMobile) {
                     // 移动端：尝试自动分享
                     const qqShareUrl = `mqqapi://share/to_fri?thirdAppDisplayName=音乐分享&file_type=text&generalpastboard=1&objectlocation=pasteboard&title=${encodeURIComponent('音乐分享')}&description=${encodeURIComponent('分享一首好听的音乐')}&url=${encodeURIComponent(shareLink)}`;
-                    
+
                     copyToClipboard(shareLink).then(() => {
                         const originalText = qqBtn.textContent;
                         qqBtn.textContent = '链接已复制';
                         qqBtn.style.backgroundColor = '#12b7f5';
-                        
+
                         // 移动端尝试自动分享
                         try {
                             window.open(qqShareUrl, '_blank');
                         } catch (error) {
                             console.log('QQ分享协议被阻止');
                         }
-                        
+
                         setTimeout(() => {
                             qqBtn.textContent = originalText;
                             qqBtn.style.backgroundColor = '';
                         }, 2000);
-                        
+
                     }).catch(err => {
                         alert('复制失败，请手动复制链接: ' + shareLink);
                     });
@@ -3358,23 +3743,23 @@
                         const originalText = qqBtn.textContent;
                         qqBtn.textContent = '链接已复制';
                         qqBtn.style.backgroundColor = '#12b7f5';
-                        
+
                         // 电脑端提示用户手动操作
                         setTimeout(() => {
                             alert('链接已复制到剪贴板！\n\n请在QQ中：\n1. 打开要分享的聊天窗口\n2. 按 Ctrl+V 粘贴链接\n3. 发送消息');
                         }, 300);
-                        
+
                         setTimeout(() => {
                             qqBtn.textContent = originalText;
                             qqBtn.style.backgroundColor = '';
                         }, 2000);
-                        
+
                     }).catch(err => {
                         alert('复制失败，请手动复制链接: ' + shareLink);
                     });
                 }
             });
-            
+
             // 添加分享按钮样式（使用新的ID选择器）
             const style = document.createElement('style');
             style.textContent = `
