@@ -1170,7 +1170,7 @@
             }
         }
 
-        // 检查用户是否为VIP
+        // 检查用户是否为VIP或超级管理员
         function isVIPUser() {
             const authToken = localStorage.getItem('authToken');
             if (!authToken) return false;
@@ -1178,6 +1178,15 @@
             // 检查是否为ZC用户或管理员（视为VIP）
             const [typeCode, userId] = authToken.split('-');
             return typeCode === 'ZC' || userId === '13258227085';
+        }
+
+        // 检查用户是否为超级管理员
+        function isSuperAdmin() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) return false;
+
+            const [typeCode, userId] = authToken.split('-');
+            return userId === '13258227085';
         }
 
         // VIP试听功能
@@ -1576,7 +1585,7 @@
                     foundFreeMusic = true;
                     break;
                 }
-            }
+}
 
             // 如果后面没有免费音乐，从开头查找
             if (!foundFreeMusic) {
@@ -1822,6 +1831,7 @@
             // 渲染过滤后的列表
             musicListElement.innerHTML = '';
             const isVIP = isVIPUser();
+            const isSuperAdminUser = isSuperAdmin();
 
             filteredList.forEach((music, index) => {
                 const parts = music.split(' \\ ');
@@ -1837,53 +1847,140 @@
                 if (vipStatus === 'VIP') {
                     li.style.backgroundColor = '#fff3cd';
                     li.style.borderLeft = '4px solid #ffc107';
-                    li.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                            <span>${name}</span>
-                            <span style="background-color: #ffc107; color: #856404; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">VIP专属</span>
-                        </div>
-                    `;
+                    
+                    // 超级管理员可以下载VIP歌曲
+                    if (isSuperAdminUser) {
+                        li.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span>${name}</span>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="background-color: #ffc107; color: #856404; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">VIP专属</span>
+                                    <button class="download-btn" onclick="downloadMusic(${index}, event)" 
+                                            style="background-color: #dc3545; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                        管理员下载
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
+                                <div class="download-progress-bar">
+                                    <div class="download-progress" id="download-progress-bar-${index}"></div>
+                                </div>
+                                <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
+                            </div>
+                            <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                            </div>
+                            <div class="download-info-container" id="download-info-${index}" style="display: none;">
+                                <div class="download-info-item">
+                                    <span class="download-info-label">速度:</span>
+                                    <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">剩余:</span>
+                                    <span class="download-info-value" id="download-eta-${index}">--:--</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">已下载:</span>
+                                    <span class="download-info-value" id="download-received-${index}">0 B</span>
+                                </div>
+                            </div>
+                            <div class="download-status" id="download-status-${index}" style="display: none;"></div>
+                        `;
+                    } else {
+                        li.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span>${name}</span>
+                                <span style="background-color: #ffc107; color: #856404; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">VIP专属</span>
+                            </div>
+                        `;
+                    }
                 } else if (vipStatus === 'DL') {
-                    // DL标记的歌曲：为普通用户添加下载按钮（极慢速下载）
-                    li.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                            <span>${name}</span>
-                            <button class="download-btn" onclick="downloadMusicForNormalUser(${index}, event)" 
-                                    style="background-color: #17a2b8; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
-                                下载（普通用户）
-                            </button>
-                        </div>
-                        <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
-                            <div class="download-progress-bar">
-                                <div class="download-progress" id="download-progress-bar-${index}"></div>
+                    // DL标记的歌曲：为普通用户添加下载按钮（极慢速下载），但超级管理员使用专业下载
+                    if (isSuperAdminUser) {
+                        // 超级管理员使用专业下载
+                        li.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span>${name}</span>
+                                <button class="download-btn" onclick="downloadMusic(${index}, event)" 
+                                        style="background-color: #28a745; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                    下载
+                                </button>
                             </div>
-                            <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
-                        </div>
-                        <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
-                            <div class="connection-node"></div>
-                            <div class="connection-node"></div>
-                            <div class="connection-node"></div>
-                            <div class="connection-node"></div>
-                            <div class="connection-node"></div>
-                        </div>
-                        <div class="download-info-container" id="download-info-${index}" style="display: none;">
-                            <div class="download-info-item">
-                                <span class="download-info-label">速度:</span>
-                                <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
+                            <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
+                                <div class="download-progress-bar">
+                                    <div class="download-progress" id="download-progress-bar-${index}"></div>
+                                </div>
+                                <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
                             </div>
-                            <div class="download-info-item">
-                                <span class="download-info-label">剩余:</span>
-                                <span class="download-info-value" id="download-eta-${index}">--:--</span>
+                            <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
                             </div>
-                            <div class="download-info-item">
-                                <span class="download-info-label">已下载:</span>
-                                <span class="download-info-value" id="download-received-${index}">0 B</span>
+                            <div class="download-info-container" id="download-info-${index}" style="display: none;">
+                                <div class="download-info-item">
+                                    <span class="download-info-label">速度:</span>
+                                    <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">剩余:</span>
+                                    <span class="download-info-value" id="download-eta-${index}">--:--</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">已下载:</span>
+                                    <span class="download-info-value" id="download-received-${index}">0 B</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="download-status" id="download-status-${index}" style="display: none;"></div>
-                    `;
-                } else if (isVIP) {
-                    // 非VIP音乐：为VIP用户添加下载按钮
+                            <div class="download-status" id="download-status-${index}" style="display: none;"></div>
+                        `;
+                    } else {
+                        // 普通用户使用极慢速下载
+                        li.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span>${name}</span>
+                                <button class="download-btn" onclick="downloadMusicForNormalUser(${index}, event)" 
+                                        style="background-color: #17a2b8; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                    下载（普通用户）
+                                </button>
+                            </div>
+                            <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
+                                <div class="download-progress-bar">
+                                    <div class="download-progress" id="download-progress-bar-${index}"></div>
+                                </div>
+                                <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
+                            </div>
+                            <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                            </div>
+                            <div class="download-info-container" id="download-info-${index}" style="display: none;">
+                                <div class="download-info-item">
+                                    <span class="download-info-label">速度:</span>
+                                    <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">剩余:</span>
+                                    <span class="download-info-value" id="download-eta-${index}">--:--</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">已下载:</span>
+                                    <span class="download-info-value" id="download-received-${index}">0 B</span>
+                                </div>
+                            </div>
+                            <div class="download-status" id="download-status-${index}" style="display: none;"></div>
+                        `;
+                    }
+                } else if (isVIP || isSuperAdminUser) {
+                    // 非VIP音乐：为VIP用户或超级管理员添加下载按钮
                     li.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                             <span>${name}</span>
@@ -1939,6 +2036,7 @@
             const parts = musicList[index].split(' \\ ');
             const name = parts[0];
             const location = parts[1];
+            const vipStatus = parts[3] || 'UR';
             const button = event.target;
             const progressContainer = document.getElementById(`download-progress-${index}`);
             const progressBar = document.getElementById(`download-progress-bar-${index}`);
@@ -1951,8 +2049,14 @@
             const downloadReceived = document.getElementById(`download-received-${index}`);
 
             // 检查用户权限
-            if (!isVIPUser()) {
-                alert('只有VIP用户才能下载音乐！');
+            if (!isVIPUser() && !isSuperAdmin()) {
+                alert('只有VIP用户或超级管理员才能下载音乐！');
+                return;
+            }
+
+            // 如果是VIP歌曲且用户不是超级管理员，需要检查VIP权限
+            if (vipStatus === 'VIP' && !isSuperAdmin()) {
+                alert('这是VIP专属音乐，只有VIP用户或超级管理员才能下载！');
                 return;
             }
 
@@ -2176,6 +2280,184 @@
             }
         }
 
+        // 渲染音乐列表
+        function renderMusicList() {
+            musicListElement.innerHTML = '';
+            const isVIP = isVIPUser();
+            const isSuperAdminUser = isSuperAdmin();
+
+            musicList.forEach((music, index) => {
+                const parts = music.split(' \\ ');
+                const name = parts[0];
+                const location = parts[1];
+                const lyricsPath = parts[2];
+                const vipStatus = parts[3] || 'UR'; // 默认为免费音乐
+
+                const li = document.createElement('li');
+                li.className = 'music-item';
+
+                // 添加VIP标识
+                if (vipStatus === 'VIP') {
+                    li.style.backgroundColor = '#fff3cd'; // VIP黄色背景
+                    li.style.borderLeft = '4px solid #ffc107'; // VIP标识边框
+                    
+                    // 超级管理员可以下载VIP歌曲
+                    if (isSuperAdminUser) {
+                        li.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span>${name}</span>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="background-color: #ffc107; color: #856404; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">VIP专属</span>
+                                    <button class="download-btn" onclick="downloadMusic(${index}, event)" 
+                                            style="background-color: #dc3545; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                        管理员下载
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
+                                <div class="download-progress-bar">
+                                    <div class="download-progress" id="download-progress-bar-${index}"></div>
+                                </div>
+                                <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
+                            </div>
+                            <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                            </div>
+                            <div class="download-info-container" id="download-info-${index}" style="display: none;">
+                                <div class="download-info-item">
+                                    <span class="download-info-label">速度:</span>
+                                    <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">剩余:</span>
+                                    <span class="download-info-value" id="download-eta-${index}">--:--</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">已下载:</span>
+                                    <span class="download-info-value" id="download-received-${index}">0 B</span>
+                                </div>
+                            </div>
+                            <div class="download-status" id="download-status-${index}" style="display: none;"></div>
+                        `;
+                    } else {
+                        li.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span>${name}</span>
+                                <span style="background-color: #ffc107; color: #856404; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">VIP专属</span>
+                            </div>
+                        `;
+                    }
+                } else {
+                    // 非VIP音乐：为VIP用户或超级管理员添加下载按钮
+                    if (isVIP || isSuperAdminUser) {
+                        li.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span>${name}</span>
+                                <button class="download-btn" onclick="downloadMusic(${index}, event)" 
+                                        style="background-color: #28a745; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                    下载
+                                </button>
+                            </div>
+                            <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
+                                <div class="download-progress-bar">
+                                    <div class="download-progress" id="download-progress-bar-${index}"></div>
+                                </div>
+                                <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
+                            </div>
+                            <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                            </div>
+                            <div class="download-info-container" id="download-info-${index}" style="display: none;">
+                                <div class="download-info-item">
+                                    <span class="download-info-label">速度:</span>
+                                    <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">剩余:</span>
+                                    <span class="download-info-value" id="download-eta-${index}">--:--</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">已下载:</span>
+                                    <span class="download-info-value" id="download-received-${index}">0 B</span>
+                                </div>
+                            </div>
+                            <div class="download-status" id="download-status-${index}" style="display: none;"></div>
+                        `;
+                    } else if (vipStatus === 'DL') {
+                        // DL标记的歌曲：为普通用户添加下载按钮（极慢速下载）
+                        li.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span>${name}</span>
+                                <button class="download-btn" onclick="downloadMusicForNormalUser(${index}, event)" 
+                                        style="background-color: #17a2b8; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                    下载（普通用户）
+                                </button>
+                            </div>
+                            <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
+                                <div class="download-progress-bar">
+                                    <div class="download-progress" id="download-progress-bar-${index}"></div>
+                                </div>
+                                <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
+                            </div>
+                            <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                            </div>
+                            <div class="download-info-container" id="download-info-${index}" style="display: none;">
+                                <div class="download-info-item">
+                                    <span class="download-info-label">速度:</span>
+                                    <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">剩余:</span>
+                                    <span class="download-info-value" id="download-eta-${index}">--:--</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">已下载:</span>
+                                    <span class="download-info-value" id="download-received-${index}">0 B</span>
+                                </div>
+                            </div>
+                            <div class="download-status" id="download-status-${index}" style="display: none;"></div>
+                        `;
+                    } else {
+                        li.textContent = name;
+                    }
+                }
+
+                li.addEventListener('click', () => playMusic(index));
+                musicListElement.appendChild(li);
+            });
+        }
+
+        // 检查用户是否为VIP或超级管理员
+        function isVIPUser() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) return false;
+
+            // 检查是否为ZC用户或管理员（视为VIP）
+            const [typeCode, userId] = authToken.split('-');
+            return typeCode === 'ZC' || userId === '13258227085';
+        }
+
+        // 检查用户是否为超级管理员
+        function isSuperAdmin() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) return false;
+
+            const [typeCode, userId] = authToken.split('-');
+            return userId === '13258227085';
+        }
         // 添加到下载队列
         function addToDownloadQueue(index, name, location) {
             const downloadItem = {
