@@ -561,7 +561,6 @@ document.getElementById('download-lrc').addEventListener('click', function () {
     }
 
     // 获取当前显示的歌词内容（支持编辑后的内容）
-    // 修复：使用innerHTML而不是textContent/innerText，因为编辑后的内容包含HTML标签
     const lyricsContent = document.getElementById('lyrics-content');
     const currentLyricsText = lyricsContent.innerHTML;
 
@@ -582,14 +581,11 @@ document.getElementById('download-lrc').addEventListener('click', function () {
 
     // 分离已经包含时间戳的行和需要转换的行
     const lrcTimeRegex = /\[\d{1,2}[:：]\d{1,2}(?:\.\d{1,2})?\].*/;
-    const existingLrcLines = originalLines.filter(line => {
-        const trimmedLine = line.trim();
-        return lrcTimeRegex.test(trimmedLine);
-    });
-
+    
     // 构建完整的LRC内容，保持原始顺序
     let finalLrcContent = '';
-    if (window.allLyricsLines) {
+    
+    if (window.allLyricsLines && window.allLyricsLines.length > 0) {
         // 如果有保存的原始歌词行，按原始顺序构建
         window.allLyricsLines.forEach(line => {
             const trimmedLine = line.trim();
@@ -598,18 +594,46 @@ document.getElementById('download-lrc').addEventListener('click', function () {
                 finalLrcContent += line + '\n';
             } else {
                 // 查找转换后的内容中对应的行
-                const convertedLine = lrcContent.split('\n').find(l => l.includes(line));
+                const convertedLines = lrcContent.split('\n').filter(l => l.trim() !== '');
+                const convertedLine = convertedLines.find(l => {
+                    // 精确匹配歌词内容（不包含时间戳部分）
+                    const lineContent = l.replace(/\[\d{1,2}[:：]\d{1,2}(?:\.\d{1,2})?\]/, '').trim();
+                    return lineContent === trimmedLine;
+                });
+                
                 if (convertedLine) {
                     finalLrcContent += convertedLine + '\n';
                 } else {
+                    // 如果没有找到对应的转换行，使用原始行（无时间戳）
                     finalLrcContent += line + '\n';
                 }
             }
         });
     } else {
-        // 如果没有保存的原始歌词行，使用简单合并
-        finalLrcContent = existingLrcLines.join('\n') + '\n' + lrcContent;
+        // 如果没有保存的原始歌词行，使用当前显示的内容
+        // 先添加已有时间戳的行
+        const existingLrcLines = originalLines.filter(line => {
+            const trimmedLine = line.trim();
+            return lrcTimeRegex.test(trimmedLine);
+        });
+        
+        // 再添加转换后的行（过滤掉重复内容）
+        const convertedLines = lrcContent.split('\n').filter(l => l.trim() !== '');
+        const newLrcLines = convertedLines.filter(convertedLine => {
+            // 检查转换后的行是否已经存在于原始内容中
+            const lineContent = convertedLine.replace(/\[\d{1,2}[:：]\d{1,2}(?:\.\d{1,2})?\]/, '').trim();
+            return !originalLines.some(originalLine => originalLine.trim() === lineContent);
+        });
+        
+        finalLrcContent = existingLrcLines.join('\n') + '\n' + newLrcLines.join('\n');
     }
+
+    // 清理最终内容：移除空行和重复行
+    const finalLines = finalLrcContent.split('\n')
+        .filter(line => line.trim() !== '')
+        .filter((line, index, array) => array.indexOf(line) === index); // 去重
+    
+    finalLrcContent = finalLines.join('\n');
 
     const currentSongName = document.getElementById('current-song').textContent;
     const fileName = currentSongName + '.lrc';

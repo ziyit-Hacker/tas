@@ -37,4 +37,4 @@ Unity The Fat Rat【搞电脑音乐】 \ ./Music/Unity-TheFatRat.mp3 \ ./Lyrics/
 握着我的抱枕【蓝瓶钙，好喝的钙】 \ ./Music/握着我的抱枕.mp3 \ ./Lyrics/纯音乐.txt \ UR
 
 天真的橡皮 \ ./Music/撞大运了.mp3 \ ./Lyrics/撞大运了.txt \ VIP
-百家争鸣 \ ./Music/飞友の新闹铃.mp3 \ [NO DATA] \ UR
+百家争鸣 \ ./Music/飞友の新闹铃.mp3 \ ./Lyrics/百家争鸣.lrc \ DL
