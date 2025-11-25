@@ -1634,7 +1634,15 @@ function renderMusicList() {
 
 // 检查用户是否为VIP或超级管理员
 function isVIPUser() {
-    const authToken = localStorage.getItem('authToken');
+    // 获取cookie值的函数
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return decodeURIComponent(parts.pop().split(';').shift());
+        return null;
+    }
+
+    const authToken = getCookie('authToken') || localStorage.getItem('authToken');
     if (!authToken) return false;
 
     // 检查是否为ZC用户或管理员（视为VIP）
@@ -1644,7 +1652,15 @@ function isVIPUser() {
 
 // 检查用户是否为超级管理员
 function isSuperAdmin() {
-    const authToken = localStorage.getItem('authToken');
+    // 获取cookie值的函数
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return decodeURIComponent(parts.pop().split(';').shift());
+        return null;
+    }
+
+    const authToken = getCookie('authToken') || localStorage.getItem('authToken');
     if (!authToken) return false;
 
     const [typeCode, userId] = authToken.split('-');

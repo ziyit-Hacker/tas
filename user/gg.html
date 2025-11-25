@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIYIT - Update Notice</title>
+    <link rel="icon" href="../assets/ziyit.png" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 25px;
+        }
+        h3 {
+            color: #2c3e50;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        strong {
+            color: #e74c3c;
+        }
+        .loading {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        .error {
+            color: #e74c3c;
+            background: #fadbd8;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #e74c3c;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body background="../assets/bgl.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
+    <div class="container">
+        <h1>ZIYIT Update Notice</h1>
+        <div id="content">
+            <div class="loading" id="loadingText">Loading update information</div>
+        </div>
+        <a href="javascript:history.back()" class="back-link">← Return to the previous step</a>
+    </div>
+
+    <script>
+        // Loading animation function
+        function startLoadingAnimation() {
+            const loadingText = document.getElementById('loadingText');
+            let dots = 0;
+            const maxDots = 3;
+            
+            const animationInterval = setInterval(() => {
+                dots = (dots + 1) % (maxDots + 1);
+                const dotsText = '.'.repeat(dots);
+                loadingText.textContent = `Loading update information${dotsText}`;
+            }, 500); // Change every 500ms
+            
+            return animationInterval;
+        }
+
+        // Simple Markdown parser for basic formatting
+        function parseMarkdown(markdown) {
+            return markdown
+                // Headers
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                // Bold
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                // Lists
+                .replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
+                .replace(/^- (.*$)/gim, '<li>$1</li>')
+                // Line breaks
+                .replace(/\n/g, '<br>')
+                // Paragraphs
+                .replace(/(<br>){2,}/g, '</p><p>')
+                // Wrap in paragraphs
+                .replace(/^([^<].*)$/gim, '<p>$1</p>');
+        }
+
+        // Load and display the Update.md file with delay
+        async function loadUpdateContent() {
+            const contentDiv = document.getElementById('content');
+            
+            // Start loading animation
+            const animationInterval = startLoadingAnimation();
+            
+            try {
+                // Wait for 2.5 seconds before loading
+                await new Promise(resolve => setTimeout(resolve, 7891));
+                
+                const response = await fetch('Update.md');
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to load update file: ${response.status}`);
+                }
+                
+                const markdownContent = await response.text();
+                const htmlContent = parseMarkdown(markdownContent);
+                
+                // Stop animation and display content
+                clearInterval(animationInterval);
+                contentDiv.innerHTML = htmlContent;
+                
+            } catch (error) {
+                // Stop animation and display error
+                clearInterval(animationInterval);
+                contentDiv.innerHTML = `
+                    <div class="error">
+                        <strong>Error loading update information:</strong><br>
+                        ${error.message}<br><br>
+                        Please check if the Update.md file exists in the user directory.
+                    </div>
+                `;
+                console.error('Error loading update file:', error);
+            }
+        }
+
+        // Load content when page is ready
+        document.addEventListener('DOMContentLoaded', loadUpdateContent);
+    </script>
+</body>
+</html>

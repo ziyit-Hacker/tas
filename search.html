@@ -6,6 +6,7 @@
     <title>ZIYIT</title>
     <link rel="icon" href="./assets/ziyit.png" type="image/x-icon">
     <script src="./assets/f12check.js"></script>
+    <script src="./assets/blacklist.js"></script>
     <style>
         * {
             margin: 0px;
@@ -221,9 +222,17 @@
     <h1>搜索</h1>
     <hr>
     <script>
+        // 获取cookie值的函数
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return decodeURIComponent(parts.pop().split(';').shift());
+            return null;
+        }
+
         // 检查用户权限
         function checkUserPermission() {
-            const authToken = localStorage.getItem('authToken');
+            const authToken = getCookie('authToken') || localStorage.getItem('authToken');
             if (!authToken) {
                 alert('请先登录以访问该页面');
                 window.location.href = './';
@@ -382,7 +391,6 @@
                     })
             }
         })
-        toggle()
     </script>
 
     <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
@@ -453,7 +461,6 @@
 
             const intervalId = setInterval(() => {
                 const [type, username] = authToken.split('-');
-                loginLink.style.display = 'none';
 
                 navItems.forEach(item => {
                     const role = item.getAttribute('data-role');

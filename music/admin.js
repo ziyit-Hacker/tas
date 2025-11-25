@@ -101,7 +101,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // 权限检查
 function checkUserPermission() {
-    const authToken = localStorage.getItem('authToken');
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return decodeURIComponent(parts.pop().split(';').shift());
+        return null;
+    }
+    
+    const authToken = getCookie('authToken');
+    
     if (!authToken) {
         alert('请先登录以访问管理员页面');
         window.location.href = './';
@@ -581,10 +589,10 @@ document.getElementById('download-lrc').addEventListener('click', function () {
 
     // 分离已经包含时间戳的行和需要转换的行
     const lrcTimeRegex = /\[\d{1,2}[:：]\d{1,2}(?:\.\d{1,2})?\].*/;
-    
+
     // 构建完整的LRC内容，保持原始顺序
     let finalLrcContent = '';
-    
+
     if (window.allLyricsLines && window.allLyricsLines.length > 0) {
         // 如果有保存的原始歌词行，按原始顺序构建
         window.allLyricsLines.forEach(line => {
@@ -600,7 +608,7 @@ document.getElementById('download-lrc').addEventListener('click', function () {
                     const lineContent = l.replace(/\[\d{1,2}[:：]\d{1,2}(?:\.\d{1,2})?\]/, '').trim();
                     return lineContent === trimmedLine;
                 });
-                
+
                 if (convertedLine) {
                     finalLrcContent += convertedLine + '\n';
                 } else {
@@ -616,7 +624,7 @@ document.getElementById('download-lrc').addEventListener('click', function () {
             const trimmedLine = line.trim();
             return lrcTimeRegex.test(trimmedLine);
         });
-        
+
         // 再添加转换后的行（过滤掉重复内容）
         const convertedLines = lrcContent.split('\n').filter(l => l.trim() !== '');
         const newLrcLines = convertedLines.filter(convertedLine => {
@@ -624,7 +632,7 @@ document.getElementById('download-lrc').addEventListener('click', function () {
             const lineContent = convertedLine.replace(/\[\d{1,2}[:：]\d{1,2}(?:\.\d{1,2})?\]/, '').trim();
             return !originalLines.some(originalLine => originalLine.trim() === lineContent);
         });
-        
+
         finalLrcContent = existingLrcLines.join('\n') + '\n' + newLrcLines.join('\n');
     }
 
@@ -632,7 +640,7 @@ document.getElementById('download-lrc').addEventListener('click', function () {
     const finalLines = finalLrcContent.split('\n')
         .filter(line => line.trim() !== '')
         .filter((line, index, array) => array.indexOf(line) === index); // 去重
-    
+
     finalLrcContent = finalLines.join('\n');
 
     const currentSongName = document.getElementById('current-song').textContent;

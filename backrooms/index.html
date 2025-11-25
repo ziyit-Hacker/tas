@@ -7,6 +7,7 @@
     <title>backrooms - 只因游戏</title>
     <link rel="icon" href="../assets/ziyit.png" type="image/x-icon">
     <script src="../assets/f12check.js"></script>
+    <script src="../assets/blacklist.js"></script>
     <style>
         * {
             margin: 0px;
@@ -123,7 +124,15 @@
         </div>
     </div>
     <script>
-        const authToken = localStorage.getItem('authToken');
+        // 获取cookie值的函数
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return decodeURIComponent(parts.pop().split(';').shift());
+            return null;
+        }
+
+        const authToken = getCookie('authToken') || localStorage.getItem('authToken');
         if (!authToken) {
             // 如果authToken不存在，显示未登录状态
             usernameDisplay.textContent = '未登录';

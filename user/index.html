@@ -6,6 +6,7 @@
     <title>登录只因科技(中国)</title>
     <link rel="icon" href="../assets/ziyit.png" type="image/x-icon">
     <script src="../assets/f12check.js"></script>
+    <script src="../assets/blacklist.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @media (max-width: 768px) {
@@ -173,11 +174,17 @@
                 <input type="password" id="password" name="password" placeholder="输入密码" required>
             </div>
 
+            <div style="margin-bottom: 20px; display: flex; align-items: center;">
+                <input type="checkbox" id="rememberMe" style="width: auto; margin-right: 8px;">
+                <label for="rememberMe" class="bt" style="margin-bottom: 0;">保持登录</label>
+            </div>
+
             <input type="submit" id="login" value="登录">
         </form>
 
         <div style="text-align: center; margin-top: 16px;">
-            <a href="register" style="color: #0078d4; text-decoration: none;">没有账号？点这里注册！</a>
+            <a href="register" style="color: #0078d4; text-decoration: none;">没有账号？点这里注册！</a><br>
+            <a href="./gg" style="color: #0078d4; text-decoration: none;">最新大更新公告</a>
         </div>
     </div>
     <!--在这继续添加-->
@@ -237,6 +244,7 @@
             const accountType = document.getElementById('accountType').value === 'vip用户' ? 'ZC' : 'UR';
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
 
             // 使用CryptoJS进行MD5加密
             const md5Hash = CryptoJS.MD5(password).toString(CryptoJS.enc.Base64);
@@ -254,14 +262,26 @@
                         const ifZTG = matchedLine.includes('-True') ? '-True' : '-False';
                         const fullAuthToken = `${authToken}${ifZTG}`;
                         
-                        // 登录成功
-                        localStorage.setItem('authToken', fullAuthToken);
+                        // 登录成功 - 保存到cookie而不是localStorage
+                        // 根据复选框状态设置cookie有效期
+                        const expires = new Date();
+                        if (rememberMe) {
+                            // 勾选"2个月有效" - 2个月有效期
+                            expires.setTime(expires.getTime() + (60 * 24 * 60 * 60 * 1000)); // 60天
+                        } else {
+                            // 未勾选 - 默认2分钟有效期
+                            expires.setTime(expires.getTime() + (2 * 60 * 1000)); // 2分钟
+                        }
+                        document.cookie = `authToken=${encodeURIComponent(fullAuthToken)}; expires=${expires.toUTCString()}; path=/`;
+                        
                         // 检查用户名是否为临时用户
                         const username = document.getElementById('username').value;
                         const ut = localStorage.getItem('ut');
                         if (username === 'cache' || username === 'temp' || ut == 0) {
                             // 将ut变量设置为0并存储在localStorage中
                             localStorage.setItem('ut', 0);
+                            expires.setTime(expires.getTime() + (3.75 * 60 * 1000));
+                            document.cookie = `authToken=${encodeURIComponent(fullAuthToken)}; expires=${expires.toUTCString()}; path=/`;
                         }
                         window.location.href = '../';
                     } else {

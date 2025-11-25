@@ -556,13 +556,21 @@
 <body id="html-body">
     <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
         <div id="userInfo" style="color: black; font-size: 18px;">
-            <strong><span id="usernameDisplay">未登录</span></strong>
+            <strong class="rainbowtext"><span id="usernameDisplay">未登录</span></strong>
             <br>
-            <strong><span id="userTypeDisplay"></span></strong>
+            <strong class="rainbowtext"><span id="userTypeDisplay"></span></strong>
         </div>
     </div>
     <script>
-        const authToken = localStorage.getItem('authToken');
+        // 获取cookie值的函数
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return decodeURIComponent(parts.pop().split(';').shift());
+            return null;
+        }
+
+        const authToken = getCookie('authToken') || localStorage.getItem('authToken');
         if (!authToken) {
             // 如果authToken不存在，显示未登录状态
             usernameDisplay.textContent = '未登录';
@@ -575,6 +583,9 @@
 
             usernameDisplay.textContent = username;
             userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+            if (username === '13258227085') {
+                userTypeDisplay.textContent = 'ZIYIT最高管理员';
+            }
         }
     </script>
     <div id="skrollr-body">

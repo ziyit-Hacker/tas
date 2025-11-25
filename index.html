@@ -6,6 +6,8 @@
     <title>ZIYIT</title>
     <link rel="icon" href="./assets/ziyit.png" type="image/x-icon">
     <script src="./assets/f12check.js"></script>
+    <script src="./assets/blacklist.js"></script>
+    <script src="./assets/auto_f5.js"></script>
     <style>
         * {
             margin: 0px;
@@ -202,7 +204,7 @@
             --white-monochrome: 255, 255, 255;
             --black-monochrome: 0, 0, 0;
             --link-color: 53, 177, 164;
-            --mono-font: 'Courier New', monospace;
+--mono-font: 'Courier New', monospace;
         }
 
         /* 折叠导航栏样式 - 修改为backrooms风格 */
@@ -357,6 +359,172 @@
                 display: block;
             }
         }
+
+        /* Cookie提示样式 */
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 25px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            display: none;
+            animation: slideUp 0.5s ease-out;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .cookie-consent.active {
+            display: block;
+        }
+
+        .cookie-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .cookie-text {
+            flex: 1;
+            margin-right: 30px;
+            font-size: 14px;
+            line-height: 1.6;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .cookie-text h3 {
+            color: #ecf0f1;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .cookie-text h4 {
+            color: #bdc3c7;
+            margin: 15px 0 10px 0;
+            font-size: 16px;
+        }
+
+        .cookie-text ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .cookie-text li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-width: 150px;
+        }
+
+        .cookie-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .cookie-accept {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+
+        .cookie-accept:hover {
+            background: linear-gradient(135deg, #229954, #27ae60);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+        }
+
+        .cookie-reject {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .cookie-reject:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+        }
+
+        .cookie-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            display: none;
+        }
+
+        .cookie-overlay.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cookie-content {
+                flex-direction: column;
+                text-align: left;
+            }
+
+            .cookie-text {
+                margin-right: 0;
+                margin-bottom: 20px;
+                font-size: 13px;
+            }
+
+            .cookie-buttons {
+                flex-direction: row;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .cookie-btn {
+                padding: 10px 20px;
+                font-size: 13px;
+                flex: 1;
+                max-width: 150px;
+            }
+
+            .cookie-text h3 {
+                font-size: 16px;
+            }
+
+            .cookie-text h4 {
+                font-size: 14px;
+            }
+        }
+
+        .cookie-btn {
+            cursor: pointer !important;
+        }
     </style>
 </head>
 
@@ -465,7 +633,8 @@
                 <ul>
                     <li class="nav-item" data-role="all"><a href='./download/'>下载</a></li><br>
                     <li class="nav-item" data-role="all"><a href='./move/'>更多</a></li><br>
-                    <li class="nav-item" data-role="all"><a href="./move/mod">病毒库</a></li><br class="nav-item" data-role="admin">
+                    <li class="nav-item" data-role="all"><a href="./move/mod">病毒库</a></li><br class="nav-item"
+                        data-role="admin">
                     <li class="nav-item" data-role="admin"><a href="./school/">学习</a></li><br>
                     <li class="nav-item" data-role="all"><a href="./search">搜索</a></li><br>
                     <li class="nav-item" data-role="all"><a href="./music/">音乐</a></li>
@@ -604,6 +773,115 @@
         </div>
         <p class="tit">&copy;2025 ZIYIT <strong>版权所有，侵权必究</strong></p>
     </footer>
+
+    <!-- Cookie同意提示 -->
+    <div class="cookie-overlay" id="cookieOverlay"></div>
+    <div class="cookie-consent" id="cookieConsent">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                <h3>🍪 Cookie设置</h3>
+                <p>我们使用Cookie来提升您的浏览体验。选择"接受"即表示您同意使用所有Cookie。</p>
+                <p style="font-size: 14px; color: #ccc; margin-top: 10px;">
+                    <strong>拒绝Cookie将导致部分功能无法使用。</strong> 您可以在浏览器设置中随时更改此选择。
+                </p>
+            </div>
+            <div class="cookie-buttons">
+                <button class="cookie-btn cookie-accept" id="cookieAccept">接受</button>
+                <button class="cookie-btn cookie-reject" id="cookieReject">拒绝</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        // Cookie同意提示功能
+        function initCookieConsent() {
+            const cookieConsent = document.getElementById('cookieConsent');
+            const cookieOverlay = document.getElementById('cookieOverlay');
+            const cookieAccept = document.getElementById('cookieAccept');
+            const cookieReject = document.getElementById('cookieReject');
+
+            // 检查元素是否存在
+            if (!cookieConsent || !cookieOverlay || !cookieAccept || !cookieReject) {
+                console.error('Cookie提示元素未找到');
+                return;
+            }
+
+            // 检查是否已经做出Cookie选择
+            const cookieChoice = localStorage.getItem('Cookie');
+
+            if (cookieChoice === null) {
+                // 如果还没有选择，显示Cookie提示
+                setTimeout(() => {
+                    cookieConsent.classList.add('active');
+                    cookieOverlay.classList.add('active');
+
+                    // 禁用页面其他内容，但确保Cookie按钮可以点击
+                    document.body.style.overflow = 'hidden';
+                    document.querySelectorAll('a, button, input, select, textarea').forEach(element => {
+                        if (!element.classList.contains('cookie-btn')) {
+                            element.style.pointerEvents = 'none';
+                        }
+                    });
+                }, 1000);
+            } else {
+                // 如果已经选择，根据选择处理
+                handleCookieChoice(cookieChoice);
+            }
+
+            // 接受Cookie
+            cookieAccept.addEventListener('click', function (e) {
+                e.stopPropagation();
+                console.log('接受按钮被点击');
+                // 使用Cookie管理器设置状态
+                if (window.cookieManager) {
+                    window.cookieManager.setCookieStatus(true);
+                } else {
+                    localStorage.setItem('Cookie', 'True');
+                }
+                hideCookieConsent();
+            });
+
+            // 拒绝Cookie
+            cookieReject.addEventListener('click', function (e) {
+                e.stopPropagation();
+                console.log('拒绝按钮被点击');
+                // 使用Cookie管理器设置状态
+                if (window.cookieManager) {
+                    window.cookieManager.setCookieStatus(false);
+                } else {
+                    localStorage.setItem('Cookie', 'False');
+                }
+                hideCookieConsent();
+            });
+
+            function hideCookieConsent() {
+                cookieConsent.classList.remove('active');
+                cookieOverlay.classList.remove('active');
+
+                // 恢复页面功能
+                document.body.style.overflow = '';
+                document.querySelectorAll('a, button, input, select, textarea').forEach(element => {
+                    element.style.pointerEvents = '';
+                });
+            }
+
+            function handleCookieChoice(choice) {
+                // 使用Cookie管理器处理选择
+                if (window.cookieManager) {
+                    window.cookieManager.setCookieStatus(choice === 'True');
+                }
+            }
+        }
+
+        // 确保DOM完全加载后再初始化
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCookieConsent);
+        } else {
+            // DOM已经加载完成
+            initCookieConsent();
+        }
+    </script>
 
     <script>
         const data = [
@@ -760,47 +1038,62 @@
     </script>
 
     <script>
-        async function checkBlacklist(authToken) {
-            try {
-                const response = await fetch('./hmd.txt');
-                const text = await response.text();
-                const lines = text.split('\n');
-                return lines.some(line => line.trim() === authToken);
-            } catch (error) {
-                console.error('fuck github, error is ', error);
-                return false;
-            }
+        // 从cookie获取用户信息的函数
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return decodeURIComponent(parts.pop().split(';').shift());
+            return null;
         }
 
-        function addBlacklistNotice() {
-            const notice = document.createElement('div');
-            notice.style.position = 'fixed';
-            notice.style.bottom = '0';
-            notice.style.left = '0';
-            notice.style.width = '100%';
-            notice.style.backgroundColor = 'white';
-            notice.style.borderRadius = '8px 8px 0 0';
-            notice.style.border = '3px solid blue';
-            notice.style.color = 'red';
-            notice.style.fontSize = '50px';
-            notice.style.textAlign = 'center';
-            notice.style.padding = '10px';
-            notice.style.zIndex = '1000';
+        // 获取当前用户认证信息
+        function getCurrentUser() {
+            // 优先从cookie获取
+            const authToken = getCookie('authToken');
+            if (authToken) {
+                return authToken;
+            }
+            // 如果cookie中没有，尝试从localStorage获取（兼容旧版本）
+            return localStorage.getItem('authToken');
+        }
 
-            const noticeContent = document.createElement('div');
-            noticeContent.innerHTML = '你无法正常使用<span style="font-size: 15px;">您的帐号因种种原因被封禁</span><br><span style="font-size: 17px;">申诉账号问题请联系邮箱3950140506@qq.com</span>';
-            notice.appendChild(noticeContent);
+        // 检查用户是否登录
+        function isLoggedIn() {
+            return !!getCurrentUser();
+        }
 
-            document.body.appendChild(notice);
+        // 检查黑名单函数
+        async function checkBlacklist(authToken) {
+            // 这里应该调用blacklist.js中的检查逻辑
+            // 暂时返回false，实际应该与blacklist.js集成
+            return false;
         }
 
         async function checkLoginStatus() {
-            const authToken = localStorage.getItem('authToken');
+            // 首先定义所有需要的变量
             const navItems = document.querySelectorAll('.nav-item');
             const loginLink = document.getElementById('loginLink');
             const mobileLoginLink = document.getElementById('mobileLoginLink');
             const slider = document.querySelector('.slider');
             const lines = document.querySelectorAll('.line');
+
+            const authToken = getCurrentUser();
+            if (!authToken) {
+                // 如果authToken不存在，只显示"登录"菜单项
+                navItems.forEach(item => {
+                    if (item.textContent.includes('登录')) {
+                        item.classList.add('visible');
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                        item.classList.remove('visible');
+                    }
+                });
+                lines.forEach(line => line.style.display = 'none');
+                loginLink.style.display = 'inline-block';
+                if (mobileLoginLink) mobileLoginLink.style.display = 'inline-block';
+                return;
+            }
 
             const ut = parseInt(localStorage.getItem('ut')) || 0;
             const username = authToken ? authToken.split('-')[1] : '';
@@ -878,7 +1171,7 @@
             }
 
             const intervalId = setInterval(() => {
-                const authToken = localStorage.getItem('authToken');
+                const authToken = getCurrentUser();
                 if (!authToken) {
                     // 如果authToken不存在，只显示"登录"菜单项
                     navItems.forEach(item => {
@@ -952,9 +1245,9 @@
 
         window.addEventListener('DOMContentLoaded', checkLoginStatus);
 
-        const isLoggedIn = !!localStorage.getItem('authToken');
-        if (isLoggedIn) {
-            const authToken = localStorage.getItem('authToken');
+        // 修改这部分代码，使用新的isLoggedIn函数
+        if (isLoggedIn()) {
+            const authToken = getCurrentUser();
             checkBlacklist(authToken).then(isBlacklisted => {
                 if (!isBlacklisted) {
                     document.getElementById('userActionLink').style.display = 'block';
