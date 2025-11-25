@@ -25,20 +25,32 @@ function checkCreditBlacklist() {
             const lines = data.split('\n');
             let foundInBlacklist = false;
             
+            // 在黑名单检查部分修改匹配逻辑
             for (const line of lines) {
                 if (line.trim() === '') continue;
                 
-                // 解析格式："用户名  \\  原因"
+                // 解析格式："完整用户数据  \\  原因"
                 const parts = line.split('  \\\\  ');
                 console.log('解析行:', line, '分割结果:', parts);
                 
                 if (parts.length >= 2) {
-                    const username = parts[0].trim();
+                    const blacklistUserData = parts[0].trim();
                     const reason = parts[1].trim();
                     
-                    console.log('黑名单用户名:', username, '当前用户:', currentUser);
+                    console.log('黑名单用户数据:', blacklistUserData, '当前用户数据:', currentUser);
                     
-                    if (username === currentUser) {
+                    // 从黑名单用户数据中提取用户名（第二部分）
+                    const blacklistDataParts = blacklistUserData.split('-');
+                    const blacklistUsername = blacklistDataParts.length >= 2 ? blacklistDataParts[1] : blacklistUserData;
+                    
+                    // 从当前用户数据中提取用户名（如果当前用户数据是完整格式）
+                    const currentUserParts = currentUser.split('-');
+                    const currentUsername = currentUserParts.length >= 2 ? currentUserParts[1] : currentUser;
+                    
+                    console.log('黑名单用户名:', blacklistUsername, '当前用户名:', currentUsername);
+                    
+                    // 双重匹配：既匹配完整用户数据，也匹配用户名
+                    if (blacklistUserData === currentUser || blacklistUsername === currentUsername) {
                         console.log('用户存在于黑名单中，原因:', reason);
                         // 用户存在于黑名单中
                         showCreditWarning(reason);
