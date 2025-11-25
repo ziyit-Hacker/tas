@@ -131,9 +131,10 @@ function removeRandomElements() {
     
     console.log('页面元素总数:', allElements.length);
     
-    // 计算需要删除的元素数量（75%）
-    const removeCount = Math.floor(allElements.length * 0.75);
-    console.log('需要删除的元素数量:', removeCount);
+    // 计算需要删除的元素数量（25%到75%中随机一个百分比）
+    const randomPercentage = 0.25 + Math.random() * 0.5; // 生成25%到75%之间的随机数
+    const removeCount = Math.floor(allElements.length * randomPercentage);
+    console.log('随机删除比例:', (randomPercentage * 100).toFixed(1) + '%', '需要删除的元素数量:', removeCount);
     
     // 随机选择要删除的元素
     while (elementsToRemove.length < removeCount && allElements.length > 0) {
