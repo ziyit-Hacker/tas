@@ -17,15 +17,4 @@
         return '';
     };
     console.log('%c', devtools);
-
-    Object.defineProperty(window, 'console', {
-        value: new Proxy(console, {
-            get(target, prop) {
-                if (['debug', 'info'].includes(prop)) {
-                    return function() {};
-                }
-                return target[prop];
-            }
-        })
-    });
 })();
