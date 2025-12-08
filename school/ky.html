@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ikun">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZIYIT - 坤语学习</title>
+    <title>ZIYIT - 只因波`涛汐农`</title>
     <link rel="icon" href="../assets/ziyit.png" type="image/png">
     <style>
         body {
@@ -117,6 +117,84 @@
             margin-bottom: 8px;
             line-height: 1.6;
         }
+
+        .welcome-panel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            color: white;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .welcome-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .kun-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        .welcome-content h2 {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .start-button {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .start-button:active {
+            transform: translateY(0);
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
     </style>
 </head>
 
@@ -124,11 +202,22 @@
         background-size:100% 100%;
         background-attachment: fixed;">
     <div class="container">
-        <h1>ZIYIT 坤语学习</h1>
-        <div id="content">
-            <div class="loading" id="loadingText">Loading 只因波 information</div>
+        <h1>ZIYIT - 只因波`涛汐农`</h1>
+
+        <!-- 提示界面 -->
+        <div id="welcomePanel" class="welcome-panel">
+            <div class="welcome-content">
+                <div class="kun-icon">🐔</div>
+                <h2>因鸽泥`&`涛汐农`该通`酷奶`酷奶`基米哦`酷耶c`哦`屮战`屮战`战`该通`只因波`该通.</h2>
+                <p class="welcome-text">本文章主体架构大多为坤语，请自行学习与翻译。</p>
+                <button id="startButton" class="start-button">耶c泥潭</button>
+            </div>
         </div>
-        <a href="javascript:history.back()" class="back-link">← Return to the previous step</a>
+
+        <div id="content">
+            <div class="loading" id="loadingText">酷奶只`只因波`耶西农r`哈基战`潭</div>
+        </div>
+        <a href="javascript:history.back()" class="back-link">← Ret`通哈基`盘基`哦.</a>
     </div>
 
     <script>
@@ -141,7 +230,7 @@
             const animationInterval = setInterval(() => {
                 dots = (dots + 1) % (maxDots + 1);
                 const dotsText = '.'.repeat(dots);
-                loadingText.textContent = `Loading 只因波 information${dotsText}`;
+                loadingText.textContent = `酷奶只\`只因波\`耶西农r\`哈基战\`潭${dotsText}`;
             }, 500); // Change every 500ms
 
             return animationInterval;
@@ -151,22 +240,22 @@
         function parseMarkdown(markdown) {
             // Process escape characters first - handle backslashes
             markdown = markdown.replace(/\\([\\`*_{}\[\]()#+\-.!|])/g, '$1');
-            
+
             // Process tables first - improved regex to handle multi-line tables
-            markdown = markdown.replace(/^([^\n]*\|[^\n]*\n)((?:\s*[\|\-:]+\s*\|)+\s*)((?:\n[^\n]*\|[^\n]*)+)/gm, function(match, headerRow, separatorRow, bodyRows) {
+            markdown = markdown.replace(/^([^\n]*\|[^\n]*\n)((?:\s*[\|\-:]+\s*\|)+\s*)((?:\n[^\n]*\|[^\n]*)+)/gm, function (match, headerRow, separatorRow, bodyRows) {
                 // Parse header row
                 const headers = headerRow.trim().split('|').map(cell => cell.trim()).filter(cell => cell);
-                
+
                 // Create table HTML
                 let tableHtml = '<table class="markdown-table">';
-                
+
                 // Add header row
                 tableHtml += '<thead><tr>';
                 headers.forEach(header => {
                     tableHtml += `<th>${header}</th>`;
                 });
                 tableHtml += '</tr></thead>';
-                
+
                 // Add body rows - improved parsing
                 if (bodyRows.trim()) {
                     tableHtml += '<tbody>';
@@ -183,13 +272,13 @@
                     });
                     tableHtml += '</tbody>';
                 }
-                
+
                 tableHtml += '</table>';
                 return tableHtml;
             });
-            
+
             // Process unordered lists with proper list structure
-            markdown = markdown.replace(/^(\s*)- (.+)$/gm, function(match, indent, content) {
+            markdown = markdown.replace(/^(\s*)- (.+)$/gm, function (match, indent, content) {
                 const depth = indent ? Math.floor(indent.length / 2) : 0;
                 if (depth === 0) {
                     return `<ul><li>${content}</li></ul>`;
@@ -197,18 +286,18 @@
                     return `<li>${content}</li>`;
                 }
             });
-            
+
             // Fix list structure by grouping consecutive list items
-            markdown = markdown.replace(/(<ul><li>.*?<\/li><\/ul>)+/g, function(match) {
+            markdown = markdown.replace(/(<ul><li>.*?<\/li><\/ul>)+/g, function (match) {
                 const items = match.match(/<li>.*?<\/li>/g);
                 if (items && items.length > 1) {
                     return `<ul>${items.join('')}</ul>`;
                 }
                 return match;
             });
-            
+
             // Process ordered lists
-            markdown = markdown.replace(/^(\s*)\d+\. (.+)$/gm, function(match, indent, content) {
+            markdown = markdown.replace(/^(\s*)\d+\. (.+)$/gm, function (match, indent, content) {
                 const depth = indent ? Math.floor(indent.length / 2) : 0;
                 if (depth === 0) {
                     return `<ol><li>${content}</li></ol>`;
@@ -216,34 +305,34 @@
                     return `<li>${content}</li>`;
                 }
             });
-            
+
             // Fix ordered list structure
-            markdown = markdown.replace(/(<ol><li>.*?<\/li><\/ol>)+/g, function(match) {
+            markdown = markdown.replace(/(<ol><li>.*?<\/li><\/ol>)+/g, function (match) {
                 const items = match.match(/<li>.*?<\/li>/g);
                 if (items && items.length > 1) {
                     return `<ol>${items.join('')}</ol>`;
                 }
                 return match;
             });
-            
+
             // Headers
             markdown = markdown
                 .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
                 .replace(/^### (.*$)/gim, '<h3>$1</h3>')
                 .replace(/^## (.*$)/gim, '<h2>$1</h2>')
                 .replace(/^# (.*$)/gim, '<h1>$1</h1>');
-            
+
             // Bold and italic
             markdown = markdown
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>');
-            
+
             // Line breaks and paragraphs
             markdown = markdown
                 .replace(/\n/g, '<br>')
                 .replace(/(<br>){2,}/g, '</p><p>')
                 .replace(/^([^<].*)$/gim, '<p>$1</p>');
-            
+
             return markdown;
         }
 
@@ -285,8 +374,27 @@
             }
         }
 
-        // Load content when page is ready
-        document.addEventListener('DOMContentLoaded', load只因波Content);
+        // 修改页面加载事件
+        document.addEventListener('DOMContentLoaded', function () {
+            // 显示欢迎界面，隐藏内容区域
+            const welcomePanel = document.getElementById('welcomePanel');
+            const contentDiv = document.getElementById('content');
+            const startButton = document.getElementById('startButton');
+
+            // 设置初始状态
+            welcomePanel.style.display = 'block';
+            contentDiv.style.display = 'none';
+
+            // 添加按钮点击事件
+            startButton.addEventListener('click', function () {
+                // 隐藏欢迎界面
+                welcomePanel.style.display = 'none';
+                // 显示内容区域
+                contentDiv.style.display = 'block';
+                // 开始加载内容
+                load只因波Content();
+            });
+        });
     </script>
 </body>
 
