@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIYIT - 坤语学习</title>
+    <link rel="icon" href="../assets/ziyit.png" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 25px;
+        }
+
+        h3 {
+            color: #2c3e50;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        strong {
+            color: #e74c3c;
+        }
+
+        .loading {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .error {
+            color: #e74c3c;
+            background: #fadbd8;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .markdown-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .markdown-table th,
+        .markdown-table td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .markdown-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .markdown-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .markdown-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        ul {
+            padding-left: 20px;
+            list-style-type: circle;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body background="../assets/bgl.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
+    <div class="container">
+        <h1>ZIYIT 坤语学习</h1>
+        <div id="content">
+            <div class="loading" id="loadingText">Loading 只因波 information</div>
+        </div>
+        <a href="javascript:history.back()" class="back-link">← Return to the previous step</a>
+    </div>
+
+    <script>
+        // Loading animation function
+        function startLoadingAnimation() {
+            const loadingText = document.getElementById('loadingText');
+            let dots = 0;
+            const maxDots = 3;
+
+            const animationInterval = setInterval(() => {
+                dots = (dots + 1) % (maxDots + 1);
+                const dotsText = '.'.repeat(dots);
+                loadingText.textContent = `Loading 只因波 information${dotsText}`;
+            }, 500); // Change every 500ms
+
+            return animationInterval;
+        }
+
+        // Enhanced Markdown parser with table and list support
+        function parseMarkdown(markdown) {
+            // Process escape characters first - handle backslashes
+            markdown = markdown.replace(/\\([\\`*_{}\[\]()#+\-.!|])/g, '$1');
+            
+            // Process tables first - improved regex to handle multi-line tables
+            markdown = markdown.replace(/^([^\n]*\|[^\n]*\n)((?:\s*[\|\-:]+\s*\|)+\s*)((?:\n[^\n]*\|[^\n]*)+)/gm, function(match, headerRow, separatorRow, bodyRows) {
+                // Parse header row
+                const headers = headerRow.trim().split('|').map(cell => cell.trim()).filter(cell => cell);
+                
+                // Create table HTML
+                let tableHtml = '<table class="markdown-table">';
+                
+                // Add header row
+                tableHtml += '<thead><tr>';
+                headers.forEach(header => {
+                    tableHtml += `<th>${header}</th>`;
+                });
+                tableHtml += '</tr></thead>';
+                
+                // Add body rows - improved parsing
+                if (bodyRows.trim()) {
+                    tableHtml += '<tbody>';
+                    const rows = bodyRows.trim().split('\n').filter(row => row.trim() && row.includes('|'));
+                    rows.forEach(row => {
+                        const cells = row.trim().split('|').map(cell => cell.trim()).filter(cell => cell);
+                        if (cells.length > 0) {
+                            tableHtml += '<tr>';
+                            cells.forEach(cell => {
+                                tableHtml += `<td>${cell}</td>`;
+                            });
+                            tableHtml += '</tr>';
+                        }
+                    });
+                    tableHtml += '</tbody>';
+                }
+                
+                tableHtml += '</table>';
+                return tableHtml;
+            });
+            
+            // Process unordered lists with proper list structure
+            markdown = markdown.replace(/^(\s*)- (.+)$/gm, function(match, indent, content) {
+                const depth = indent ? Math.floor(indent.length / 2) : 0;
+                if (depth === 0) {
+                    return `<ul><li>${content}</li></ul>`;
+                } else {
+                    return `<li>${content}</li>`;
+                }
+            });
+            
+            // Fix list structure by grouping consecutive list items
+            markdown = markdown.replace(/(<ul><li>.*?<\/li><\/ul>)+/g, function(match) {
+                const items = match.match(/<li>.*?<\/li>/g);
+                if (items && items.length > 1) {
+                    return `<ul>${items.join('')}</ul>`;
+                }
+                return match;
+            });
+            
+            // Process ordered lists
+            markdown = markdown.replace(/^(\s*)\d+\. (.+)$/gm, function(match, indent, content) {
+                const depth = indent ? Math.floor(indent.length / 2) : 0;
+                if (depth === 0) {
+                    return `<ol><li>${content}</li></ol>`;
+                } else {
+                    return `<li>${content}</li>`;
+                }
+            });
+            
+            // Fix ordered list structure
+            markdown = markdown.replace(/(<ol><li>.*?<\/li><\/ol>)+/g, function(match) {
+                const items = match.match(/<li>.*?<\/li>/g);
+                if (items && items.length > 1) {
+                    return `<ol>${items.join('')}</ol>`;
+                }
+                return match;
+            });
+            
+            // Headers
+            markdown = markdown
+                .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>');
+            
+            // Bold and italic
+            markdown = markdown
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>');
+            
+            // Line breaks and paragraphs
+            markdown = markdown
+                .replace(/\n/g, '<br>')
+                .replace(/(<br>){2,}/g, '</p><p>')
+                .replace(/^([^<].*)$/gim, '<p>$1</p>');
+            
+            return markdown;
+        }
+
+        // Load and display the 只因波.md file with delay
+        async function load只因波Content() {
+            const contentDiv = document.getElementById('content');
+
+            // Start loading animation
+            const animationInterval = startLoadingAnimation();
+
+            try {
+                // Wait for 2.5 seconds before loading
+                await new Promise(resolve => setTimeout(resolve, 7891));
+
+                const response = await fetch('坤语学习.md');
+
+                if (!response.ok) {
+                    throw new Error(`Failed to load 只因波 file: ${response.status}`);
+                }
+
+                const markdownContent = await response.text();
+                const htmlContent = parseMarkdown(markdownContent);
+
+                // Stop animation and display content
+                clearInterval(animationInterval);
+                contentDiv.innerHTML = htmlContent;
+
+            } catch (error) {
+                // Stop animation and display error
+                clearInterval(animationInterval);
+                contentDiv.innerHTML = `
+                    <div class="error">
+                        <strong>Error loading 只因波 information:</strong><br>
+                        ${error.message}<br><br>
+                        Please check if the 只因波.md file exists in the user directory.
+                    </div>
+                `;
+                console.error('Error loading 只因波 file:', error);
+            }
+        }
+
+        // Load content when page is ready
+        document.addEventListener('DOMContentLoaded', load只因波Content);
+    </script>
+</body>
+
+</html>
