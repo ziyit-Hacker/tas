@@ -38,3 +38,10 @@ Unity The Fat Rat【搞电脑音乐】 \ ./Music/Unity-TheFatRat.mp3 \ ./Lyrics/
 
 天真的橡皮 \ ./Music/撞大运了.mp3 \ ./Lyrics/撞大运了.txt \ VIP
 百家争鸣 \ ./Music/飞友の新闹铃.mp3 \ ./Lyrics/百家争鸣.lrc \ DL
+
+paris \ ./Music/Paris.mp3 \ ./Lyrics/Paris.lrc \ UR
+英语听力小曲 \ ./Music/En听力.mp3 \ ./Lyrics/En听力.lrc \ DL
+If You're Serious \ ./Music/If You're Serious.mp3 \ [NO DATA] \ VIP
+Midnight City-M83 \ ./Music/Midnight City-M83.mp3 \ ./Lyrics/Midnight City-M83.lrc \ UR
+爱错 \ ./Music/爱错.mp3 \ ./Lyrics/爱错.lrc \ VIP
+All We Know \ ./Music/All We Know.mp3 \ ./Lyrics/All We Know.lrc \ UR
