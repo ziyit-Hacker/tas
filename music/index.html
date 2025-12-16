@@ -171,6 +171,11 @@
                     <div class="player-status">暂停中</div>
                 </div>
 
+                <!-- 视频播放器容器 -->
+                <div id="video-container" class="video-container hidden">
+                    <video id="video-player" preload="metadata" style="width: 100%; border-radius: 8px; border: 3px solid #0078d4; box-shadow: 0 0 20px rgba(0, 120, 212, 0.5);"></video>
+                </div>
+
                 <div class="progress-container">
                     <span class="current-time" id="current-time">**:**</span>
                     <div class="progress-bar">
@@ -190,6 +195,9 @@
                         <button id="share-link-btn" class="share-btn">分享链接</button>
                         <button id="share-wechat-btn" class="share-btn">分享至微信</button>
                         <button id="share-qq-btn" class="share-btn">分享至QQ</button>
+                    </div>
+                    <div class="video-div">
+                        <button id="video" class="video-btn hidden">观看视频</button>
                     </div>
                 </div>
 

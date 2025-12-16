@@ -12,8 +12,13 @@ let musicList = [];
 let isPlaying = false;
 let lyricsData = [];
 let currentLyricIndex = -1;
+let isVideoMode = false; // 添加视频模式标识
+let currentVideoPath = ''; // 当前视频路径
 
 const audioPlayer = document.getElementById('audio-player');
+const videoPlayer = document.getElementById('video-player');
+const videoContainer = document.getElementById('video-container');
+const videoBtn = document.getElementById('video');
 const playBtn = document.getElementById('play-btn');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
@@ -37,8 +42,22 @@ function formatTime(seconds) {
 
 // 更新当前时间和总时长显示
 function updateTimeDisplay() {
-    currentTimeElement.textContent = formatTime(audioPlayer.currentTime);
-    totalTimeElement.textContent = formatTime(audioPlayer.duration);
+    const currentTime = isVideoMode ? videoPlayer.currentTime : audioPlayer.currentTime;
+    const duration = isVideoMode ? videoPlayer.duration : audioPlayer.duration;
+    
+    currentTimeElement.textContent = formatTime(currentTime);
+    totalTimeElement.textContent = formatTime(duration);
+}
+
+// 更新进度条
+function updateProgressBar() {
+    const currentTime = isVideoMode ? videoPlayer.currentTime : audioPlayer.currentTime;
+    const duration = isVideoMode ? videoPlayer.duration : audioPlayer.duration;
+    
+    if (duration > 0) {
+        const progressPercent = (currentTime / duration) * 100;
+        progress.style.width = `${progressPercent}%`;
+    }
 }
 
 // 解析歌词时间格式 [mm:ss.xx]
@@ -92,6 +111,9 @@ function parseLyrics(lyricsText) {
 
 // 更新歌词显示
 function updateLyrics(currentTime) {
+    // 移除视频模式判断，让视频模式下也能同步歌词
+    // if (isVideoMode) return;
+    
     // 找到当前时间对应的歌词
     let newIndex = -1;
     for (let i = lyricsData.length - 1; i >= 0; i--) {
@@ -121,12 +143,16 @@ function updateLyrics(currentTime) {
         setTimeout(() => {
             const currentLyricElement = lyricsContent.children[currentLyricIndex];
             if (currentLyricElement) {
-                // 最简单的方法：使用scrollIntoView，但只针对歌词容器
-                currentLyricElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                    inline: 'nearest'
-                });
+                // 播放视频时，不需要歌词滚动到屏幕中央
+                if (!isVideoMode) {
+                    // 音乐模式下保持原有滚动行为
+                    currentLyricElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center',
+                        inline: 'nearest'
+                    });
+                }
+                // 视频模式下不进行自动滚动，让用户手动控制歌词查看
             }
         }, 50);
     }
@@ -135,14 +161,26 @@ function updateLyrics(currentTime) {
 // 删除复杂的scrollLyricToCenter函数
 // 点击歌词跳转到对应时间
 function seekToLyricTime(time) {
-    if (audioPlayer.duration) {
-        audioPlayer.currentTime = time;
-        // 如果音频暂停，自动播放
-        if (audioPlayer.paused) {
-            audioPlayer.play();
-            isPlaying = true;
-            playBtn.textContent = '||';
-            playerStatus.textContent = '播放中';
+    if (isVideoMode) {
+        if (videoPlayer.duration) {
+            videoPlayer.currentTime = time;
+            if (videoPlayer.paused) {
+                videoPlayer.play();
+                isPlaying = true;
+                playBtn.textContent = '||';
+                playerStatus.textContent = '播放中';
+            }
+        }
+    } else {
+        if (audioPlayer.duration) {
+            audioPlayer.currentTime = time;
+            // 如果音频暂停，自动播放
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                isPlaying = true;
+                playBtn.textContent = '||';
+                playerStatus.textContent = '播放中';
+            }
         }
     }
 }
@@ -197,6 +235,7 @@ function renderMusicList() {
         const location = parts[1];
         const lyricsPath = parts[2];
         const vipStatus = parts[3] || 'UR'; // 默认为免费音乐
+        const videoPath = parts[4] || '[NO DATA]'; // 视频路径
 
         const li = document.createElement('li');
         li.className = 'music-item';
@@ -282,7 +321,7 @@ function renderMusicList() {
                                 <div class="download-info-item">
                                     <span class="download-info-label">剩余:</span>
                                     <span class="download-info-value" id="download-eta-${index}">--:--</span>
-                                </div>
+</div>
                                 <div class="download-info-item">
                                     <span class="download-info-label">已下载:</span>
                                     <span class="download-info-value" id="download-received-${index}">0 B</span>
@@ -588,6 +627,18 @@ async function playMusic(index) {
     const location = parts[1];
     const lyricsPath = parts[2];
     const vipStatus = parts[3] || 'UR';
+    const videoPath = parts[4] || '[NO DATA]'; // 获取视频路径
+
+    // 处理视频按钮显示逻辑
+    if (videoPath !== '[NO DATA]' && videoPath.trim() !== '') {
+        // 有视频文件，显示视频按钮
+        videoBtn.classList.remove('hidden');
+        currentVideoPath = videoPath;
+    } else {
+        // 没有视频文件，隐藏视频按钮
+        videoBtn.classList.add('hidden');
+        currentVideoPath = '';
+    }
 
     // 检查是否为VIP音乐且用户不是VIP
     if (vipStatus === 'VIP' && !isVIPUser()) {
@@ -832,13 +883,23 @@ playBtn.addEventListener('click', async () => {
     }
 
     if (isPlaying) {
-        audioPlayer.pause();
+        // 暂停当前播放器（音频或视频）
+        if (isVideoMode) {
+            videoPlayer.pause();
+        } else {
+            audioPlayer.pause();
+        }
         playBtn.textContent = '▶';
         playerStatus.textContent = '暂停中';
     } else {
-        audioPlayer.play();
+        // 播放当前播放器（音频或视频）
+        if (isVideoMode) {
+            videoPlayer.play();
+        } else {
+            audioPlayer.play();
+        }
         playBtn.textContent = '||';
-        playerStatus.textContent = '播放中';
+        playerStatus.textContent = isVideoMode ? '视频播放中' : '播放中';
     }
     isPlaying = !isPlaying;
 });
@@ -846,6 +907,12 @@ playBtn.addEventListener('click', async () => {
 // 上一首
 prevBtn.addEventListener('click', async () => {
     if (musicList.length === 0) return;
+    
+    // 如果在视频模式，先切换回音乐模式
+    if (isVideoMode) {
+        toggleVideoMode();
+    }
+    
     const nextIndex = getNextPlayableIndex(currentMusicIndex, 'prev');
     if (nextIndex !== -1) {
         await playMusic(nextIndex);
@@ -857,6 +924,12 @@ prevBtn.addEventListener('click', async () => {
 // 下一首
 nextBtn.addEventListener('click', async () => {
     if (musicList.length === 0) return;
+    
+    // 如果在视频模式，先切换回音乐模式
+    if (isVideoMode) {
+        toggleVideoMode();
+    }
+    
     const nextIndex = getNextPlayableIndex(currentMusicIndex, 'next');
     if (nextIndex !== -1) {
         await playMusic(nextIndex);
@@ -932,14 +1005,23 @@ document.querySelector('.progress-bar').addEventListener('click', (e) => {
         const newTime = Math.min((clickX / width) * maxTrialTime, maxTrialTime);
         audioPlayer.currentTime = newTime;
     } else {
-        // 正常模式
+        // 正常模式：根据当前模式选择播放器
         const rect = e.target.getBoundingClientRect();
         const clickX = e.clientX - rect.left;
         const width = rect.width;
-        const duration = audioPlayer.duration;
-
-        if (duration) {
-            audioPlayer.currentTime = (clickX / width) * duration;
+        
+        if (isVideoMode) {
+            // 视频模式：控制视频播放器
+            const duration = videoPlayer.duration;
+            if (duration) {
+                videoPlayer.currentTime = (clickX / width) * duration;
+            }
+        } else {
+            // 音乐模式：控制音频播放器
+            const duration = audioPlayer.duration;
+            if (duration) {
+                audioPlayer.currentTime = (clickX / width) * duration;
+            }
         }
     }
 });
@@ -947,6 +1029,27 @@ document.querySelector('.progress-bar').addEventListener('click', (e) => {
 // 歌曲结束自动下一首
 audioPlayer.addEventListener('ended', () => {
     if (musicList.length === 0) return;
+    
+    // 如果在视频模式，先切换回音乐模式
+    if (isVideoMode) {
+        toggleVideoMode();
+    }
+    
+    const nextIndex = getNextPlayableIndex(currentMusicIndex, 'next');
+    if (nextIndex !== -1) {
+        playMusic(nextIndex);
+    }
+});
+
+// 视频结束自动下一首
+videoPlayer.addEventListener('ended', () => {
+    if (musicList.length === 0) return;
+    
+    // 视频播放结束，切换回音乐模式并播放下一首
+    if (isVideoMode) {
+        toggleVideoMode();
+    }
+    
     const nextIndex = getNextPlayableIndex(currentMusicIndex, 'next');
     if (nextIndex !== -1) {
         playMusic(nextIndex);
@@ -2331,7 +2434,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 正确的加密逻辑：先MD5加密，然后Base64编码
         const jsonString = JSON.stringify(params);
         const md5Hash = CryptoJS.MD5(jsonString).toString();
-        const encodedMusic = btoa(encodeURIComponent(md5Hash));
+const encodedMusic = btoa(encodeURIComponent(md5Hash));
 
         const baseUrl = window.location.href.split('?')[0];
         return `【${musicInfo.name}】${baseUrl}?music=${encodedMusic}&time=${timeParam}`;
@@ -2583,4 +2686,76 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
         `;
     document.head.appendChild(style);
+});
+
+// 切换视频/音乐模式
+function toggleVideoMode() {
+    if (!currentVideoPath || currentVideoPath === '[NO DATA]') {
+        alert('此音乐没有视频文件');
+        return;
+    }
+
+    isVideoMode = !isVideoMode;
+
+    if (isVideoMode) {
+        // 切换到视频模式
+        videoPlayer.src = currentVideoPath;
+        videoContainer.classList.remove('hidden');
+        videoBtn.textContent = '切换音乐';
+        playerStatus.textContent = '视频模式';
+        
+        // 同步播放状态
+        if (isPlaying) {
+            audioPlayer.pause();
+            videoPlayer.play();
+        }
+    } else {
+        // 切换回音乐模式
+        videoContainer.classList.add('hidden');
+        videoBtn.textContent = '观看视频';
+        playerStatus.textContent = '音乐模式';
+        
+        // 同步播放状态
+        if (isPlaying) {
+            videoPlayer.pause();
+            audioPlayer.play();
+        }
+    }
+}
+
+// 为视频按钮添加事件监听器
+videoBtn.addEventListener('click', toggleVideoMode);
+
+// 视频播放器事件监听
+videoPlayer.addEventListener('timeupdate', updateTimeDisplay);
+videoPlayer.addEventListener('timeupdate', updateProgressBar);
+videoPlayer.addEventListener('loadedmetadata', function() {
+    updateTimeDisplay();
+    updateProgressBar();
+});
+
+// 音频播放器事件监听（保持原有）
+audioPlayer.addEventListener('timeupdate', updateTimeDisplay);
+audioPlayer.addEventListener('timeupdate', updateProgressBar);
+audioPlayer.addEventListener('timeupdate', function() {
+    // 移除视频模式判断，让音频和视频都能触发歌词同步
+    updateLyrics(audioPlayer.currentTime);
+});
+
+audioPlayer.addEventListener('loadedmetadata', function() {
+    updateTimeDisplay();
+    updateProgressBar();
+});
+
+// 视频播放器事件监听 - 添加歌词同步
+videoPlayer.addEventListener('timeupdate', updateTimeDisplay);
+videoPlayer.addEventListener('timeupdate', updateProgressBar);
+videoPlayer.addEventListener('timeupdate', function() {
+    // 添加视频播放器的歌词同步
+    updateLyrics(videoPlayer.currentTime);
+});
+
+videoPlayer.addEventListener('loadedmetadata', function() {
+    updateTimeDisplay();
+    updateProgressBar();
 });

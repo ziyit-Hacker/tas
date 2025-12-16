@@ -1,47 +1,50 @@
-常用背景音乐1 \ ../assets/bm.mp3 \ ./Lyrics/纯音乐.txt \ UR
-常用背景音乐2 \ ../assets/bm2.mp3 \ ./Lyrics/纯音乐.txt \ UR
-常用背景音乐3 \ ../assets/bm3.mp3 \ ./Lyrics/纯音乐.txt \ UR
-常用背景音乐4 \ ../assets/bm4.mp3 \ ./Lyrics/纯音乐.txt \ UR
-常用背景音乐5 \ ../assets/bm5.mp3 \ ./Lyrics/纯音乐.txt \ UR
+常用背景音乐1 \ ../assets/bm.mp3 \ ./Lyrics/纯音乐.txt \ UR \ [NO DATA]
+常用背景音乐2 \ ../assets/bm2.mp3 \ ./Lyrics/纯音乐.txt \ UR \ [NO DATA]
+常用背景音乐3 \ ../assets/bm3.mp3 \ ./Lyrics/纯音乐.txt \ UR \ [NO DATA]
+常用背景音乐4 \ ../assets/bm4.mp3 \ ./Lyrics/纯音乐.txt \ UR \ [NO DATA]
+常用背景音乐5 \ ../assets/bm5.mp3 \ ./Lyrics/纯音乐.txt \ UR \ [NO DATA]
 
-后室背景音乐1 \ ../assets/br.mp3 \ ./Lyrics/纯音乐.txt \ DL
-后室背景音乐2 \ ../assets/br2.mp3 \ ./Lyrics/纯音乐.txt \ VIP
-后室背景音乐3 \ ../assets/br3.mp3 \ ./Lyrics/纯音乐.txt \ DL
-后室背景音乐4 \ ../assets/br4.mp3 \ ./Lyrics/纯音乐.txt \ DL
+后室背景音乐1 \ ../assets/br.mp3 \ ./Lyrics/纯音乐.txt \ DL \ [NO DATA]
+后室背景音乐2 \ ../assets/br2.mp3 \ ./Lyrics/纯音乐.txt \ VIP \ [NO DATA]
+后室背景音乐3 \ ../assets/br3.mp3 \ ./Lyrics/纯音乐.txt \ DL \ [NO DATA]
+后室背景音乐4 \ ../assets/br4.mp3 \ ./Lyrics/纯音乐.txt \ DL \ [NO DATA]
 
-艾丽卡【德国民歌】【日耳曼民歌】 \ ./Music/德国民歌.mp3 \ ./Lyrics/艾丽卡.txt \ UR
-外婆的渤海湾 \ ./Music/外婆的渤海湾.mp3 \ ./Lyrics/纯音乐.txt \ UR
-【哈基米音乐】Умри, если меня не любишь \ ./Music/【哈基米音乐】Умри, если меня не любишь.mp3 \ ./Lyrics/哈基米.txt \ VIP
-Умри, если меня не любишь【广东省惠州市育苗（预瞄）小学校歌】【donk 小曲】 \ ./Music/Умри, если меня не любишь.mp3 \ ./Lyrics/Умри, если меня не любишь.txt \ VIP
-老北京地道Funk (Baile Funk) \ ./Music/老北京地道.mp3 \ [NO DATA] \ DL
-颗秒funk_phonk \ ./Music/颗秒funk_phonk.mp3 \ [NO DATA] \ VIP
-上厕所狂想曲 \ ./Music/上厕所狂想曲.mp3 \ ./Lyrics/纯音乐.txt \ ur
-凄惨东北印度阳光 \ ./Music/凄惨东北印度阳光.mp3 \ ./Lyrics/凄惨阳光.txt \ UR
+艾丽卡【德国民歌】【日耳曼民歌】 \ ./Music/德国民歌.mp3 \ ./Lyrics/艾丽卡.txt \ UR \ [NO DATA]
+外婆的渤海湾 \ ./Music/外婆的渤海湾.mp3 \ ./Lyrics/纯音乐.txt \ UR \ [NO DATA]
+【哈基米音乐】Умри, если меня не любишь \ ./Music/【哈基米音乐】Умри, если меня не любишь.mp3 \ ./Lyrics/哈基米.txt \ VIP \ [NO DATA]
+Умри, если меня не любишь【广东省惠州市育苗（预瞄）小学校歌】【donk 小曲】 \ ./Music/Умри, если меня не любишь.mp3 \ ./Lyrics/Умри, если меня не любишь.txt \ VIP \ [NO DATA]
+老北京地道Funk (Baile Funk) \ ./Music/老北京地道.mp3 \ [NO DATA] \ DL \ [NO DATA]
+颗秒funk_phonk \ ./Music/颗秒funk_phonk.mp3 \ [NO DATA] \ VIP \ [NO DATA]
+上厕所狂想曲 \ ./Music/上厕所狂想曲.mp3 \ ./Lyrics/纯音乐.txt \ ur \ [NO DATA]
+凄惨东北印度阳光 \ ./Music/凄惨东北印度阳光.mp3 \ ./Lyrics/凄惨阳光.txt \ UR \ [NO DATA]
 
-未闻花名(2024「叁重楼」演唱会—「楼间楼」重庆站现场) \ ./Music/未闻花名(2024「叁重楼」演唱会—「楼间楼」重庆站现场).mp3 \ .\Lyrics\未闻花名.txt \ VIP
-登顶 \ ./Music/登顶.mp3 \ .\Lyrics\登顶.txt \ VIP
-刀马刀马 \ ./Music/dmdm.mp3 \ [NO DATA] \ VIP
-弥渡山歌 \ ./Music/弥渡山歌.mp3 \ ./Lyrics/弥渡山歌.txt \ UR
+未闻花名(2024「叁重楼」演唱会—「楼间楼」重庆站现场) \ ./Music/未闻花名(2024「叁重楼」演唱会—「楼间楼」重庆站现场).mp3 \ .\Lyrics\未闻花名.txt \ VIP \ [NO DATA]
+登顶 \ ./Music/登顶.mp3 \ .\Lyrics\登顶.txt \ VIP \ [NO DATA]
+刀马刀马 \ ./Music/dmdm.mp3 \ [NO DATA] \ VIP \ [NO DATA]
+弥渡山歌 \ ./Music/弥渡山歌.mp3 \ ./Lyrics/弥渡山歌.txt \ UR \ [NO DATA]
 
-Marsch der nationalen Volksarmee【德国军乐】 \ ./Music/Marsch der nationalen Volksarmee.mp3 \ ./Lyrics/德国军乐.txt \ DL
-这一程 \ ./Music/这一程.mp3 \ [NO DATA] \ VIP
-至少我还算快乐 \ ./Music/至少我还算快乐.mp3 \ ./Lyrics/至少我还算快乐.txt \ VIP
-压力！！！ \ ./Music/压力！.mp3 \ ./Lyrics/压力.txt \ VIP
-新茶囊压力会 \ ./Music/新压non.mp3 \ [NO DATA] \ UR
+Marsch der nationalen Volksarmee【德国军乐】 \ ./Music/Marsch der nationalen Volksarmee.mp3 \ ./Lyrics/德国军乐.txt \ DL \ [NO DATA]
+这一程 \ ./Music/这一程.mp3 \ [NO DATA] \ VIP \ [NO DATA]
+至少我还算快乐 \ ./Music/至少我还算快乐.mp3 \ ./Lyrics/至少我还算快乐.txt \ VIP \ [NO DATA]
+压力！！！ \ ./Music/压力！.mp3 \ ./Lyrics/压力.txt \ VIP \ [NO DATA]
+新茶囊压力会 \ ./Music/新压non.mp3 \ [NO DATA] \ UR \ [NO DATA]
 
-Higher Tobu【搞电脑音乐】 \ ./Music/Higher-Tobu.mp3 \ ./Lyrics/纯音乐.txt \ UR
-Horizon Janji【搞电脑音乐】 \ ./Music/Horizon-Janji.mp3 \ ./Lyrics/纯音乐.txt \ UR
-Outbreaker【常用搞电脑音乐】 \ ./Music/Outbreaker.mp3 \ ./Lyrics/纯音乐.txt \ UR
-sun【搞电脑视频开头】 \ ./Music/sun.mp3 \ ./Lyrics/纯音乐.txt \ UR
-Unity The Fat Rat【搞电脑音乐】 \ ./Music/Unity-TheFatRat.mp3 \ ./Lyrics/纯音乐.txt \ UR
-握着我的抱枕【蓝瓶钙，好喝的钙】 \ ./Music/握着我的抱枕.mp3 \ ./Lyrics/纯音乐.txt \ UR
+Higher Tobu【搞电脑音乐】 \ ./Music/Higher-Tobu.mp3 \ ./Lyrics/纯音乐.txt \ UR \ [NO DATA]
+Horizon Janji【搞电脑音乐】 \ ./Music/Horizon-Janji.mp3 \ ./Lyrics/纯音乐.txt \ UR \ [NO DATA]
+Outbreaker【常用搞电脑音乐】 \ ./Music/Outbreaker.mp3 \ ./Lyrics/纯音乐.txt \ UR \ [NO DATA]
+sun【搞电脑视频开头】 \ ./Music/sun.mp3 \ ./Lyrics/纯音乐.txt \ UR \ [NO DATA]
+Unity The Fat Rat【搞电脑音乐】 \ ./Music/Unity-TheFatRat.mp3 \ ./Lyrics/纯音乐.txt \ UR \ [NO DATA]
+握着我的抱枕【蓝瓶钙，好喝的钙】 \ ./Music/握着我的抱枕.mp3 \ ./Lyrics/纯音乐.txt \ UR \ [NO DATA]
 
-天真的橡皮 \ ./Music/撞大运了.mp3 \ ./Lyrics/撞大运了.txt \ VIP
-百家争鸣 \ ./Music/飞友の新闹铃.mp3 \ ./Lyrics/百家争鸣.lrc \ DL
+天真的橡皮 \ ./Music/撞大运了.mp3 \ ./Lyrics/撞大运了.txt \ VIP \ [NO DATA]
+百家争鸣 \ ./Music/飞友の新闹铃.mp3 \ ./Lyrics/百家争鸣.lrc \ DL \ [NO DATA]
 
-paris \ ./Music/Paris.mp3 \ ./Lyrics/Paris.lrc \ UR
-英语听力小曲 \ ./Music/En听力.mp3 \ ./Lyrics/En听力.lrc \ DL
-If You're Serious \ ./Music/If You're Serious.mp3 \ [NO DATA] \ VIP
-Midnight City-M83 \ ./Music/Midnight City-M83.mp3 \ ./Lyrics/Midnight City-M83.lrc \ UR
-爱错 \ ./Music/爱错.mp3 \ ./Lyrics/爱错.lrc \ VIP
-All We Know \ ./Music/All We Know.mp3 \ ./Lyrics/All We Know.lrc \ UR
+paris \ ./Music/Paris.mp3 \ ./Lyrics/Paris.lrc \ UR \ [NO DATA]
+英语听力小曲 \ ./Music/En听力.mp3 \ ./Lyrics/En听力.lrc \ DL \ [NO DATA]
+If You're Serious \ ./Music/If You're Serious.mp3 \ [NO DATA] \ VIP \ [NO DATA]
+Midnight City-M83 \ ./Music/Midnight City-M83.mp3 \ ./Lyrics/Midnight City-M83.lrc \ UR \ [NO DATA]
+爱错 \ ./Music/爱错.mp3 \ ./Lyrics/爱错.lrc \ VIP \ [NO DATA]
+All We Know \ ./Music/All We Know.mp3 \ ./Lyrics/All We Know.lrc \ UR \ [NO DATA]
+
+空难之歌——我们永远不放弃 \ ./Music/空难之歌——我们永远不放弃.mp3 \ ./Lyrics/空难之歌——我们永远不放弃.lrc \ UR \ ./Video/空难之歌——我们永远不放弃.mp4
+空难之歌 - 千本樱 \ ./Music/空难之歌 - 千本樱.mp3 \ [NO DATA] \ UR \ ./Video/空难之歌 - 千本樱.mp4
