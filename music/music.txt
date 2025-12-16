@@ -46,5 +46,5 @@ Midnight City-M83 \ ./Music/Midnight City-M83.mp3 \ ./Lyrics/Midnight City-M83.l
 爱错 \ ./Music/爱错.mp3 \ ./Lyrics/爱错.lrc \ VIP \ [NO DATA]
 All We Know \ ./Music/All We Know.mp3 \ ./Lyrics/All We Know.lrc \ UR \ [NO DATA]
 
-空难之歌——我们永远不放弃 \ ./Music/空难之歌——我们永远不放弃.mp3 \ ./Lyrics/空难之歌——我们永远不放弃.lrc \ UR \ ./Video/空难之歌——我们永远不放弃.mp4
+空难之歌——我们永远不放弃 \ ./Music/空难之歌——我们永远不放弃.mp3 \ ./Lyrics/空难之歌——我们永远不放弃.lrc \ UR \ blob:https://www.bilibili.com/c6f85d2f-08ab-4bec-b8e0-f8567a2f2662
 空难之歌 - 千本樱 \ ./Music/空难之歌 - 千本樱.mp3 \ [NO DATA] \ UR \ ./Video/空难之歌 - 千本樱.mp4
