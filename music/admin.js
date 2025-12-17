@@ -427,10 +427,28 @@ LRC歌词转换相关事件监听
 */
 
 
+// LRC歌词转换相关事件监听
 let lrcConversionActive = false;
 let currentLyricsLines = [];
 let currentLrcIndex = 0;
 let lrcContent = '';
+let timeUpdateInterval = null; // 新增：时间更新定时器
+
+// 实时更新当前时间显示
+function updateCurrentTimeDisplay() {
+    if (!lrcConversionActive) return;
+    
+    const currentTime = audioPlayer.currentTime;
+    const minutes = Math.floor(currentTime / 60);
+    const seconds = Math.floor(currentTime % 60);
+    const milliseconds = Math.floor((currentTime % 1) * 100);
+    
+    const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
+    const timeDisplay = document.getElementById('current-time-display');
+    if (timeDisplay) {
+        timeDisplay.textContent = timeString;
+    }
+}
 
 // 开始LRC转换
 document.getElementById('start-lrc-conversion').addEventListener('click', function () {
@@ -507,6 +525,12 @@ document.getElementById('start-lrc-conversion').addEventListener('click', functi
     document.getElementById('start-lrc-conversion').disabled = true;
     document.getElementById('download-lrc').disabled = true;
 
+    // 新增：启动时间更新定时器
+    if (timeUpdateInterval) {
+        clearInterval(timeUpdateInterval);
+    }
+    timeUpdateInterval = setInterval(updateCurrentTimeDisplay, 100); // 每100ms更新一次
+
     updateSystemInfo(`开始LRC歌词转换，需要处理${currentLyricsLines.length}行歌词`);
 });
 
@@ -536,6 +560,13 @@ document.getElementById('next-line-btn').addEventListener('click', function () {
         lrcConversionActive = false;
         document.getElementById('lrc-status').textContent = '转换完成';
         document.getElementById('download-lrc').disabled = false;
+        
+        // 新增：停止时间更新定时器
+        if (timeUpdateInterval) {
+            clearInterval(timeUpdateInterval);
+            timeUpdateInterval = null;
+        }
+        
         updateSystemInfo('LRC歌词转换完成');
     } else {
         updateSystemInfo(`已转换第${currentLrcIndex}行歌词，时间: ${timeString}`);
@@ -557,6 +588,12 @@ document.getElementById('reset-lrc-btn').addEventListener('click', function () {
     document.getElementById('lrc-status').textContent = '准备就绪';
     document.getElementById('start-lrc-conversion').disabled = false;
     document.getElementById('download-lrc').disabled = true;
+
+    // 新增：停止时间更新定时器
+    if (timeUpdateInterval) {
+        clearInterval(timeUpdateInterval);
+        timeUpdateInterval = null;
+    }
 
     updateSystemInfo('LRC转换已重置');
 });
@@ -636,10 +673,9 @@ document.getElementById('download-lrc').addEventListener('click', function () {
         finalLrcContent = existingLrcLines.join('\n') + '\n' + newLrcLines.join('\n');
     }
 
-    // 清理最终内容：移除空行和重复行
+    // 清理最终内容：只移除空行，保留重复歌词（因为重复可能是故意的艺术表达）
     const finalLines = finalLrcContent.split('\n')
-        .filter(line => line.trim() !== '')
-        .filter((line, index, array) => array.indexOf(line) === index); // 去重
+        .filter(line => line.trim() !== ''); // 只移除空行，保留重复歌词
 
     finalLrcContent = finalLines.join('\n');
 
