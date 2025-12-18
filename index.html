@@ -1059,11 +1059,56 @@
             const openMenuLink = document.querySelector('.mobile-top-bar .open-menu a');
             const mobileMenu = document.getElementById('mobile-menu');
 
+            // 检查用户是否登录，未登录时将≡替换为"登录"
+            function updateMobileMenuSymbol() {
+                if (!isLoggedIn()) {
+                    // 用户未登录，将≡替换为"登录"
+                    if (openMenuLink) {
+                        openMenuLink.textContent = '登录';
+                        openMenuLink.href = './user/'; // 设置登录链接
+                        
+                        // 移除原有的菜单切换功能
+                        openMenuLink.removeEventListener('click', menuToggleHandler);
+                        
+                        // 添加直接跳转到登录页面的功能
+                        openMenuLink.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            window.location.href = './user/';
+                        });
+                    }
+                } else {
+                    // 用户已登录，恢复≡符号和菜单功能
+                    if (openMenuLink) {
+                        openMenuLink.textContent = '≡';
+                        openMenuLink.href = '#mobile-menu';
+                        
+                        // 移除登录跳转功能
+                        openMenuLink.removeEventListener('click', loginRedirectHandler);
+                        
+                        // 恢复菜单切换功能
+                        openMenuLink.addEventListener('click', menuToggleHandler);
+                    }
+                }
+            }
+
+            // 菜单切换处理函数
+            function menuToggleHandler(e) {
+                e.preventDefault();
+                mobileMenu.classList.toggle('active');
+            }
+
+            // 登录跳转处理函数
+            function loginRedirectHandler(e) {
+                e.preventDefault();
+                window.location.href = './user/';
+            }
+
             if (openMenuLink && mobileMenu) {
-                openMenuLink.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    mobileMenu.classList.toggle('active');
-                });
+                // 初始检查用户状态
+                updateMobileMenuSymbol();
+                
+                // 监听用户状态变化
+                setInterval(updateMobileMenuSymbol, 1000);
             }
 
             // 移动端子菜单折叠功能
