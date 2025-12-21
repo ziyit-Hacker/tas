@@ -69,7 +69,7 @@ a {
     background-color: #0078d4;
     color: white;
     border: none;
-    border-radius: 50%;
+    border-radius: 4px;
     width: 50px;
     height: 50px;
     cursor: pointer;
@@ -77,6 +77,52 @@ a {
 }
 
 .player-btn:hover {
+    background-color: #005a9e;
+}
+
+#loop-btn {
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 4px;
+    width: 50px;
+    height: 50px;
+    font-size: 0;
+    /* 隐藏文本，只显示背景图片 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 移除Unicode字符，只使用外部图片 */
+#loop-btn.loop-off::before,
+#loop-btn.loop-list::before,
+#loop-btn.loop-single::before,
+#loop-btn.loop-random::before {
+    content: none;
+}
+
+/* 顺序播放模式 */
+#loop-btn.loop-off {
+    background-image: url('https://img.icons8.com/ios-filled/50/ffffff/play.png');
+}
+
+/* 列表循环模式 */
+#loop-btn.loop-list {
+    background-image: url('https://img.icons8.com/ios-filled/50/ffffff/repeat.png');
+}
+
+/* 单曲循环模式 */
+#loop-btn.loop-single {
+    background-image: url('https://img.icons8.com/ios-filled/50/ffffff/repeat-one.png');
+}
+
+/* 随机播放模式 */
+#loop-btn.loop-random {
+    background-image: url('https://img.icons8.com/ios-filled/50/ffffff/shuffle.png');
+}
+
+#loop-btn:hover {
     background-color: #005a9e;
 }
 
@@ -239,7 +285,8 @@ a {
     margin: 10px 0;
 }
 
-.current-time, .total-time {
+.current-time,
+.total-time {
     font-size: 12px;
     color: #666;
     min-width: 40px;
@@ -269,7 +316,7 @@ a {
     max-height: 200px;
     overflow-y: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    
+
     /* 自定义滚动条样式 */
     scrollbar-width: thin;
     scrollbar-color: #0078d4 rgba(0, 0, 0, 0.1);
@@ -305,7 +352,8 @@ a {
     font-size: 14px;
     line-height: 1.6;
     text-align: center;
-    padding-right: 5px; /* 为滚动条留出空间 */
+    padding-right: 5px;
+    /* 为滚动条留出空间 */
 }
 
 .lyrics-header {
