@@ -49,3 +49,9 @@ All We Know \ ./Music/All We Know.mp3 \ ./Lyrics/All We Know.lrc \ UR \ [NO DATA
 空难之歌——我们永远不放弃 \ ./Music/空难之歌——我们永远不放弃.mp3 \ ./Lyrics/空难之歌——我们永远不放弃.lrc \ UR \ https://player.bilibili.com/player.html?bvid=BV1sQqaBtEDn
 空难之歌 - 千本樱 \ ./Music/空难之歌——千本樱.mp3 \ ./Lyrics/空难之歌——千本樱.lrc \ UR \ https://player.bilibili.com/player.html?bvid=BV1xUqaB8EDM
 大课间跑操铃 \ ./Music/跑操铃.mp3 \ ./Lyrics/跑操铃.lrc \ DL \ [NO DATA]
+
+阳光开朗大皮鞋 \ ./Music/阳光开朗大皮鞋.mp3 \ [NO DATA] \ UR \ [NO DATA]
+黑黑的皮鞋低垂 \ ./Music/黑黑的皮鞋低垂.mp3 \ [NO DATA] \ UR \ [NO DATA]
+擦皮鞋 【法国巴士】 \ ./Music/自己擦皮鞋.mp3 \ [NO DATA] \ UR \ [NO DATA]
+你拍一我拍一 \ ./Music/你拍一我拍一.mp3 \ [NO DATA] \ UR \ https://player.bilibili.com/player.html?bvid=BV1cZBLBVEWN
+我们一起擦皮鞋 \ ./Music/我们一起擦皮鞋.mp3 \ [NO DATA] \ UR \ [NO DATA]
