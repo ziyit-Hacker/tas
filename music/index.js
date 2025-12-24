@@ -6,51 +6,14 @@ let downloadHistory = new Map(); // 用于断点续传
 // 页面加载时检查权限
 document.addEventListener('DOMContentLoaded', checkUserPermission);
 
-// 循环播放模式定义
-let loopMode = 'list'; // 默认列表循环
-const loopModes = {
-    'off': { name: '顺序播放', icon: 'loop-off', next: 'list', symbol: '▶' },
-    'list': { name: '列表循环', icon: 'loop-list', next: 'single', symbol: '🔁' },
-    'single': { name: '单曲循环', icon: 'loop-single', next: 'random', symbol: '🔂' },
-    'random': { name: '随机播放', icon: 'loop-random', next: 'off', symbol: '🔀' },
-    'selected': { name: '选择循环', icon: 'loop-selected', next: 'off', symbol: '🔘' }
-};
-
-// 选择循环相关变量
-let selectedLoopSongs = []; // 选择的歌曲索引数组
-let selectedLoopMode = false; // 选择循环模式状态
-
-// 添加缺失的循环管理函数定义
-function addToSelectedLoop(index) {
-    if (index >= 0 && index < musicList.length) {
-        if (!selectedLoopSongs.includes(index)) {
-            selectedLoopSongs.push(index);
-            console.log('已添加到选择循环:', musicList[index].split(' \\ ')[0]);
-            updateSelectedLoopInfo();
-        }
-    }
-}
-
-function removeFromSelectedLoop(index) {
-    const songIndex = selectedLoopSongs.indexOf(index);
-    if (songIndex !== -1) {
-        selectedLoopSongs.splice(songIndex, 1);
-        console.log('已从选择循环移除:', musicList[index].split(' \\ ')[0]);
-        updateSelectedLoopInfo();
-    }
-}
-
-function clearSelectedLoop() {
-    selectedLoopSongs = [];
-    console.log('已清空选择循环列表');
-    updateSelectedLoopInfo();
-}
-
-let isPlaying = false; // 播放状态
-let currentMusicIndex = -1; // 当前播放的音乐索引
-let musicList = []; // 音乐列表
-let lyricsData = []; // 歌词数据
-let currentLyricIndex = -1; // 当前歌词索引
+// 音乐播放器功能
+let currentMusicIndex = -1;
+let musicList = [];
+let isPlaying = false;
+let lyricsData = [];
+let currentLyricIndex = -1;
+let isVideoMode = false; // 添加视频模式标识
+let currentVideoPath = ''; // 当前视频路径
 
 const audioPlayer = document.getElementById('audio-player');
 const videoPlayer = document.getElementById('video-player');
@@ -59,7 +22,6 @@ const videoBtn = document.getElementById('video');
 const playBtn = document.getElementById('play-btn');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
-const loopBtn = document.getElementById('loop-btn'); // 添加循环按钮引用
 const currentSong = document.querySelector('.current-song');
 const playerStatus = document.querySelector('.player-status');
 const progress = document.getElementById('progress');
@@ -377,6 +339,33 @@ function renderMusicList() {
     });
 }
 
+// 加载音乐列表数据
+async function loadMusicList() {
+    try {
+        console.log('开始加载音乐列表数据...');
+        const response = await fetch('./music.txt');
+        if (!response.ok) {
+            throw new Error('音乐列表文件不存在');
+        }
+        const musicText = await response.text();
+        console.log('音乐列表文件内容:', musicText);
+
+        // 按行分割，过滤空行
+        musicList = musicText.split('\n')
+            .filter(line => line.trim() !== '')
+            .map(line => line.trim());
+
+        console.log('解析后的音乐列表:', musicList);
+
+        // 渲染音乐列表
+        renderMusicList();
+        console.log('音乐列表渲染完成，共加载', musicList.length, '首歌曲');
+    } catch (error) {
+        console.error('加载音乐列表失败:', error);
+        musicListElement.innerHTML = '<li style="color: red; text-align: center;">加载音乐列表失败，请刷新页面重试</li>';
+    }
+}
+
 // 检查用户是否为VIP或超级管理员
 function isVIPUser() {
     const authToken = localStorage.getItem('authToken');
@@ -396,119 +385,10 @@ function isSuperAdmin() {
     return userId === '13258227085';
 }
 
-// 音频播放器事件处理函数
-function handleAudioPlay() {
-    console.log('音频开始播放');
-    isPlaying = true;
-    playBtn.textContent = '||';
-    playerStatus.textContent = '播放中';
-
-    // 更新播放状态显示
-    if (currentMusicIndex >= 0 && currentMusicIndex < musicList.length) {
-        const parts = musicList[currentMusicIndex].split(' \\ ');
-        const name = parts[0];
-        currentSong.textContent = name;
-    }
-}
-
-function handleAudioPause() {
-    console.log('音频暂停');
-    isPlaying = false;
-    playBtn.textContent = '▶';
-    playerStatus.textContent = '已暂停';
-}
-
-// 视频播放器事件处理函数
-function handleVideoPlay() {
-    console.log('视频开始播放');
-    isPlaying = true;
-    playBtn.textContent = '||';
-    playerStatus.textContent = '播放中';
-    
-    // 更新播放状态显示
-    if (currentMusicIndex >= 0 && currentMusicIndex < musicList.length) {
-        const parts = musicList[currentMusicIndex].split(' \\ ');
-        const name = parts[0];
-        currentSong.textContent = name;
-    }
-}
-
-function handleVideoPause() {
-    console.log('视频暂停');
-    isPlaying = false;
-    playBtn.textContent = '▶';
-    playerStatus.textContent = '已暂停';
-}
-
-// 选择循环功能
-function addToSelectedLoop(index) {
-    if (selectedLoopSongs.includes(index)) {
-        // 如果已经存在，则移除
-        selectedLoopSongs = selectedLoopSongs.filter(i => i !== index);
-        console.log('从选择循环中移除歌曲索引:', index);
-    } else {
-        // 如果不存在，则添加
-        selectedLoopSongs.push(index);
-        console.log('添加到选择循环的歌曲索引:', index);
-    }
-    
-    // 更新选择循环歌曲数显示
-    updateSelectedLoopDisplay();
-    
-    // 如果当前是选择循环模式，更新播放器状态
-    if (loopMode === 'selected') {
-        updatePlayerStatus();
-    }
-}
-
-function updateSelectedLoopDisplay() {
-    const selectedLoopCount = document.getElementById('selected-loop-count');
-    if (selectedLoopCount) {
-        selectedLoopCount.textContent = selectedLoopSongs.length;
-    }
-    
-    // 更新循环模式按钮状态
-    if (loopMode === 'selected') {
-        updateLoopButton();
-    }
-}
-
-function toggleSelectedLoopMode() {
-    if (selectedLoopSongs.length === 0) {
-        alert('请先选择要循环播放的歌曲！');
-        return;
-    }
-    
-    if (loopMode === 'selected') {
-        // 如果已经是选择循环模式，切换到下一个模式
-        toggleLoopMode();
-    } else {
-        // 切换到选择循环模式
-        loopMode = 'selected';
-        updateLoopButton();
-        updatePlayerStatus();
-        console.log('切换到选择循环模式，选择的歌曲数:', selectedLoopSongs.length);
-    }
-}
-
-// 在选择循环模式下获取下一首可播放的歌曲
-function getNextSelectedLoopIndex(currentIndex) {
-    if (selectedLoopSongs.length === 0) return -1;
-    
-    const currentIndexInSelected = selectedLoopSongs.indexOf(currentIndex);
-    
-    if (currentIndexInSelected === -1) {
-        // 如果当前歌曲不在选择列表中，播放第一首
-        return selectedLoopSongs[0];
-    } else {
-        // 播放下一首选择的歌曲
-        const nextIndexInSelected = (currentIndexInSelected + 1) % selectedLoopSongs.length;
-        return selectedLoopSongs[nextIndexInSelected];
-    }
-}
-
 // VIP试听功能
 let vipTrialTimer = null;
+let isVipTrialMode = false; // 添加试听模式标识
+let vipTrialMusicIndex = -1; // 试听的音乐索引
 
 // 音频加载
 async function loadAudioSecurely(location, isVIPMusic, isVIPUser) {
@@ -944,31 +824,8 @@ function playNextFreeMusic(currentIndex) {
 
 // 获取可播放的音乐索引（跳过VIP音乐，非VIP用户）
 function getNextPlayableIndex(currentIndex, direction) {
-    // 检查循环模式
-    if (loopMode === 'single') {
-        // 单曲循环：返回当前索引
-        return currentIndex;
-    }
-
-    if (loopMode === 'off' && direction === 'next' && currentIndex >= musicList.length - 1) {
-        // 顺序播放模式且是最后一首：停止播放
-        return -1;
-    }
-
-    if (loopMode === 'random') {
-        // 随机播放：随机选择一个索引
-        let randomIndex;
-        do {
-            randomIndex = Math.floor(Math.random() * musicList.length);
-        } while (randomIndex === currentIndex && musicList.length > 1);
-        return randomIndex;
-    }
-
-    // 列表循环（默认模式）
     let newIndex = currentIndex;
     const totalSongs = musicList.length;
-    if (totalSongs === 0) return -1;
-
     let attempts = 0;
 
     do {
@@ -981,15 +838,6 @@ function getNextPlayableIndex(currentIndex, direction) {
         // 检查是否回到起点（避免无限循环）
         if (newIndex === currentIndex) {
             return -1; // 没有可播放的音乐
-        }
-
-        // 添加空值检查
-        if (!musicList[newIndex]) {
-            attempts++;
-            if (attempts > totalSongs) {
-                return -1;
-            }
-            continue;
         }
 
         const parts = musicList[newIndex].split(' \\ ');
@@ -1007,130 +855,123 @@ function getNextPlayableIndex(currentIndex, direction) {
     } while (true);
 }
 
-// 播放/暂停控制
-playBtn.addEventListener('click', async (e) => {
-    e.stopPropagation(); // 阻止事件冒泡
-    console.log('播放按钮被点击，当前模式:', isVideoMode ? '视频模式' : '音频模式');
+// 播放控制变量
+let isProcessingPlay = false // 防止重复播放
+let isProcessingPause = false // 防止重复暂停
 
-    if (currentMusicIndex === -1 && musicList.length > 0) {
-        // 如果是第一次播放，找到第一首可播放的音乐
-        let firstPlayableIndex = -1;
-        for (let i = 0; i < musicList.length; i++) {
-            const parts = musicList[i].split(' \\ ');
-            const vipStatus = parts[3] || 'UR';
-            if (isVIPUser() || vipStatus !== 'VIP') {
-                firstPlayableIndex = i;
-                break;
-            }
-        }
-
-        if (firstPlayableIndex !== -1) {
-            await playMusic(firstPlayableIndex);
-        } else {
-            alert('没有可播放的免费音乐');
-        }
-        return;
+// 播放音乐函数
+function playAudio() {
+    if (isProcessingPlay) {
+        console.log('正在处理播放操作，跳过重复请求')
+        return
     }
+    
+    isProcessingPlay = true
+    console.log('开始播放音频')
+    
+    audioPlayer.play().then(() => {
+        console.log('音频播放成功')
+        isPlaying = true
+        isProcessingPlay = false
+        updatePlayButtonUI()
+    }).catch(error => {
+        console.error('音频播放失败:', error)
+        isPlaying = false
+        isProcessingPlay = false
+        updatePlayButtonUI()
+        playerStatus.textContent = '播放失败'
+    })
+}
 
-    // 检查当前音乐是否为VIP音乐且用户不是VIP
-    if (currentMusicIndex !== -1) {
-        const parts = musicList[currentMusicIndex].split(' \\ ');
-        const vipStatus = parts[3] || 'UR';
-        if (vipStatus === 'VIP' && !isVIPUser()) {
-            alert('这是VIP专属音乐，需要VIP才能完整收听');
-            return;
-        }
+// 暂停音乐函数
+function pauseAudio() {
+    if (isProcessingPause) {
+        console.log('正在处理暂停操作，跳过重复请求')
+        return
     }
-
-    if (isVideoMode) {
-        // 视频模式：只控制视频播放器
-        console.log('视频模式，视频播放器状态:', videoPlayer.paused ? '暂停' : '播放');
-        if (videoPlayer.paused) {
-            // 播放视频
-            videoPlayer.play().then(() => {
-                isPlaying = true;
-                playBtn.textContent = '||';
-                playerStatus.textContent = '视频播放中';
-                console.log('视频开始播放');
-            }).catch(error => {
-                console.error('视频播放失败:', error);
-            });
-        } else {
-            // 暂停视频
-            videoPlayer.pause();
-            isPlaying = false;
-            playBtn.textContent = '▶';
-            playerStatus.textContent = '视频暂停';
-            console.log('视频已暂停');
+    
+    isProcessingPause = true
+    console.log('开始暂停音频')
+    
+    audioPlayer.pause()
+    isPlaying = false
+    isProcessingPause = false
+    updatePlayButtonUI()
+    
+    // 确保暂停状态
+    setTimeout(() => {
+        if (!audioPlayer.paused) {
+            console.warn('音频播放器仍在播放，强制暂停')
+            audioPlayer.pause()
+            isPlaying = false
+            updatePlayButtonUI()
         }
+    }, 50)
+}
+
+// 更新播放按钮UI
+function updatePlayButtonUI() {
+    if (isPlaying) {
+        playBtn.textContent = '||'
+        playerStatus.textContent = '播放中'
     } else {
-        // 音频模式：只控制音频播放器
-        console.log('音频模式，音频播放器状态:', audioPlayer.paused ? '暂停' : '播放');
+        playBtn.textContent = '▶'
+        playerStatus.textContent = '暂停中'
+    }
+}
 
-        // 使用一个标志位来防止重复触发
-        if (window.isProcessingPlayPause) {
-            console.log('正在处理播放/暂停操作，跳过重复点击');
-            return;
-        }
+// 简化音频事件处理函数，只处理必要的状态同步
+function handleAudioPlay() {
+    console.log('音频播放事件触发')
+    isPlaying = true
+    updatePlayButtonUI()
+}
 
-        window.isProcessingPlayPause = true;
+function handleAudioPause() {
+    console.log('音频暂停事件触发')
+    isPlaying = false
+    updatePlayButtonUI()
+}
 
-        try {
-            if (audioPlayer.paused) {
-                // 播放音频 - 使用更直接的控制方式
-                console.log('开始播放音频');
-                audioPlayer.play().then(() => {
-                    isPlaying = true;
-                    playBtn.textContent = '||';
-                    playerStatus.textContent = '播放中';
-                    console.log('音频播放成功');
-                }).catch(error => {
-                    console.error('音频播放失败:', error);
-                    isPlaying = false;
-                    playBtn.textContent = '▶';
-                    playerStatus.textContent = '暂停中';
-                });
-            } else {
-                // 暂停音频 - 使用更严格的暂停控制
-                console.log('开始暂停音频');
-                audioPlayer.pause();
-                isPlaying = false;
-                playBtn.textContent = '▶';
-                playerStatus.textContent = '暂停中';
-                console.log('音频已暂停');
+// 页面加载完成后初始化音乐列表
+document.addEventListener('DOMContentLoaded', () => {
+    loadMusicList()
 
-                // 添加双重检查确保暂停状态
-                setTimeout(() => {
-                    if (!audioPlayer.paused) {
-                        console.warn('音频播放器仍在播放，强制暂停');
-                        audioPlayer.pause();
+    // 初始化时绑定一次音频播放器事件监听器
+    audioPlayer.addEventListener('play', handleAudioPlay)
+    audioPlayer.addEventListener('pause', handleAudioPause)
+})
 
-                        // 再次检查
-                        setTimeout(() => {
-                            if (!audioPlayer.paused) {
-                                console.error('音频播放器仍然无法暂停，重置播放器');
-                                audioPlayer.currentTime = 0;
-                                audioPlayer.pause();
-                                audioPlayer.load();
-                            }
-                            window.isProcessingPlayPause = false;
-                        }, 100);
-                    } else {
-                        window.isProcessingPlayPause = false;
-                    }
-                }, 200);
-            }
-        } catch (error) {
-            console.error('播放/暂停操作出错:', error);
-            window.isProcessingPlayPause = false;
-        }
+// 上一首
+prevBtn.addEventListener('click', async () => {
+    if (musicList.length === 0) return;
+    // 如果在视频模式，先切换回音乐模式
+    if (isVideoMode) {
+        toggleVideoMode();
+    }
 
-        // 如果不是暂停操作，立即重置标志位
-        if (audioPlayer.paused) {
-            setTimeout(() => {
-                window.isProcessingPlayPause = false;
-            }, 300);
-        }
+    const nextIndex = getNextPlayableIndex(currentMusicIndex, 'prev');
+    if (nextIndex !== -1) {
+        await playMusic(nextIndex);
+    } else {
+        alert('没有可播放的免费音乐');
+    }
+});
+
+// 下一首
+nextBtn.addEventListener('click', async () => {
+    if (musicList.length === 0) return;
+
+    // 如果在视频模式，先切换回音乐模式
+    if (isVideoMode) {
+        toggleVideoMode();
+    }
+
+    const nextIndex = getNextPlayableIndex(currentMusicIndex, 'next');
+    if (nextIndex !== -1) {
+        await playMusic(nextIndex);
+    } else {
+        alert('没有可播放的免费音乐');
     }
 });
 
@@ -1225,153 +1066,6 @@ document.querySelector('.progress-bar').addEventListener('click', (e) => {
 // 歌曲结束自动下一首
 audioPlayer.addEventListener('ended', () => {
     if (musicList.length === 0) return;
-
-    // 音频播放事件处理函数（兼容视频模式）
-    function handleAudioPlay() {
-        console.log('音频开始播放，当前模式:', isVideoMode ? '视频模式' : '音频模式');
-
-        // 仅在音频模式下更新UI状态
-        if (!isVideoMode) {
-            isPlaying = true;
-            playBtn.textContent = '||';
-            playerStatus.textContent = '播放中';
-
-            // 更新播放状态显示
-            if (currentMusicIndex >= 0 && currentMusicIndex < musicList.length) {
-                const parts = musicList[currentMusicIndex].split(' \\ ');
-                const name = parts[0];
-                currentSong.textContent = name;
-            }
-
-            // 开始更新进度条和时间显示（仅音频模式）
-            startProgressUpdate();
-        }
-    }
-
-    // 音频暂停事件处理函数（兼容视频模式）
-    function handleAudioPause() {
-        console.log('音频暂停，当前模式:', isVideoMode ? '视频模式' : '音频模式');
-
-        // 仅在音频模式下更新UI状态
-        if (!isVideoMode) {
-            isPlaying = false;
-            playBtn.textContent = '▶';
-            playerStatus.textContent = '暂停';
-
-            // 停止更新进度条（仅音频模式）
-            stopProgressUpdate();
-        }
-    }
-
-    // 视频播放事件处理函数
-    function handleVideoPlay() {
-        console.log('视频开始播放');
-        isPlaying = true;
-        playBtn.textContent = '||';
-        playerStatus.textContent = '视频播放中';
-
-        // 开始更新视频进度条和时间显示
-        startProgressUpdate();
-    }
-
-    // 视频暂停事件处理函数
-    function handleVideoPause() {
-        console.log('视频暂停');
-        isPlaying = false;
-        playBtn.textContent = '▶';
-        playerStatus.textContent = '视频暂停';
-
-        // 停止更新进度条
-        stopProgressUpdate();
-    }
-
-    // 开始更新进度条和时间显示（兼容音频和视频模式）
-    function startProgressUpdate() {
-        // 如果已经有一个更新循环在运行，先清除它
-        if (window.progressUpdateInterval) {
-            clearInterval(window.progressUpdateInterval);
-        }
-
-        // 每100毫秒更新一次进度条和时间显示
-        window.progressUpdateInterval = setInterval(() => {
-            updateProgressBar();
-            updateTimeDisplay();
-
-            // 更新歌词显示（仅在音乐模式下）
-            if (!isVideoMode) {
-                const currentTime = audioPlayer.currentTime;
-                updateLyrics(currentTime);
-            }
-        }, 100);
-    }
-
-    // 停止更新进度条
-    function stopProgressUpdate() {
-        if (window.progressUpdateInterval) {
-            clearInterval(window.progressUpdateInterval);
-            window.progressUpdateInterval = null;
-        }
-    }
-
-    // 页面加载完成后初始化音乐列表
-    document.addEventListener('DOMContentLoaded', () => {
-        loadMusicList();
-
-        // 初始化时绑定音频播放器事件监听器
-        audioPlayer.addEventListener('play', handleAudioPlay);
-        audioPlayer.addEventListener('pause', handleAudioPause);
-
-        // 初始化时绑定视频播放器事件监听器
-        videoPlayer.addEventListener('play', handleVideoPlay);
-        videoPlayer.addEventListener('pause', handleVideoPause);
-
-        // 初始化处理标志位
-        window.isProcessingPlayPause = false;
-    });
-    // 如果在视频模式，先切换回音乐模式
-    if (isVideoMode) {
-        toggleVideoMode();
-    }
-
-    const nextIndex = getNextPlayableIndex(currentMusicIndex, 'next');
-    if (nextIndex !== -1) {
-        playMusic(nextIndex);
-    }
-});
-
-// 页面加载完成后初始化音乐列表
-document.addEventListener('DOMContentLoaded', () => {
-    loadMusicList();
-
-    // 初始化时绑定音频播放器事件监听器
-    audioPlayer.addEventListener('play', handleAudioPlay);
-    audioPlayer.addEventListener('pause', handleAudioPause);
-
-    // 初始化时绑定视频播放器事件监听器
-    videoPlayer.addEventListener('play', handleVideoPlay);
-    videoPlayer.addEventListener('pause', handleVideoPause);
-
-    // 初始化处理标志位
-    window.isProcessingPlayPause = false;
-});
-
-// 音频播放结束自动下一首（修复：移出DOMContentLoaded事件监听器）
-audioPlayer.addEventListener('ended', () => {
-    if (musicList.length === 0) return;
-
-    // 检查循环模式
-    if (loopMode === 'single') {
-        // 单曲循环：重新播放当前歌曲
-        playMusic(currentMusicIndex);
-        return;
-    } else if (loopMode === 'off') {
-        // 关闭循环：停止播放
-        audioPlayer.pause();
-        isPlaying = false;
-        playBtn.textContent = '▶';
-        playerStatus.textContent = '已停止';
-        return;
-    }
 
     // 如果在视频模式，先切换回音乐模式
     if (isVideoMode) {
@@ -2146,40 +1840,7 @@ async function downloadMusicForNormalUser(index, event) {
     }
 }
 
-// 检查用户是否为VIP或超级管理员
-function isVIPUser() {
-    const authToken = localStorage.getItem('authToken');
-    if (!authToken) return false;
-
-    // 检查是否为ZC用户或管理员（视为VIP）
-    const [typeCode, userId] = authToken.split('-');
-    return typeCode === 'ZC' || userId === '13258227085';
-}
-
-// 检查用户是否为超级管理员
-function isSuperAdmin() {
-    const authToken = localStorage.getItem('authToken');
-    if (!authToken) return false;
-
-    const [typeCode, userId] = authToken.split('-');
-    return userId === '13258227085';
-}
-
-// 添加到选择循环列表
-function addToSelectedLoop(index) {
-    const selectedLoopList = JSON.parse(localStorage.getItem('selectedLoopList') || '[]');
-
-    // 检查是否已经存在
-    if (!selectedLoopList.includes(index)) {
-        selectedLoopList.push(index);
-        localStorage.setItem('selectedLoopList', JSON.stringify(selectedLoopList));
-        alert('已添加到选择循环列表');
-    } else {
-        alert('该歌曲已在选择循环列表中');
-    }
-}
-
-// 修改渲染音乐列表函数，在下载按钮左边添加"添加到列表"按钮
+// 渲染音乐列表
 function renderMusicList() {
     musicListElement.innerHTML = '';
     const isVIP = isVIPUser();
@@ -2190,25 +1851,16 @@ function renderMusicList() {
         const name = parts[0];
         const location = parts[1];
         const lyricsPath = parts[2];
-        const vipStatus = parts[3] || 'UR';
+        const vipStatus = parts[3] || 'UR'; // 默认为免费音乐
 
         const li = document.createElement('li');
         li.className = 'music-item';
 
-        // 添加点击事件，点击音乐项时播放音乐
-        li.addEventListener('click', (e) => {
-            // 防止点击按钮时触发播放
-            if (e.target.tagName === 'BUTTON' || e.target.classList.contains('download-btn') || e.target.classList.contains('select-loop-btn')) {
-                return;
-            }
-            console.log('点击音乐项:', name, '索引:', index);
-            playMusic(index);
-        });
-
         // 添加VIP标识
         if (vipStatus === 'VIP') {
-            li.style.backgroundColor = '#fff3cd';
-            li.style.borderLeft = '4px solid #ffc107';
+            li.style.backgroundColor = '#fff3cd'; // VIP黄色背景
+            li.style.borderLeft = '4px solid #ffc107'; // VIP标识边框
+
             // 超级管理员可以下载VIP歌曲
             if (isSuperAdminUser) {
                 li.innerHTML = `
@@ -2216,11 +1868,6 @@ function renderMusicList() {
                                 <span>${name}</span>
                                 <div style="display: flex; align-items: center; gap: 8px;">
                                     <span style="background-color: #ffc107; color: #856404; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">VIP专属</span>
-                                    <button class="select-loop-btn" onclick="addToSelectedLoop(${index})" 
-                                            style="background-color: #28a745; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;" 
-                                            title="添加到选择循环">
-                                        添加到列表
-                                    </button>
                                     <button class="download-btn" onclick="downloadMusic(${index}, event)" 
                                             style="background-color: #dc3545; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
                                         管理员下载
@@ -2264,24 +1911,55 @@ function renderMusicList() {
                             </div>
                         `;
             }
-        } else if (vipStatus === 'DL') {
-            // DL标记的歌曲：为普通用户添加下载按钮（极慢速下载），但超级管理员使用专业下载
-            if (isSuperAdminUser) {
-                // 超级管理员使用专业下载
+        } else {
+            // 非VIP音乐：为VIP用户或超级管理员添加下载按钮
+            if (isVIP || isSuperAdminUser) {
                 li.innerHTML = `
                             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                                 <span>${name}</span>
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <button class="select-loop-btn" onclick="addToSelectedLoop(${index})" 
-                                            style="background-color: #28a745; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;" 
-                                            title="添加到选择循环">
-                                        添加到列表
-                                    </button>
-                                    <button class="download-btn" onclick="downloadMusic(${index}, event)" 
-                                            style="background-color: #28a745; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
-                                        下载
-                                    </button>
+                                <button class="download-btn" onclick="downloadMusic(${index}, event)" 
+                                        style="background-color: #28a745; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                    下载
+                                </button>
+                            </div>
+                            <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
+                                <div class="download-progress-bar">
+                                    <div class="download-progress" id="download-progress-bar-${index}"></div>
                                 </div>
+                                <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
+                            </div>
+                            <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                                <div class="connection-node"></div>
+                            </div>
+                            <div class="download-info-container" id="download-info-${index}" style="display: none;">
+                                <div class="download-info-item">
+                                    <span class="download-info-label">速度:</span>
+                                    <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">剩余:</span>
+                                    <span class="download-info-value" id="download-eta-${index}">--:--</span>
+                                </div>
+                                <div class="download-info-item">
+                                    <span class="download-info-label">已下载:</span>
+                                    <span class="download-info-value" id="download-received-${index}">0 B</span>
+                                </div>
+                            </div>
+                            <div class="download-status" id="download-status-${index}" style="display: none;"></div>
+                        `;
+            } else if (vipStatus === 'DL') {
+                // DL标记的歌曲：为普通用户添加下载按钮（极慢速下载）
+                li.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span>${name}</span>
+                                <button class="download-btn" onclick="downloadMusicForNormalUser(${index}, event)" 
+                                        style="background-color: #17a2b8; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                                    下载（普通用户）
+                                </button>
                             </div>
                             <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
                                 <div class="download-progress-bar">
@@ -2313,112 +1991,11 @@ function renderMusicList() {
                             <div class="download-status" id="download-status-${index}" style="display: none;"></div>
                         `;
             } else {
-                // 普通用户使用极慢速下载
-                li.innerHTML = `
-                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                                <span>${name}</span>
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <button class="select-loop-btn" onclick="addToSelectedLoop(${index})" 
-                                            style="background-color: #28a745; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;" 
-                                            title="添加到选择循环">
-                                        添加到列表
-                                    </button>
-                                    <button class="download-btn" onclick="downloadMusicForNormalUser(${index}, event)" 
-                                            style="background-color: #17a2b8; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
-                                        下载（普通用户）
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
-                                <div class="download-progress-bar">
-                                    <div class="download-progress" id="download-progress-bar-${index}"></div>
-                                </div>
-                                <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
-                            </div>
-                            <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
-                                <div class="connection-node"></div>
-                                <div class="connection-node"></div>
-                                <div class="connection-node"></div>
-                                <div class="connection-node"></div>
-                                <div class="connection-node"></div>
-                            </div>
-                            <div class="download-info-container" id="download-info-${index}" style="display: none;">
-                                <div class="download-info-item">
-                                    <span class="download-info-label">速度:</span>
-                                    <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
-                                </div>
-                                <div class="download-info-item">
-                                    <span class="download-info-label">剩余:</span>
-                                    <span class="download-info-value" id="download-eta-${index}">--:--</span>
-                                </div>
-                                <div class="download-info-item">
-                                    <span class="download-info-label">已下载:</span>
-                                    <span class="download-info-value" id="download-received-${index}">0 B</span>
-                                </div>
-                            </div>
-                            <div class="download-status" id="download-status-${index}" style="display: none;"></div>
-                        `;
+                li.textContent = name;
             }
-        } else if (isVIP || isSuperAdminUser) {
-            // 非VIP音乐：为VIP用户或超级管理员添加下载按钮
-            li.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                            <span>${name}</span>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <button class="select-loop-btn" onclick="addToSelectedLoop(${index})" 
-                                        style="background-color: #28a745; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;" 
-                                        title="添加到选择循环">
-                                    添加到列表
-                                </button>
-                                <button class="download-btn" onclick="downloadMusic(${index}, event)" 
-                                        style="background-color: #28a745; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
-                                    下载
-                                </button>
-                            </div>
-                        </div>
-                        <div class="download-progress-container" id="download-progress-${index}" style="display: none;">
-                            <div class="download-progress-bar">
-                                <div class="download-progress" id="download-progress-bar-${index}"></div>
-                            </div>
-                            <div class="download-progress-text" id="download-progress-text-${index}">0%</div>
-                        </div>
-                        <div class="connection-nodes" id="connection-nodes-${index}" style="display: none;">
-                            <div class="connection-node"></div>
-                            <div class="connection-node"></div>
-                            <div class="connection-node"></div>
-                            <div class="connection-node"></div>
-                            <div class="connection-node"></div>
-                        </div>
-                        <div class="download-info-container" id="download-info-${index}" style="display: none;">
-                            <div class="download-info-item">
-                                <span class="download-info-label">速度:</span>
-                                <span class="download-info-value" id="download-speed-${index}">0 KB/s</span>
-                            </div>
-                            <div class="download-info-item">
-                                <span class="download-info-label">剩余:</span>
-                                <span class="download-info-value" id="download-eta-${index}">--:--</span>
-                            </div>
-                            <div class="download-info-item">
-                                <span class="download-info-label">已下载:</span>
-                                <span class="download-info-value" id="download-received-${index}">0 B</span>
-                            </div>
-                        </div>
-                        <div class="download-status" id="download-status-${index}" style="display: none;"></div>
-                    `;
-        } else {
-            // 普通用户只能播放，不能下载
-            li.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                            <span>${name}</span>
-                            <button class="select-loop-btn" onclick="addToSelectedLoop(${index})" 
-                                    style="background-color: #28a745; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;" 
-                                    title="添加到选择循环">
-                                添加到列表
-                            </button>
-                        </div>
-                    `;
         }
 
+        li.addEventListener('click', () => playMusic(index));
         musicListElement.appendChild(li);
     });
 }
@@ -2741,405 +2318,6 @@ function formatFileSize(bytes) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-// 循环模式相关变量
-let selectedLoopList = []; // 选择循环的歌曲列表
-let selectedLoopIndex = 0; // 选择循环的当前索引
-
-// 循环模式图标映射
-const loopModeIcons = {
-    'single': '🔂', // 单曲循环
-    'list': '🔁',   // 列表循环
-    'random': '🔀', // 交替播放（随机）
-    'selected': '🔄' // 选择循环
-};
-
-// 循环模式标题映射
-const loopModeTitles = {
-    'single': '单曲循环 - 循环播放当前歌曲',
-    'list': '列表循环 - 按顺序播放列表中的歌曲',
-    'random': '交替播放 - 随机播放歌曲',
-    'selected': '选择循环 - 播放用户选择的歌曲列表'
-};
-
-// 获取Cookie值
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return decodeURIComponent(parts.pop().split(';').shift());
-    return null;
-}
-
-// 设置Cookie值
-function setCookie(name, value, days) {
-    const date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    const expires = `expires=${date.toUTCString()}`;
-    document.cookie = `${name}=${encodeURIComponent(value)}; ${expires}; path=/`;
-}
-
-// 初始化循环模式
-function initLoopMode() {
-    // 从Cookie中读取循环模式
-    const savedLoopMode = getCookie('musicLoopMode');
-    if (savedLoopMode && ['single', 'list', 'random', 'selected'].includes(savedLoopMode)) {
-        loopMode = savedLoopMode;
-    }
-
-    // 从Cookie中读取选择循环列表
-    const savedSelectedList = getCookie('musicSelectedLoopList');
-    if (savedSelectedList) {
-        try {
-            selectedLoopList = JSON.parse(savedSelectedList);
-        } catch (e) {
-            console.error('解析选择循环列表失败:', e);
-            selectedLoopList = [];
-        }
-    }
-
-    // 更新循环按钮显示
-    updateLoopButton();
-}
-
-// 更新循环按钮显示
-function updateLoopButton() {
-    const loopBtn = document.getElementById('loop-btn');
-    if (loopBtn) {
-        loopBtn.textContent = loopModeIcons[loopMode];
-        loopBtn.title = loopModeTitles[loopMode];
-
-        // 高亮当前循环模式
-        loopBtn.style.backgroundColor = loopMode === 'selected' && selectedLoopList.length === 0 ?
-            '#ffc107' : '#0078d4';
-    }
-}
-
-// 切换循环模式
-function toggleLoopMode() {
-    const currentMode = loopModes[loopMode];
-    loopMode = currentMode.next;
-    updateLoopButton();
-    updatePlayerStatus();
-    console.log('切换到循环模式:', loopModes[loopMode].name);
-}
-
-// 更新循环按钮显示
-function updateLoopButton() {
-    if (!loopBtn) return;
-    
-    const currentMode = loopModes[loopMode];
-    loopBtn.textContent = currentMode.symbol;
-    loopBtn.title = currentMode.name;
-    
-    // 更新播放器状态显示
-    updatePlayerStatus();
-}
-
-// 更新播放器状态显示
-function updatePlayerStatus() {
-    if (!playerStatus) return;
-    
-    const currentMode = loopModes[loopMode];
-    let statusText = '';
-    
-    if (loopMode === 'selected') {
-        statusText = `当前模式: 选择循环 | 选择循环歌曲数: ${selectedLoopSongs.length}`;
-    } else {
-        statusText = `当前模式: ${currentMode.name}`;
-    }
-    
-    playerStatus.textContent = statusText;
-}
-
-// 获取下一首可播放的歌曲索引
-function getNextPlayableIndex(currentIndex, direction = 'next') {
-    if (musicList.length === 0) return -1;
-    
-    // 选择循环模式特殊处理
-    if (loopMode === 'selected') {
-        return getNextSelectedLoopIndex(currentIndex);
-    }
-    
-    // 其他模式的原有逻辑
-    if (loopMode === 'random') {
-        // 随机播放：随机选择一个索引
-        let randomIndex;
-        do {
-            randomIndex = Math.floor(Math.random() * musicList.length);
-        } while (randomIndex === currentIndex && musicList.length > 1);
-        return randomIndex;
-    }
-    
-    // 顺序播放或列表循环
-    let nextIndex;
-    if (direction === 'next') {
-        nextIndex = (currentIndex + 1) % musicList.length;
-    } else {
-        nextIndex = (currentIndex - 1 + musicList.length) % musicList.length;
-    }
-    
-    return nextIndex;
-}
-
-// 获取随机可播放的歌曲索引
-function getRandomPlayableIndex() {
-    if (musicList.length === 0) return -1;
-
-    // 创建可播放歌曲的索引列表
-    const playableIndices = [];
-    for (let i = 0; i < musicList.length; i++) {
-        const parts = musicList[i].split(' \\ ');
-        const vipStatus = parts[3] || 'UR';
-        if (isVIPUser() || vipStatus !== 'VIP') {
-            playableIndices.push(i);
-        }
-    }
-
-    if (playableIndices.length === 0) return -1;
-
-    // 随机选择一首
-    const randomIndex = Math.floor(Math.random() * playableIndices.length);
-    return playableIndices[randomIndex];
-}
-
-// 获取选择循环的下一首歌曲索引
-function getNextSelectedIndex() {
-    if (selectedLoopList.length === 0) {
-        // 如果选择循环列表为空，回退到列表循环
-        loopMode = 'list';
-        updateLoopButton();
-        return getNextPlayableIndex(currentMusicIndex, 'next');
-    }
-
-    // 循环播放选择循环列表
-    selectedLoopIndex = (selectedLoopIndex + 1) % selectedLoopList.length;
-    return selectedLoopList[selectedLoopIndex];
-}
-
-// 修改歌曲结束自动下一首的逻辑
-audioPlayer.addEventListener('ended', () => {
-    if (musicList.length === 0) return;
-
-    // 如果在视频模式，先切换回音乐模式
-    if (isVideoMode) {
-        toggleVideoMode();
-    }
-
-    const nextIndex = getNextPlayIndex(currentMusicIndex, 'next');
-    if (nextIndex !== -1) {
-        playMusic(nextIndex);
-    }
-});
-
-// 修改视频结束自动下一首的逻辑
-videoPlayer.addEventListener('ended', () => {
-    if (musicList.length === 0) return;
-
-    // 视频播放结束，切换回音乐模式并播放下一首
-    if (isVideoMode) {
-        toggleVideoMode();
-    }
-
-    const nextIndex = getNextPlayIndex(currentMusicIndex, 'next');
-    if (nextIndex !== -1) {
-        playMusic(nextIndex);
-    } else {
-        alert('没有可播放的免费音乐');
-    }
-});
-
-// 修改上一首按钮逻辑
-prevBtn.addEventListener('click', async () => {
-    if (musicList.length === 0) return;
-    // 如果在视频模式，先切换回音乐模式
-    if (isVideoMode) {
-        toggleVideoMode();
-    }
-
-    const nextIndex = getNextPlayIndex(currentMusicIndex, 'prev');
-    if (nextIndex !== -1) {
-        await playMusic(nextIndex);
-    } else {
-        alert('没有可播放的免费音乐');
-    }
-});
-
-// 下一首
-nextBtn.addEventListener('click', async () => {
-    if (musicList.length === 0) return;
-
-    // 如果在视频模式，先切换回音乐模式
-    if (isVideoMode) {
-        toggleVideoMode();
-    }
-
-    const nextIndex = getNextPlayableIndex(currentMusicIndex, 'next');
-    if (nextIndex !== -1) {
-        await playMusic(nextIndex);
-    } else {
-        alert('没有可播放的免费音乐');
-    }
-});
-
-// 循环按钮点击事件
-loopBtn.addEventListener('click', function () {
-    // 切换到下一个循环模式
-    const currentMode = loopMode;
-    const nextMode = loopModes[currentMode].next;
-    loopMode = nextMode;
-
-    // 更新按钮显示
-    const modeInfo = loopModes[nextMode];
-    loopBtn.textContent = modeInfo.symbol;
-    loopBtn.title = modeInfo.name;
-
-    // 显示模式切换提示
-    playerStatus.textContent = `已切换到${modeInfo.name}模式`;
-    console.log(`循环模式已切换: ${currentMode} -> ${nextMode} (${modeInfo.name})`);
-
-    // 3秒后恢复原来的状态显示
-    setTimeout(() => {
-        if (isPlaying) {
-            playerStatus.textContent = isVideoMode ? '视频播放中' : '播放中';
-        } else {
-            playerStatus.textContent = '暂停中';
-        }
-    }, 3000);
-});
-
-// 初始化循环按钮显示
-document.addEventListener('DOMContentLoaded', function () {
-    // 设置初始循环模式显示
-    const modeInfo = loopModes[loopMode];
-    loopBtn.textContent = modeInfo.symbol;
-    loopBtn.title = modeInfo.name;
-});
-
-// 页面加载完成后初始化循环模式
-document.addEventListener('DOMContentLoaded', () => {
-    loadMusicList();
-
-    // 初始化循环模式
-    initLoopMode();
-
-    // 绑定循环按钮事件
-    const loopBtn = document.getElementById('loop-btn');
-    if (loopBtn) {
-        loopBtn.addEventListener('click', toggleLoopMode);
-    }
-
-    // 初始化时绑定一次音频播放器事件监听器
-    audioPlayer.addEventListener('play', handleAudioPlay);
-    audioPlayer.addEventListener('pause', handleAudioPause);
-
-    // 初始化处理标志位
-    window.isProcessingPlayPause = false;
-});
-
-// 添加全局函数供HTML调用
-window.addToSelectedLoop = addToSelectedLoop;
-window.removeFromSelectedLoop = removeFromSelectedLoop;
-window.clearSelectedLoop = clearSelectedLoop;
-window.toggleLoopMode = toggleLoopMode;
-
-// 显示选择循环列表
-function showSelectedLoopList() {
-    if (selectedLoopList.length === 0) {
-        alert('选择循环列表为空');
-        return;
-    }
-
-    let listHTML = '<h3>选择循环列表 (' + selectedLoopList.length + ' 首歌曲)</h3><ul style="max-height: 300px; overflow-y: auto;">';
-
-    selectedLoopList.forEach((index, i) => {
-        if (index >= 0 && index < musicList.length) {
-            const parts = musicList[index].split(' \\ ');
-            const name = parts[0];
-            const vipStatus = parts[3] || 'UR';
-
-            listHTML += `
-                <li style="display: flex; justify-content: space-between; align-items: center; padding: 5px; border-bottom: 1px solid #eee;">
-                    <span>${i + 1}. ${name}</span>
-                    <div>
-                        ${vipStatus === 'VIP' ? '<span style="background-color: #ffc107; color: #856404; padding: 2px 6px; border-radius: 10px; font-size: 10px; margin-right: 5px;">VIP</span>' : ''}
-                        <button onclick="removeFromSelectedLoop(${index})" 
-                                style="background-color: #dc3545; color: white; border: none; padding: 2px 6px; border-radius: 3px; font-size: 10px; cursor: pointer;">
-                            移除
-                        </button>
-                    </div>
-                </li>
-            `;
-        }
-    });
-
-    listHTML += '</ul>';
-
-    // 创建模态框显示列表
-    const modal = document.createElement('div');
-    modal.style.cssText = `
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-        background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; 
-        align-items: center; z-index: 1000;
-    `;
-
-    const content = document.createElement('div');
-    content.style.cssText = `
-        background: white; padding: 20px; border-radius: 10px; max-width: 500px; 
-        max-height: 80vh; overflow-y: auto; width: 90%;
-    `;
-    content.innerHTML = listHTML + `
-        <div style="text-align: center; margin-top: 15px;">
-            <button onclick="this.parentElement.parentElement.parentElement.remove()" 
-                    style="background-color: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
-                关闭
-            </button>
-        </div>
-    `;
-
-    modal.appendChild(content);
-    document.body.appendChild(modal);
-
-    // 点击背景关闭
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.remove();
-        }
-    });
-}
-
-// 更新选择循环信息显示
-function updateSelectedLoopInfo() {
-    const loopModeElement = document.getElementById('current-loop-mode');
-    const loopCountElement = document.getElementById('selected-loop-count');
-
-    if (loopModeElement) {
-        loopModeElement.textContent =
-            loopMode === 'single' ? '单曲循环' :
-                loopMode === 'list' ? '列表循环' :
-                    loopMode === 'random' ? '交替播放' : '选择循环';
-    }
-
-    if (loopCountElement) {
-        loopCountElement.textContent = selectedLoopList.length;
-    }
-}
-
-// 修改更新循环按钮的函数
-function updateLoopButton() {
-    const loopBtn = document.getElementById('loop-btn');
-    if (loopBtn) {
-        loopBtn.textContent = loopModeIcons[loopMode];
-        loopBtn.title = loopModeTitles[loopMode];
-
-        // 高亮当前循环模式
-        loopBtn.style.backgroundColor = loopMode === 'selected' && selectedLoopList.length === 0 ?
-            '#ffc107' : '#0078d4';
-    }
-
-    // 更新信息显示
-    updateSelectedLoopInfo();
-}
-// 添加到全局函数
-window.showSelectedLoopList = showSelectedLoopList;
 
 /*
 
@@ -3337,12 +2515,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 填充导出音乐选择框
 function populateExportSelect() {
-    // 添加更严格的检查
-    if (!exportMusicSelect || !exportMusicSelect.nodeType) {
-        console.warn('导出音乐选择框元素未找到或未初始化');
-        return;
-    }
-    
     exportMusicSelect.innerHTML = '<option value="">请选择要导出的音乐</option>';
 
     musicList.forEach((music, index) => {
@@ -3420,16 +2592,21 @@ copyLinkBtn.addEventListener('click', () => {
     }
 });
 
-// 加载音乐列表
+// 在音乐列表加载完成后重新填充导出选择框
+// 修改现有的 loadMusicList 函数，在最后添加
 async function loadMusicList() {
     try {
-        // 从music.txt文件加载音乐列表
+        console.log('开始加载音乐列表数据...');
         const response = await fetch('./music.txt');
+        if (!response.ok) {
+            throw new Error('音乐列表文件不存在');
+        }
         const musicText = await response.text();
+        console.log('音乐列表文件内容:', musicText);
 
-        // 解析音乐列表
+        // 按行分割，过滤空行
         musicList = musicText.split('\n')
-            .filter(line => line.trim() && !line.startsWith('//') && !line.startsWith('#'))
+            .filter(line => line.trim() !== '')
             .map(line => line.trim());
 
         console.log('解析后的音乐列表:', musicList);
@@ -3438,68 +2615,14 @@ async function loadMusicList() {
         renderMusicList();
         console.log('音乐列表渲染完成，共加载', musicList.length, '首歌曲');
 
-        // 修复：延迟填充导出选择框，确保DOM元素已加载
-        setTimeout(() => {
-            const exportMusicSelect = document.getElementById('export-music-select');
-            if (exportMusicSelect) {
-                populateExportSelect();
-            } else {
-                console.warn('exportMusicSelect元素未找到，延迟重试');
-                // 延迟重试
-                setTimeout(() => {
-                    const exportMusicSelect = document.getElementById('export-music-select');
-                    if (exportMusicSelect) {
-                        populateExportSelect();
-                    }
-                }, 500);
-            }
-        }, 0);
+        // 填充导出选择框
+        populateExportSelect();
 
     } catch (error) {
         console.error('加载音乐列表失败:', error);
         musicListElement.innerHTML = '<li style="color: red; text-align: center;">加载音乐列表失败，请刷新页面重试</li>';
     }
 }
-
-// 音频播放结束事件
-audioPlayer.addEventListener('ended', function () {
-    if (musicList.length === 0) return;
-
-    // 如果是视频模式，先切换回音频模式
-    if (isVideoMode) {
-        switchToAudioMode();
-    }
-
-    // 修复：传递正确的参数
-    const nextIndex = getNextPlayableIndex(currentMusicIndex, 'next');
-    if (nextIndex !== -1) {
-        playMusic(nextIndex);
-    } else {
-        // 播放结束
-        isPlaying = false;
-        playBtn.textContent = '▶';
-        playerStatus.textContent = '播放结束';
-    }
-});
-
-// 视频播放结束事件
-videoPlayer.addEventListener('ended', function () {
-    if (musicList.length === 0) return;
-
-    // 切换回音乐模式
-    switchToAudioMode();
-
-    // 修复：传递正确的参数
-    const nextIndex = getNextPlayableIndex(currentMusicIndex, 'next');
-    if (nextIndex !== -1) {
-        playMusic(nextIndex);
-    } else {
-        // 播放结束
-        isPlaying = false;
-        playBtn.textContent = '▶';
-        playerStatus.textContent = '播放结束';
-    }
-});
 
 
 /*
@@ -3992,4 +3115,38 @@ videoPlayer.removeEventListener('timeupdate', function () {
             videoPlayer.currentTime = targetVideoTime;
         }
     }
+});
+
+// 音频播放事件处理函数
+function handleAudioPlay() {
+    console.log('音频播放事件触发');
+    isPlaying = true;
+    playBtn.textContent = '||';
+    playerStatus.textContent = '播放中';
+    
+    // 确保标志位被重置
+    window.isProcessingPlayPause = false;
+}
+
+// 音频暂停事件处理函数
+function handleAudioPause() {
+    console.log('音频暂停事件触发');
+    isPlaying = false;
+    playBtn.textContent = '▶';
+    playerStatus.textContent = '暂停中';
+    
+    // 确保标志位被重置
+    window.isProcessingPlayPause = false;
+}
+
+// 页面加载完成后初始化音乐列表
+document.addEventListener('DOMContentLoaded', () => {
+    loadMusicList();
+
+    // 初始化时绑定一次音频播放器事件监听器
+    audioPlayer.addEventListener('play', handleAudioPlay);
+    audioPlayer.addEventListener('pause', handleAudioPause);
+
+    // 初始化处理标志位
+    window.isProcessingPlayPause = false;
 });

@@ -191,7 +191,6 @@
                     <button class="player-btn" id="prev-btn">◀◀</button>
                     <button class="player-btn" id="play-btn">▶</button>
                     <button class="player-btn" id="next-btn">▶▶</button>
-                    <button class="player-btn loop-list" id="loop-btn" title="列表循环"></button>
                 </div>
 
                 <div class="more">
@@ -276,31 +275,6 @@
     <ul class="music-list" id="music-list">
         <!-- 音乐列表将通过JavaScript动态生成 -->
     </ul>
-
-    <div class="selected-loop-container"
-        style="background-color: rgba(255, 255, 255, 0.9); border-radius: 10px; padding: 15px; margin: 20px auto; max-width: 500px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
-        <div class="selected-loop-header"
-            style="font-size: 16px; font-weight: bold; color: #333; margin-bottom: 12px; text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 5px;">
-            选择循环管理
-        </div>
-        <div class="selected-loop-info" style="margin-bottom: 12px;">
-            <div style="font-size: 13px; color: #666;">
-                <strong>当前模式:</strong> <span id="current-loop-mode">列表循环</span>
-                <br>
-                <strong>选择循环歌曲数:</strong> <span id="selected-loop-count">0</span>
-            </div>
-        </div>
-        <div class="selected-loop-controls" style="display: flex; gap: 8px; justify-content: center;">
-            <button onclick="clearSelectedLoop()"
-                style="background-color: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 13px;">
-                清空选择循环
-            </button>
-            <button onclick="showSelectedLoopList()"
-                style="background-color: #17a2b8; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 13px;">
-                查看选择循环列表
-            </button>
-        </div>
-    </div>
 
     <p>&copy;2025&nbsp;&nbsp;ZIYIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>版权所有，侵权必究</strong></p>
 
