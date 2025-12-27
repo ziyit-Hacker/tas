@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - File Not Found</title>
+    <link rel="icon" href="../assets/[NO DATA].png" type="image/x-icon">
+    <script src="../assets/f12check.js"></script>
+    <script src="../assets/blacklist.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default !important;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .error-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            margin: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .error-code {
+            font-size: 120px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .error-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            font-size: 18px;
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .error-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .error-details h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .error-details p {
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(149, 165, 166, 0.3);
+        }
+
+        .btn-home {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-home:hover {
+            background: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        .contact-info p {
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .contact-info a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 80px;
+            }
+
+            .error-title {
+                font-size: 24px;
+            }
+
+            .error-message {
+                font-size: 16px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        .error-solutions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #27ae60;
+        }
+
+        .error-solutions h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .error-solutions p {
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .technical-info {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+            font-size: 14px;
+        }
+
+        .technical-info h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .technical-info p {
+            color: #5d6d7e;
+            margin-bottom: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <h1 class="error-title">File Not Found</h1>
+        <p class="error-message">The requested resource could not be found on this server. The site configured at this
+            address does not contain the file you are looking for.</p>
+
+        <div class="error-details">
+            <h3>Possible Causes:</h3>
+            <p>• The file may have been moved, renamed, or deleted</p>
+            <p>• The URL address was entered incorrectly</p>
+            <p>• The page is currently under maintenance or being updated</p>
+            <p>• There might be a temporary server issue</p>
+            <p>• The resource may have been restricted or requires authentication</p>
+        </div>
+
+        <div class="error-solutions">
+            <h3>What you can try:</h3>
+            <p>• Check the URL for typing errors</p>
+            <p>• Navigate to the homepage and search for the content</p>
+            <p>• Use the site's search functionality if available</p>
+            <p>• Wait a few minutes and try again</p>
+            <p>• Contact the site administrator for assistance</p>
+        </div>
+
+        <div class="action-buttons">
+            <a href="./" class="btn btn-home">Go to Homepage</a>
+            <a href="javascript:history.back()" class="btn btn-primary">Go Back</a>
+            <a href="mailto:3950140506@qq.com" class="btn btn-secondary">Contact Administrator</a>
+        </div>
+
+        <div class="technical-info">
+            <h3>Technical Information:</h3>
+            <p>• Error Code: 404 Not Found</p>
+            <p>• Server: ZIYIT Web Server</p>
+            <p>• Timestamp: <span id="current-time"></span></p>
+        </div>
+
+        <div class="contact-info">
+            <p>If you need further assistance, please contact:</p>
+            <p>Email: <a href="mailto:3950140506@qq.com">3950140506@qq.com</a></p>
+            <p>Phone: <a href="tel:13258227085">13258227085</a></p>
+            <p>Response Time: 09:00 to 21:00 (UTC+8)</p>
+            <p>&copy; 2025 ZIYIT - 只因科技</p>
+        </div>
+    </div>
+
+    <script>
+        // Display current timestamp
+        document.getElementById('current-time').textContent = new Date().toLocaleString();
+
+        // Add page load time tracking
+        window.addEventListener('load', function () {
+            console.log('404 Error Page loaded successfully');
+        });
+    </script>
+</body>
+
+</html>

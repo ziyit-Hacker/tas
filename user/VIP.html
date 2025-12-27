@@ -14,10 +14,14 @@
                 width: 90%;
                 padding: 15px;
             }
-            input, select, button {
+
+            input,
+            select,
+            button {
                 width: 90% !important;
                 font-size: 16px;
             }
+
             h1 {
                 font-size: 20px !important;
             }
@@ -135,7 +139,8 @@
 <body background="../assets/bgl.jpg" style=" background-repeat:no-repeat ;
         background-size:100% 100%;
         background-attachment: fixed;">
-    <div style="max-width: 500px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <div
+        style="max-width: 500px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
         <h1 id="up" class="bt" style="font-size: 28px; margin-bottom: 20px;">升级VIP会员</h1>
 
         <a href="javascript:history.back()" id="upback" style="color: #0078d4; text-decoration: none;">返回</a>
@@ -143,7 +148,8 @@
         <form method="get" autocomplete="off" onsubmit="event.preventDefault(); upgradeVIP();">
             <div style="margin-bottom: 16px;">
                 <label for="username" class="bt">昵  称</label>
-                <input type="text" id="username" name="username" maxlength="11" placeholder="输入账号ID" autocomplete="off" required>
+                <input type="text" id="username" name="username" maxlength="11" placeholder="输入账号ID" autocomplete="off"
+                    required>
             </div>
 
             <div style="margin-bottom: 20px;">
@@ -190,22 +196,22 @@
         const password_input = document.getElementById('password').value;
         const vipLicense = document.getElementById('vipLicense').value;
         const errorMsg = document.getElementById('errorMsg');
-    
+
         errorMsg.style.display = 'none';
-    
+
         // 输入验证：检查所有必填字段是否为空
         if (!username.trim()) {
             errorMsg.textContent = '用户名不能为空';
             errorMsg.style.display = 'block';
             return;
         }
-        
+
         if (!password_input.trim()) {
             errorMsg.textContent = '密码不能为空';
             errorMsg.style.display = 'block';
             return;
         }
-        
+
         if (!vipLicense.trim()) {
             errorMsg.textContent = 'VIP许可证密钥不能为空';
             errorMsg.style.display = 'block';
@@ -215,7 +221,7 @@
         // 对密码进行MD5加密
         const password = CryptoJS.MD5(password_input).toString(CryptoJS.enc.Base64);
         const authToken = `UR-${username}-${password}`;
-    
+
         fetch('./user.txt')
             .then(response => response.text())
             .then(text => {
@@ -230,24 +236,30 @@
                             const validLicenses = keyContent.split('\n')
                                 .map(license => license.trim())
                                 .filter(license => license.length > 0);
-                            
+
+                            // 调试信息：显示读取到的密钥和输入的密钥
+                            console.log('读取到的密钥列表:', validLicenses);
+                            console.log('输入的密钥:', vipLicense);
+                            console.log('密钥是否匹配:', validLicenses.includes(vipLicense));
+
                             // 验证VIP许可证密钥是否存在于key.txt中
                             if (!validLicenses.includes(vipLicense)) {
                                 licenseErrorCount++;
                                 errorMsg.textContent = `VIP许可证密钥错误，请检查密钥是否正确（错误次数：${licenseErrorCount}/3）`;
                                 errorMsg.style.display = 'block';
-                                
+
                                 // 如果错误次数达到3次，锁定页面
                                 if (licenseErrorCount >= 3) {
                                     lockPage();
                                 }
                                 return;
                             }
-                            
+
                             // 验证成功，重置错误计数
                             licenseErrorCount = 0;
                             proceedWithVIPUpgrade(username, password, vipLicense, authToken);
                         })
+
                         .catch(error => {
                             console.error('读取许可码文件出错:', error);
                             errorMsg.textContent = '系统错误，无法验证VIP许可证密钥';
@@ -267,17 +279,17 @@
 
     function lockPage() {
         isLocked = true;
-        
+
         // 保存原始元素
         originalElements.upback = document.getElementById('upback');
         originalElements.submit = document.getElementById('submit');
         originalElements.register = document.getElementById('register');
-        
+
         // 删除元素
         if (originalElements.upback) originalElements.upback.remove();
         if (originalElements.submit) originalElements.submit.remove();
         if (originalElements.register) originalElements.register.remove();
-        
+
         // 创建错误提示
         const errorDiv = document.createElement('div');
         errorDiv.id = 'licenseError';
@@ -290,13 +302,13 @@
         errorDiv.style.border = '2px solid red';
         errorDiv.style.borderRadius = '8px';
         errorDiv.innerHTML = 'VIP许可证密钥验证错误次数过多，页面已锁定，请等待30秒后重试';
-        
+
         // 插入到注册链接原来的位置
         const registerContainer = document.querySelector('div[style*="text-align: center"]');
         if (registerContainer) {
             registerContainer.appendChild(errorDiv);
         }
-        
+
         // 30秒后恢复页面
         setTimeout(() => {
             restorePage();
@@ -306,11 +318,11 @@
     function restorePage() {
         isLocked = false;
         licenseErrorCount = 0;
-        
+
         // 移除错误提示
         const errorDiv = document.getElementById('licenseError');
         if (errorDiv) errorDiv.remove();
-        
+
         // 恢复原始元素
         const registerContainer = document.querySelector('div[style*="text-align: center"]');
         if (registerContainer) {
@@ -323,7 +335,7 @@
                     }
                 }
             }
-            
+
             if (originalElements.submit) {
                 const form = document.querySelector('form');
                 if (form) {
@@ -333,7 +345,7 @@
                     }
                 }
             }
-            
+
             if (originalElements.register) {
                 registerContainer.appendChild(originalElements.register);
             }
@@ -342,42 +354,118 @@
 
     function proceedWithVIPUpgrade(username, password, vipLicense, old_user) {
         const new_user = `ZC-${username}-${password}`;
-        
-        fetch('./upk.txt')
+
+        fetch('./user.txt')
             .then(response => response.text())
-            .then(upk => {
-                const now = new Date();
-                const timeStr = now.toISOString().replace(/T/, ' ').replace(/\..+/, '');
-                
-                const message = `请将${old_user}/${upk}\\${new_user}'${timeStr}用短信发送到13258227085`;
-                
-                const msgDiv = document.createElement('div');
-                msgDiv.style.position = 'fixed';
-                msgDiv.style.top = '50%';
-                msgDiv.style.left = '50%';
-                msgDiv.style.transform = 'translate(-50%, -50%)';
-                msgDiv.style.backgroundColor = 'white';
-                msgDiv.style.padding = '20px';
-                msgDiv.style.borderRadius = '8px';
-                msgDiv.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
-                msgDiv.style.zIndex = '1000';
-                msgDiv.style.textAlign = 'center';
+            .then(userData => {
+                // 从user.txt中查找当前用户的完整数据行
+                const lines = userData.split('\n');
+                const matchedLine = lines.find(line => line.includes(old_user));
 
-                const msgText = document.createElement('p');
-                msgText.textContent = message;
-                msgDiv.appendChild(msgText);
+                // 提取isZTG状态（如果存在）
+                let isZTG = '-False'; // 默认值
+                if (matchedLine) {
+                    isZTG = matchedLine.includes('-True') ? '-True' : '-False';
+                }
 
-                const confirmBtn = document.createElement('button');
-                confirmBtn.textContent = '已发送，回到主页';
-                confirmBtn.style.marginTop = '15px';
-                confirmBtn.onclick = function () {
-                    window.location.href = '../';
-                };
-                msgDiv.appendChild(confirmBtn);
+                // 构建完整的用户认证令牌
+                const fullUserToken = `${new_user}${isZTG}`;
 
-                document.body.appendChild(msgDiv);
+                fetch('./upk.txt')
+                    .then(response => response.text())
+                    .then(upk => {
+                        const now = new Date();
+                        const timeStr = now.toISOString().replace(/T/, ' ').replace(/\..+/, '');
 
-                navigator.clipboard.writeText(`${old_user}/${upk}\\${new_user}'${timeStr}`);
+                        const message = `请将${old_user}/${upk}\\${new_user}'${timeStr}用短信发送到13258227085`;
+
+                        const msgDiv = document.createElement('div');
+                        msgDiv.style.position = 'fixed';
+                        msgDiv.style.top = '50%';
+                        msgDiv.style.left = '50%';
+                        msgDiv.style.transform = 'translate(-50%, -50%)';
+                        msgDiv.style.backgroundColor = 'white';
+                        msgDiv.style.padding = '20px';
+                        msgDiv.style.borderRadius = '8px';
+                        msgDiv.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+                        msgDiv.style.zIndex = '1000';
+                        msgDiv.style.textAlign = 'center';
+
+                        const msgText = document.createElement('p');
+                        msgText.textContent = message;
+                        msgDiv.appendChild(msgText);
+
+                        const confirmBtn = document.createElement('button');
+                        confirmBtn.textContent = '已发送，回到主页';
+                        confirmBtn.style.marginTop = '15px';
+                        confirmBtn.onclick = function () {
+                            // 更新Cookie中的用户数据
+                            const expires = new Date();
+                            expires.setTime(expires.getTime() + (60 * 24 * 60 * 60 * 1000)); // 60天有效期
+                            document.cookie = `authToken=${encodeURIComponent(fullUserToken)}; expires=${expires.toUTCString()}; path=/`;
+
+                            // 同时更新localStorage
+                            localStorage.setItem('authToken', fullUserToken);
+
+                            window.location.href = '../';
+                        };
+                        msgDiv.appendChild(confirmBtn);
+
+                        document.body.appendChild(msgDiv);
+
+                        navigator.clipboard.writeText(`${old_user}/${upk}\\${new_user}'${timeStr}`);
+                    });
+            })
+            .catch(error => {
+                console.error('读取用户数据文件出错:', error);
+                // 如果读取失败，使用默认的False状态
+                const defaultUserToken = `${new_user}-False`;
+
+                // 继续执行升级流程，但使用默认的False状态
+                fetch('./upk.txt')
+                    .then(response => response.text())
+                    .then(upk => {
+                        const now = new Date();
+                        const timeStr = now.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+
+                        const message = `请将${old_user}/${upk}\\${new_user}'${timeStr}用短信发送到13258227085`;
+
+                        const msgDiv = document.createElement('div');
+                        msgDiv.style.position = 'fixed';
+                        msgDiv.style.top = '50%';
+                        msgDiv.style.left = '50%';
+                        msgDiv.style.transform = 'translate(-50%, -50%)';
+                        msgDiv.style.backgroundColor = 'white';
+                        msgDiv.style.padding = '20px';
+                        msgDiv.style.borderRadius = '8px';
+                        msgDiv.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+                        msgDiv.style.zIndex = '1000';
+                        msgDiv.style.textAlign = 'center';
+
+                        const msgText = document.createElement('p');
+                        msgText.textContent = message;
+                        msgDiv.appendChild(msgText);
+
+                        const confirmBtn = document.createElement('button');
+                        confirmBtn.textContent = '已发送，回到主页';
+                        confirmBtn.style.marginTop = '15px';
+                        confirmBtn.onclick = function () {
+                            // 更新Cookie中的用户数据（使用默认的False状态）
+                            const expires = new Date();
+                            expires.setTime(expires.getTime() + (60 * 24 * 60 * 60 * 1000)); // 60天有效期
+                            document.cookie = `authToken=${encodeURIComponent(defaultUserToken)}; expires=${expires.toUTCString()}; path=/`;
+
+                            // 同时更新localStorage
+                            localStorage.setItem('authToken', defaultUserToken);
+
+                            window.location.href = '../';
+                        };
+                        msgDiv.appendChild(confirmBtn);
+
+                        document.body.appendChild(msgDiv);
+
+                        navigator.clipboard.writeText(`${old_user}/${upk}\\${new_user}'${timeStr}`);
+                    });
             });
     }
 </script>

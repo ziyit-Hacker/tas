@@ -3,10 +3,6 @@
 
 <head>
     <meta charset="utf-8">
-    <title>登录只因科技(中国)</title>
-    <link rel="icon" href="../assets/ziyit.png" type="image/x-icon">
-    <script src="../assets/f12check.js"></script>
-    <script src="../assets/blacklist.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @media (max-width: 768px) {
@@ -137,10 +133,14 @@
         * {
             cursor: default !important;
         }
+
+        .隐藏 {
+            display: none;
+        }
     </style>
 </head>
 
-<body background="../assets/bgl.jpg" style=" background-repeat:no-repeat ;
+<body background="https://ziyit-hacker.github.io/tas/assets/bgl.jpg" style=" background-repeat:no-repeat ;
         background-size:100% 100%;
         background-attachment: fixed;">
     <script>
@@ -153,8 +153,17 @@
         style="max-width: 400px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
         <h1 id="up" class="bt" style="font-size: 24px; margin-bottom: 20px;">登录</h1>
 
-        <form autocomplete="off" onsubmit="event.preventDefault(); checkPassword();">
-            <a href="javascript:history.back()" style="color: #0078d4; text-decoration: none;">返回</a>
+        <form method="get" autocomplete="off">
+            <a href="../" style="color: #0078d4; text-decoration: none;">返回首页</a>
+            <div style="margin-bottom: 16px;">
+                <label for="accountType" class="bt">账号类型</label>
+                <select id="accountType"
+                    style="width: 80%; padding: 10px; border-radius: 4px; border: 1px solid #d3d3d3;">
+                    <option value="普通用户">普通用户</option>
+                    <option value="vip用户">vip用户</option>
+                </select>
+            </div>
+
             <div style="margin-bottom: 16px;">
                 <label for="username" class="bt">昵 称</label>
                 <input type="text" id="username" name="username" maxlength="11" placeholder="输入账号ID">
@@ -165,17 +174,11 @@
                 <input type="password" id="password" name="password" placeholder="输入密码" required>
             </div>
 
-            <div style="margin-bottom: 20px; display: flex; align-items: center;">
-                <input type="checkbox" id="rememberMe" style="width: auto; margin-right: 8px;">
-                <label for="rememberMe" class="bt" style="margin-bottom: 0;">保持登录</label>
-            </div>
-
             <input type="submit" id="login" value="登录">
         </form>
 
         <div style="text-align: center; margin-top: 16px;">
-            <a href="register" style="color: #0078d4; text-decoration: none;">没有账号？点这里注册！</a><br>
-            <a href="./gg" style="color: #0078d4; text-decoration: none;">最新大更新公告</a>
+            <a href="register" style="margin-top: 16px; color: #0078d4; text-decoration: none;" class="隐藏">没有账号？点这里注册！</a>
         </div>
     </div>
     <!--在这继续添加-->
@@ -195,7 +198,8 @@
         function checkFocus() {
             const activeElement = document.activeElement;
             const isInputFocused = activeElement === document.getElementById('username') ||
-                activeElement === document.getElementById('password');
+                activeElement === document.getElementById('password') ||
+                activeElement === document.getElementById('accountType');
 
             if (errorDiv) {
                 if (loginFailed && !isInputFocused) {
@@ -220,120 +224,69 @@
 
         // 添加焦点事件监听
         const inputs = [document.getElementById('username'),
-        document.getElementById('password')];
+        document.getElementById('password'),
+        document.getElementById('accountType')];
 
         inputs.forEach(input => {
             input.addEventListener('focus', checkFocus);
             input.addEventListener('blur', checkFocus);
         });
 
-        function checkPassword() {
+        document.getElementById('login').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const accountType = document.getElementById('accountType').value === 'vip用户' ? 'ZC' : 'UR';
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
-
-            if (!username.trim()) {
-                showError('用户名不能为空');
-                return;
-            }
-
-            if (!password.trim()) {
-                showError('密码不能为空');
-                return;
-            }
 
             // 使用CryptoJS进行MD5加密
             const md5Hash = CryptoJS.MD5(password).toString(CryptoJS.enc.Base64);
+            const authToken = `${accountType}-${username}-${md5Hash}`;
 
-            // 检查user.txt中是否存在该用户
-            fetch('user.txt')
+            // 检查user.txt中是否存在该token
+            fetch('https://ziyit-hacker.github.io/user/user.txt')
                 .then(response => response.text())
                 .then(text => {
                     const lines = text.split('\n');
-                    // 查找包含该用户名的行
-                    const matchedLine = lines.find(line => {
-                        const parts = line.split('-');
-                        return parts.length >= 2 && parts[1] === username;
-                    });
-
+                    const matchedLine = lines.find(line => line.includes(authToken));
+                    
                     if (matchedLine) {
-                        const parts = matchedLine.split('-');
-                        const userType = parts[0]; // ZC 或 UR
-                        const authToken = `${userType}-${username}-${md5Hash}`;
-
-                        // 检查密码是否正确
-                        if (matchedLine.includes(authToken)) {
-                            // 提取ifZTG状态
-                            const ifZTG = matchedLine.includes('-True') ? '-True' : '-False';
-                            const fullAuthToken = `${authToken}${ifZTG}`;
-
-                            // 登录成功 - 保存到cookie而不是localStorage
-                            // 根据复选框状态设置cookie有效期
-                            const expires = new Date();
-                            if (rememberMe) {
-                                // 勾选"2个月有效" - 2个月有效期
-                                expires.setTime(expires.getTime() + (60 * 24 * 60 * 60 * 1000)); // 60天
-                            } else {
-                                // 未勾选 - 默认2分钟有效期
-                                expires.setTime(expires.getTime() + (2 * 60 * 1000)); // 2分钟
-                            }
-                            document.cookie = `authToken=${encodeURIComponent(fullAuthToken)}; expires=${expires.toUTCString()}; path=/`;
-
-                            // 检查用户名是否为临时用户
-                            const ut = localStorage.getItem('ut');
-                            if (username === 'cache' || username === 'temp' || ut == 0) {
-                                // 将ut变量设置为0并存储在localStorage中
-                                localStorage.setItem('ut', 0);
-                                expires.setTime(expires.getTime() + (3.75 * 60 * 1000));
-                                document.cookie = `authToken=${encodeURIComponent(fullAuthToken)}; expires=${expires.toUTCString()}; path=/`;
-                            }
-                            window.location.href = '../';
-                        } else {
-                            showError('密码错误');
+                        // 提取ifZTG状态
+                        const ifZTG = matchedLine.includes('-True') ? '-True' : '-False';
+                        const fullAuthToken = `${authToken}${ifZTG}`;
+                        
+                        // 登录成功
+                        localStorage.setItem('authToken', fullAuthToken);
+                        // 检查用户名是否为临时用户
+                        const username = document.getElementById('username').value;
+                        const ut = localStorage.getItem('ut');
+                        if (username === 'cache' || username === 'temp' || ut == 0) {
+                            // 将ut变量设置为0并存储在localStorage中
+                            localStorage.setItem('ut', 0);
                         }
+                        window.location.href = '../';
                     } else {
-                        showError('用户名不存在');
+                        loginFailed = true;
+                        if (!errorDiv) {
+                            errorDiv = document.createElement('div');
+                            errorDiv.style.color = 'red';
+                            errorDiv.style.marginTop = '10px';
+                            errorDiv.style.opacity = '0';
+                            errorDiv.style.transition = 'opacity 0.3s ease';
+                            errorDiv.textContent = '账户或密码错误';
+                            document.querySelector('a[href="register"]').parentNode.appendChild(errorDiv);
+
+                            // 初始显示动画
+                            setTimeout(() => {
+                                errorDiv.style.opacity = '1';
+                            }, 10);
+                        }
+                        checkFocus();
                     }
                 })
                 .catch(error => {
-                    console.error('读取用户数据失败:', error);
-                    showError('系统错误，请稍后再试');
+                    console.error(error);
                 });
-        }
-
-        function showError(message) {
-            loginFailed = true;
-            if (!errorDiv) {
-                errorDiv = document.createElement('div');
-                errorDiv.style.color = 'red';
-                errorDiv.style.marginTop = '10px';
-                errorDiv.style.opacity = '0';
-                errorDiv.style.transition = 'opacity 0.3s ease';
-                errorDiv.textContent = message;
-                document.querySelector('a[href="register"]').parentNode.appendChild(errorDiv);
-
-                // 初始显示动画
-                setTimeout(() => {
-                    errorDiv.style.opacity = '1';
-                }, 10);
-            } else {
-                errorDiv.textContent = message;
-                errorDiv.style.display = 'block';
-                errorDiv.style.opacity = '1';
-            }
-            checkFocus();
-        }
-
-        // 修改表单提交事件
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            checkPassword();
-        });
-
-        // 修改登录按钮点击事件
-        document.getElementById('login').addEventListener('click', function(e) {
-            e.preventDefault();
-            checkPassword();
         });
     </script>
 </body>

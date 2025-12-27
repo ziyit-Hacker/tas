@@ -93,7 +93,6 @@
         window.google_analytics_uacct = 'UA-18234656-1';
         window.google_analytics_domain_name = 'none';
     </script>
-    <link rel="manifest" href="/onesignal/manifest.json" />
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" acync=""></script>
     <script>
         var OneSignal = window.OneSignal || [];
@@ -436,23 +435,37 @@
             return null;
         }
 
-        const authToken = getCookie('authToken') || localStorage.getItem('authToken');
-        if (!authToken) {
-            // 如果authToken不存在，显示未登录状态
-            usernameDisplay.textContent = '未登录';
-            userTypeDisplay.textContent = '';
-        } else {
-            const [type, username] = authToken.split('-');
-
+        // 页面加载完成后执行登录状态检测
+        document.addEventListener('DOMContentLoaded', function() {
+            const authToken = getCookie('authToken') || localStorage.getItem('authToken');
             const usernameDisplay = document.getElementById('usernameDisplay');
             const userTypeDisplay = document.getElementById('userTypeDisplay');
+            const pageContent = document.getElementById('page-content');
 
-            usernameDisplay.textContent = username;
-            userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
-            if (username === '13258227085') {
-                userTypeDisplay.textContent = 'ZIYIT最高管理员';
+            if (!authToken) {
+                // 如果authToken不存在，显示未登录状态
+                if (usernameDisplay) usernameDisplay.textContent = '未登录';
+                if (userTypeDisplay) userTypeDisplay.textContent = '';
+                
+                // 在页面内容区域添加未登录提示
+                if (pageContent) {
+                    const loginPrompt = document.createElement('div');
+                    loginPrompt.style.cssText = 'background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 15px; margin: 20px 0; text-align: center; font-size: 16px;';
+                    loginPrompt.innerHTML = '您还未登录，<a href="/user/">登录</a> 或 <a href="/user/register">注册</a>';
+                    pageContent.insertBefore(loginPrompt, pageContent.firstChild);
+                }
+            } else {
+                const [type, username] = authToken.split('-');
+
+                if (usernameDisplay) usernameDisplay.textContent = username;
+                if (userTypeDisplay) {
+                    userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+                    if (username === '13258227085') {
+                        userTypeDisplay.textContent = 'ZIYIT最高管理员';
+                    }
+                }
             }
-        }
+        });
     </script>
     <div id="skrollr-body">
         <div id="container-wrap-wrap">
@@ -471,6 +484,7 @@
                                             <li><a href="../sub-layers/">子区集</a></li>
                                             <li><a href="../entities">实体</a></li>
                                             <li><a href="../objects/">物品</a></li>
+                                            <li><a href="../phenomena/">现象</a></li>
                                         </ul>
                                     </li><li><a href="javascript:history.back()">返回上一步</a></li>
                                 </ul>
@@ -486,6 +500,7 @@
                                             <li><a href="../sub-layers/">子区集</a></li>
                                             <li><a href="../entities">实体</a></li>
                                             <li><a href="../objects/">物品</a></li>
+                                            <li><a href="../phenomena/">现象</a></li>
                                         </ul>
                                     </li>
                                     </li><li><a href="javascript:history.back()">返回上一步</a></li>
@@ -515,7 +530,8 @@
                                         <ul>
                                             <li><strong><a href="../normal-levels/">普通层级</a></strong></li>
                                             <li><strong><a href="../entities/">普通实体</a></strong></li>
-                                            <li><strong><a class="newpage" href="../phenomena/">现象</a></strong></li>
+                                            <li><strong><a href="../phenomena/">现象</a></strong></li>
+                                            <li><strong><a href="../../">返回首页</a></strong></li>
                                         </ul>
                                     </div>
                                     <div class="intro-block intro-toc">
@@ -539,10 +555,7 @@
                                             “杏仁水”</li>
                                         <li><a class="newpage" href="./objects/object-2">Object 2</a> - [NO DATA]<span
                                                 class="del">&#32;</span></li>
-                                        <li><a href="./objects/object-3">Object 3</a> - <span
-                                                style="text-decoration: line-through;">“驱笑剂”</span> <span
-                                                style="color: blue">本文档即将修改完成，请等待完全更新</span><span
-                                                class="rew">&#32;</span></li>
+                                        <li><a href="./objects/object-3">Object 3</a> - “驱笑剂”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/object-4">Object 4</a> -
                                             “反欧几里得装置”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/object-5">Object 5</a> - “糖果”
@@ -3535,7 +3548,7 @@
                                     <a href="../">总览</a>
                                 </span>
                                 <span>
-                                    <a href="./slyq.md">收录要求</a>
+                                    <a href="../InclusionR?type=objects">收录要求</a>
                                 </span>
                             </div>
                         </div>

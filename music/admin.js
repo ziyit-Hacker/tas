@@ -987,14 +987,14 @@ function renderUserList() {
     for (let i = 0; i < userList.length; i++) {
         const user = userList[i];
 
-        // 使用user.html中的方法：直接split('-')获取所有部分
+        // 使用user中的方法：直接split('-')获取所有部分
         const parts = user.split('-');
         if (parts.length < 4) {
             console.warn('用户数据格式错误:', user);
             continue; // 跳过格式错误的用户数据
         }
 
-        // 使用user.html中的方法：直接获取各部分
+        // 使用user中的方法：直接获取各部分
         const type = parts[0];        // 用户类型
         const username = parts[1];     // 用户名
         const password = parts[2];    // 密码
@@ -1064,7 +1064,7 @@ function editUser(index) {
         return;
     }
 
-    // 使用user.html中的方法：直接获取各部分
+    // 使用user中的方法：直接获取各部分
     const type = parts[0];        // 用户类型
     const username = parts[1];    // 用户名
     const password = parts[2];    // 密码

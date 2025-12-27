@@ -1,0 +1,357 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0;
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #66e656;
+        }
+
+        .box {
+            width: 100%;
+            height: 35px;
+            background-color: #0b99fa;
+        }
+
+        .pod {
+            width: 100%;
+            height: 100%;
+        }
+
+        p {
+            color: black;
+        }
+
+        ul li {
+            display: inline-block;
+            line-height: 35px;
+        }
+
+        li a {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        li p {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .bid {
+            color: #f25767;
+        }
+
+        .tit {
+            color: black;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 5px 0;
+        }
+
+        .line {
+            width: 1px;
+            height: 12px;
+            background-color: #f3a707;
+        }
+
+        a:hover {
+            color: #ff8000;
+        }
+
+        h1 {
+            width: 100%;
+            background-color: rgb(195, 234, 249);
+            text-align: center;
+            font-size: 50px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .slider {
+            width: 560px;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .slider-wrapper {
+            width: 100%;
+            height: 320px;
+        }
+
+        .slider-wrapper img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .slider-footer {
+            height: 80px;
+            background-color: rgb(100, 67, 68);
+            padding: 12px 12px 0 12px;
+            position: relative;
+        }
+
+        .slider-footer .toggle {
+            position: absolute;
+            right: 0;
+            top: 12px;
+            display: flex;
+        }
+
+        .slider-footer .toggle button {
+            margin-right: 12px;
+            width: 28px;
+            height: 28px;
+            appearance: none;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .slider-footer .toggle button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .slider-footer p {
+            margin: 0;
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .slider-indicator {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .slider-indicator li {
+            width: 8px;
+            height: 8px;
+            margin: 4px;
+            border-radius: 50%;
+            background: #fff;
+            opacity: 0.4;
+            cursor: pointer;
+        }
+
+        .slider-indicator li.active {
+            width: 12px;
+            height: 12px;
+            opacity: 1;
+        }
+
+        #userAvatar{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+        
+        .visible {
+            display: inline-block !important;
+        }
+
+        * {
+            cursor: default !important;
+        }
+    </style>
+    <style>
+        @media (max-width: 768px) {
+            .box {
+                height: auto;
+            }
+            ul.pod {
+                display: flex;
+                flex-direction: column;
+            }
+            ul.pod li {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+            .line {
+                display: none;
+            }
+            .service-grid {
+                flex-direction: column;
+            }
+            .service-grid > div {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            h1{
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body background="https://ziyit-hacker.github.io/tas/assets/bg.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
+    <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
+        <img id="userAvatar" src="" alt="未设定" style="width: 65px; height: 50px; display: none;">
+        <div id="userInfo" style="color: black; font-size: 18px;">
+            <strong><span id="usernameDisplay">未登录</span></strong>
+            <br>
+            <strong><span id="userTypeDisplay"></span></strong>
+        </div>
+    </div>
+    <h1>用户中心</h1>
+    <hr>
+    <div class="box">
+        <ul class="pod" id="navMenu">
+            <li class="nav-item" data-role="all"><a href='#' id="logoutLink">退出登录</a></li>
+            <li class="nav-item" data-role="all"><a href='.\user\password'>更改密码</a></li>
+            <li class="line nav-item" data-role="all"></li>
+            <li class="nav-item" data-role="admin"><a href="#" id="adToggle">今天不限制弹出广告</a></li>
+            <li class="nav-item" data-role="user"><p><span style="color: red;">小彩蛋</span></p></li>
+            <li class="nav-item" data-role="all"><a href=".\">返回首页</a></li>
+        </ul>
+    </div>
+
+    <script>
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+            // 如果authToken不存在，显示未登录状态
+            usernameDisplay.textContent = '未登录';
+            userTypeDisplay.textContent = '';
+        }else{
+        const [type, username] = authToken.split('-');
+
+        const userAvatar = document.getElementById('userAvatar');
+        const usernameDisplay = document.getElementById('usernameDisplay');
+        const userTypeDisplay = document.getElementById('userTypeDisplay');
+
+        userAvatar.src = './assets/ziyit.png';
+        userAvatar.style.display = 'block';
+        usernameDisplay.textContent = username;
+        userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+        }
+    </script>
+    <script>
+        const logoutLink = document.getElementById('logoutLink');
+        logoutLink.addEventListener('click', function() {
+            localStorage.removeItem('authToken');
+            window.location.href = './';
+        });
+    </script>
+    <script>
+        async function checkBlacklist(authToken) {
+            try {
+                const response = await fetch('./hmd.txt');
+                const text = await response.text();
+                const lines = text.split('\n');
+                return lines.some(line => line.trim() === authToken);
+            } catch (error) {
+                console.error('fuck github, error is ', error);
+                return false;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', async function() {
+            const authToken = localStorage.getItem('authToken');
+            if (authToken) {
+                const isBlacklisted = await checkBlacklist(authToken);
+                if (isBlacklisted) {
+                    document.getElementById('userTypeDisplay').textContent = '黑名单用户';
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.style.display = 'none';
+                    });
+                }
+            }
+        });
+    </script>
+
+    <script>
+        const intervalId = setInterval(() => {
+            const authToken = localStorage.getItem('authToken');
+            const loginLink = document.getElementById('loginLink');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            if (!authToken) {
+                // 如果authToken不存在，只显示data-role为'all'的菜单项
+                navItems.forEach(item => {
+                    if (item.textContent.includes('返回首页')) {
+                        item.classList.add('visible');
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                        item.classList.remove('visible');
+                    }
+                });
+                return;
+            }
+            
+            const [type, username, hash, ifZTG] = authToken.split('-');
+            if (loginLink) loginLink.style.display = 'none';
+        
+            navItems.forEach(item => {
+                const role = item.getAttribute('data-role');
+                if (role === 'all' ||
+                    (type === 'ZC' && role === 'admin') ||
+                    (type === 'UR' && role === 'user') ||
+                    (ifZTG === 'True' && role === 'ztg')) {
+                    item.classList.add('visible');
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                    item.classList.remove('visible');
+                }
+            });
+        }, 250);
+    </script>
+
+    <script>
+        // 初始化广告限制状态
+        const adToggle = document.getElementById('adToggle');
+        const today = new Date().toDateString();
+        const adPrefs = JSON.parse(localStorage.getItem('adPreferences') || '{}');
+        
+        // 检查今天的设置
+        if (adPrefs.date === today && adPrefs.noLimit) {
+            adToggle.textContent = '今天已取消广告限制';
+        }
+        
+        // 点击事件处理
+        adToggle.addEventListener('click', function() {
+            const currentDate = new Date().toDateString();
+            
+            if (adPrefs.date === currentDate && adPrefs.noLimit) {
+                // 恢复限制
+                adPrefs.noLimit = false;
+                adToggle.textContent = '今天不限制弹出广告';
+            } else {
+                // 取消限制
+                adPrefs.date = currentDate;
+                adPrefs.noLimit = true;
+                adToggle.textContent = '今天已取消广告限制';
+            }
+            
+            localStorage.setItem('adPreferences', JSON.stringify(adPrefs));
+        });
+    </script>
+</body>
+</html>

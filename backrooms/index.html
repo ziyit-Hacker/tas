@@ -116,11 +116,10 @@
 
 <body style="background: url(../assets/backrooms.jpg) no-repeat center center fixed; background-size: cover;">
     <div style="position: absolute; right: 10px; top: 10px; text-align: center;">
-        <img id="userAvatar" src="" alt="" style="width: 65px; height: 50px; display: none;">
         <div id="userInfo" style="color: black; font-size: 18px;">
-            <strong><span id="usernameDisplay">未登录</span></strong>
+            <strong class="rainbowtext"><span id="usernameDisplay">未登录</span></strong>
             <br>
-            <strong><span id="userTypeDisplay"></span></strong>
+            <strong class="rainbowtext"><span id="userTypeDisplay"></span></strong>
         </div>
     </div>
     <script>
@@ -132,33 +131,49 @@
             return null;
         }
 
-        const authToken = getCookie('authToken') || localStorage.getItem('authToken');
-        if (!authToken) {
-            // 如果authToken不存在，显示未登录状态
-            usernameDisplay.textContent = '未登录';
-            userTypeDisplay.textContent = '';
-        }else{
-        const [type, username] = authToken.split('-');
+        // 页面加载完成后执行登录状态检测
+        document.addEventListener('DOMContentLoaded', function() {
+            const authToken = getCookie('authToken') || localStorage.getItem('authToken');
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            const userTypeDisplay = document.getElementById('userTypeDisplay');
+            const pageContent = document.getElementById('page-content');
 
-        const userAvatar = document.getElementById('userAvatar');
-        const usernameDisplay = document.getElementById('usernameDisplay');
-        const userTypeDisplay = document.getElementById('userTypeDisplay');
+            if (!authToken) {
+                // 如果authToken不存在，显示未登录状态
+                if (usernameDisplay) usernameDisplay.textContent = '未登录';
+                if (userTypeDisplay) userTypeDisplay.textContent = '';
+                
+                // 在页面内容区域添加未登录提示
+                if (pageContent) {
+                    const loginPrompt = document.createElement('div');
+                    loginPrompt.style.cssText = 'background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 15px; margin: 20px 0; text-align: center; font-size: 16px;';
+                    loginPrompt.innerHTML = '您还未登录，<a href="/user/">登录</a> 或 <a href="/user/register">注册</a>';
+                    pageContent.insertBefore(loginPrompt, pageContent.firstChild);
+                }
+            } else {
+                const [type, username] = authToken.split('-');
 
-        userAvatar.src = '../assets/ziyit.png';
-        userAvatar.style.display = 'block';
-        usernameDisplay.textContent = username;
-        userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
-        }
+                if (usernameDisplay) usernameDisplay.textContent = username;
+                if (userTypeDisplay) {
+                    userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+                    if (username === '13258227085') {
+                        userTypeDisplay.textContent = 'ZIYIT最高管理员';
+                    }
+                }
+            }
+        });
     </script>
     <h1 style="background-color: rgba(195, 234, 249, 0.29);">ZIYIT后室信息</h1>
     <hr>
     <div class="box">
         <ul class="pod">
             <li><a href="javascript:history.back()">返回</a></li>
+            <li><a href="../">返回首页</a></li>
             <li class="line"></li>
             <li><a href="./normal-levels/">查看层级列表</a></li>
             <li><a href="./entities/">查看实体</a></li>
             <li><a href="./objects/">查看物品</a></li>
+            <li><a href="./phenomena/">查看现象</a></li>
             <li class="line"></li>
             <li><a href="./Deployment">查看部署时间</a></li>
         </ul>

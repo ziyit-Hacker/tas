@@ -78,17 +78,6 @@
         @import url(https://github.backroomswiki.cn/Old_BHL/css/liminal-impact.css);
     </style>
 
-
-
-
-    <link rel="shortcut icon" href="/local--favicon/favicon.gif" />
-    <link rel="icon" type="image/gif" href="/local--favicon/favicon.gif" />
-
-    <link rel="apple-touch-icon" href="/local--iosicon/iosicon_57.png" />
-    <link rel="apple-touch-icon" sizes="72x72" href="/local--iosicon/iosicon_72.png" />
-    <link rel="apple-touch-icon" sizes="114x114" href="/local--iosicon/iosicon.png" />
-
-    <meta name="msapplication-TileImage" content="/local--wp8icon/wp8icon.png" />
     <meta name="msapplication-TileColor" content="#000000" />
 
     <link rel="alternate" type="application/wiki" title="Edit this page"
@@ -115,7 +104,6 @@
         window.google_analytics_domain_name = 'none';
     </script>
 
-    <link rel="manifest" href="/onesignal/manifest.json" />
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" acync=""></script>
     <script>
         var OneSignal = window.OneSignal || [];
@@ -527,23 +515,37 @@ YRDZST
             return null;
         }
 
-        const authToken = getCookie('authToken') || localStorage.getItem('authToken');
-        if (!authToken) {
-            // 如果authToken不存在，显示未登录状态
-            usernameDisplay.textContent = '未登录';
-            userTypeDisplay.textContent = '';
-        } else {
-            const [type, username] = authToken.split('-');
-
+        // 页面加载完成后执行登录状态检测
+        document.addEventListener('DOMContentLoaded', function() {
+            const authToken = getCookie('authToken') || localStorage.getItem('authToken');
             const usernameDisplay = document.getElementById('usernameDisplay');
             const userTypeDisplay = document.getElementById('userTypeDisplay');
+            const pageContent = document.getElementById('page-content');
 
-            usernameDisplay.textContent = username;
-            userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
-            if (username === '13258227085') {
-                userTypeDisplay.textContent = 'ZIYIT最高管理员';
+            if (!authToken) {
+                // 如果authToken不存在，显示未登录状态
+                if (usernameDisplay) usernameDisplay.textContent = '未登录';
+                if (userTypeDisplay) userTypeDisplay.textContent = '';
+                
+                // 在页面内容区域添加未登录提示
+                if (pageContent) {
+                    const loginPrompt = document.createElement('div');
+                    loginPrompt.style.cssText = 'background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 15px; margin: 20px 0; text-align: center; font-size: 16px;';
+                    loginPrompt.innerHTML = '您还未登录，<a href="/user/">登录</a> 或 <a href="/user/register">注册</a>';
+                    pageContent.insertBefore(loginPrompt, pageContent.firstChild);
+                }
+            } else {
+                const [type, username] = authToken.split('-');
+
+                if (usernameDisplay) usernameDisplay.textContent = username;
+                if (userTypeDisplay) {
+                    userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+                    if (username === '13258227085') {
+                        userTypeDisplay.textContent = 'ZIYIT最高管理员';
+                    }
+                }
             }
-        }
+        });
     </script>
     <div id="skrollr-body">
         <a name="page-top"></a>
@@ -563,6 +565,7 @@ YRDZST
                                             <li><a href="../sub-layers/">子区集</a></li>
                                             <li><a href="../entities">实体</a></li>
                                             <li><a href="../objects/">物品</a></li>
+                                            <li><a href="../phenomena/">现象</a></li>
                                         </ul>
                                     </li><li><a href="javascript:history.back()">返回上一步</a></li>
                                 </ul>
@@ -578,6 +581,7 @@ YRDZST
                                             <li><a href="../sub-layers/">子区集</a></li>
                                             <li><a href="../entities">实体</a></li>
                                             <li><a href="../objects/">物品</a></li>
+                                            <li><a href="../phenomena/">现象</a></li>
                                         </ul>
                                     </li>
                                     </li><li><a href="javascript:history.back()">返回上一步</a></li>
@@ -602,7 +606,7 @@ YRDZST
                                             Level）构成了<em>后室</em>（Backrooms）的基本框架，这些层级往往在区域大小、危险性和可居住性等方面有着显著差异。一个典型的层级（无论后室中是否存在可以被期待的所谓“典型”的准值）往往是无限大的（尽管“有界限的”层级并非闻所未闻的），并且它们当中存在的事物和景象经常给人一种异样的熟悉感。我们所熟知的物理和自然法则在后室的深处是不可靠的。不过，一些环境更加适宜且稳定的层级可以作为发展中社区的据点，而有一些居民即使在最危险的层级上也能生存。
                                         </p>
                                         <p>由于通常存在紧急撤退的需求，我们竭尽所能勘察并收录了每个层级的入口和出口。一个需要被牢记的重要提示是：每个层级都存在着间歇性不稳定的倾向。请把这句话刻在你的脑子里，有关任何层级的文档都有可能在毫无警示的情况下被更改。标有
-                                            [数据缺失] 的层级尚未被充分收录。如果您持有任何关于这些层级的目击者文档，请将您的发现贡献给数据库！</p>
+                                            [NO DATA] 的层级尚未被充分收录。如果您持有任何关于这些层级的目击者文档，请将您的发现贡献给数据库！</p>
                                     </div>
                                     <div class="intro-others intro-block">
                                         <h2><span>更多层级<span class="moremark"><span
@@ -610,6 +614,7 @@ YRDZST
                                         <ul>
                                             <li><strong><a href="../sub-layers">子区集</a></strong></li>
                                             <li><strong><a href="mailto:3950140506@qq.com">提交层级</a></strong></li>
+                                            <li><strong><a href="../../">返回首页</a></strong></li>
                                         </ul>
                                     </div>
                                     <div class="intro-out intro-block">
@@ -954,7 +959,7 @@ YRDZST
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/level-233">Level 233</a> - “不冷不热的酒店”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/level-234">Level 234</a> - “监羁位面”</li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/level-235">Level 235</a> - “无垠蹦床公园”</li>
-                                        <li><a href="/entity-64/offset/1">Level 236</a> - <span
+                                        <li><a href="https://backrooms-wiki-cn.wikidot.com/entity-64/offset/1">Level 236</a> - <span
                                                 style="background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red); -webkit-text-fill-color: transparent;">神秘谜题盒</span>
                                         </li>
                                         <li><a href="https://backrooms-wiki-cn.wikidot.com/level-237">Level 237</a> - “相伴城镇”</li>
@@ -1850,7 +1855,9 @@ YRDZST
                             <div class="page-tags">
                                 <span>
                                     <a href="../">总览</a>
-                                    <a href="./slyq.md">收录要求</a>
+                                </span>
+                                <span>
+                                    <a href="../InclusionR?type=normal-levels">收录要求</a>
                                 </span>
                             </div>
                             <div id="page-info-break"></div>
@@ -1862,13 +1869,6 @@ YRDZST
                     <div id="extrac-div-3"><span></span></div>
                 </div>
             </div>
-            <!-- These extra divs/spans may be used as catch-alls to add extra imagery. -->
-            <div id="extra-div-1"><span></span></div>
-            <div id="extra-div-2"><span></span></div>
-            <div id="extra-div-3"><span></span></div>
-            <div id="extra-div-4"><span></span></div>
-            <div id="extra-div-5"><span></span></div>
-            <div id="extra-div-6"><span></span></div>
         </div>
     </div>
 

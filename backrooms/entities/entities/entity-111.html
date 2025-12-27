@@ -66,6 +66,7 @@
 
         /* theme */
         @import url(https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc/common--theme/base/css/style.css);
+        @import url(https://cdn.scpwiki.com/theme/en/black-highlighter/css/min/normalize.min.css);
     </style>
 
     <link rel="shortcut icon" href="/local--favicon/favicon.gif" />
@@ -1125,23 +1126,37 @@
             return null;
         }
 
-        const authToken = getCookie('authToken') || localStorage.getItem('authToken');
-        if (!authToken) {
-            // 如果authToken不存在，显示未登录状态
-            usernameDisplay.textContent = '未登录';
-            userTypeDisplay.textContent = '';
-        } else {
-            const [type, username] = authToken.split('-');
-
+        // 页面加载完成后执行登录状态检测
+        document.addEventListener('DOMContentLoaded', function() {
+            const authToken = getCookie('authToken') || localStorage.getItem('authToken');
             const usernameDisplay = document.getElementById('usernameDisplay');
             const userTypeDisplay = document.getElementById('userTypeDisplay');
+            const pageContent = document.getElementById('page-content');
 
-            usernameDisplay.textContent = username;
-            userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
-            if (username === '13258227085') {
-                userTypeDisplay.textContent = 'ZIYIT最高管理员';
+            if (!authToken) {
+                // 如果authToken不存在，显示未登录状态
+                if (usernameDisplay) usernameDisplay.textContent = '未登录';
+                if (userTypeDisplay) userTypeDisplay.textContent = '';
+                
+                // 在页面内容区域添加未登录提示
+                if (pageContent) {
+                    const loginPrompt = document.createElement('div');
+                    loginPrompt.style.cssText = 'background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 15px; margin: 20px 0; text-align: center; font-size: 16px;';
+                    loginPrompt.innerHTML = '您还未登录，<a href="/user/">登录</a> 或 <a href="/user/register">注册</a>';
+                    pageContent.insertBefore(loginPrompt, pageContent.firstChild);
+                }
+            } else {
+                const [type, username] = authToken.split('-');
+
+                if (usernameDisplay) usernameDisplay.textContent = username;
+                if (userTypeDisplay) {
+                    userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+                    if (username === '13258227085') {
+                        userTypeDisplay.textContent = 'ZIYIT最高管理员';
+                    }
+                }
             }
-        }
+        });
     </script>
     <div id="skrollr-body">
         <a name="page-top"></a>
@@ -1149,20 +1164,21 @@
             <div id="container-wrap">
                 <div id="container">
                     <div id="header">
-                        <h1><a href="../../"><span>The Backrooms中文维基</span></a></h1>
+                        <h1><a href="../"><span>The Backrooms中文维基</span></a></h1>
+
                         <h2><span>你曾经来过这里</span></h2>
                         <div id="top-bar">
                             <div class="top-bar">
                                 <ul>
                                     <li>图书馆
                                         <ul>
-                                            <li><a href="../../normal-levels">层级</a></li>
+                                            <li><a href="../../normal-levels/">层级</a></li>
                                             <li><a href="../../sub-layers/">子区集</a></li>
                                             <li><a href="../">实体</a></li>
                                             <li><a href="../../objects/">物品</a></li>
+                                            <li><a href="../../phenomena/">现象</a></li>
                                         </ul>
-                                    </li>
-                                    <li><a href="javascript:history.back()">返回上一步</a></li>
+                                    </li><li><a href="javascript:history.back()">返回上一步</a></li>
                                 </ul>
                             </div>
                             <div class="mobile-top-bar">
@@ -1172,19 +1188,17 @@
                                 <ul>
                                     <li>图书馆
                                         <ul>
-                                            <li><a href="../../normal-levels">层级</a></li>
+                                            <li><a href="../../normal-levels/">层级</a></li>
                                             <li><a href="../../sub-layers/">子区集</a></li>
                                             <li><a href="../">实体</a></li>
                                             <li><a href="../../objects/">物品</a></li>
+                                            <li><a href="../../phenomena/">现象</a></li>
                                         </ul>
-                                        <li><a href="javascript:history.back()">返回上一步</a></li>
                                     </li>
+                                    </li><li><a href="javascript:history.back()">返回上一步</a></li>
                                 </ul>
                             </div>
                         </div>
-                        <div id="header-extra-div-1"><span></span></div>
-                        <div id="header-extra-div-2"><span></span></div>
-                        <div id="header-extra-div-3"><span></span></div>
                     </div>
 
                     <div id="content-wrap">
@@ -1256,7 +1270,7 @@
                                         </div>
                                     </div>
                                     <div class="properties-label">性质：</div>
-                                    <div class="properties CVL AGR UNQ">
+                                    <div class="properties CVL">
                                         <div class="HVM">HVM</div>
                                         <div class="VRL-A">VRL-A</div>
                                         <div class="VRL-B">VRL-B</div>
@@ -1285,32 +1299,17 @@
                                 <hr />
                                 <br />
                                 <h1 id="toc2"><span>描述</span></h1>
-                                <p>Entity 111通常表现为一名身着古典、整洁女仆装的人形实体。其面部特征模糊，常被描述为维持着一种固定、空洞的微笑。该实体持续进行清洁与整理工作，并对环境的“秩序”与“安静”表现出绝对的执着。任何被其判定为“舞蹈”的规律性、大幅度的肢体运动，都会立即导致其行为模式从“维护清洁”切换为“消除干扰源”。</p>
-                                <h1 id="toc3"><span>生物学特征</span></h1>
-                                <ul>
-                                    <li><strong>生理结构：</strong>外表与人类女性近似，但内部解剖结构异常。已回收样本显示其肌肉与骨骼组织密度极高，并缺乏标准的中枢神经系统，由一种未知的纤维网络协调行动。</li>
-                                    <li><strong>特殊能力：</strong>拥有远超人类极限的绝对力量和近乎无限的体力。对物理伤害无痛觉反应，且表现出极高的物理抗性。</li>
-                                    <li><strong>攻击方式：</strong>在执行“纠正”行为时，通常会就近使用木制座椅作为武器。在无法即时取得座椅的情况下，其本身具备的肢体力量已足以达成目的。</li>
-                                </ul>
-                                <h1 id="toc4"><span>行为分析</span></h1>
-                                <ul>
-                                    <li><strong>常规状态：</strong>在未受刺激时，会无视流浪者，专注于无声的清洁工作。</li>
-                                    <li><strong>触发条件：</strong>目击到舞蹈行为是其唯一已知的、必然引发攻击的刺激。 研究认为，这源于其存在逻辑中对“无目的性规律运动”的根本性排斥。</li>
-                                    <li><strong>攻击模式：</strong>触发后，Entity 111会立即停止清洁，以极快速度接近目标。其攻击高度标准化：专精于摧毁目标的腿部运动功能。它会使用手边最坚固的物体进行持续、高效的击打，直至目标完全丧失站立及移动能力。整个过程冷静、高效，且面无表情。</li>
-                                    <li><strong>事后行为：</strong>攻击结束后，它会将无法移动的目标拖曳至角落或其他不显眼处，随后继续之前的清洁工作，仿佛一切未曾发生。</li>
-                                </ul>
-                                <h1 id="toc5"><span>发现记录</span></h1>
-                                <p>M.E.G.档案部已整合多份独立报告。其中一份来自Level 188的流浪者日记片段，以类似网络短剧标签的形式记录了核心事件：</p>
-                                <p>> “**记录：男孩只是在大厅跳了一段街舞，就被管家活活打断了双腿。** 她做完这件事后，只是把拖把浸在血泊里，开始擦拭地板。没有愤怒，没有迟疑，就像在清理打翻的饮料。”</p>
-                                <p>该记录与其在所有目击事件中表现出的行为逻辑完全一致。</p>
-                                <h1 id="toc6"><span>应对措施</span></h1>
-                                <ul>
-                                    <li>首要禁令：在任何可能存在Entity 111的区域，严禁进行任何可能被解读为舞蹈的肢体动作，包括跳跃、旋转或有节奏的剧烈摆动。</li>
-                                    <li>行为准则：保持缓慢、平稳、安静的移动方式。如与其相遇，应立即静止，避免目光接触，等待其自行离开。</li>
-                                    <li>紧急处置：若不慎触发其攻击，必须在其拿起任何物品前，不惜一切代价全速逃离当前区域。任何形式的交涉或对抗均无效。</li>
-                                    <li>伤员救援：发现受害者后，应在确认Entity 111已远离的前提下，迅速提供医疗救助并转移。切勿在事发原地长时间停留。</li>
-                                    <li>伤后处理：因为你无法躲避实体的使用木椅“活活打断双腿”攻击，所以在受到伤害后，必须立即转移到安全区域。</li>
-                                </ul>
+                                <!-- pass -->
+                                <p>此文章正在重写中</p>
+                                <h1 id="toc3"><span>心理</span></h1>
+                                <!-- pass -->
+                                <p>此文章正在重写中</p>
+                                <h1 id="toc4"><span>习性与种群数量</span></h1>
+                                <!-- pass -->
+                                <p>此文章正在重写中</p>
+                                <h1 id="toc5"><span>历史循环</span></h1>
+                                <!-- pass -->
+                                <p>此文章正在重写中</p>
                         </div>
                     </div>
                 </div>

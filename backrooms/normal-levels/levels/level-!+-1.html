@@ -69,17 +69,6 @@
         @import url(https://cdn.scpwiki.com/theme/en/black-highlighter/css/min/normalize.min.css);
     </style>
 
-
-
-
-    <link rel="shortcut icon" href="/local--favicon/favicon.gif" />
-    <link rel="icon" type="image/gif" href="/local--favicon/favicon.gif" />
-
-    <link rel="apple-touch-icon" href="/local--iosicon/iosicon_57.png" />
-    <link rel="apple-touch-icon" sizes="72x72" href="/local--iosicon/iosicon_72.png" />
-    <link rel="apple-touch-icon" sizes="114x114" href="/local--iosicon/iosicon.png" />
-
-    <meta name="msapplication-TileImage" content="/local--wp8icon/wp8icon.png" />
     <meta name="msapplication-TileColor" content="#000000" />
 
     <link rel="alternate" type="application/wiki" title="Edit this page"
@@ -106,7 +95,6 @@
         window.google_analytics_domain_name = 'none';
     </script>
 
-    <link rel="manifest" href="/onesignal/manifest.json" />
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" acync=""></script>
     <script>
         var OneSignal = window.OneSignal || [];
@@ -161,23 +149,37 @@
             return null;
         }
 
-        const authToken = getCookie('authToken') || localStorage.getItem('authToken');
-        if (!authToken) {
-            // 如果authToken不存在，显示未登录状态
-            usernameDisplay.textContent = '未登录';
-            userTypeDisplay.textContent = '';
-        } else {
-            const [type, username] = authToken.split('-');
-
+        // 页面加载完成后执行登录状态检测
+        document.addEventListener('DOMContentLoaded', function() {
+            const authToken = getCookie('authToken') || localStorage.getItem('authToken');
             const usernameDisplay = document.getElementById('usernameDisplay');
             const userTypeDisplay = document.getElementById('userTypeDisplay');
+            const pageContent = document.getElementById('page-content');
 
-            usernameDisplay.textContent = username;
-            userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
-            if (username === '13258227085') {
-                userTypeDisplay.textContent = 'ZIYIT最高管理员';
+            if (!authToken) {
+                // 如果authToken不存在，显示未登录状态
+                if (usernameDisplay) usernameDisplay.textContent = '未登录';
+                if (userTypeDisplay) userTypeDisplay.textContent = '';
+                
+                // 在页面内容区域添加未登录提示
+                if (pageContent) {
+                    const loginPrompt = document.createElement('div');
+                    loginPrompt.style.cssText = 'background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 15px; margin: 20px 0; text-align: center; font-size: 16px;';
+                    loginPrompt.innerHTML = '您还未登录，<a href="/user/">登录</a> 或 <a href="/user/register">注册</a>';
+                    pageContent.insertBefore(loginPrompt, pageContent.firstChild);
+                }
+            } else {
+                const [type, username] = authToken.split('-');
+
+                if (usernameDisplay) usernameDisplay.textContent = username;
+                if (userTypeDisplay) {
+                    userTypeDisplay.textContent = type === 'ZC' ? 'vip用户' : '普通用户';
+                    if (username === '13258227085') {
+                        userTypeDisplay.textContent = 'ZIYIT最高管理员';
+                    }
+                }
             }
-        }
+        });
     </script>
     <div id="skrollr-body">
         <a name="page-top"></a>
@@ -233,7 +235,7 @@
                                 --diagonal-stripes: linear-gradient(transparent 0);
                                 }
                             </style>
-                        <h1><a href="../../"><span>The Backrooms中文维基</span></a></h1>
+                        <h1><a href="../"><span>The Backrooms中文维基</span></a></h1>
 
                         <h2><span>你曾经来过这里</span></h2>
                         <div id="top-bar">
@@ -245,9 +247,9 @@
                                             <li><a href="../../sub-layers/">子区集</a></li>
                                             <li><a href="../../entities">实体</a></li>
                                             <li><a href="../../objects/">物品</a></li>
+                                            <li><a href="../../phenomena/">现象</a></li>
                                         </ul>
-                                    </li>
-                                    <li><a href="javascript:history.back()">返回上一步</a></li>
+                                    </li><li><a href="javascript:history.back()">返回上一步</a></li>
                                 </ul>
                             </div>
                             <div class="mobile-top-bar">
@@ -261,17 +263,13 @@
                                             <li><a href="../../sub-layers/">子区集</a></li>
                                             <li><a href="../../entities">实体</a></li>
                                             <li><a href="../../objects/">物品</a></li>
+                                            <li><a href="../../phenomena/">现象</a></li>
                                         </ul>
                                     </li>
-                                    </li>
-                                    <li><a href="javascript:history.back()">返回上一步</a></li>
+                                    </li><li><a href="javascript:history.back()">返回上一步</a></li>
                                 </ul>
                             </div>
                         </div>
-
-                        <div id="header-extra-div-1"><span></span></div>
-                        <div id="header-extra-div-2"><span></span></div>
-                        <div id="header-extra-div-3"><span></span></div>
                     </div>
 
                     <div id="content-wrap">

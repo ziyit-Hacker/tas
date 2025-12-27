@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ikun">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title class="backrooms-title">请输入参数</title>
+    <link rel="icon" href="../assets/ziyit.png" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 25px;
+        }
+
+        h3 {
+            color: #2c3e50;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        strong {
+            color: #e74c3c;
+        }
+
+        .loading {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .error {
+            color: #e74c3c;
+            background: #fadbd8;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .markdown-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .markdown-table th,
+        .markdown-table td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .markdown-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .markdown-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .markdown-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        ul {
+            padding-left: 20px;
+            list-style-type: circle;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .welcome-panel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            color: white;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .welcome-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .kun-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        .welcome-content h2 {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .start-button {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .start-button:active {
+            transform: translateY(0);
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+
+<body background="../assets/bgl.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
+    <div class="container">
+        <h1 class="backrooms-title">请输入参数</h1>
+
+        <div id="content">
+            <div class="loading" id="loadingText">正在加载中</div>
+        </div>
+        <a href="javascript:history.back()" class="back-link">← 返回上一步</a>
+    </div>
+
+    <script>
+        // 解析URL参数
+        function getUrlParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const pairs = queryString.split('&');
+            
+            for (let i = 0; i < pairs.length; i++) {
+                const pair = pairs[i].split('=');
+                if (pair.length === 2) {
+                    params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+                }
+            }
+            return params;
+        }
+
+        // 根据type参数设置filename和filepath
+        const urlParams = getUrlParams();
+        const type = urlParams.type;
+        
+        // 定义type对应的filename映射
+        const filenameMap = {
+            'entities': '实体列表',
+            'normal-levels': '层级列表', 
+            'objects': '物品列表',
+            'phenomena': '现象列表'
+        };
+        let filename = "[NO DATA]";
+        let filepath = "./error";
+
+        if (type && filenameMap[type]) {
+            filename = `${filenameMap[type]}收录要求`;
+            filepath = `./${type}/slyq.md`;
+        }
+
+        // 修改页面加载事件
+        document.addEventListener('DOMContentLoaded', function () {
+            // 更新页面标题 - 在DOM加载完成后执行
+            const titleElements = document.querySelectorAll('.backrooms-title');
+            if (titleElements.length > 0) {
+                titleElements.forEach(element => {
+                    element.textContent = filename;
+                });
+            }
+            
+            loadMDContent();
+        });
+
+        // Loading animation function
+        function startLoadingAnimation() {
+            const loadingText = document.getElementById('loadingText');
+            let dots = 0;
+            const maxDots = 3;
+
+            const animationInterval = setInterval(() => {
+                dots = (dots + 1) % (maxDots + 1);
+                const dotsText = '.'.repeat(dots);
+                loadingText.textContent = `${filename}正在加载中${dotsText}`;
+            }, 500); // Change every 500ms
+
+            return animationInterval;
+        }
+
+        // Loading animation function
+        function startLoadingAnimation() {
+            const loadingText = document.getElementById('loadingText');
+            let dots = 0;
+            const maxDots = 3;
+
+            const animationInterval = setInterval(() => {
+                dots = (dots + 1) % (maxDots + 1);
+                const dotsText = '.'.repeat(dots);
+                loadingText.textContent = `${filename}正在加载中${dotsText}`;
+            }, 500); // Change every 500ms
+
+            return animationInterval;
+        }
+
+        // Enhanced Markdown parser with table and list support
+        function parseMarkdown(markdown) {
+            // Process escape characters first - handle backslashes
+            markdown = markdown.replace(/\\([\\`*_{}\[\]()#+\-.!|])/g, '$1');
+
+            // Process tables first - improved regex to handle multi-line tables
+            markdown = markdown.replace(/^([^\n]*\|[^\n]*\n)((?:\s*[\|\-:]+\s*\|)+\s*)((?:\n[^\n]*\|[^\n]*)+)/gm, function (match, headerRow, separatorRow, bodyRows) {
+                // Parse header row
+                const headers = headerRow.trim().split('|').map(cell => cell.trim()).filter(cell => cell);
+
+                // Create table HTML
+                let tableHtml = '<table class="markdown-table">';
+
+                // Add header row
+                tableHtml += '<thead><tr>';
+                headers.forEach(header => {
+                    tableHtml += `<th>${header}</th>`;
+                });
+                tableHtml += '</tr></thead>';
+
+                // Add body rows - improved parsing
+                if (bodyRows.trim()) {
+                    tableHtml += '<tbody>';
+                    const rows = bodyRows.trim().split('\n').filter(row => row.trim() && row.includes('|'));
+                    rows.forEach(row => {
+                        const cells = row.trim().split('|').map(cell => cell.trim()).filter(cell => cell);
+                        if (cells.length > 0) {
+                            tableHtml += '<tr>';
+                            cells.forEach(cell => {
+                                tableHtml += `<td>${cell}</td>`;
+                            });
+                            tableHtml += '</tr>';
+                        }
+                    });
+                    tableHtml += '</tbody>';
+                }
+
+                tableHtml += '</table>';
+                return tableHtml;
+            });
+
+            // Process unordered lists with proper list structure
+            markdown = markdown.replace(/^(\s*)- (.+)$/gm, function (match, indent, content) {
+                const depth = indent ? Math.floor(indent.length / 2) : 0;
+                if (depth === 0) {
+                    return `<ul><li>${content}</li></ul>`;
+                } else {
+                    return `<li>${content}</li>`;
+                }
+            });
+
+            // Fix list structure by grouping consecutive list items
+            markdown = markdown.replace(/(<ul><li>.*?<\/li><\/ul>)+/g, function (match) {
+                const items = match.match(/<li>.*?<\/li>/g);
+                if (items && items.length > 1) {
+                    return `<ul>${items.join('')}</ul>`;
+                }
+                return match;
+            });
+
+            // Process ordered lists
+            markdown = markdown.replace(/^(\s*)\d+\. (.+)$/gm, function (match, indent, content) {
+                const depth = indent ? Math.floor(indent.length / 2) : 0;
+                if (depth === 0) {
+                    return `<ol><li>${content}</li></ol>`;
+                } else {
+                    return `<li>${content}</li>`;
+                }
+            });
+
+            // Fix ordered list structure
+            markdown = markdown.replace(/(<ol><li>.*?<\/li><\/ol>)+/g, function (match) {
+                const items = match.match(/<li>.*?<\/li>/g);
+                if (items && items.length > 1) {
+                    return `<ol>${items.join('')}</ol>`;
+                }
+                return match;
+            });
+
+            // Headers
+            markdown = markdown
+                .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+            // Bold and italic
+            markdown = markdown
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+            // Line breaks and paragraphs
+            markdown = markdown
+                .replace(/\n/g, '<br>')
+                .replace(/(<br>){2,}/g, '</p><p>')
+                .replace(/^([^<].*)$/gim, '<p>$1</p>');
+
+            return markdown;
+        }
+
+        // Load and display the file with delay
+        async function loadMDContent() {
+            const contentDiv = document.getElementById('content');
+
+            // Start loading animation
+            const animationInterval = startLoadingAnimation();
+
+            try {
+                // Wait for 2.5 seconds before loading
+                await new Promise(resolve => setTimeout(resolve, 7891));
+
+                const response = await fetch(filepath);
+
+                if (!response.ok) {
+                    throw new Error(`Failed to load file: ${response.status}`);
+                }
+
+                const fileContent = await response.text();
+                
+                // Check if file is a web file (html, htm, xml)
+                const isWebFile = /\.(html?|xml)$/i.test(filepath);
+                
+                let htmlContent;
+                if (isWebFile) {
+                    // For web files, display content directly without auto line breaks
+                    htmlContent = fileContent;
+                } else {
+                    // For other files, use Markdown parser
+                    htmlContent = parseMarkdown(fileContent);
+                }
+
+                // Stop animation and display content
+                clearInterval(animationInterval);
+                contentDiv.innerHTML = htmlContent;
+
+            } catch (error) {
+                // Stop animation and display error
+                clearInterval(animationInterval);
+                contentDiv.innerHTML = `
+                    <div class="error">
+                        <strong>Error loading ${filename} file information:</strong><br>
+                        ${error.message}<br><br>
+                        Please check if the ${filename} file exists in the user directory.
+                    </div>
+                `;
+                console.error(`Error loading ${filename} file:`, error);
+            }
+        }
+
+        // 修改页面加载事件
+        document.addEventListener('DOMContentLoaded', function () {
+            loadMDContent();
+        });
+    </script>
+</body>
+
+</html>

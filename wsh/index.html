@@ -1,0 +1,579 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0;
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #66e656;
+        }
+
+        .box {
+            width: 100%;
+            height: 35px;
+            background-color: #0b99fa;
+        }
+
+        .pod {
+            width: 100%;
+            height: 100%;
+        }
+
+        p {
+            color: black;
+        }
+
+        ul li {
+            display: inline-block;
+            line-height: 35px;
+        }
+
+        li a {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        li p {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .bid {
+            color: #f25767;
+        }
+
+        .tit {
+            color: black;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 5px 0;
+        }
+
+        .line {
+            width: 1px;
+            height: 12px;
+            background-color: #f3a707;
+        }
+
+        a:hover {
+            color: #ff8000;
+        }
+
+        h1 {
+            width: 100%;
+            background-color: rgb(195, 234, 249);
+            text-align: center;
+            font-size: 50px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .slider {
+            width: 560px;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .slider-wrapper {
+            width: 100%;
+            height: 320px;
+        }
+
+        .slider-wrapper img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .slider-footer {
+            height: 80px;
+            background-color: rgb(100, 67, 68);
+            padding: 12px 12px 0 12px;
+            position: relative;
+        }
+
+        .slider-footer .toggle {
+            position: absolute;
+            right: 0;
+            top: 12px;
+            display: flex;
+        }
+
+        .slider-footer .toggle button {
+            margin-right: 12px;
+            width: 28px;
+            height: 28px;
+            appearance: none;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .slider-footer .toggle button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .slider-footer p {
+            margin: 0;
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .slider-indicator {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .slider-indicator li {
+            width: 8px;
+            height: 8px;
+            margin: 4px;
+            border-radius: 50%;
+            background: #fff;
+            opacity: 0.4;
+            cursor: pointer;
+        }
+
+        .slider-indicator li.active {
+            width: 12px;
+            height: 12px;
+            opacity: 1;
+        }
+
+        footer {
+            transition: background-color 0.5s ease;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+        
+        .visible {
+            display: inline-block !important;
+        }
+
+        * {
+            cursor: default !important;
+        }
+
+        .backrooms{
+            color: #8b4513;
+        }
+
+        .backrooms:hover{
+            color: #ff8000;
+        }
+    </style>
+    <style>
+        @media (max-width: 768px) {
+            .box {
+                height: auto;
+            }
+
+            ul.pod {
+                display: flex;
+                flex-direction: column;
+            }
+
+            ul.pod li {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+
+            .line {
+                display: none;
+            }
+
+            .service-grid {
+                flex-direction: column;
+            }
+
+            .service-grid>div {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body background="https://ziyit-hacker.github.io/tas/assets/bg.jpg" style=" background-repeat:no-repeat ;
+        background-size:100% 100%;
+        background-attachment: fixed;">
+    <h1>文思骅的小破站</h1>
+    <hr>
+    <div class="box">
+        <ul class="pod" id="navMenu">
+            <li class="nav-item" data-role="all"><a href="https://ziyit-hacker.github.io/tas/">ZIYIT官网</a></li>
+            <li class="nav-item" data-role="all"><a href="./user" id="userActionLink">用户中心</a></li>
+            <li><a href=".\user\" id="loginLink">登录</a></li>
+        </ul>
+    </div>
+
+    <script>
+        const data = [
+            { url: './images/slider09.jpg', title: '只因科技添加学习界面。', color: 'rgb(135, 206, 235)', link: '' },
+            { url: './images/slider07.jpg', title: '我的世界_寒坤的哔哩哔哩是"我的世界寒坤"', color: 'rgb(63, 44, 46)', link: 'https://space.bilibili.com/3546981356013833' },
+            { url: './images/slider01.jpg', title: '登录界面大改，使用前必须登录', color: 'rgb(0, 120, 212)', link: '' },
+            { url: './images/slider02.jpg', title: 'Backroom Wikidot版详细Wiki', color: 'rgb(72, 69, 60)', link: './backrooms/' },
+            { url: './images/asfl.png', title: '广告位招租', color: 'rgb(0, 0, 0)', link: 'mailto:3950140506@qq.com' },
+        ]
+        const img = document.querySelector('.slider-wrapper img')
+        const p = document.querySelector('.slider-footer p')
+        const footer = document.querySelector('.slider-footer')
+        const next = document.querySelector('.next')
+        let i = 0
+        next.addEventListener('click', function () {
+            i++
+            i = i % data.length
+            toggle()
+        })
+        const prev = document.querySelector('.prev')
+        prev.addEventListener('click', function () {
+            i--
+            if (i < 0) {
+                i = data.length - 1
+            }
+            toggle()
+        })
+        // 在toggle函数中添加点击事件
+        function toggle() {
+            img.src = data[i].url
+            p.innerHTML = data[i].title
+            footer.style.backgroundColor = data[i].color
+            document.querySelector('.slider-indicator .active').classList.remove('active')
+            document.querySelector(`.slider-indicator li:nth-child(${i + 1})`).classList.add('active')
+
+            // 添加点击跳转功能
+            img.onclick = function () {
+                if (data[i].link) {
+                    window.open(data[i].link, '_blank')
+                }
+            }
+        }
+
+        let timerId = setInterval(function () {
+            next.click()
+        }, 1000)
+        const slider = document.querySelector('.slider')
+        slider.addEventListener('mouseenter', function () {
+            clearInterval(timerId)
+        })
+        slider.addEventListener('mouseleave', function () {
+            if (timerId) clearInterval(timerId)
+            timerId = setInterval(function () {
+                next.click()
+            }, 1000)
+        })
+        const lis = document.querySelectorAll('.slider-indicator li')
+        lis.forEach(function (li, index) {
+            li.addEventListener('click', function () {
+                i = index
+                toggle()
+            })
+        })
+    </script>
+
+    <script>
+        async function checkBlacklist(authToken) {
+            try {
+                const response = await fetch('./hmd.txt');
+                const text = await response.text();
+                const lines = text.split('\n');
+                return lines.some(line => line.trim() === authToken);
+            } catch (error) {
+                console.error('fuck github, error is ', error);
+                return false;
+            }
+        }
+
+        function addBlacklistNotice() {
+            const notice = document.createElement('div');
+            notice.style.position = 'fixed';
+            notice.style.bottom = '0';
+            notice.style.left = '0';
+            notice.style.width = '100%';
+            notice.style.backgroundColor = 'white';
+            notice.style.borderRadius = '8px 8px 0 0';
+            notice.style.border = '3px solid blue';
+            notice.style.color = 'red';
+            notice.style.fontSize = '50px';
+            notice.style.textAlign = 'center';
+            notice.style.padding = '10px';
+            notice.style.zIndex = '1000';
+
+            const noticeContent = document.createElement('div');
+            noticeContent.innerHTML = '你无法正常使用<span style="font-size: 15px;">您的帐号因种种原因被封禁</span><br><span style="font-size: 17px;">申诉账号问题请联系邮箱3950140506@qq.com</span>';
+            notice.appendChild(noticeContent);
+
+            document.body.appendChild(notice);
+        }
+
+        async function checkLoginStatus() {
+            const authToken = localStorage.getItem('authToken');
+            const navItems = document.querySelectorAll('.nav-item');
+            const loginLink = document.getElementById('loginLink');
+            const slider = document.querySelector('.slider');
+            const lines = document.querySelectorAll('.line');
+
+            const ut = parseInt(localStorage.getItem('ut')) || 0;
+            const username = authToken ? authToken.split('-')[1] : '';
+            
+            if (ut > 240 && (username === 'cache' || username === 'temp')) {
+                localStorage.setItem('ut', 1024);
+                localStorage.removeItem('authToken');
+                location.reload();
+                return;
+            }
+
+            // 处理ut计时
+            if (username === 'cache' || username === 'temp') {
+                alert('此账号为临时账号，体验时间为3.75分钟')
+                const timer = setInterval(() => {
+                    let currentUt = parseInt(localStorage.getItem('ut')) || 0;
+                    
+                    if (ut > 240) {
+                        if (currentUt > 240) {
+                            localStorage.setItem('ut', currentUt - 1);
+                            if (currentUt === 240) {
+                                localStorage.removeItem('ut');
+                                clearInterval(timer);
+                            }
+                        }
+                    } else {
+                        localStorage.setItem('ut', currentUt + 1);
+                        if (currentUt + 1 > 240) {
+                            alert('体验时间已结束');
+                            localStorage.removeItem('authToken');
+                            location.reload();
+                            clearInterval(timer);
+                        }
+                    }
+                }, 1000);
+            } else {
+                localStorage.removeItem('ut');
+            }
+
+            loginLink.style.display = 'inline-block';
+
+            if (!authToken) {
+                navItems.forEach(item => item.style.display = 'none');
+                lines.forEach(line => line.style.display = 'none');
+                loginLink.style.display = 'inline-block';
+                return;
+            }
+
+            const isBlacklisted = await checkBlacklist(authToken);
+
+            if (isBlacklisted) {
+                document.querySelectorAll('#navMenu li').forEach(item => {
+                    const isVirusDb = item.querySelector('a[href=".\\move\\mod"]');
+                    item.style.display = isVirusDb ? 'inline-block' : 'none';
+                });
+
+                loginLink.style.display = 'none';
+                if (slider) slider.style.display = 'none';
+                document.querySelectorAll('footer').forEach(footer => footer.style.display = 'none');
+                document.getElementById('product').style.display = 'none';
+
+                addBlacklistNotice();
+                return;
+            }
+
+            const intervalId = setInterval(() => {
+                const authToken = localStorage.getItem('authToken');
+                if (!authToken) {
+                    // 如果authToken不存在，只显示"登录"菜单项
+                    navItems.forEach(item => {
+                        if (item.textContent.includes('登录')) {
+                            item.classList.add('visible');
+                            item.classList.remove('hidden');
+                        } else {
+                            item.classList.add('hidden');
+                            item.classList.remove('visible');
+                        }
+                    });
+                    return;
+                }
+                const [type, username] = authToken.split('-');
+                loginLink.style.display = 'none';
+
+                navItems.forEach(item => {
+                    const role = item.getAttribute('data-role');
+                    // 添加class而不是直接修改style
+                    if (role === 'all' ||
+                        (type === 'ZC' && role === 'admin') ||
+                        (type === 'UR' && role === 'user')) {
+                        item.classList.add('visible');
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                        item.classList.remove('visible');
+                    }
+                });
+            }, 250);
+        }
+
+        window.addEventListener('DOMContentLoaded', checkLoginStatus);
+
+        const isLoggedIn = !!localStorage.getItem('authToken');
+        if (isLoggedIn) {
+            const authToken = localStorage.getItem('authToken');
+            checkBlacklist(authToken).then(isBlacklisted => {
+                if (!isBlacklisted) {
+                    document.getElementById('userActionLink').style.display = 'block';
+                } else {
+                    document.getElementById('userActionLink').style.display = 'none';
+                }
+            });
+        } else {
+            document.getElementById('userActionLink').style.display = 'none';
+        }
+    </script>
+
+    <!-- <script>
+        // 广告数据列表 正常广告ad开头，广告位招租asfl
+        const adsData = [
+            { img: 'images/asfl.png', title: '广告位招租', link: 'mailto:3950140506@qq.com' },
+            // 可以添加更多广告数据
+        ];
+
+        const MAX_AD_DISPLAY = 5; // 每日最大广告显示次数
+        let adDisplayCount = 0; // 当前广告显示计数
+        let currentAd = null; // 当前显示的广告
+        let shakeCount = 0; // 摇动计数
+        let adTimer = null; // 广告计时器
+
+        // 显示广告
+        function showAd() {
+            const isMobile = window.innerWidth <= 768; // 使用屏幕宽度判断
+            
+            if (!isMobile || adDisplayCount >= MAX_AD_DISPLAY) return;
+            
+            currentAd = getRandomAd();
+            adDisplayCount++;
+            
+            // 创建广告层
+            const adLayer = document.createElement('div');
+            adLayer.id = 'ad-layer';
+            adLayer.style.position = 'fixed';
+            adLayer.style.top = '0';
+            adLayer.style.left = '0';
+            adLayer.style.width = '100%';
+            adLayer.style.height = '100%';
+            adLayer.style.zIndex = '9999';
+            adLayer.style.backgroundColor = '#000';
+            adLayer.style.display = 'flex';
+            adLayer.style.justifyContent = 'center';
+            adLayer.style.alignItems = 'center';
+            
+            // 检查是否是视频广告
+            const isVideo = currentAd.img.endsWith('.mp4');
+            
+            if (isVideo) {
+                // 创建视频元素
+                const video = document.createElement('video');
+                video.src = currentAd.img;
+                video.style.maxWidth = '100%';
+                video.style.maxHeight = '100%';
+                video.controls = false;
+                video.autoplay = true;
+                video.loop = false;
+                video.muted = true; // 默认静音
+                
+                // 点击视频跳转
+                video.addEventListener('click', function() {
+                    window.location.href = currentAd.link;
+                    document.body.removeChild(adLayer);
+                    window.removeEventListener('devicemotion', handleShake);
+                    clearTimeout(adTimer);
+                });
+                
+                // 视频结束处理
+                video.addEventListener('ended', function() {
+                    window.location.href = currentAd.link;
+                    document.body.removeChild(adLayer);
+                    window.removeEventListener('devicemotion', handleShake);
+                    clearTimeout(adTimer);
+                });
+                
+                adLayer.appendChild(video);
+            } else {
+                // 创建图片广告
+                const adImgContainer = document.createElement('div');
+                adImgContainer.style.maxWidth = '100%';
+                adImgContainer.style.maxHeight = '100%';
+                
+                const adImg = document.createElement('img');
+                adImg.src = currentAd.img;
+                adImg.style.maxWidth = '100%';
+                adImg.style.maxHeight = '100%';
+                adImg.style.objectFit = 'contain';
+                
+                adImg.addEventListener('click', function() {
+                    window.location.href = currentAd.link;
+                    document.body.removeChild(adLayer);
+                    window.removeEventListener('devicemotion', handleShake);
+                    clearTimeout(adTimer);
+                });
+                
+                adImgContainer.appendChild(adImg);
+                adLayer.appendChild(adImgContainer);
+            }
+            
+            // 创建跳过按钮
+            const skipBtn = document.createElement('button');
+            skipBtn.id = 'skip-ad-btn';
+            skipBtn.textContent = '跳过广告';
+            skipBtn.style.position = 'absolute';
+            skipBtn.style.top = '20px';
+            skipBtn.style.right = '20px';
+            skipBtn.style.padding = '10px 20px';
+            skipBtn.style.backgroundColor = '#ff0000';
+            skipBtn.style.color = '#fff';
+            skipBtn.style.border = 'none';
+            skipBtn.style.borderRadius = '5px';
+            skipBtn.style.cursor = 'not-allowed';
+            skipBtn.disabled = true;
+            
+            skipBtn.addEventListener('click', handleSkipAd);
+            
+            adLayer.appendChild(skipBtn);
+            document.body.appendChild(adLayer);
+            
+            // 15秒后自动跳转
+            adTimer = setTimeout(() => {
+                if (shakeCount < 10) {
+                    window.location.href = currentAd.link;
+                }
+            }, 15000);
+            
+            window.addEventListener('devicemotion', handleShake);
+        }
+    </script> -->
+</body>
+
+</html>
